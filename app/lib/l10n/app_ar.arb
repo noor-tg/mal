@@ -9,5 +9,12 @@
   "tabCategoriesLabel": "وسوم",
   "reportsBalance": "الرصيد",
   "expenses": "المنصرفات",
-  "income": "الدخل"
+  "income": "الدخل",
+  "newCategory": "إضافة وسم",
+  "categoryTitle": "العنوان",
+  "categoryType": "النوع",
+  "save": "حفظ",
+  "expense": "منصرف",
+  "cancel": "إلغاء",
+  "categoryTitleErrorMessage": "يرجى إدخالعنوان بقيمة حرفين على الاق"
 }

@@ -31,4 +31,26 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get income => 'الدخل';
+
+  @override
+  String get newCategory => 'إضافة وسم';
+
+  @override
+  String get categoryTitle => 'العنوان';
+
+  @override
+  String get categoryType => 'النوع';
+
+  @override
+  String get save => 'حفظ';
+
+  @override
+  String get expense => 'منصرف';
+
+  @override
+  String get cancel => 'إلغاء';
+
+  @override
+  String get categoryTitleErrorMessage =>
+      'يرجى إدخالعنوان بقيمة حرفين على الاق';
 }

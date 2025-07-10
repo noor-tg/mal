@@ -141,6 +141,48 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الدخل'**
   String get income;
+
+  /// No description provided for @newCategory.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة وسم'**
+  String get newCategory;
+
+  /// No description provided for @categoryTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'العنوان'**
+  String get categoryTitle;
+
+  /// No description provided for @categoryType.
+  ///
+  /// In ar, this message translates to:
+  /// **'النوع'**
+  String get categoryType;
+
+  /// No description provided for @save.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ'**
+  String get save;
+
+  /// No description provided for @expense.
+  ///
+  /// In ar, this message translates to:
+  /// **'منصرف'**
+  String get expense;
+
+  /// No description provided for @cancel.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء'**
+  String get cancel;
+
+  /// No description provided for @categoryTitleErrorMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى إدخالعنوان بقيمة حرفين على الاق'**
+  String get categoryTitleErrorMessage;
 }
 
 class _AppLocalizationsDelegate
