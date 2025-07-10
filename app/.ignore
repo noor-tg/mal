@@ -1,6 +1,6 @@
 build/
 ios/
-android/
+# android/
 .dart_tool/
 .idea/
 *.lock

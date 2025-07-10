@@ -1,4 +1,4 @@
-package com.example.mal
+package com.noortg.mal
 
 import io.flutter.embedding.android.FlutterActivity
 
