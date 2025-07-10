@@ -1,0 +1,13 @@
+{
+  "reportsTitle": "تقارير",
+  "@reportsTitle": {
+    "description": "reports screen title"
+  },
+  "tabReportsLabel": "تقارير",
+  "tabCalendarLabel": "تقوم",
+  "tabSearchLabel": "بحث",
+  "tabCategoriesLabel": "وسوم",
+  "reportsBalance": "الرصيد",
+  "expenses": "المنصرفات",
+  "income": "الدخل"
+}

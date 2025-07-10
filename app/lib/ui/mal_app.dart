@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/ui/screens/reports_screen.dart';
 
 final colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.light,
-  seedColor: const Color.fromARGB(255, 102, 6, 247),
-  surface: const Color.fromARGB(255, 56, 49, 66),
+  seedColor: Colors.purpleAccent,
+  surface: Colors.white,
 );
 
 final theme = ThemeData().copyWith(
@@ -23,11 +25,13 @@ class MalApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: Text('hi'),
+      theme: theme,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      builder: (context, child) {
+        return Directionality(textDirection: TextDirection.rtl, child: child!);
+      },
+      home: ReportsScreen(),
     );
   }
 }
