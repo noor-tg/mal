@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mal/l10n/app_localizations.dart';
-import 'package:mal/ui/screens/reports_screen.dart';
+import 'package:mal/ui/app_container.dart';
 
 final colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.light,
@@ -31,7 +31,7 @@ class MalApp extends StatelessWidget {
       builder: (context, child) {
         return Directionality(textDirection: TextDirection.rtl, child: child!);
       },
-      home: ReportsScreen(),
+      home: AppContainer(),
     );
   }
 }
