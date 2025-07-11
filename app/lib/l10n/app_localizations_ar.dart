@@ -52,5 +52,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get categoryTitleErrorMessage =>
-      'يرجى إدخالعنوان بقيمة حرفين على الاق';
+      'يرجى إدخ العنوان بقيمة حرفين على الاقل';
+
+  @override
+  String get pleaseAddCorrectInfo => 'يرجى إدخال النوع و العنوان';
+
+  @override
+  String get categoryTypeErrorMessage => 'يرجى إختيار النوع';
 }

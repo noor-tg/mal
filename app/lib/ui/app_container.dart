@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/ui/new_category.dart';
 import 'package:mal/ui/screens/categories_screen.dart';
 import 'package:mal/ui/screens/reports_screen.dart';
 import 'package:mal/ui/widgets/main_drawer.dart';
@@ -43,7 +44,7 @@ class _AppContainerState extends State<AppContainer> {
                 isScrollControlled: true,
                 // constraints: const BoxConstraints(maxHeight: 400),
                 context: context,
-                builder: (ctx) => NewEntry(),
+                builder: (ctx) => NewCategory(),
               );
               print('hi category');
             },
@@ -107,111 +108,5 @@ class _AppContainerState extends State<AppContainer> {
         // ),
       ),
     );
-  }
-}
-
-class NewEntry extends StatefulWidget {
-  const NewEntry({super.key});
-
-  @override
-  State<NewEntry> createState() => _NewEntryState();
-}
-
-class _NewEntryState extends State<NewEntry> {
-  String? _categoryTitle;
-  String? _categoryType;
-
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Container(
-      padding: EdgeInsets.all(16),
-      width: double.infinity,
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              l10n.newCategory,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Divider(),
-            SizedBox(height: 8),
-            TextFormField(
-              autofocus: true,
-              validator: (value) {
-                if (value == null || value.length < 2) {
-                  return l10n.categoryTitleErrorMessage;
-                }
-                return null;
-              },
-              onSaved: (value) {
-                setState(() {
-                  _categoryTitle = value;
-                });
-              },
-              decoration: InputDecoration(labelText: l10n.categoryTitle),
-            ),
-            SizedBox(height: 24),
-            Text(
-              l10n.categoryType,
-              style: TextStyle(
-                fontSize: 14,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            Row(
-              children: [
-                RadioMenuButton(
-                  value: l10n.expense,
-                  groupValue: _categoryType,
-                  onChanged: (value) {
-                    setState(() {
-                      _categoryType = value;
-                    });
-                  },
-                  child: Text(l10n.expense),
-                ),
-                RadioMenuButton(
-                  value: l10n.income,
-                  groupValue: _categoryType,
-                  onChanged: (value) {
-                    setState(() {
-                      _categoryType = value;
-                    });
-                  },
-                  child: Text(l10n.income),
-                ),
-              ],
-            ),
-            SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: _submit,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Colors.white,
-              ),
-              child: Text(l10n.save),
-            ),
-            TextButton(onPressed: () {}, child: Text(l10n.cancel)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _submit() {
-    setState(() {
-      if (_formKey.currentState!.validate()) {
-        _formKey.currentState!.save();
-      }
-      Navigator.pop(context);
-      print('submitted');
-    });
   }
 }

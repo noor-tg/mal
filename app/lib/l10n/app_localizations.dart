@@ -181,8 +181,20 @@ abstract class AppLocalizations {
   /// No description provided for @categoryTitleErrorMessage.
   ///
   /// In ar, this message translates to:
-  /// **'يرجى إدخالعنوان بقيمة حرفين على الاق'**
+  /// **'يرجى إدخ العنوان بقيمة حرفين على الاقل'**
   String get categoryTitleErrorMessage;
+
+  /// No description provided for @pleaseAddCorrectInfo.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى إدخال النوع و العنوان'**
+  String get pleaseAddCorrectInfo;
+
+  /// No description provided for @categoryTypeErrorMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى إختيار النوع'**
+  String get categoryTypeErrorMessage;
 }
 
 class _AppLocalizationsDelegate

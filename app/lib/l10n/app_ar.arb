@@ -16,5 +16,7 @@
   "save": "حفظ",
   "expense": "منصرف",
   "cancel": "إلغاء",
-  "categoryTitleErrorMessage": "يرجى إدخالعنوان بقيمة حرفين على الاق"
+  "categoryTitleErrorMessage": "يرجى إدخ العنوان بقيمة حرفين على الاقل",
+  "pleaseAddCorrectInfo": "يرجى إدخال النوع و العنوان",
+  "categoryTypeErrorMessage": "يرجى إختيار النوع"
 }
