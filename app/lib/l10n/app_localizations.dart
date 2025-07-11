@@ -181,7 +181,7 @@ abstract class AppLocalizations {
   /// No description provided for @categoryTitleErrorMessage.
   ///
   /// In ar, this message translates to:
-  /// **'يرجى إدخ العنوان بقيمة حرفين على الاقل'**
+  /// **'يرجى إدخال العنوان بقيمة حرفين على الاقل'**
   String get categoryTitleErrorMessage;
 
   /// No description provided for @pleaseAddCorrectInfo.

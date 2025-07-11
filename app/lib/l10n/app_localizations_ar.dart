@@ -52,7 +52,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get categoryTitleErrorMessage =>
-      'يرجى إدخ العنوان بقيمة حرفين على الاقل';
+      'يرجى إدخال العنوان بقيمة حرفين على الاقل';
 
   @override
   String get pleaseAddCorrectInfo => 'يرجى إدخال النوع و العنوان';

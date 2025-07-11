@@ -86,7 +86,10 @@ class _NewCategoryState extends ConsumerState<NewCategory> {
             if (!typeIsValid)
               Text(
                 l10n.categoryTypeErrorMessage,
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Theme.of(context).colorScheme.error.withAlpha(255),
+                ),
               ),
             SizedBox(height: 24),
             ElevatedButton(
@@ -99,7 +102,12 @@ class _NewCategoryState extends ConsumerState<NewCategory> {
               ),
               child: Text(l10n.save),
             ),
-            TextButton(onPressed: () {}, child: Text(l10n.cancel)),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(l10n.cancel),
+            ),
           ],
         ),
       ),
