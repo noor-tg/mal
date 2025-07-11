@@ -18,5 +18,6 @@
   "cancel": "إلغاء",
   "categoryTitleErrorMessage": "يرجى إدخ العنوان بقيمة حرفين على الاقل",
   "pleaseAddCorrectInfo": "يرجى إدخال النوع و العنوان",
-  "categoryTypeErrorMessage": "يرجى إختيار النوع"
+  "categoryTypeErrorMessage": "يرجى إختيار النوع",
+  "emptyCategoriesList": "لا يوجد وسوم م مضافة"
 }

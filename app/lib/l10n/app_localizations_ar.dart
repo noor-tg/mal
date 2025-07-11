@@ -59,4 +59,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get categoryTypeErrorMessage => 'يرجى إختيار النوع';
+
+  @override
+  String get emptyCategoriesList => 'لا يوجد وسوم م مضافة';
 }

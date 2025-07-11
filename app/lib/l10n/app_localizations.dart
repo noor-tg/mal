@@ -195,6 +195,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'يرجى إختيار النوع'**
   String get categoryTypeErrorMessage;
+
+  /// No description provided for @emptyCategoriesList.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد وسوم م مضافة'**
+  String get emptyCategoriesList;
 }
 
 class _AppLocalizationsDelegate
