@@ -139,7 +139,7 @@ abstract class AppLocalizations {
   /// No description provided for @income.
   ///
   /// In ar, this message translates to:
-  /// **'الدخل'**
+  /// **'دخل'**
   String get income;
 
   /// No description provided for @newCategory.

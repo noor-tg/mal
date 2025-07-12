@@ -30,7 +30,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get expenses => 'المنصرفات';
 
   @override
-  String get income => 'الدخل';
+  String get income => 'دخل';
 
   @override
   String get newCategory => 'إضافة وسم';

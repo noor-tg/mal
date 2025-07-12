@@ -121,7 +121,7 @@ class _NewCategoryState extends ConsumerState<NewCategory> {
         _formKey.currentState!.save();
         ref
             .read(categoriesProvider.notifier)
-            .addCategory(_categoryTitle!, _categoryTitle!);
+            .addCategory(_categoryTitle!, _categoryType!);
         Navigator.pop(context);
       } else {
         ScaffoldMessenger.of(
