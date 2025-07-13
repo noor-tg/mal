@@ -13,61 +13,132 @@ class CategoriesScreen extends ConsumerStatefulWidget {
 }
 
 class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
-  late Future<void> _categoriesFuture;
-
   @override
   void initState() {
     super.initState();
-    _categoriesFuture = ref.read(categoriesProvider.notifier).loadCategories();
+    ref.read(categoriesProvider.notifier).loadCategories();
   }
 
   @override
   Widget build(BuildContext context) {
     final categories = ref.watch(categoriesProvider);
-    var l10n = AppLocalizations.of(context)!;
+    final expenses = categories['expenses'];
+    final income = categories['income'];
 
-    Widget body = FutureBuilder(
-      future: _categoriesFuture,
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) =>
-          snapshot.connectionState == ConnectionState.waiting
-          ? const CircularProgressIndicator()
-          : CategoriesList(categories: categories),
+    var emptyList = Center(
+      child: Card.filled(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Text(AppLocalizations.of(context)!.emptyCategoriesList),
+        ),
+      ),
     );
-    if (categories.isEmpty) {
-      body = Center(child: Text(l10n.emptyCategoriesList));
+    Widget expensesCategories = emptyList;
+
+    if (expenses != null && expenses.isNotEmpty) {
+      expensesCategories = CategoriesList(
+        categories: expenses,
+        onRemove: removeCategory,
+      );
     }
+
+    Widget incomeCategories = emptyList;
+
+    if (income != null && income.isNotEmpty) {
+      incomeCategories = CategoriesList(
+        categories: income,
+        onRemove: removeCategory,
+      );
+    }
+
     return MalPageContainer(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Card.filled(
-            color: Colors.white,
-            child: Padding(padding: const EdgeInsets.all(16), child: body),
+          Text(
+            AppLocalizations.of(context)!.expenses,
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(color: Colors.grey.shade600),
           ),
+          SizedBox(height: 8),
+          expensesCategories,
+          SizedBox(height: 16),
+          Text(
+            AppLocalizations.of(context)!.income,
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(color: Colors.grey.shade600),
+          ),
+          SizedBox(height: 8),
+          incomeCategories,
         ],
       ),
     );
+  }
+
+  void removeCategory(String uid) {
+    ref.read(categoriesProvider.notifier).removeCategory(uid);
   }
 }
 
 class CategoriesList extends StatelessWidget {
   final List<Category> categories;
 
-  const CategoriesList({super.key, required this.categories});
+  const CategoriesList({
+    super.key,
+    required this.categories,
+    required this.onRemove,
+  });
 
+  final void Function(String uid) onRemove;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: categories
-          .map(
-            (category) => Container(
-              padding: EdgeInsets.only(right: 8, top: 8),
-              child: OutlinedButton(
-                onPressed: () {},
-                child: Text(category.title),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: categories.length,
+        itemBuilder: (BuildContext context, int index) => Dismissible(
+          background: Container(
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            width: double.infinity,
+            height: double.infinity,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.cancel, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text(
+                      AppLocalizations.of(context)!.remove,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
               ),
             ),
-          )
-          .toList(),
+          ),
+          onDismissed: (direction) {
+            _removeItem(categories[index].uid);
+          },
+          key: ValueKey(categories[index].uid),
+          child: ListTile(title: Text(categories[index].title)),
+        ),
+      ),
     );
+  }
+
+  void _removeItem(String uid) {
+    onRemove(uid);
   }
 }

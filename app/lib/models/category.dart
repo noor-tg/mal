@@ -7,4 +7,13 @@ class Category {
   String uid;
   final String title;
   final String type;
+
+  Map<String, dynamic> toJson() {
+    return {'uid': uid, 'title': title, 'type': type};
+  }
+
+  @override
+  String toString() {
+    return 'Category{uid: $uid, title: $title, type: $type}';
+  }
 }

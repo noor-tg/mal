@@ -19,5 +19,6 @@
   "categoryTitleErrorMessage": "يرجى إدخال العنوان بقيمة حرفين على الاقل",
   "pleaseAddCorrectInfo": "يرجى إدخال النوع و العنوان",
   "categoryTypeErrorMessage": "يرجى إختيار النوع",
-  "emptyCategoriesList": "لا يوجد وسوم م مضافة"
+  "emptyCategoriesList": "لا يوجد وسوم مضافة",
+  "remove": "حذف"
 }

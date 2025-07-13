@@ -46,7 +46,6 @@ class _AppContainerState extends State<AppContainer> {
                 context: context,
                 builder: (ctx) => NewCategory(),
               );
-              print('hi category');
             },
           ),
         ],

@@ -199,8 +199,14 @@ abstract class AppLocalizations {
   /// No description provided for @emptyCategoriesList.
   ///
   /// In ar, this message translates to:
-  /// **'لا يوجد وسوم م مضافة'**
+  /// **'لا يوجد وسوم مضافة'**
   String get emptyCategoriesList;
+
+  /// No description provided for @remove.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف'**
+  String get remove;
 }
 
 class _AppLocalizationsDelegate
