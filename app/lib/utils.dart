@@ -5,6 +5,7 @@ import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart' as sql;
 
 const uuid = Uuid();
+final formatter = DateFormat.yMd();
 
 String moneyFormat(BuildContext context, int value) {
   return NumberFormat.decimalPattern('ar_SA').format(value);
