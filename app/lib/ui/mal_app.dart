@@ -4,7 +4,7 @@ import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/ui/app_container.dart';
 
 final colorScheme = ColorScheme.fromSeed(
-  brightness: Brightness.light,
+  // brightness: Brightness.light,
   seedColor: Colors.purpleAccent,
   surface: Colors.white,
 );
@@ -31,7 +31,7 @@ class MalApp extends StatelessWidget {
       builder: (context, child) {
         return Directionality(textDirection: TextDirection.rtl, child: child!);
       },
-      home: AppContainer(),
+      home: const AppContainer(),
     );
   }
 }

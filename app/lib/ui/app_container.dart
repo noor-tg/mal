@@ -21,20 +21,20 @@ class _AppContainerState extends State<AppContainer> {
 
   @override
   Widget build(BuildContext context) {
-    var l10n = AppLocalizations.of(context)!;
-    var theme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context).colorScheme;
 
     pages = [
       MalPage(
-        icon: Icon(Icons.pie_chart),
+        icon: const Icon(Icons.pie_chart),
         title: l10n.reportsTitle,
-        widget: ReportsScreen(),
+        widget: const ReportsScreen(),
         actions: [],
       ),
       MalPage(
-        icon: Icon(Icons.dashboard),
+        icon: const Icon(Icons.dashboard),
         title: l10n.tabCategoriesLabel,
-        widget: CategoriesScreen(),
+        widget: const CategoriesScreen(),
         actions: [
           IconButton(
             icon: Icon(Icons.dashboard_customize, color: theme.onPrimary),
@@ -44,7 +44,7 @@ class _AppContainerState extends State<AppContainer> {
                 isScrollControlled: true,
                 // constraints: const BoxConstraints(maxHeight: 400),
                 context: context,
-                builder: (ctx) => NewCategory(),
+                builder: (ctx) => const NewCategory(),
               );
             },
           ),
@@ -76,7 +76,7 @@ class _AppContainerState extends State<AppContainer> {
         onPageChanged: (index) => setState(() => tabIndex = index),
         children: pages.map((page) => page.widget).toList(),
       ),
-      drawer: MainDrawer(),
+      drawer: const MainDrawer(),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 40,
         type: BottomNavigationBarType.fixed,
@@ -85,7 +85,7 @@ class _AppContainerState extends State<AppContainer> {
           setState(() {
             _pageController.animateToPage(
               index,
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
             );
             tabIndex = index;

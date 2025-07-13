@@ -21,7 +21,7 @@ class _NewCategoryState extends ConsumerState<NewCategory> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       width: double.infinity,
       child: Form(
         key: _formKey,
@@ -31,11 +31,11 @@ class _NewCategoryState extends ConsumerState<NewCategory> {
             Text(
               l10n.newCategory,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
-            Divider(),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
+            const Divider(),
+            const SizedBox(height: 8),
             TextFormField(
               autofocus: true,
               validator: (value) {
@@ -51,7 +51,7 @@ class _NewCategoryState extends ConsumerState<NewCategory> {
               },
               decoration: InputDecoration(labelText: l10n.categoryTitle),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Text(
               l10n.categoryType,
               style: TextStyle(
@@ -91,7 +91,7 @@ class _NewCategoryState extends ConsumerState<NewCategory> {
                   color: Theme.of(context).colorScheme.error.withAlpha(255),
                 ),
               ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {
                 _submit(l10n);

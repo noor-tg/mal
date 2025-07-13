@@ -10,7 +10,7 @@ class MalPageContainer extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(color: Colors.grey.withAlpha(50)),
       height: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: child,
     );
   }

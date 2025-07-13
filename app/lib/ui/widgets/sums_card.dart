@@ -20,7 +20,7 @@ class SumsCard extends StatelessWidget {
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(l10n.reportsBalance),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Text(
                   moneyFormat(context, 1000),
                   style: Theme.of(context).textTheme.displayLarge?.copyWith(
@@ -30,7 +30,7 @@ class SumsCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(

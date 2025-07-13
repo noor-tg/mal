@@ -1,11 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mal/models/category.dart';
 import 'package:mal/utils.dart';
 
 class CategoriesNotifier extends StateNotifier<Map<String, List<Category>>> {
-  CategoriesNotifier() : super({"income": [], "expenses": []});
+  CategoriesNotifier() : super({'income': [], 'expenses': []});
 
   void addCategory(String title, String type) async {
     final category = Category(title: title, type: type);
@@ -35,11 +33,11 @@ class CategoriesNotifier extends StateNotifier<Map<String, List<Category>>> {
       final expensesCategories = await db.query(
         'categories',
         where: 'type = ?',
-        whereArgs: ["منصرف"],
+        whereArgs: ['منصرف'],
       );
 
       state = {
-        "income": incomeCategories
+        'income': incomeCategories
             .map(
               (row) => Category(
                 uid: row['uid'] as String,
@@ -48,7 +46,7 @@ class CategoriesNotifier extends StateNotifier<Map<String, List<Category>>> {
               ),
             )
             .toList(),
-        "expenses": expensesCategories
+        'expenses': expensesCategories
             .map(
               (row) => Category(
                 uid: row['uid'] as String,

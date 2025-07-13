@@ -14,14 +14,14 @@ class _ReportsScreenState extends State<ReportsScreen> {
   var tabIndex = 0;
   @override
   Widget build(BuildContext context) {
-    var l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
 
     return MalPageContainer(
       child: Column(
         children: [
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           SumsCard(l10n: l10n),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
         ],
       ),
     );
