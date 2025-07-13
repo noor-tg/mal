@@ -39,7 +39,7 @@ class _NewCategoryState extends ConsumerState<NewCategory> {
             TextFormField(
               autofocus: true,
               validator: (value) {
-                if (value == null || value.trim().length < 3) {
+                if (value == null || value.trim().length < 2) {
                   return l10n.categoryTitleErrorMessage;
                 }
                 return null;
