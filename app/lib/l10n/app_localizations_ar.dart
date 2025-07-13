@@ -65,4 +65,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get remove => 'حذف';
+
+  @override
+  String get amount => 'القيمة';
+
+  @override
+  String get category => 'وسم';
+
+  @override
+  String get newEntry => 'تسجيل مدخل';
 }

@@ -20,5 +20,8 @@
   "pleaseAddCorrectInfo": "يرجى إدخال النوع و العنوان",
   "categoryTypeErrorMessage": "يرجى إختيار النوع",
   "emptyCategoriesList": "لا يوجد وسوم مضافة",
-  "remove": "حذف"
+  "remove": "حذف",
+  "amount": "القيمة",
+  "category": "وسم",
+  "newEntry": "تسجيل مدخل"
 }

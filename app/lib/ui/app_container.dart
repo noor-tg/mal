@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mal/l10n/app_localizations.dart';
-import 'package:mal/ui/new_category.dart';
 import 'package:mal/ui/screens/categories_screen.dart';
 import 'package:mal/ui/screens/reports_screen.dart';
 import 'package:mal/ui/widgets/main_drawer.dart';
+import 'package:mal/ui/widgets/new_category.dart';
+import 'package:mal/ui/widgets/new_entry.dart';
 import 'package:mal/utils.dart';
 
 class AppContainer extends StatefulWidget {
@@ -66,6 +67,13 @@ class _AppContainerState extends State<AppContainer> {
                 IconButton(
                   icon: Icon(Icons.create, color: theme.onPrimary),
                   onPressed: () {
+                    showModalBottomSheet(
+                      useSafeArea: true,
+                      isScrollControlled: true,
+                      // constraints: const BoxConstraints(maxHeight: 400),
+                      context: context,
+                      builder: (ctx) => const NewEntry(),
+                    );
                     print('hi entry');
                   },
                 ),

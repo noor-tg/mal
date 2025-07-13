@@ -207,6 +207,24 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'حذف'**
   String get remove;
+
+  /// No description provided for @amount.
+  ///
+  /// In ar, this message translates to:
+  /// **'القيمة'**
+  String get amount;
+
+  /// No description provided for @category.
+  ///
+  /// In ar, this message translates to:
+  /// **'وسم'**
+  String get category;
+
+  /// No description provided for @newEntry.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل مدخل'**
+  String get newEntry;
 }
 
 class _AppLocalizationsDelegate
