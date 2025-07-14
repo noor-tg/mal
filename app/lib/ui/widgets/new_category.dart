@@ -123,6 +123,9 @@ class _NewCategoryState extends ConsumerState<NewCategory> {
             .read(categoriesProvider.notifier)
             .addCategory(_categoryTitle!, _categoryType!);
         Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.categoresSavedSuccessfully)),
+        );
       } else {
         ScaffoldMessenger.of(
           context,

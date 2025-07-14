@@ -23,5 +23,9 @@
   "remove": "حذف",
   "amount": "القيمة",
   "category": "وسم",
-  "newEntry": "تسجيل مدخل"
+  "newEntry": "تسجيل مدخل",
+  "amountErrorMessage": "يرجى إدخال قيمة أكثر من 0",
+  "entrySavedSuccessfully": "تم تسجيل المدخل بنحاج",
+  "categoresSavedSuccessfully": "تم تسجيل وسم بنجاح",
+  "todayEntries": "مدخلات اليوم"
 }

@@ -225,6 +225,30 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تسجيل مدخل'**
   String get newEntry;
+
+  /// No description provided for @amountErrorMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى إدخال قيمة أكثر من 0'**
+  String get amountErrorMessage;
+
+  /// No description provided for @entrySavedSuccessfully.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تسجيل المدخل بنحاج'**
+  String get entrySavedSuccessfully;
+
+  /// No description provided for @categoresSavedSuccessfully.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تسجيل وسم بنجاح'**
+  String get categoresSavedSuccessfully;
+
+  /// No description provided for @todayEntries.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدخلات اليوم'**
+  String get todayEntries;
 }
 
 class _AppLocalizationsDelegate
