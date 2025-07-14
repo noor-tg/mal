@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/providers/entries_provider.dart';
 import 'package:mal/ui/screens/mal_page_container.dart';
 import 'package:mal/ui/widgets/sums_card.dart';
+import 'package:mal/ui/widgets/today_entries_list.dart';
 
-class ReportsScreen extends StatefulWidget {
+class ReportsScreen extends ConsumerStatefulWidget {
   const ReportsScreen({super.key});
 
   @override
-  State<ReportsScreen> createState() => _ReportsScreenState();
+  ConsumerState<ReportsScreen> createState() => _ReportsScreenState();
 }
 
-class _ReportsScreenState extends State<ReportsScreen> {
+class _ReportsScreenState extends ConsumerState<ReportsScreen> {
   var tabIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    ref.read(entriesProvider.notifier).loadEntries();
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+
+    final entries = ref.watch(entriesProvider);
 
     return MalPageContainer(
       child: Column(
@@ -22,6 +33,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
           const SizedBox(height: 16),
           SumsCard(l10n: l10n),
           const SizedBox(height: 16),
+          TodayEntriesList(entries: entries),
         ],
       ),
     );

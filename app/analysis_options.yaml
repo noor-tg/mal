@@ -20,6 +20,7 @@ analyzer:
     prefer_const_declarations: error
     avoid_init_to_null: error
     unnecessary_null_in_if_null_operators: error
+    avoid_catches_without_on_clauses: ignore
 
 linter:
   rules:

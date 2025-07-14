@@ -29,15 +29,37 @@ Future<sql.Database> createOrOpenDB() async {
   final dbPath = await sql.getDatabasesPath();
   return sql.openDatabase(
     path.join(dbPath, 'mal.db'),
-    onCreate: (db, version) {
-      return db.execute('''
-        CREATE TABLE categories(
-          uid text primary key,
-          title text,
-          type text
-        )
-      ''');
+    onCreate: (db, version) async {
+      final batch = db.batch();
+
+      categoriesMigrateUp(batch);
+      entriesMigrateUp(batch);
+
+      await batch.commit();
+      print('database updated');
     },
     version: 1,
   );
+}
+
+void entriesMigrateUp(sql.Batch batch) {
+  batch.execute('''CREATE TABLE entries(
+      uid text primary key,
+      description text,
+      type text,
+      category text,
+      date TEXT DEFAULT (datetime('now')),
+      amount int
+  );
+  ''');
+}
+
+void categoriesMigrateUp(sql.Batch batch) {
+  batch.execute('''
+    CREATE TABLE categories(
+       uid text primary key,
+       title text,
+       type text
+    );
+  ''');
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/models/category.dart';
 import 'package:mal/providers/categories_provider.dart';
+import 'package:mal/providers/entries_provider.dart';
 import 'package:mal/ui/widgets/date_selector.dart';
 
 class NewEntry extends ConsumerStatefulWidget {
@@ -14,14 +16,13 @@ class NewEntry extends ConsumerStatefulWidget {
 class _NewEntryState extends ConsumerState<NewEntry> {
   final _formKey = GlobalKey<FormState>();
 
-  String? _description = '';
-  String? _amount = '';
-  String? _type = '';
-  String? _category = '';
+  String _description = '';
+  int _amount = 0;
+  String _type = '';
+  String _category = '';
+  DateTime? _date;
 
   bool typeIsValid = true;
-
-  var _date;
 
   @override
   void initState() {
@@ -32,11 +33,17 @@ class _NewEntryState extends ConsumerState<NewEntry> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    List<Category> categoriesByType = [];
     final categories = ref.watch(categoriesProvider);
-    final List<String> expenses = categories['expenses'] == null
-        ? []
-        : categories['expenses']!.map((exp) => exp.title).toSet().toList();
-    _category = expenses[0];
+    if (_type == l10n.income) {
+      categoriesByType = categories['income'] ?? [];
+    }
+    if (_type == l10n.expense) {
+      categoriesByType = categories['expenses'] ?? [];
+    }
+    if (categoriesByType.isNotEmpty) {
+      _category = categoriesByType[0].title;
+    }
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -54,8 +61,69 @@ class _NewEntryState extends ConsumerState<NewEntry> {
             const SizedBox(height: 8),
             const Divider(),
             const SizedBox(height: 8),
+            Text(
+              l10n.categoryType,
+              style: TextStyle(
+                fontSize: 14,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            FormField<String>(
+              validator: (value) {
+                if (value == null || value == '') {
+                  return l10n.categoryTypeErrorMessage;
+                }
+                return null;
+              },
+              builder: (state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        RadioMenuButton(
+                          value: l10n.expense,
+                          groupValue: _type,
+                          onChanged: (value) {
+                            if (value == null) return;
+                            setState(() {
+                              _type = value;
+                            });
+                            state.didChange(value);
+                          },
+                          child: Text(l10n.expense),
+                        ),
+                        RadioMenuButton(
+                          value: l10n.income,
+                          groupValue: _type,
+                          onChanged: (value) {
+                            if (value == null) return;
+                            setState(() {
+                              _type = value;
+                            });
+                            state.didChange(value);
+                          },
+                          child: Text(l10n.income),
+                        ),
+                      ],
+                    ),
+                    if (state.hasError)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          state.errorText!,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              },
+            ),
+            const SizedBox(height: 24),
             TextFormField(
-              autofocus: true,
               validator: (value) {
                 if (value == null || value.trim().length < 3) {
                   return l10n.categoryTitleErrorMessage;
@@ -65,6 +133,7 @@ class _NewEntryState extends ConsumerState<NewEntry> {
               maxLines: 2,
               keyboardType: TextInputType.multiline,
               onSaved: (value) {
+                if (value == null) return;
                 setState(() {
                   _description = value;
                 });
@@ -77,15 +146,18 @@ class _NewEntryState extends ConsumerState<NewEntry> {
             const SizedBox(height: 24),
             TextFormField(
               validator: (value) {
-                if (value == null || value.trim().length < 3) {
-                  return l10n.categoryTitleErrorMessage;
+                if (value == null ||
+                    int.tryParse(value) == null ||
+                    int.parse(value) < 0) {
+                  return l10n.amountErrorMessage;
                 }
                 return null;
               },
               keyboardType: TextInputType.number,
               onSaved: (value) {
+                if (value == null) return;
                 setState(() {
-                  _amount = value;
+                  _amount = int.parse(value);
                 });
               },
               decoration: InputDecoration(
@@ -94,7 +166,7 @@ class _NewEntryState extends ConsumerState<NewEntry> {
               ),
             ),
             const SizedBox(height: 24),
-            if (expenses.isNotEmpty)
+            if (categoriesByType.isNotEmpty)
               Row(
                 children: [
                   Expanded(
@@ -105,13 +177,13 @@ class _NewEntryState extends ConsumerState<NewEntry> {
                       ),
                       isExpanded: true,
                       value: _category,
-                      items: expenses
+                      items: categoriesByType
                           .map(
                             (category) => DropdownMenuItem(
-                              key: ValueKey(category),
-                              value: category,
+                              key: ValueKey(category.uid),
+                              value: category.title,
                               child: Text(
-                                category,
+                                category.title,
                                 style: const TextStyle(color: Colors.black54),
                               ),
                             ),
@@ -130,46 +202,6 @@ class _NewEntryState extends ConsumerState<NewEntry> {
             const SizedBox(height: 24),
             DateSelector(date: _date, selectDate: selectDate),
             const SizedBox(height: 24),
-            Text(
-              l10n.categoryType,
-              style: TextStyle(
-                fontSize: 14,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            Row(
-              children: [
-                RadioMenuButton(
-                  value: l10n.expense,
-                  groupValue: _type,
-                  onChanged: (value) {
-                    setState(() {
-                      _type = value;
-                    });
-                  },
-                  child: Text(l10n.expense),
-                ),
-                RadioMenuButton(
-                  value: l10n.income,
-                  groupValue: _type,
-                  onChanged: (value) {
-                    setState(() {
-                      _type = value;
-                    });
-                  },
-                  child: Text(l10n.income),
-                ),
-              ],
-            ),
-            if (!typeIsValid)
-              Text(
-                l10n.categoryTypeErrorMessage,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Theme.of(context).colorScheme.error.withAlpha(255),
-                ),
-              ),
-            const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {
                 _submit(l10n);
@@ -178,7 +210,10 @@ class _NewEntryState extends ConsumerState<NewEntry> {
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 foregroundColor: Colors.white,
               ),
-              child: Text(l10n.save),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(l10n.save),
+              ),
             ),
             TextButton(
               onPressed: () {
@@ -205,5 +240,31 @@ class _NewEntryState extends ConsumerState<NewEntry> {
     });
   }
 
-  void _submit(AppLocalizations l10n) {}
+  void _submit(AppLocalizations l10n) {
+    try {
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
+        ref
+            .read(entriesProvider.notifier)
+            .saveEntry(
+              description: _description,
+              type: _type,
+              amount: _amount,
+              category: _category,
+              date: _date != null
+                  ? _date!.toIso8601String()
+                  : DateTime.now().toIso8601String(),
+            );
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.entrySavedSuccessfully)));
+      }
+    } catch (error) {
+      print(error);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.toString())));
+    }
+  }
 }
