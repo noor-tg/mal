@@ -41,7 +41,7 @@ class _NewEntryState extends ConsumerState<NewEntry> {
     if (_type == l10n.expense) {
       categoriesByType = categories['expenses'] ?? [];
     }
-    if (categoriesByType.isNotEmpty) {
+    if (categoriesByType.isNotEmpty && _category == '') {
       _category = categoriesByType[0].title;
     }
 
@@ -193,6 +193,7 @@ class _NewEntryState extends ConsumerState<NewEntry> {
                         if (value == null) return;
                         setState(() {
                           _category = value;
+                          print('category changed to $_category');
                         });
                       },
                     ),
@@ -244,6 +245,7 @@ class _NewEntryState extends ConsumerState<NewEntry> {
     try {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
+        print('on saved $_category');
         ref
             .read(entriesProvider.notifier)
             .saveEntry(
