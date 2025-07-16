@@ -11,48 +11,33 @@ class TodayEntriesList extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    return Expanded(
+    return Card.filled(
+      color: Colors.white,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            l10n!.todayEntries,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineLarge?.copyWith(color: Colors.grey.shade600),
-          ),
-          const SizedBox(height: 8),
-          Card.filled(
-            color: Colors.white,
-            child: ListView(
-              shrinkWrap: true,
-              children: entries
-                  .map(
-                    (entry) => ListTile(
-                      title: Text(
-                        entry.description,
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: Colors.grey.shade800,
-                        ),
-                      ),
-                      subtitle: Text(
-                        entry.category,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: Colors.grey.shade800,
-                        ),
-                      ),
-                      trailing: Text(
-                        entry.prefixedAmount(l10n.income),
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          color: entry.color(l10n.income),
-                        ),
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
-        ],
+        children: entries
+            .map(
+              (entry) => ListTile(
+                title: Text(
+                  entry.description,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: Colors.grey.shade800,
+                  ),
+                ),
+                subtitle: Text(
+                  entry.category,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: Colors.grey.shade800,
+                  ),
+                ),
+                trailing: Text(
+                  entry.prefixedAmount(l10n!.income),
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: entry.color(l10n.income),
+                  ),
+                ),
+              ),
+            )
+            .toList(),
       ),
     );
   }

@@ -29,10 +29,18 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
 
     return MalPageContainer(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: 16),
           SumsCard(l10n: l10n),
           const SizedBox(height: 16),
+          Text(
+            l10n.todayEntries,
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
+          ),
+          const SizedBox(height: 8),
           TodayEntriesList(entries: entries),
         ],
       ),
