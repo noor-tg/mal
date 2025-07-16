@@ -1,6 +1,19 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mal/models/category.dart';
 import 'package:mal/utils.dart';
+
+final colors = [
+  Colors.red,
+  Colors.green,
+  Colors.blue,
+  Colors.black,
+  Colors.white,
+  Colors.purple,
+  Colors.brown,
+];
 
 class CategoriesNotifier extends StateNotifier<Map<String, List<Category>>> {
   CategoriesNotifier() : super({'income': [], 'expenses': []});
@@ -71,3 +84,38 @@ class CategoriesNotifier extends StateNotifier<Map<String, List<Category>>> {
 }
 
 final categoriesProvider = StateNotifierProvider((ref) => CategoriesNotifier());
+
+Future<List<Map<String, dynamic>>> getPieData(String type) async {
+  final List<Map<String, dynamic>> data = [];
+
+  final db = await createOrOpenDB();
+
+  final res = await db.query(
+    'entries',
+    columns: ['category', 'sum(amount) as sum'],
+    groupBy: 'category',
+    where: 'type = ?',
+    whereArgs: [type],
+    orderBy: 'sum DESC',
+  );
+
+  final total = await db.query(
+    'entries',
+    columns: ['sum(amount) as sum'],
+    where: 'type = ?',
+    whereArgs: [type],
+  );
+
+  final random = Random();
+
+  for (final item in res) {
+    data.add({
+      'title': item['category'] as String,
+      'precentage': (item['sum'] as int) / (total[0]['sum'] as int) * 100,
+      'value': item['sum'] as int,
+      'color': colors[random.nextInt(colors.length)],
+    });
+  }
+
+  return data;
+}
