@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:mal/ui/widgets/indicator.dart';
 
 class MalPieChart extends StatefulWidget {
@@ -45,7 +44,7 @@ class _MalPieChartState extends State<MalPieChart> {
                   ),
                   borderData: FlBorderData(show: false),
                   sectionsSpace: 0,
-                  centerSpaceRadius: 40,
+                  centerSpaceRadius: 30,
                   sections: showingSections(),
                 ),
               ),
@@ -79,7 +78,7 @@ class _MalPieChartState extends State<MalPieChart> {
     final List<PieChartSectionData> pieData = [];
     for (final item in widget.list) {
       final isTouched = item['title'] == touchedTitle;
-      final fontSize = isTouched ? 25.0 : 16.0;
+      final fontSize = isTouched ? 25.0 : 12.0;
       final radius = isTouched ? 60.0 : 40.0;
       const shadows = [Shadow(blurRadius: 2)];
       pieData.add(

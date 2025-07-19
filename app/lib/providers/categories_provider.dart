@@ -9,10 +9,9 @@ final colors = [
   Colors.red,
   Colors.green,
   Colors.blue,
-  Colors.black,
-  Colors.white,
   Colors.purple,
   Colors.brown,
+  Colors.blueGrey,
 ];
 
 class CategoriesNotifier extends StateNotifier<Map<String, List<Category>>> {

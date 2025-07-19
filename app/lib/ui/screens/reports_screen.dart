@@ -4,6 +4,7 @@ import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/providers/categories_provider.dart';
 import 'package:mal/providers/entries_provider.dart';
 import 'package:mal/ui/screens/mal_page_container.dart';
+import 'package:mal/ui/widgets/daily_sums_chart.dart';
 import 'package:mal/ui/widgets/mal_pie_chart.dart';
 import 'package:mal/ui/widgets/sums_card.dart';
 import 'package:mal/ui/widgets/today_entries_list.dart';
@@ -35,6 +36,8 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
           const SizedBox(height: 16),
           SumsCard(l10n: l10n),
           const SizedBox(height: 16),
+          const Card.filled(color: Colors.white, child: DailySumsChart()),
+          const SizedBox(height: 16),
           Text(
             l10n.expenses,
             style: Theme.of(
@@ -42,14 +45,20 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
             ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
           ),
           const SizedBox(height: 8),
-          FutureBuilder(
-            future: getPieData(l10n.expense),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return MalPieChart(list: snapshot.data!);
-              }
-              return const Text('loading');
-            },
+          Card.filled(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FutureBuilder(
+                future: getPieData(l10n.expense),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return MalPieChart(list: snapshot.data!);
+                  }
+                  return const Center(child: CircularProgressIndicator());
+                },
+              ),
+            ),
           ),
           const SizedBox(height: 16),
           Text(
@@ -59,14 +68,24 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
             ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
           ),
           const SizedBox(height: 8),
-          FutureBuilder(
-            future: getPieData(l10n.income),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return MalPieChart(list: snapshot.data!);
-              }
-              return const Text('loading');
-            },
+          Card.filled(
+            color: Colors.white,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FutureBuilder(
+                    future: getPieData(l10n.income),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return MalPieChart(list: snapshot.data!);
+                      }
+                      return const Center(child: CircularProgressIndicator());
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 16),
           Text(

@@ -63,3 +63,73 @@ void categoriesMigrateUp(sql.Batch batch) {
     );
   ''');
 }
+
+class DaySums {
+  final String day;
+  final int income;
+  final int expenses;
+
+  DaySums({required this.day, required this.income, required this.expenses});
+}
+
+List<String> getCurrentMonthDays() {
+  final now = DateTime.now();
+  final year = now.year;
+  final month = now.month;
+
+  // Get the last day of current month
+  final lastDay = DateTime(year, month + 1, 0).day;
+
+  // Generate list of date strings
+  final List<String> days = [];
+  for (int day = 1; day <= lastDay; day++) {
+    // Format day with zero padding and create date string
+    final dayStr = day.toString().padLeft(2, '0');
+    days.add(dayStr);
+  }
+
+  return days;
+}
+
+Future<List<DaySums>> loadDailySums() async {
+  final List<DaySums> data = [];
+  final db = await createOrOpenDB();
+
+  final incomeSums = await db.query(
+    'entries',
+    columns: ['sum(amount) as sum', 'date("date") as by_date'],
+    where: 'type = ?',
+    whereArgs: ['دخل'],
+    groupBy: '"by_date"',
+  );
+  final expensesSums = await db.query(
+    'entries',
+    columns: ['sum(amount) as sum', 'date("date") as by_date'],
+    where: 'type = ?',
+    whereArgs: ['منصرف'],
+    groupBy: '"by_date"',
+  );
+
+  final days = getCurrentMonthDays();
+  for (final day in days) {
+    final dayIncome = incomeSums
+        .where((row) => (row['by_date'] as String).substring(8) == day)
+        .toList();
+
+    final dayExpenses = expensesSums
+        .where((row) => (row['by_date'] as String).substring(8) == day)
+        .toList();
+
+    data.add(
+      DaySums(
+        day: day,
+        income: dayIncome.isNotEmpty ? dayIncome.first['sum'] as int : 0,
+        expenses: dayExpenses.isNotEmpty ? dayExpenses.first['sum'] as int : 0,
+      ),
+    );
+  }
+
+  print(data);
+
+  return data;
+}
