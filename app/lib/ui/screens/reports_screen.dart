@@ -8,6 +8,7 @@ import 'package:mal/ui/widgets/daily_sums_chart.dart';
 import 'package:mal/ui/widgets/mal_pie_chart.dart';
 import 'package:mal/ui/widgets/sums_card.dart';
 import 'package:mal/ui/widgets/today_entries_list.dart';
+import 'package:mal/utils.dart';
 
 class ReportsScreen extends ConsumerStatefulWidget {
   const ReportsScreen({super.key});
@@ -34,68 +35,83 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: 16),
-          SumsCard(l10n: l10n),
+          FutureBuilder<Totals>(
+            future: loadTotals(),
+            builder: (BuildContext context, AsyncSnapshot<Totals> snapshot) {
+              if (snapshot.hasData) {
+                return SumsCard(l10n: l10n, totals: snapshot.data!);
+              }
+              return const Center(child: CircularProgressIndicator());
+            },
+          ),
           const SizedBox(height: 16),
+          Text(
+            l10n.currentMonth,
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
+          ),
+          const SizedBox(height: 8),
           const Card.filled(color: Colors.white, child: DailySumsChart()),
-          // const SizedBox(height: 16),
-          // Text(
-          //   l10n.expenses,
-          //   style: Theme.of(
-          //     context,
-          //   ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
-          // ),
-          // const SizedBox(height: 8),
-          // Card.filled(
-          //   color: Colors.white,
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(8.0),
-          //     child: FutureBuilder(
-          //       future: getPieData(l10n.expense),
-          //       builder: (context, snapshot) {
-          //         if (snapshot.hasData) {
-          //           return MalPieChart(list: snapshot.data!);
-          //         }
-          //         return const Center(child: CircularProgressIndicator());
-          //       },
-          //     ),
-          //   ),
-          // ),
-          // const SizedBox(height: 16),
-          // Text(
-          //   l10n.income,
-          //   style: Theme.of(
-          //     context,
-          //   ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
-          // ),
-          // const SizedBox(height: 8),
-          // Card.filled(
-          //   color: Colors.white,
-          //   child: Column(
-          //     children: [
-          //       Padding(
-          //         padding: const EdgeInsets.all(8.0),
-          //         child: FutureBuilder(
-          //           future: getPieData(l10n.income),
-          //           builder: (context, snapshot) {
-          //             if (snapshot.hasData) {
-          //               return MalPieChart(list: snapshot.data!);
-          //             }
-          //             return const Center(child: CircularProgressIndicator());
-          //           },
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // const SizedBox(height: 16),
-          // Text(
-          //   l10n.todayEntries,
-          //   style: Theme.of(
-          //     context,
-          //   ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
-          // ),
-          // const SizedBox(height: 8),
-          // TodayEntriesList(entries: entries),
+          const SizedBox(height: 16),
+          Text(
+            l10n.expenses,
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
+          ),
+          const SizedBox(height: 4),
+          Card.filled(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FutureBuilder(
+                future: getPieData(l10n.expense),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return MalPieChart(list: snapshot.data!);
+                  }
+                  return const Center(child: CircularProgressIndicator());
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            l10n.income,
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
+          ),
+          const SizedBox(height: 8),
+          Card.filled(
+            color: Colors.white,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FutureBuilder(
+                    future: getPieData(l10n.income),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return MalPieChart(list: snapshot.data!);
+                      }
+                      return const Center(child: CircularProgressIndicator());
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            l10n.todayEntries,
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
+          ),
+          const SizedBox(height: 8),
+          TodayEntriesList(entries: entries),
         ],
       ),
     );
@@ -151,5 +167,31 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
     //     ],
     //   ),
     // );
+  }
+
+  Future<Totals> loadTotals() async {
+    final db = await createOrOpenDB();
+
+    final incomes = await db.query(
+      'entries',
+      columns: ['sum(amount) as sum', 'type'],
+      where: 'type = ?',
+      whereArgs: ['دخل'],
+      groupBy: '"type"',
+    );
+    final expenses = await db.query(
+      'entries',
+      columns: ['sum(amount) as sum', 'type'],
+      where: 'type = ?',
+      whereArgs: ['منصرف'],
+      groupBy: '"type"',
+    );
+    final balance =
+        (incomes.first['sum'] as int) - (expenses.first['sum'] as int);
+    return Totals(
+      balance: balance,
+      incomes: incomes.first['sum'] as int,
+      expenses: expenses.first['sum'] as int,
+    );
   }
 }

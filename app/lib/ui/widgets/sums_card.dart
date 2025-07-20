@@ -3,9 +3,10 @@ import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
 
 class SumsCard extends StatelessWidget {
-  const SumsCard({super.key, required this.l10n});
+  const SumsCard({super.key, required this.l10n, required this.totals});
 
   final AppLocalizations l10n;
+  final Totals totals;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +23,8 @@ class SumsCard extends StatelessWidget {
                 Text(l10n.reportsBalance),
                 const SizedBox(width: 16),
                 Text(
-                  moneyFormat(context, 1000),
-                  style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                  moneyFormat(context, totals.balance),
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
                     color: Colors.lightBlue,
                     fontWeight: FontWeight.bold,
                   ),
@@ -42,8 +43,8 @@ class SumsCard extends StatelessWidget {
                         children: [
                           Text(l10n.expenses),
                           Text(
-                            moneyFormat(context, 500),
-                            style: Theme.of(context).textTheme.displaySmall
+                            moneyFormat(context, totals.expenses),
+                            style: Theme.of(context).textTheme.headlineMedium
                                 ?.copyWith(color: Colors.red),
                           ),
                         ],
@@ -60,8 +61,8 @@ class SumsCard extends StatelessWidget {
                         children: [
                           Text(l10n.income),
                           Text(
-                            moneyFormat(context, 500),
-                            style: Theme.of(context).textTheme.displaySmall
+                            moneyFormat(context, totals.incomes),
+                            style: Theme.of(context).textTheme.headlineMedium
                                 ?.copyWith(color: Colors.lightGreen),
                           ),
                         ],

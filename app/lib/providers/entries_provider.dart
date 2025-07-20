@@ -38,7 +38,7 @@ class EntriesNotifier extends StateNotifier<List<Entry>> {
     try {
       final db = await createOrOpenDB();
 
-      final data = await db.query('entries', orderBy: 'date desc');
+      final data = await db.query('entries', orderBy: 'date desc', limit: 10);
       state = data
           .map(
             (row) => Entry(

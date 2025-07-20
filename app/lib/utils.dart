@@ -74,15 +74,9 @@ class DaySums {
 
 List<String> getCurrentMonthDays() {
   final now = DateTime.now();
-  final year = now.year;
-  final month = now.month;
-
-  // Get the last day of current month
-  final lastDay = DateTime(year, month + 1, 0).day;
-
   // Generate list of date strings
   final List<String> days = [];
-  for (int day = 1; day <= lastDay; day++) {
+  for (int day = 1; day <= now.day; day++) {
     // Format day with zero padding and create date string
     final dayStr = day.toString().padLeft(2, '0');
     days.add(dayStr);
@@ -91,8 +85,14 @@ List<String> getCurrentMonthDays() {
   return days;
 }
 
-Future<List<DaySums>> loadDailySums() async {
-  final List<DaySums> data = [];
+class Sums {
+  final List<int> incomes;
+  final List<int> expenses;
+
+  Sums({required this.incomes, required this.expenses});
+}
+
+Future<Sums> loadDailySums() async {
   final db = await createOrOpenDB();
 
   final incomeSums = await db.query(
@@ -110,7 +110,11 @@ Future<List<DaySums>> loadDailySums() async {
     groupBy: '"by_date"',
   );
 
+  final Sums data = Sums(expenses: [], incomes: []);
+
   final days = getCurrentMonthDays();
+  print('days');
+  print(days);
   for (final day in days) {
     final dayIncome = incomeSums
         .where((row) => (row['by_date'] as String).substring(8) == day)
@@ -120,16 +124,25 @@ Future<List<DaySums>> loadDailySums() async {
         .where((row) => (row['by_date'] as String).substring(8) == day)
         .toList();
 
-    data.add(
-      DaySums(
-        day: day,
-        income: dayIncome.isNotEmpty ? dayIncome.first['sum'] as int : 0,
-        expenses: dayExpenses.isNotEmpty ? dayExpenses.first['sum'] as int : 0,
-      ),
+    data.incomes.add(dayIncome.isNotEmpty ? dayIncome.first['sum'] as int : 0);
+    data.expenses.add(
+      dayExpenses.isNotEmpty ? dayExpenses.first['sum'] as int : 0,
     );
   }
 
   print(data);
 
   return data;
+}
+
+class Totals {
+  final int balance;
+  final int incomes;
+  final int expenses;
+
+  Totals({
+    required this.balance,
+    required this.incomes,
+    required this.expenses,
+  });
 }
