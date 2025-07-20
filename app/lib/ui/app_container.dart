@@ -74,12 +74,12 @@ class _AppContainerState extends State<AppContainer> {
                       context: context,
                       builder: (ctx) => const NewEntry(),
                     );
-                    print('hi entry');
                   },
                 ),
               ],
       ),
       body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: _pageController,
         onPageChanged: (index) => setState(() => tabIndex = index),
         children: pages.map((page) => page.widget).toList(),

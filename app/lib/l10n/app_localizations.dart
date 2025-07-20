@@ -249,6 +249,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'مدخلات اليوم'**
   String get todayEntries;
+
+  /// No description provided for @currentMonth.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشهر الحالي'**
+  String get currentMonth;
 }
 
 class _AppLocalizationsDelegate

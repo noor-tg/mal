@@ -86,4 +86,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get todayEntries => 'مدخلات اليوم';
+
+  @override
+  String get currentMonth => 'الشهر الحالي';
 }

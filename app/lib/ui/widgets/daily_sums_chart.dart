@@ -1,22 +1,11 @@
-import 'package:fl_chart/fl_chart.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:mal/utils.dart';
 
-class DailySumsChart extends StatefulWidget {
+class DailySumsChart extends StatelessWidget {
   const DailySumsChart({super.key});
-
-  final Color leftBarColor = Colors.yellow;
-  final Color rightBarColor = Colors.red;
-  final Color avgColor = Colors.orange;
-
-  @override
-  State<DailySumsChart> createState() => _DailySumsChartState();
-}
-
-class _DailySumsChartState extends State<DailySumsChart> {
-  final double width = 7;
-
-  int touchedGroupIndex = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -24,175 +13,165 @@ class _DailySumsChartState extends State<DailySumsChart> {
       future: loadDailySums(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Center(child: CircularProgressIndicator()),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
+
         if (snapshot.hasError) {
-          print(snapshot.error);
-          return Text(snapshot.error.toString());
-        }
-        if (snapshot.hasData) {
-          return AspectRatio(
-            aspectRatio: 0.3,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[Text('Daily Sums')],
-                  ),
-                  const SizedBox(height: 38),
-                  Expanded(
-                    child: BarChart(
-                      BarChartData(
-                        alignment: BarChartAlignment.spaceBetween,
-                        rotationQuarterTurns: 1,
-                        maxY: 20,
-                        titlesData: FlTitlesData(
-                          rightTitles: const AxisTitles(
-                            sideTitles: SideTitles(showTitles: true),
-                          ),
-                          topTitles: const AxisTitles(
-                            sideTitles: SideTitles(showTitles: true),
-                          ),
-                          bottomTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              getTitlesWidget: bottomTitles,
-                              reservedSize: 31,
-                            ),
-                          ),
-                          leftTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              reservedSize: 31,
-                              interval: 1,
-                              getTitlesWidget: leftTitles,
-                            ),
-                          ),
-                        ),
-                        borderData: FlBorderData(show: false),
-                        barGroups: snapshot.data
-                            ?.map(
-                              (group) => makeGroupData(
-                                int.parse(group.day),
-                                group.expenses.toDouble(),
-                                group.income.toDouble(),
-                              ),
-                            )
-                            .toList(),
-                        gridData: const FlGridData(show: false),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                ],
-              ),
+          return Center(
+            child: Text(
+              'Error loading data: ${snapshot.error.toString()}',
+              style: const TextStyle(color: Colors.red, fontSize: 16),
+              textAlign: TextAlign.center,
             ),
           );
         }
-        return const Text('some thing else');
+
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(
+            child: Text('No data available', style: TextStyle(fontSize: 16)),
+          );
+        }
+
+        return const Padding(
+          padding: EdgeInsets.all(24),
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: LineContainer(),
+          ),
+        );
       },
     );
   }
+}
 
-  Widget leftTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff7589a2),
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
-    String text;
-    if (value == 0) {
-      text = '1K';
-    } else if (value == 10) {
-      text = '5K';
-    } else if (value == 19) {
-      text = '10K';
-    } else {
-      return Container();
-    }
-    return SideTitleWidget(
-      meta: meta,
-      space: 0,
-      child: Text(text, style: style),
-    );
-  }
+class LineContainer extends StatelessWidget {
+  const LineContainer({super.key});
 
-  Widget bottomTitles(double value, TitleMeta meta) {
-    // final titles = <String>['Mn', 'Te', 'Wd', 'Tu', 'Fr', 'St', 'Su'];
-    final titles = List.generate(
-      31,
-      (index) => index + 1,
-    ).map((i) => i.toString()).toList();
+  @override
+  Widget build(BuildContext context) {
+    final random = Random(10);
 
-    final Widget text = Text(
-      titles[value.toInt()],
-      style: const TextStyle(
-        color: Color(0xff7589a2),
-        fontWeight: FontWeight.bold,
-        fontSize: 14,
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: AspectRatio(
+        aspectRatio: 1.7,
+        child: LineChart(
+          LineChartData(
+            gridData: const FlGridData(show: false),
+            titlesData: FlTitlesData(
+              topTitles: const AxisTitles(),
+              leftTitles: const AxisTitles(),
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: (value, meta) =>
+                      Text((8 - value.toInt()).toString()), // Flip X labels
+                ),
+              ),
+            ),
+            borderData: FlBorderData(show: false),
+            minX: 1,
+            maxX: 7,
+            lineBarsData: [
+              LineChartBarData(
+                isCurved: true,
+                color: Colors.greenAccent,
+                spots: [
+                  for (final j in [1, 2, 3, 4, 5, 6, 7].reversed)
+                    FlSpot(j.toDouble(), random.nextInt(j * 10).toDouble()),
+                ],
+              ),
+              LineChartBarData(
+                isCurved: true,
+                color: Colors.redAccent,
+                spots: [
+                  for (final j in [1, 2, 3, 4, 5, 6, 7].reversed)
+                    FlSpot(j.toDouble(), random.nextInt(j * 10).toDouble()),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
-    );
-
-    return SideTitleWidget(
-      meta: meta,
-      space: 16, //margin top
-      child: text,
-    );
-  }
-
-  BarChartGroupData makeGroupData(int x, double y1, double y2) {
-    return BarChartGroupData(
-      barsSpace: 4,
-      x: x,
-      barRods: [
-        BarChartRodData(toY: y1, color: widget.leftBarColor, width: width),
-        BarChartRodData(toY: y2, color: widget.rightBarColor, width: width),
-      ],
-    );
-  }
-
-  Widget makeTransactionsIcon() {
-    const width = 1.0;
-    const space = 8.0;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          width: width,
-          height: 10,
-          color: Colors.white.withValues(alpha: 0.4),
-        ),
-        const SizedBox(width: space),
-        Container(
-          width: width,
-          height: 28,
-          color: Colors.white.withValues(alpha: 0.8),
-        ),
-        const SizedBox(width: space),
-        Container(
-          width: width,
-          height: 42,
-          color: Colors.white.withValues(alpha: 1),
-        ),
-        const SizedBox(width: space),
-        Container(
-          width: width,
-          height: 28,
-          color: Colors.white.withValues(alpha: 0.8),
-        ),
-        const SizedBox(width: space),
-        Container(
-          width: width,
-          height: 10,
-          color: Colors.white.withValues(alpha: 0.4),
-        ),
-      ],
     );
   }
 }
+
+// class LineContainer extends StatelessWidget {
+//   const LineContainer({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final random = Random(10);
+//     return AspectRatio(
+//       aspectRatio: 1.7,
+//       child: LineChart(
+//         LineChartData(
+//           gridData: const FlGridData(show: false),
+//           titlesData: const FlTitlesData(
+//             topTitles: AxisTitles(),
+//             leftTitles: AxisTitles(),
+//           ),
+//           borderData: FlBorderData(show: false),
+//           lineBarsData: [
+//             LineChartBarData(
+//               isCurved: true,
+//               color: Colors.greenAccent,
+//               spots: [
+//                 for (final j in [1, 2, 3, 4, 5, 6, 7])
+//                   FlSpot(j.toDouble(), random.nextInt(j * 10).toDouble()),
+//               ],
+//             ),
+//             LineChartBarData(
+//               isCurved: true,
+//               color: Colors.redAccent,
+//               spots: [
+//                 for (final j in [1, 2, 3, 4, 5, 6, 7])
+//                   FlSpot(j.toDouble(), random.nextInt(j * 10).toDouble()),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class BarContainer extends StatelessWidget {
+//   const BarContainer({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final random = Random(10);
+//     return AspectRatio(
+//       aspectRatio: 2,
+//       child: BarChart(
+//         BarChartData(
+//           borderData: FlBorderData(show: false),
+//           titlesData: const FlTitlesData(
+//             leftTitles: AxisTitles(),
+//             topTitles: AxisTitles(),
+//           ),
+//           barGroups: [
+//             for (final i in [1, 2, 3, 4, 5, 6, 7])
+//               BarChartGroupData(
+//                 x: i,
+//                 barsSpace: 3,
+//                 barRods: [
+//                   BarChartRodData(
+//                     borderDashArray: [1, 2],
+//                     color: Colors.greenAccent,
+//                     toY: random.nextInt(100).toDouble(),
+//                   ),
+//                   BarChartRodData(
+//                     color: Colors.redAccent,
+//                     toY: random.nextInt(100).toDouble(),
+//                   ),
+//                 ],
+//               ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

@@ -37,65 +37,65 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
           SumsCard(l10n: l10n),
           const SizedBox(height: 16),
           const Card.filled(color: Colors.white, child: DailySumsChart()),
-          const SizedBox(height: 16),
-          Text(
-            l10n.expenses,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
-          ),
-          const SizedBox(height: 8),
-          Card.filled(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FutureBuilder(
-                future: getPieData(l10n.expense),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return MalPieChart(list: snapshot.data!);
-                  }
-                  return const Center(child: CircularProgressIndicator());
-                },
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            l10n.income,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
-          ),
-          const SizedBox(height: 8),
-          Card.filled(
-            color: Colors.white,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FutureBuilder(
-                    future: getPieData(l10n.income),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return MalPieChart(list: snapshot.data!);
-                      }
-                      return const Center(child: CircularProgressIndicator());
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            l10n.todayEntries,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
-          ),
-          const SizedBox(height: 8),
-          TodayEntriesList(entries: entries),
+          // const SizedBox(height: 16),
+          // Text(
+          //   l10n.expenses,
+          //   style: Theme.of(
+          //     context,
+          //   ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
+          // ),
+          // const SizedBox(height: 8),
+          // Card.filled(
+          //   color: Colors.white,
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(8.0),
+          //     child: FutureBuilder(
+          //       future: getPieData(l10n.expense),
+          //       builder: (context, snapshot) {
+          //         if (snapshot.hasData) {
+          //           return MalPieChart(list: snapshot.data!);
+          //         }
+          //         return const Center(child: CircularProgressIndicator());
+          //       },
+          //     ),
+          //   ),
+          // ),
+          // const SizedBox(height: 16),
+          // Text(
+          //   l10n.income,
+          //   style: Theme.of(
+          //     context,
+          //   ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
+          // ),
+          // const SizedBox(height: 8),
+          // Card.filled(
+          //   color: Colors.white,
+          //   child: Column(
+          //     children: [
+          //       Padding(
+          //         padding: const EdgeInsets.all(8.0),
+          //         child: FutureBuilder(
+          //           future: getPieData(l10n.income),
+          //           builder: (context, snapshot) {
+          //             if (snapshot.hasData) {
+          //               return MalPieChart(list: snapshot.data!);
+          //             }
+          //             return const Center(child: CircularProgressIndicator());
+          //           },
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // const SizedBox(height: 16),
+          // Text(
+          //   l10n.todayEntries,
+          //   style: Theme.of(
+          //     context,
+          //   ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
+          // ),
+          // const SizedBox(height: 8),
+          // TodayEntriesList(entries: entries),
         ],
       ),
     );
