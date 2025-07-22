@@ -261,6 +261,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'لا يوجد بيانات'**
   String get noDataFound;
+
+  /// No description provided for @description.
+  ///
+  /// In ar, this message translates to:
+  /// **'وصف'**
+  String get description;
+
+  /// No description provided for @date.
+  ///
+  /// In ar, this message translates to:
+  /// **'تاريخ'**
+  String get date;
 }
 
 class _AppLocalizationsDelegate

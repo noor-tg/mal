@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/ui/widgets/line_container.dart';
 import 'package:mal/ui/widgets/no_data_centered.dart';
 import 'package:mal/utils.dart';

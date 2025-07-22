@@ -75,6 +75,7 @@ class LineContainer extends StatelessWidget {
                 }).toList();
                 // make new list from other spots + first spot
                 // remove first spot to replace it with spot with date
+                // ignore: cascade_invocations
                 spots.removeAt(0);
                 // return value
                 return [firstTooltip, ...spots];

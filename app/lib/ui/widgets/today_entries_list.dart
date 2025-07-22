@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/models/entry.dart';
+import 'package:mal/ui/widgets/entry_details.dart';
 import 'package:mal/ui/widgets/no_data_centered.dart';
 
 class TodayEntriesList extends StatelessWidget {
@@ -48,25 +49,6 @@ class TodayEntriesList extends StatelessWidget {
                     ),
                   )
                   .toList(),
-      ),
-    );
-  }
-}
-
-class EntryDetails extends StatelessWidget {
-  const EntryDetails({super.key, required this.entry});
-
-  final Entry entry;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(entry.description)),
-      body: Container(
-        padding: const EdgeInsets.all(24),
-        child: const SingleChildScrollView(
-          child: Column(children: [Text('body')]),
-        ),
       ),
     );
   }

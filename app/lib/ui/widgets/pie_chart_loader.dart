@@ -32,12 +32,12 @@ class PieChartLoader extends StatelessWidget {
             );
           }
 
-          if (snapshot.hasData) {
+          if (!snapshot.hasData) {
             return const NoDataCentered();
           }
 
           return Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
             child: Center(child: MalPieChart(list: snapshot.data!)),
           );
         },

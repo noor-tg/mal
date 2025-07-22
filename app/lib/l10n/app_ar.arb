@@ -29,5 +29,7 @@
   "categoresSavedSuccessfully": "تم تسجيل وسم بنجاح",
   "todayEntries": "مدخلات اليوم",
   "currentMonth": "الشهر الحالي",
-  "noDataFound": "لا يوجد بيانات"
+  "noDataFound": "لا يوجد بيانات",
+  "description": "وصف",
+  "date": "تاريخ"
 }
