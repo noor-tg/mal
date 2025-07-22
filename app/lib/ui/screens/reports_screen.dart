@@ -37,11 +37,20 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
           const SizedBox(height: 16),
           FutureBuilder<Totals>(
             future: loadTotals(),
-            builder: (BuildContext context, AsyncSnapshot<Totals> snapshot) {
-              if (snapshot.hasData) {
-                return SumsCard(l10n: l10n, totals: snapshot.data!);
+            builder: (BuildContext context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
               }
-              return const Center(child: CircularProgressIndicator());
+
+              if (snapshot.hasError) {
+                return Text('test :: ${snapshot.error}');
+              }
+
+              if (snapshot.data == null) {
+                return const Text('Empty data');
+              }
+
+              return SumsCard(l10n: l10n, totals: snapshot.data!);
             },
           ),
           const SizedBox(height: 16),
@@ -179,6 +188,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
       whereArgs: ['دخل'],
       groupBy: '"type"',
     );
+
     final expenses = await db.query(
       'entries',
       columns: ['sum(amount) as sum', 'type'],
@@ -186,12 +196,12 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
       whereArgs: ['منصرف'],
       groupBy: '"type"',
     );
-    final balance =
-        (incomes.first['sum'] as int) - (expenses.first['sum'] as int);
-    return Totals(
-      balance: balance,
-      incomes: incomes.first['sum'] as int,
-      expenses: expenses.first['sum'] as int,
-    );
+
+    final incomeSum = incomes.isNotEmpty ? incomes.first['sum'] as int : 0;
+    final expensesSum = expenses.isNotEmpty ? expenses.first['sum'] as int : 0;
+
+    final balance = incomeSum - expensesSum;
+
+    return Totals(balance: balance, incomes: incomeSum, expenses: expensesSum);
   }
 }
