@@ -5,33 +5,36 @@ import 'package:mal/utils.dart';
 class EntriesNotifier extends StateNotifier<List<Entry>> {
   EntriesNotifier() : super([]);
 
-  void saveEntry({
-    required String description,
-    required String type,
-    required int amount,
-    required String category,
-    required String date,
-  }) async {
-    final entry = Entry(
-      description: description,
-      type: type,
-      amount: amount,
-      category: category,
-      date: date,
-    );
-
+  void saveEntry({required Entry entry, required String operaton}) async {
     final db = await createOrOpenDB();
 
-    await db.insert('entries', {
-      'uid': entry.uid,
-      'description': entry.description,
-      'type': entry.type,
-      'category': entry.category,
-      'date': entry.date,
-      'amount': entry.amount,
-    });
+    if (operaton == 'insert') {
+      await db.insert('entries', {
+        'uid': entry.uid,
+        'description': entry.description,
+        'type': entry.type,
+        'category': entry.category,
+        'date': entry.date,
+        'amount': entry.amount,
+      });
+    }
+    if (operaton == 'update') {
+      await db.update(
+        'entries',
+        {
+          'uid': entry.uid,
+          'description': entry.description,
+          'type': entry.type,
+          'category': entry.category,
+          'date': entry.date,
+          'amount': entry.amount,
+        },
+        where: 'uid = ?',
+        whereArgs: [entry.uid],
+      );
+    }
 
-    state = [entry, ...state];
+    await loadEntries();
   }
 
   Future<void> loadEntries() async {

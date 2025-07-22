@@ -1,19 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/models/entry.dart';
+import 'package:mal/ui/widgets/entry_form.dart';
 import 'package:mal/ui/widgets/mal_title.dart';
 import 'package:mal/utils.dart';
 
-class EntryDetails extends StatelessWidget {
+class EntryDetails extends StatefulWidget {
   const EntryDetails({super.key, required this.entry});
 
   final Entry entry;
 
   @override
+  State<EntryDetails> createState() => _EntryDetailsState();
+}
+
+class _EntryDetailsState extends State<EntryDetails> {
+  late Entry entry;
+  @override
+  void initState() {
+    super.initState();
+    entry = widget.entry;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(entry.type)),
+      appBar: AppBar(
+        title: Text(entry.type),
+        actions: [
+          IconButton(
+            color: Colors.red,
+            icon: const Icon(Icons.delete),
+            onPressed: () async {
+              final db = await createOrOpenDB();
+              await db.delete(
+                'entries',
+                where: 'uid = ?',
+                whereArgs: [entry.uid],
+              );
+              setState(() {
+                Navigator.of(context).pop();
+              });
+            },
+          ),
+          IconButton(
+            color: Colors.blueAccent,
+            icon: const Icon(Icons.edit),
+            onPressed: () async {
+              final result = await showModalBottomSheet<bool>(
+                useSafeArea: true,
+                isScrollControlled: true,
+                context: context,
+                builder: (ctx) => EntryForm(entry: entry),
+              );
+              if (result == true) {
+                final db = await createOrOpenDB();
+                final result = await db.query(
+                  'entries',
+                  where: 'uid = ?',
+                  whereArgs: [entry.uid],
+                  limit: 1,
+                );
+                setState(() {
+                  entry = Entry(
+                    uid: result.first['uid'] as String,
+                    description: result.first['description'] as String,
+                    amount: result.first['amount'] as int,
+                    category: result.first['category'] as String,
+                    type: result.first['type'] as String,
+                    date: result.first['date'] as String,
+                  );
+                });
+              }
+            },
+          ),
+        ],
+      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,

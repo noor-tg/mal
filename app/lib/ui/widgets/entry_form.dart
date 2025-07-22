@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/models/category.dart';
+import 'package:mal/models/entry.dart';
 import 'package:mal/providers/categories_provider.dart';
 import 'package:mal/providers/entries_provider.dart';
 import 'package:mal/ui/widgets/date_selector.dart';
 
-class NewEntry extends ConsumerStatefulWidget {
-  const NewEntry({super.key});
+class EntryForm extends ConsumerStatefulWidget {
+  EntryForm({super.key, this.entry});
+
+  Entry? entry;
 
   @override
-  ConsumerState<NewEntry> createState() => _NewEntryState();
+  ConsumerState<EntryForm> createState() => _EntryFormState();
 }
 
-class _NewEntryState extends ConsumerState<NewEntry> {
+class _EntryFormState extends ConsumerState<EntryForm> {
   final _formKey = GlobalKey<FormState>();
 
   String _description = '';
@@ -28,6 +31,13 @@ class _NewEntryState extends ConsumerState<NewEntry> {
   void initState() {
     super.initState();
     ref.read(categoriesProvider.notifier).loadCategories();
+    if (widget.entry != null) {
+      _description = widget.entry!.description;
+      _amount = widget.entry!.amount;
+      _type = widget.entry!.type;
+      _category = widget.entry!.category;
+      _date = DateTime.parse(widget.entry!.date);
+    }
   }
 
   @override
@@ -69,6 +79,7 @@ class _NewEntryState extends ConsumerState<NewEntry> {
               ),
             ),
             FormField<String>(
+              initialValue: _type,
               validator: (value) {
                 if (value == null || value == '') {
                   return l10n.categoryTypeErrorMessage;
@@ -124,6 +135,7 @@ class _NewEntryState extends ConsumerState<NewEntry> {
             ),
             const SizedBox(height: 24),
             TextFormField(
+              initialValue: _description,
               validator: (value) {
                 if (value == null || value.trim().length < 3) {
                   return l10n.categoryTitleErrorMessage;
@@ -145,6 +157,7 @@ class _NewEntryState extends ConsumerState<NewEntry> {
             ),
             const SizedBox(height: 24),
             TextFormField(
+              initialValue: _amount.toString(),
               validator: (value) {
                 if (value == null ||
                     int.tryParse(value) == null ||
@@ -193,6 +206,7 @@ class _NewEntryState extends ConsumerState<NewEntry> {
                         if (value == null) return;
                         setState(() {
                           _category = value;
+                          print("selected category ${_category}");
                         });
                       },
                     ),
@@ -244,18 +258,24 @@ class _NewEntryState extends ConsumerState<NewEntry> {
     try {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
+        print(_category);
+        final entry = Entry(
+          uid: widget.entry?.uid,
+          description: _description,
+          type: _type,
+          amount: _amount,
+          category: _category,
+          date: _date != null
+              ? _date!.toIso8601String()
+              : DateTime.now().toIso8601String(),
+        );
         ref
             .read(entriesProvider.notifier)
             .saveEntry(
-              description: _description,
-              type: _type,
-              amount: _amount,
-              category: _category,
-              date: _date != null
-                  ? _date!.toIso8601String()
-                  : DateTime.now().toIso8601String(),
+              entry: entry,
+              operaton: widget.entry == null ? 'insert' : 'update',
             );
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(widget.entry != null);
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(l10n.entrySavedSuccessfully)));
