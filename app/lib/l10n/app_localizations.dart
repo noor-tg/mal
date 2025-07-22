@@ -255,6 +255,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الشهر الحالي'**
   String get currentMonth;
+
+  /// No description provided for @noDataFound.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد بيانات'**
+  String get noDataFound;
 }
 
 class _AppLocalizationsDelegate

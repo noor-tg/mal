@@ -89,4 +89,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get currentMonth => 'الشهر الحالي';
+
+  @override
+  String get noDataFound => 'لا يوجد بيانات';
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/ui/widgets/line_container.dart';
+import 'package:mal/ui/widgets/no_data_centered.dart';
 import 'package:mal/utils.dart';
 
 class DailySumsChart extends StatelessWidget {
@@ -24,12 +26,11 @@ class DailySumsChart extends StatelessWidget {
           );
         }
 
-        if (!snapshot.hasData ||
-            (snapshot.data!.incomes.isEmpty &&
-                snapshot.data!.expenses.isEmpty)) {
-          return const Center(
-            child: Text('No data available', style: TextStyle(fontSize: 16)),
-          );
+        final emptyIncomesExpenses =
+            snapshot.data!.incomes.isEmpty && snapshot.data!.expenses.isEmpty;
+
+        if (snapshot.hasData || emptyIncomesExpenses) {
+          return const NoDataCentered();
         }
 
         return Padding(

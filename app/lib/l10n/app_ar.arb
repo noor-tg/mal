@@ -28,5 +28,6 @@
   "entrySavedSuccessfully": "تم تسجيل المدخل بنحاج",
   "categoresSavedSuccessfully": "تم تسجيل وسم بنجاح",
   "todayEntries": "مدخلات اليوم",
-  "currentMonth": "الشهر الحالي"
+  "currentMonth": "الشهر الحالي",
+  "noDataFound": "لا يوجد بيانات"
 }
