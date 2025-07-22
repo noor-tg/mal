@@ -113,8 +113,6 @@ Future<Sums> loadDailySums() async {
   final Sums data = Sums(expenses: [], incomes: []);
 
   final days = getCurrentMonthDays();
-  print('days');
-  print(days);
   for (final day in days) {
     final dayIncome = incomeSums
         .where((row) => (row['by_date'] as String).substring(8) == day)
@@ -129,8 +127,6 @@ Future<Sums> loadDailySums() async {
       dayExpenses.isNotEmpty ? dayExpenses.first['sum'] as int : 0,
     );
   }
-
-  print(data);
 
   return data;
 }

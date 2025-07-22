@@ -5,12 +5,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mal/models/category.dart';
 import 'package:mal/utils.dart';
 
-final colors = [
+final List<Color> colors = [
   Colors.red,
   Colors.green,
   Colors.blue,
+  Colors.yellow,
+  Colors.orange,
   Colors.purple,
+  Colors.pink,
   Colors.brown,
+  Colors.grey,
+  Colors.black,
+  Colors.white,
+  Colors.teal,
+  Colors.cyan,
+  Colors.indigo,
+  Colors.lime,
+  Colors.amber,
+  Colors.deepOrange,
+  Colors.deepPurple,
+  Colors.lightBlue,
+  Colors.lightGreen,
   Colors.blueGrey,
 ];
 
