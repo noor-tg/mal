@@ -146,3 +146,30 @@ class Totals {
     required this.expenses,
   });
 }
+
+Future<Totals> loadTotals() async {
+  final db = await createOrOpenDB();
+
+  final incomes = await db.query(
+    'entries',
+    columns: ['sum(amount) as sum', 'type'],
+    where: 'type = ?',
+    whereArgs: ['دخل'],
+    groupBy: '"type"',
+  );
+
+  final expenses = await db.query(
+    'entries',
+    columns: ['sum(amount) as sum', 'type'],
+    where: 'type = ?',
+    whereArgs: ['منصرف'],
+    groupBy: '"type"',
+  );
+
+  final incomeSum = incomes.isNotEmpty ? incomes.first['sum'] as int : 0;
+  final expensesSum = expenses.isNotEmpty ? expenses.first['sum'] as int : 0;
+
+  final balance = incomeSum - expensesSum;
+
+  return Totals(balance: balance, incomes: incomeSum, expenses: expensesSum);
+}

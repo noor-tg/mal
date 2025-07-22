@@ -4,10 +4,10 @@ import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/providers/entries_provider.dart';
 import 'package:mal/ui/screens/mal_page_container.dart';
 import 'package:mal/ui/widgets/daily_sums_chart.dart';
+import 'package:mal/ui/widgets/mal_title.dart';
 import 'package:mal/ui/widgets/pie_chart_loader.dart';
-import 'package:mal/ui/widgets/sums_card.dart';
+import 'package:mal/ui/widgets/sums_loader.dart';
 import 'package:mal/ui/widgets/today_entries_list.dart';
-import 'package:mal/utils.dart';
 
 class ReportsScreen extends ConsumerStatefulWidget {
   const ReportsScreen({super.key});
@@ -34,58 +34,21 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: 16),
-          FutureBuilder<Totals>(
-            future: loadTotals(),
-            builder: (BuildContext context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              if (snapshot.hasError) {
-                return Text('test :: ${snapshot.error}');
-              }
-
-              if (snapshot.data == null) {
-                return const Text('Empty data');
-              }
-
-              return SumsCard(l10n: l10n, totals: snapshot.data!);
-            },
-          ),
+          const SumsLoader(),
           const SizedBox(height: 16),
-          Text(
-            l10n.currentMonth,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
-          ),
+          MalTitle(text: l10n.currentMonth),
           const SizedBox(height: 8),
           const Card.filled(color: Colors.white, child: DailySumsChart()),
           const SizedBox(height: 16),
-          Text(
-            l10n.expenses,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
-          ),
+          MalTitle(text: l10n.expenses),
           const SizedBox(height: 4),
           PieChartLoader(type: l10n.expense),
           const SizedBox(height: 16),
-          Text(
-            l10n.income,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
-          ),
+          MalTitle(text: l10n.income),
           const SizedBox(height: 8),
           PieChartLoader(type: l10n.income),
           const SizedBox(height: 16),
-          Text(
-            l10n.todayEntries,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
-          ),
+          MalTitle(text: l10n.todayEntries),
           const SizedBox(height: 8),
           TodayEntriesList(entries: entries),
         ],
@@ -143,32 +106,5 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
     //     ],
     //   ),
     // );
-  }
-
-  Future<Totals> loadTotals() async {
-    final db = await createOrOpenDB();
-
-    final incomes = await db.query(
-      'entries',
-      columns: ['sum(amount) as sum', 'type'],
-      where: 'type = ?',
-      whereArgs: ['دخل'],
-      groupBy: '"type"',
-    );
-
-    final expenses = await db.query(
-      'entries',
-      columns: ['sum(amount) as sum', 'type'],
-      where: 'type = ?',
-      whereArgs: ['منصرف'],
-      groupBy: '"type"',
-    );
-
-    final incomeSum = incomes.isNotEmpty ? incomes.first['sum'] as int : 0;
-    final expensesSum = expenses.isNotEmpty ? expenses.first['sum'] as int : 0;
-
-    final balance = incomeSum - expensesSum;
-
-    return Totals(balance: balance, incomes: incomeSum, expenses: expensesSum);
   }
 }

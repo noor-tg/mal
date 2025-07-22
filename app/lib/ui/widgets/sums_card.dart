@@ -3,13 +3,13 @@ import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
 
 class SumsCard extends StatelessWidget {
-  const SumsCard({super.key, required this.l10n, required this.totals});
+  const SumsCard({super.key, required this.totals});
 
-  final AppLocalizations l10n;
   final Totals totals;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Card.filled(
       color: Colors.white,
       child: Padding(
@@ -17,10 +17,8 @@ class SumsCard extends StatelessWidget {
         child: Column(
           children: [
             Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(l10n.reportsBalance),
+                Text(l10n!.reportsBalance),
                 const SizedBox(width: 16),
                 Text(
                   moneyFormat(context, totals.balance),
