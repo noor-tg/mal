@@ -32,7 +32,7 @@ class EntryDetails extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          entry.amount.toString(),
+                          moneyFormat(context, entry.amount),
                           style: Theme.of(context).textTheme.displayMedium
                               ?.copyWith(
                                 fontWeight: FontWeight.bold,
@@ -72,7 +72,7 @@ class EntryDetails extends StatelessWidget {
                 color: Colors.white,
                 child: Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(24.0),
                   child: Text(entry.date.substring(0, 10)),
                 ),
               ),
