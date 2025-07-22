@@ -73,10 +73,10 @@ class LineContainer extends StatelessWidget {
                     textStyle,
                   );
                 }).toList();
-                // make new list from other spots + first spot
                 // remove first spot to replace it with spot with date
                 // ignore: cascade_invocations
                 spots.removeAt(0);
+                // make new list from other spots + first spot
                 // return value
                 return [firstTooltip, ...spots];
               },
@@ -87,6 +87,7 @@ class LineContainer extends StatelessWidget {
           maxX: getCurrentMonthDays().length.toDouble(),
           lineBarsData: [
             LineChartBarData(
+              preventCurveOverShooting: true,
               isCurved: true,
               color: Colors.greenAccent,
               spots: [

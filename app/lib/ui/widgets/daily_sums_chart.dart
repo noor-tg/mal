@@ -28,7 +28,7 @@ class DailySumsChart extends StatelessWidget {
         final emptyIncomesExpenses =
             snapshot.data!.incomes.isEmpty && snapshot.data!.expenses.isEmpty;
 
-        if (snapshot.hasData || emptyIncomesExpenses) {
+        if (!snapshot.hasData || emptyIncomesExpenses) {
           return const NoDataCentered();
         }
 
