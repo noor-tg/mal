@@ -98,4 +98,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get date => 'تاريخ';
+
+  @override
+  String get searchHint => 'منصرف ، ملابس ، ملاحظة .. إلخ';
 }

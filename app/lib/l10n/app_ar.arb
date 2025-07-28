@@ -31,5 +31,6 @@
   "currentMonth": "الشهر الحالي",
   "noDataFound": "لا يوجد بيانات",
   "description": "وصف",
-  "date": "تاريخ"
+  "date": "تاريخ",
+  "searchHint": "منصرف ، ملابس ، ملاحظة .. إلخ"
 }

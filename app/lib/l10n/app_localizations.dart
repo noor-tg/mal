@@ -273,6 +273,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تاريخ'**
   String get date;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'منصرف ، ملابس ، ملاحظة .. إلخ'**
+  String get searchHint;
 }
 
 class _AppLocalizationsDelegate
