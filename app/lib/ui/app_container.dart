@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/models/entry.dart';
 import 'package:mal/ui/screens/categories_screen.dart';
+import 'package:mal/ui/screens/mal_page_container.dart';
 import 'package:mal/ui/screens/reports_screen.dart';
 import 'package:mal/ui/widgets/entry_form.dart';
 import 'package:mal/ui/widgets/main_drawer.dart';
 import 'package:mal/ui/widgets/new_category.dart';
+import 'package:mal/ui/widgets/no_data_centered.dart';
 import 'package:mal/utils.dart';
+import 'package:shimmer_effects_plus/shimmer_effects_plus.dart';
 
 class AppContainer extends StatefulWidget {
   const AppContainer({super.key});
@@ -30,6 +34,12 @@ class _AppContainerState extends State<AppContainer> {
         icon: const Icon(Icons.pie_chart),
         title: l10n.reportsTitle,
         widget: const ReportsScreen(),
+        actions: [],
+      ),
+      MalPage(
+        icon: const Icon(Icons.search),
+        title: l10n.tabSearchLabel,
+        widget: const SearchScreen(),
         actions: [],
       ),
       MalPage(
@@ -115,5 +125,145 @@ class _AppContainerState extends State<AppContainer> {
         // ),
       ),
     );
+  }
+}
+
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  String term = '';
+  Object? currentError;
+  bool isLoading = false;
+  List<Entry> searchResults = [];
+
+  @override
+  void initState() {
+    searchResults = [];
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget body = const NoDataCentered();
+
+    if (isLoading) {
+      body = ShimmerList(
+        height: 80,
+        radius: 8,
+        subColor: Colors.white,
+        mainColor: Colors.grey[300]!,
+        qtyLine: 5,
+      );
+    }
+    if (currentError != null) {
+      return Text('error :: $currentError');
+    }
+    if (searchResults.isNotEmpty) {
+      body = Card.filled(
+        color: Colors.white,
+        child: ListView.separated(
+          shrinkWrap: true,
+          itemCount: searchResults.length,
+          separatorBuilder: (BuildContext context, int index) {
+            return Container(height: 1, color: Colors.grey.shade300);
+          },
+          itemBuilder: (BuildContext context, int index) => ListTile(
+            title: Text(
+              searchResults[index].description,
+              style: const TextStyle(height: 2, fontWeight: FontWeight.bold),
+            ),
+            subtitle: Row(
+              children: [
+                Text(searchResults[index].type),
+                box8,
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 4,
+                    vertical: 2,
+                  ),
+                  child: Text(searchResults[index].category),
+                ),
+              ],
+            ),
+            trailing: Text(searchResults[index].amount.toString()),
+          ),
+        ),
+      );
+    }
+
+    return MalPageContainer(
+      child: Column(
+        children: [
+          TextField(
+            onChanged: (value) async {
+              try {
+                if (value.trim().isEmpty) return;
+                setState(() {
+                  isLoading = true;
+                  searchResults = [];
+                });
+                final results = await searchEntries(value);
+                setState(() {
+                  searchResults = results;
+                  isLoading = false;
+                });
+              } catch (error) {
+                isLoading = false;
+                searchResults = [];
+                logger.e(error);
+                currentError = error;
+              }
+            },
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: AppLocalizations.of(context)!.tabSearchLabel,
+              hintText: AppLocalizations.of(context)!.searchHint,
+            ),
+            autofocus: true,
+          ),
+          box24,
+          body,
+        ],
+      ),
+    );
+  }
+
+  Future<List<Entry>> searchEntries(String term) async {
+    try {
+      await Future.delayed(const Duration(seconds: 5));
+
+      final db = await createOrOpenDB();
+      final search = '%$term%';
+      final res = await db.query(
+        'entries',
+        where: 'type = ? or category like ? or description like ?',
+        whereArgs: [term, search, search],
+      );
+      final List<Entry> data = [];
+      for (final item in res) {
+        data.add(
+          Entry(
+            uid: item['uid'] as String,
+            description: item['description'] as String,
+            amount: item['amount'] as int,
+            category: item['category'] as String,
+            type: item['type'] as String,
+          ),
+        );
+      }
+      return data;
+    } catch (error) {
+      logger.t(error);
+    }
+    return [];
   }
 }
