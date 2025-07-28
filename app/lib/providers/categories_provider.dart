@@ -121,14 +121,20 @@ Future<List<Map<String, dynamic>>> getPieData(String type) async {
   );
 
   final random = Random();
+  logger
+    ..i('hi')
+    ..i(res)
+    ..i(total);
 
-  for (final item in res) {
-    data.add({
-      'title': item['category'] as String,
-      'precentage': (item['sum'] as int) / (total[0]['sum'] as int) * 100,
-      'value': item['sum'] as int,
-      'color': colors[random.nextInt(colors.length)],
-    });
+  if (res.isNotEmpty) {
+    for (final item in res) {
+      data.add({
+        'title': item['category'] as String,
+        'precentage': (item['sum'] as int) / (total[0]['sum'] as int) * 100,
+        'value': item['sum'] as int,
+        'color': colors[random.nextInt(colors.length)],
+      });
+    }
   }
 
   return data;

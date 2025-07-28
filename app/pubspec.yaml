@@ -47,6 +47,8 @@ dependencies:
   intl: any
   fl_chart: ^1.0.0
   faker: ^2.2.0
+  logger: ^2.6.1
+  shimmer_effects_plus: ^1.0.2
 
 dev_dependencies:
   flutter_test:

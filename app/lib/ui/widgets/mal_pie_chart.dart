@@ -19,51 +19,49 @@ class _MalPieChartState extends State<MalPieChart> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24.0),
-      child: Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AspectRatio(
-              aspectRatio: 2,
-              child: PieChart(
-                PieChartData(
-                  pieTouchData: PieTouchData(
-                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                      setState(() {
-                        if (!event.isInterestedForInteractions ||
-                            pieTouchResponse == null ||
-                            pieTouchResponse.touchedSection == null) {
-                          touchedTitle = '';
-                          return;
-                        }
-                        touchedTitle = pieTouchResponse
-                            .touchedSection!
-                            .touchedSection!
-                            .title;
-                      });
-                    },
-                  ),
-                  borderData: FlBorderData(show: false),
-                  sectionsSpace: 0,
-                  centerSpaceRadius: 30,
-                  sections: showingSections(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AspectRatio(
+            aspectRatio: 2,
+            child: PieChart(
+              PieChartData(
+                pieTouchData: PieTouchData(
+                  touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                    setState(() {
+                      if (!event.isInterestedForInteractions ||
+                          pieTouchResponse == null ||
+                          pieTouchResponse.touchedSection == null) {
+                        touchedTitle = '';
+                        return;
+                      }
+                      touchedTitle = pieTouchResponse
+                          .touchedSection!
+                          .touchedSection!
+                          .title;
+                    });
+                  },
                 ),
+                borderData: FlBorderData(show: false),
+                sectionsSpace: 0,
+                centerSpaceRadius: 30,
+                sections: showingSections(),
               ),
             ),
-            box24,
-            for (final item in widget.list)
-              Row(
-                children: [
-                  Indicator(
-                    color: item['color'],
-                    text: "${item['title']} - ${item['value']}",
-                    isSquare: true,
-                  ),
-                  const SizedBox(height: 4),
-                ],
-              ),
-          ],
-        ),
+          ),
+          box24,
+          for (final item in widget.list)
+            Row(
+              children: [
+                Indicator(
+                  color: item['color'],
+                  text: "${item['title']} - ${item['value']}",
+                  isSquare: true,
+                ),
+                const SizedBox(height: 4),
+              ],
+            ),
+        ],
       ),
     );
   }

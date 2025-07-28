@@ -32,7 +32,7 @@ class PieChartLoader extends StatelessWidget {
             );
           }
 
-          if (!snapshot.hasData) {
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const NoDataCentered();
           }
 
