@@ -145,6 +145,7 @@ class Totals {
 }
 
 Future<Totals> loadTotals() async {
+  await Future.delayed(const Duration(seconds: 5));
   final db = await createOrOpenDB();
 
   final incomes = await db.query(
