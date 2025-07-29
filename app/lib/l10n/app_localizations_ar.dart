@@ -101,4 +101,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get searchHint => 'منصرف ، ملابس ، ملاحظة .. إلخ';
+
+  @override
+  String get noMoreData => 'لا يوجد بيانات إضافية';
 }

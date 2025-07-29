@@ -279,6 +279,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'منصرف ، ملابس ، ملاحظة .. إلخ'**
   String get searchHint;
+
+  /// No description provided for @noMoreData.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد بيانات إضافية'**
+  String get noMoreData;
 }
 
 class _AppLocalizationsDelegate
