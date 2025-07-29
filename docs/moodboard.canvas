@@ -1,0 +1,11 @@
+{
+	"nodes":[
+		{"id":"9f1a980e946dcb4a","type":"file","file":"storage/20250729_134604.jpg","x":-20,"y":-80,"width":300,"height":400},
+		{"id":"f5964f7499efe2c1","type":"file","file":"storage/20250729_134613.jpg","x":-440,"y":-140,"width":300,"height":400}
+	],
+	"edges":[],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}
