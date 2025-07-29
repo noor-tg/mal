@@ -7,7 +7,7 @@ import 'package:mal/ui/widgets/daily_sums_chart.dart';
 import 'package:mal/ui/widgets/mal_title.dart';
 import 'package:mal/ui/widgets/pie_chart_loader.dart';
 import 'package:mal/ui/widgets/sums_loader.dart';
-import 'package:mal/ui/widgets/today_entries_list.dart';
+import 'package:mal/ui/widgets/entries_list.dart';
 
 class ReportsScreen extends ConsumerStatefulWidget {
   const ReportsScreen({super.key});
@@ -50,7 +50,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
           const SizedBox(height: 16),
           MalTitle(text: l10n.todayEntries),
           const SizedBox(height: 8),
-          TodayEntriesList(entries: entries),
+          EntriesList(entries: entries),
         ],
       ),
     );

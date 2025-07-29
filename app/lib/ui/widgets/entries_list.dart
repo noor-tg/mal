@@ -4,10 +4,10 @@ import 'package:mal/models/entry.dart';
 import 'package:mal/ui/widgets/entry_details.dart';
 import 'package:mal/ui/widgets/no_data_centered.dart';
 
-class TodayEntriesList extends StatelessWidget {
+class EntriesList extends StatelessWidget {
   final List<Entry> entries;
 
-  const TodayEntriesList({super.key, required this.entries});
+  const EntriesList({super.key, required this.entries});
 
   @override
   Widget build(BuildContext context) {
