@@ -6,11 +6,13 @@ import 'package:mal/models/entry.dart';
 import 'package:mal/providers/categories_provider.dart';
 import 'package:mal/providers/entries_provider.dart';
 import 'package:mal/ui/widgets/date_selector.dart';
+import 'package:mal/utils.dart';
 
+@immutable
 class EntryForm extends ConsumerStatefulWidget {
-  EntryForm({super.key, this.entry});
+  const EntryForm({super.key, this.entry});
 
-  Entry? entry;
+  final Entry? entry;
 
   @override
   ConsumerState<EntryForm> createState() => _EntryFormState();
@@ -26,6 +28,8 @@ class _EntryFormState extends ConsumerState<EntryForm> {
   DateTime? _date;
 
   bool typeIsValid = true;
+
+  Entry? entry;
 
   @override
   void initState() {
@@ -210,7 +214,7 @@ class _EntryFormState extends ConsumerState<EntryForm> {
                           if (value == null) return;
                           setState(() {
                             _category = value;
-                            print('selected category $_category');
+                            logger.i('selected category $_category');
                           });
                         },
                       ),
@@ -263,7 +267,7 @@ class _EntryFormState extends ConsumerState<EntryForm> {
     try {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        print(_category);
+        logger.i(_category);
         final entry = Entry(
           uid: widget.entry?.uid,
           description: _description,
@@ -286,7 +290,7 @@ class _EntryFormState extends ConsumerState<EntryForm> {
         ).showSnackBar(SnackBar(content: Text(l10n.entrySavedSuccessfully)));
       }
     } catch (error) {
-      print(error);
+      logger.i(error);
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(error.toString())));

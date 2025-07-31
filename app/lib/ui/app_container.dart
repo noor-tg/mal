@@ -77,9 +77,8 @@ class _AppContainerState extends State<AppContainer> {
                     showModalBottomSheet(
                       useSafeArea: true,
                       isScrollControlled: true,
-                      // constraints: const BoxConstraints(maxHeight: 400),
                       context: context,
-                      builder: (ctx) => EntryForm(),
+                      builder: (ctx) => const EntryForm(),
                     );
                   },
                 ),

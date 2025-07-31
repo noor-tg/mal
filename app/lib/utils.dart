@@ -37,7 +37,7 @@ Future<sql.Database> createOrOpenDB() async {
       entriesMigrateUp(batch);
 
       await batch.commit();
-      print('database updated');
+      logger.i('database updated');
     },
     version: 1,
   );
