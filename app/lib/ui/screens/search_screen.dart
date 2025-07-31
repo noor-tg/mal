@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/models/entry.dart';
 import 'package:mal/ui/widgets/entry_details.dart';

@@ -39,7 +39,6 @@ class MalLineChart extends StatelessWidget {
   );
 
   LineTouchData get lineTouchData1 => LineTouchData(
-    handleBuiltInTouches: true,
     touchTooltipData: LineTouchTooltipData(
       getTooltipColor: (touchedSpot) => Colors.blueGrey.withValues(alpha: 0.8),
     ),
@@ -47,8 +46,8 @@ class MalLineChart extends StatelessWidget {
 
   FlTitlesData get titlesData1 => FlTitlesData(
     bottomTitles: AxisTitles(sideTitles: bottomTitles),
-    rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-    topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+    rightTitles: const AxisTitles(),
+    topTitles: const AxisTitles(),
     leftTitles: AxisTitles(sideTitles: leftTitles()),
   );
 
@@ -62,8 +61,8 @@ class MalLineChart extends StatelessWidget {
 
   FlTitlesData get titlesData2 => FlTitlesData(
     bottomTitles: AxisTitles(sideTitles: bottomTitles),
-    rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-    topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+    rightTitles: const AxisTitles(),
+    topTitles: const AxisTitles(),
     leftTitles: AxisTitles(sideTitles: leftTitles()),
   );
 
@@ -155,7 +154,7 @@ class MalLineChart extends StatelessWidget {
     barWidth: 8,
     isStrokeCapRound: true,
     dotData: const FlDotData(show: false),
-    belowBarData: BarAreaData(show: false),
+    belowBarData: BarAreaData(),
     spots: const [
       FlSpot(1, 1),
       FlSpot(3, 1.5),
@@ -173,7 +172,7 @@ class MalLineChart extends StatelessWidget {
     barWidth: 8,
     isStrokeCapRound: true,
     dotData: const FlDotData(show: false),
-    belowBarData: BarAreaData(show: false, color: Colors.red),
+    belowBarData: BarAreaData(color: Colors.red),
     spots: const [
       FlSpot(1, 1),
       FlSpot(3, 2.8),
@@ -190,7 +189,7 @@ class MalLineChart extends StatelessWidget {
     barWidth: 8,
     isStrokeCapRound: true,
     dotData: const FlDotData(show: false),
-    belowBarData: BarAreaData(show: false),
+    belowBarData: BarAreaData(),
     spots: const [
       FlSpot(1, 2.8),
       FlSpot(3, 1.9),
@@ -207,7 +206,7 @@ class MalLineChart extends StatelessWidget {
     barWidth: 4,
     isStrokeCapRound: true,
     dotData: const FlDotData(show: false),
-    belowBarData: BarAreaData(show: false),
+    belowBarData: BarAreaData(),
     spots: const [
       FlSpot(1, 1),
       FlSpot(3, 4),
@@ -240,10 +239,8 @@ class MalLineChart extends StatelessWidget {
     isCurved: true,
     curveSmoothness: 0,
     color: Colors.pink,
-    barWidth: 2,
     isStrokeCapRound: true,
-    dotData: const FlDotData(show: true),
-    belowBarData: BarAreaData(show: false),
+    belowBarData: BarAreaData(),
     spots: const [
       FlSpot(1, 3.8),
       FlSpot(3, 1.9),

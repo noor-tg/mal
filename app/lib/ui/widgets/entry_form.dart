@@ -210,7 +210,7 @@ class _EntryFormState extends ConsumerState<EntryForm> {
                           if (value == null) return;
                           setState(() {
                             _category = value;
-                            print("selected category ${_category}");
+                            print('selected category $_category');
                           });
                         },
                       ),
