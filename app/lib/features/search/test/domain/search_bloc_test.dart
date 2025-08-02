@@ -16,6 +16,7 @@ void main() {
     late SearchBloc searchBloc;
     late Database db;
     late List<Map<String, dynamic>> all;
+
     setUpAll(() async {
       databaseFactory = databaseFactoryFfi;
       await dotenv.load();
@@ -23,12 +24,15 @@ void main() {
       await generateData();
       all = await db.query('entries');
     });
+
     late Result<Entry> result;
+
     setUp(() async {
       final repo = SqlRespository();
       result = await repo.searchEntries(term: types[0]);
       searchBloc = SearchBloc(searchRepo: SqlRespository());
     });
+
     test('init state correct', () {
       expect(searchBloc.state.status, SearchStatus.initial);
     });
@@ -49,6 +53,7 @@ void main() {
         ),
       ],
     );
+
     blocTest<SearchBloc, SearchState>(
       'emit loading, success with noMoreData when send search event with offset more than total',
       build: () => searchBloc,
