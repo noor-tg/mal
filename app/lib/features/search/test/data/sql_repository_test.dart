@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mal/data.dart';
@@ -60,5 +62,31 @@ void main() {
         expect(latest.isAfter(older), true);
       },
     );
+    test('search by type', () async {
+      // when filter by type
+      final res = await repo.searchEntries(term: types[0]);
+      // then all result should be related to this type
+      for (final entry in res) {
+        expect(entry.type, types[0]);
+      }
+      // other type search result should not contain first type filter
+      final other = await repo.searchEntries(term: types[1]);
+
+      for (final entry in other) {
+        expect(entry.type, isNot(types[0]));
+      }
+    });
+    test('search by category', () async {
+      final random = Random();
+      final category = categories[random.nextInt(categories.length)].title;
+      final res = await repo.searchEntries(term: category);
+      for (final entry in res) {
+        expect(entry.category, category);
+      }
+      final otherCategory = categories[random.nextInt(categories.length)].title;
+      for (final entry in res) {
+        expect(entry.category, isNot(otherCategory));
+      }
+    });
   });
 }
