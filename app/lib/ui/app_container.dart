@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mal/features/search/ui/views/search_screen.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/ui/screens/categories_screen.dart';
 import 'package:mal/ui/screens/reports_screen.dart';
-import 'package:mal/ui/screens/search_screen.dart';
 import 'package:mal/ui/widgets/entry_form.dart';
 import 'package:mal/ui/widgets/main_drawer.dart';
 import 'package:mal/ui/widgets/new_category.dart';

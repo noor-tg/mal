@@ -11,3 +11,11 @@ class SearchEvent extends Equatable {
   @override
   List<Object> get props => [offset, term];
 }
+
+class SimpleSearch extends SearchEvent {
+  const SimpleSearch({super.term, super.offset});
+}
+
+class ClearSearch extends SearchEvent {}
+
+class LoadMore extends SearchEvent {}

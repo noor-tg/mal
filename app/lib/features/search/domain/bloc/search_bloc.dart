@@ -5,7 +5,6 @@ import 'package:equatable/equatable.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/entry.dart';
-import 'package:mal/utils.dart';
 
 part 'search_event.dart';
 part 'search_state.dart';
@@ -14,7 +13,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchRepository searchRepo;
 
   SearchBloc({required this.searchRepo}) : super(const SearchState()) {
-    on<SearchEvent>(_onSimpleSearch);
+    on<SimpleSearch>(_onSimpleSearch);
+    on<ClearSearch>(_onClearSearch);
+    on<LoadMore>(_onLoadMore);
   }
 
   FutureOr<void> _onSimpleSearch(
@@ -53,5 +54,24 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         ),
       );
     }
+  }
+
+  FutureOr<void> _onClearSearch(ClearSearch event, Emitter<SearchState> emit) {
+    emit(
+      state.copyWith(
+        status: SearchStatus.initial,
+        result: const Result(list: [], count: 0),
+        term: '',
+        offset: 0,
+        errorMessage: '',
+      ),
+    );
+  }
+
+  FutureOr<void> _onLoadMore(LoadMore event, Emitter<SearchState> emit) async {
+    await _onSimpleSearch(
+      SearchEvent(term: state.term, offset: state.offset + 8),
+      emit,
+    );
   }
 }

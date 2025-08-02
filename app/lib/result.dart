@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:collection/collection.dart';
 
 class Result<T> extends Equatable {
   final List<T> list;
