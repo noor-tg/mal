@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mal/models/entry.dart';
+import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/utils.dart';
 
 class EntriesNotifier extends StateNotifier<List<Entry>> {
