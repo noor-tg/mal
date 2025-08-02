@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:mal/models/category.dart';
-import 'package:mal/models/entry.dart';
 
 import 'package:faker/faker.dart';
+import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/utils.dart';
 
 final random = RandomGenerator(seed: 63833423);
@@ -24,6 +24,7 @@ Future<void> generateData() async {
   final db = await createOrOpenDB();
   await db.delete('categories');
   await db.delete('entries');
+  final random = Random();
   for (int i = 0; i < 200; i++) {
     entries.add(
       Entry(
@@ -31,12 +32,14 @@ Future<void> generateData() async {
         amount: Random().nextInt(100),
         category: categories[Random().nextInt(categories.length - 1)].title,
         type: types[Random().nextInt(types.length)],
-        date: faker.date
-            .dateTimeBetween(
-              DateTime(2025, 7),
-              DateTime(2025, 7, DateTime.now().day),
-            )
-            .toIso8601String(),
+        date: DateTime(
+          2025,
+          7,
+          random.nextInt(30),
+          random.nextInt(24),
+          random.nextInt(60),
+          random.nextInt(60),
+        ).toIso8601String(),
       ),
     );
   }
@@ -49,14 +52,7 @@ Future<void> generateData() async {
     });
   }
   for (final entry in entries) {
-    batch.insert('entries', {
-      'uid': entry.uid,
-      'description': entry.description,
-      'type': entry.type,
-      'category': entry.category,
-      'date': entry.date,
-      'amount': entry.amount,
-    });
+    batch.insert('entries', entry.toMap());
   }
   await batch.commit();
 }

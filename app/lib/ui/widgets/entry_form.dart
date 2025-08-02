@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/models/category.dart';
-import 'package:mal/models/entry.dart';
 import 'package:mal/providers/categories_provider.dart';
 import 'package:mal/providers/entries_provider.dart';
+import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/ui/widgets/date_selector.dart';
 import 'package:mal/utils.dart';
 
