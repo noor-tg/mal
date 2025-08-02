@@ -1,5 +1,4 @@
 import 'package:mal/shared/db.dart';
-import 'package:mal/utils.dart';
 
 class SqlProvider {
   Future<List<Map<String, dynamic>>> searchEntries({

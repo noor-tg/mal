@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mal/data.dart';
 import 'package:mal/features/search/data/repositores/sql_respository.dart';
@@ -64,6 +65,7 @@ void main() {
         expect(latest.isAfter(older), true);
       },
     );
+
     test('search by type', () async {
       // when filter by type
       final res = await repo.searchEntries(term: types[0]);
@@ -78,6 +80,7 @@ void main() {
         expect(entry.type, isNot(types[0]));
       }
     });
+
     test('search by category', () async {
       final random = Random();
       final category = categories[random.nextInt(categories.length)].title;
@@ -85,7 +88,11 @@ void main() {
       for (final entry in res.list) {
         expect(entry.category, category);
       }
-      final otherCategory = categories[random.nextInt(categories.length)].title;
+      final filteredCategories = categories
+          .where((cat) => cat.title != category)
+          .toList();
+      final otherCategory =
+          filteredCategories[random.nextInt(filteredCategories.length)].title;
       for (final entry in res.list) {
         expect(entry.category, isNot(otherCategory));
       }
