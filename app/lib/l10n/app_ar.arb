@@ -33,5 +33,6 @@
   "description": "وصف",
   "date": "تاريخ",
   "searchHint": "منصرف ، ملابس ، ملاحظة .. إلخ",
-  "noMoreData": "لا يوجد بيانات إضافية"
+  "noMoreData": "لا يوجد بيانات إضافية",
+  "searchTitleResults": "نتائج البحث"
 }

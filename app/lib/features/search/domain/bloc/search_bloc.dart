@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:mal/constants.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/entry.dart';
+import 'package:mal/utils.dart';
 
 part 'search_event.dart';
 part 'search_state.dart';
@@ -23,6 +25,24 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     Emitter<SearchState> emit,
   ) async {
     emit(state.copyWith(status: SearchStatus.loading));
+    await Future.delayed(const Duration(seconds: 2));
+    await searchRoutine(event, emit, (result) {
+      emit(
+        state.copyWith(
+          term: event.term,
+          offset: event.offset,
+          result: result,
+          status: SearchStatus.success,
+        ),
+      );
+    });
+  }
+
+  FutureOr<void> searchRoutine(
+    SearchEvent event,
+    Emitter<SearchState> emit,
+    Function(Result<Entry> result) handleResult,
+  ) async {
     try {
       final result = await searchRepo.searchEntries(
         term: event.term,
@@ -38,15 +58,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           ),
         );
       }
-      return emit(
-        state.copyWith(
-          term: event.term,
-          offset: event.offset,
-          result: result,
-          status: SearchStatus.success,
-        ),
-      );
+      handleResult(result);
     } catch (error) {
+      logger.t(error);
       emit(
         state.copyWith(
           status: SearchStatus.failure,
@@ -69,9 +83,22 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   FutureOr<void> _onLoadMore(LoadMore event, Emitter<SearchState> emit) async {
-    await _onSimpleSearch(
-      SearchEvent(term: state.term, offset: state.offset + 8),
+    await searchRoutine(
+      SearchEvent(term: state.term, offset: state.offset + kSearchLimit),
       emit,
+      (result) {
+        emit(
+          state.copyWith(
+            term: event.term,
+            offset: event.offset,
+            result: Result(
+              list: [...state.result.list, ...result.list],
+              count: result.count,
+            ),
+            status: SearchStatus.success,
+          ),
+        );
+      },
     );
   }
 }

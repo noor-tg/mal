@@ -4,8 +4,8 @@ import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/entry.dart';
 
 class SqlRespository extends SearchRepository {
-  SqlProvider sqlProvider;
-  SqlRespository() : sqlProvider = SqlProvider();
+  SqlProvider sqlProvider = SqlProvider();
+  SqlRespository();
 
   @override
   Future<Result<Entry>> searchEntries({

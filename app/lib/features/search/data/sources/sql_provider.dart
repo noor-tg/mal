@@ -1,3 +1,4 @@
+import 'package:mal/constants.dart';
 import 'package:mal/shared/db.dart';
 
 class SqlProvider {
@@ -11,7 +12,7 @@ class SqlProvider {
       'entries',
       where: '"type" = ? or "category" like ? or "description" like ?',
       whereArgs: [term, search, search],
-      limit: 8,
+      limit: kSearchLimit,
       offset: offset,
       orderBy: '"date" DESC',
     );

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mal/features/search/data/repositores/sql_respository.dart';
+import 'package:mal/features/search/domain/bloc/search_bloc.dart';
+import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/features/search/ui/views/search_screen.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/ui/screens/categories_screen.dart';
@@ -36,7 +40,14 @@ class _AppContainerState extends State<AppContainer> {
       MalPage(
         icon: const Icon(Icons.search),
         title: l10n.tabSearchLabel,
-        widget: const SearchScreen(),
+        widget: RepositoryProvider<SearchRepository>(
+          create: (_) => SqlRespository(),
+          child: BlocProvider(
+            create: (ctx) =>
+                SearchBloc(searchRepo: ctx.read<SearchRepository>()),
+            child: const SearchScreen(),
+          ),
+        ),
         actions: [],
       ),
       MalPage(

@@ -285,6 +285,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'لا يوجد بيانات إضافية'**
   String get noMoreData;
+
+  /// No description provided for @searchTitleResults.
+  ///
+  /// In ar, this message translates to:
+  /// **'نتائج البحث'**
+  String get searchTitleResults;
 }
 
 class _AppLocalizationsDelegate

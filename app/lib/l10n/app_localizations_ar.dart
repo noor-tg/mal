@@ -104,4 +104,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noMoreData => 'لا يوجد بيانات إضافية';
+
+  @override
+  String get searchTitleResults => 'نتائج البحث';
 }

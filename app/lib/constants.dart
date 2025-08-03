@@ -1,0 +1,1 @@
+const kSearchLimit = 5;
