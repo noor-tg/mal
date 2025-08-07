@@ -27,7 +27,14 @@ class SearchState extends Equatable {
   final String errorMessage;
 
   @override
-  List<Object> get props => [term, offset, result, status];
+  List<Object> get props => [
+    term,
+    offset,
+    result,
+    status,
+    noMoreData,
+    errorMessage,
+  ];
 
   SearchState copyWith({
     String? term,

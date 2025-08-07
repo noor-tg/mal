@@ -13,10 +13,7 @@ class SqlRespository extends SearchRepository {
     int offset = 0,
   }) async {
     final list = await sqlProvider.searchEntries(term: term, offset: offset);
-    final count = await sqlProvider.searchEntriesCount(
-      term: term,
-      offset: offset,
-    );
+    final count = await sqlProvider.searchEntriesCount(term: term);
     final data = List.generate(list.length, (i) => Entry.fromMap(list[i]));
 
     return Result(list: data, count: count);

@@ -25,7 +25,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     Emitter<SearchState> emit,
   ) async {
     emit(state.copyWith(status: SearchStatus.loading));
-    await Future.delayed(const Duration(seconds: 2));
     await searchRoutine(event, emit, (result) {
       emit(
         state.copyWith(
@@ -48,11 +47,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         term: event.term,
         offset: event.offset,
       );
-      if (result.count == 0) {
+      if (result.list.isEmpty) {
         return emit(
           state.copyWith(
             term: event.term,
-            offset: event.offset,
+            offset: event.offset > 0 ? event.offset - kSearchLimit : 0,
             status: SearchStatus.success,
             noMoreData: true,
           ),
@@ -82,23 +81,26 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     );
   }
 
-  FutureOr<void> _onLoadMore(LoadMore event, Emitter<SearchState> emit) async {
-    await searchRoutine(
-      SearchEvent(term: state.term, offset: state.offset + kSearchLimit),
-      emit,
-      (result) {
+  Future<void> _onLoadMore(LoadMore event, Emitter<SearchState> emit) async {
+    final offset = state.offset + kSearchLimit;
+    try {
+      await searchRoutine(SearchEvent(term: state.term, offset: offset), emit, (
+        result,
+      ) {
         emit(
           state.copyWith(
-            term: event.term,
-            offset: event.offset,
+            term: state.term,
+            offset: offset,
             result: Result(
               list: [...state.result.list, ...result.list],
-              count: result.count,
+              count: state.result.count,
             ),
             status: SearchStatus.success,
           ),
         );
-      },
-    );
+      });
+    } catch (err) {
+      logger.e(err);
+    }
   }
 }
