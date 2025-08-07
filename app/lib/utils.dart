@@ -21,7 +21,7 @@ class MalPage {
   });
 
   final String title;
-  final Widget widget;
+  final Widget Function(Key? key) widget;
   final Icon icon;
   final List<Widget> actions;
 }
@@ -145,7 +145,6 @@ class Totals {
 }
 
 Future<Totals> loadTotals() async {
-  await Future.delayed(const Duration(seconds: 5));
   final db = await createOrOpenDB();
 
   final incomes = await db.query(

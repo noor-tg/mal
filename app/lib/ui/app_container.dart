@@ -34,13 +34,14 @@ class _AppContainerState extends State<AppContainer> {
       MalPage(
         icon: const Icon(Icons.pie_chart),
         title: l10n.reportsTitle,
-        widget: const ReportsScreen(),
+        widget: (key) => ReportsScreen(key: key),
         actions: [],
       ),
       MalPage(
         icon: const Icon(Icons.search),
         title: l10n.tabSearchLabel,
-        widget: RepositoryProvider<SearchRepository>(
+        widget: (key) => RepositoryProvider<SearchRepository>(
+          key: key,
           create: (_) => SqlRespository(),
           child: BlocProvider(
             create: (ctx) =>
@@ -53,7 +54,7 @@ class _AppContainerState extends State<AppContainer> {
       MalPage(
         icon: const Icon(Icons.dashboard),
         title: l10n.tabCategoriesLabel,
-        widget: const CategoriesScreen(),
+        widget: (key) => CategoriesScreen(key: key),
         actions: [
           IconButton(
             icon: Icon(Icons.dashboard_customize, color: theme.onPrimary),
@@ -72,6 +73,7 @@ class _AppContainerState extends State<AppContainer> {
     ];
 
     return Scaffold(
+      resizeToAvoidBottomInset: true, // This is important
       appBar: AppBar(
         title: Text(
           pages[tabIndex].title,
@@ -95,11 +97,17 @@ class _AppContainerState extends State<AppContainer> {
                 ),
               ],
       ),
-      body: PageView(
+      body: PageView.builder(
+        itemCount: pages.length,
         physics: const NeverScrollableScrollPhysics(),
         controller: _pageController,
         onPageChanged: (index) => setState(() => tabIndex = index),
-        children: pages.map((page) => page.widget).toList(),
+        itemBuilder: (BuildContext context, int index) {
+          // use Unieque key to make full reload of widget on tab change
+          return pages[index].widget(
+            ValueKey(tabIndex == index ? UniqueKey() : null),
+          );
+        },
       ),
       drawer: const MainDrawer(),
       bottomNavigationBar: BottomNavigationBar(
