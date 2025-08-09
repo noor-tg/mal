@@ -21,7 +21,10 @@ import 'package:mocktail/mocktail.dart';
 class MockRepo extends Mock implements SearchRepository {}
 
 void main() {
-  group('$SearchBloc >', advancedSearchGroup);
+  group('$SearchBloc >', () {
+    advancedSearchByCategory();
+    advancedSearchByAmountRange();
+  });
   // group(SearchBloc, () {
   //   late SearchBloc searchBloc;
   //   late Database db;
@@ -84,8 +87,48 @@ void main() {
   // });
 }
 
-advancedSearchGroup() {
-  group('Advanced Search >', () {
+void advancedSearchByAmountRange() {
+  group('Advanced Search > By Amount range', () {
+    late SearchRepository repo;
+    late SearchBloc searchBloc;
+    setUp(() {
+      // prepare default values for Search bloc
+      repo = MockRepo();
+      searchBloc = SearchBloc(searchRepo: repo);
+    });
+    test('check for init amount in filters', () {
+      expect(searchBloc.state, const SearchState());
+      expect(searchBloc.state.filters.amountRange, isA<Range<int>>());
+      expect(
+        searchBloc.state.filters.amountRange,
+        const Range<int>(min: 0, max: 0),
+      );
+    });
+    blocTest<SearchBloc, SearchState>(
+      'when send UpdateMinAmount event . min amount state should be changed',
+      build: () => searchBloc,
+      act: (bloc) => bloc.add(const UpdateMinAmount(10)),
+      expect: () => [
+        const SearchState(
+          filters: Filters(amountRange: Range(min: 10, max: 10)),
+        ),
+      ],
+    );
+    blocTest<SearchBloc, SearchState>(
+      'when send UpdateMaxAmount event . max amount state should be changed',
+      build: () => searchBloc,
+      act: (bloc) => bloc.add(const UpdateMaxAmount(20)),
+      expect: () => [
+        const SearchState(
+          filters: Filters(amountRange: Range(min: 0, max: 20)),
+        ),
+      ],
+    );
+  });
+}
+
+advancedSearchByCategory() {
+  group('Advanced Search > By Categories >', () {
     late SearchRepository repo;
     late SearchBloc searchBloc;
     setUp(() {
