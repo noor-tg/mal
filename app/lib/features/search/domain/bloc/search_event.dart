@@ -25,3 +25,15 @@ class ToggleCategory extends SearchEvent {
 
   final String category;
 }
+
+class UpdateMinAmount extends SearchEvent {
+  const UpdateMinAmount(this.amountValue);
+
+  final int amountValue;
+}
+
+class UpdateMaxAmount extends SearchEvent {
+  const UpdateMaxAmount(this.amountValue);
+
+  final int amountValue;
+}

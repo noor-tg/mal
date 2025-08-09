@@ -20,6 +20,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<ClearSearch>(_onClearSearch);
     on<LoadMore>(_onLoadMore);
     on<ToggleCategory>(_ontoggleCategory);
+    on<UpdateMinAmount>(_onUpdateMinAmount);
+    on<UpdateMaxAmount>(_onUpdateMaxAmount);
   }
 
   FutureOr<void> _onSimpleSearch(
@@ -120,5 +122,43 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
 
     emit(state.copyWith(filters: Filters(categories: currentCategories)));
+  }
+
+  FutureOr<void> _onUpdateMinAmount(
+    UpdateMinAmount event,
+    Emitter<SearchState> emit,
+  ) {
+    int currentMax = state.filters.amountRange.max;
+
+    if (event.amountValue > currentMax) {
+      currentMax = event.amountValue;
+    }
+
+    emit(
+      state.copyWith(
+        filters: state.filters.copyWith(
+          amountRange: Range(min: event.amountValue, max: currentMax),
+        ),
+      ),
+    );
+  }
+
+  FutureOr<void> _onUpdateMaxAmount(
+    UpdateMaxAmount event,
+    Emitter<SearchState> emit,
+  ) {
+    int currentMin = state.filters.amountRange.min;
+
+    if (currentMin > event.amountValue) {
+      currentMin = event.amountValue;
+    }
+
+    emit(
+      state.copyWith(
+        filters: state.filters.copyWith(
+          amountRange: Range(min: currentMin, max: event.amountValue),
+        ),
+      ),
+    );
   }
 }
