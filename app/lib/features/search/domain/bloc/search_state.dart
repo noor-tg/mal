@@ -3,7 +3,7 @@ part of 'search_bloc.dart';
 enum SearchStatus { initial, loading, success, failure }
 
 class SearchState extends Equatable {
-  const SearchState({
+  SearchState({
     Result<Entry>? result,
     this.term = '',
     this.offset = 0,
@@ -12,7 +12,7 @@ class SearchState extends Equatable {
     this.errorMessage = '',
     Filters? filters,
   }) : result = result ?? const Result<Entry>(list: [], count: 0),
-       filters = filters ?? const Filters();
+       filters = filters ?? Filters.withCurrentYear();
 
   // different states
   final SearchStatus status;

@@ -37,3 +37,15 @@ class UpdateMaxAmount extends SearchEvent {
 
   final int amountValue;
 }
+
+class UpdateMinDate extends SearchEvent {
+  const UpdateMinDate(this.dateValue);
+
+  final DateTime dateValue;
+}
+
+class UpdateMaxDate extends SearchEvent {
+  const UpdateMaxDate(this.dateValue);
+
+  final DateTime dateValue;
+}

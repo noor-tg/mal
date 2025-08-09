@@ -1,12 +1,5 @@
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
-// // ignore: depend_on_referenced_packages
-// import 'package:flutter_test/flutter_test.dart';
 // import 'package:mal/data.dart';
-// import 'package:mal/features/search/data/repositores/sql_respository.dart';
-// import 'package:mal/features/search/domain/bloc/search_bloc.dart';
-// import 'package:mal/result.dart';
-// import 'package:mal/shared/data/models/entry.dart';
-// import 'package:mal/shared/db.dart';
 // import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 // ignore: depend_on_referenced_packages
 import 'package:bloc_test/bloc_test.dart';
@@ -24,6 +17,7 @@ void main() {
   group('$SearchBloc >', () {
     advancedSearchByCategory();
     advancedSearchByAmountRange();
+    advancedSearchByDateRange();
   });
   // group(SearchBloc, () {
   //   late SearchBloc searchBloc;
@@ -87,6 +81,60 @@ void main() {
   // });
 }
 
+void advancedSearchByDateRange() {
+  group('Advanced Search > By Date range', () {
+    late SearchRepository repo;
+    late SearchBloc searchBloc;
+    final now = DateTime.now();
+    setUp(() {
+      // prepare default values for Search bloc
+      repo = MockRepo();
+      searchBloc = SearchBloc(searchRepo: repo);
+    });
+    test('check for init date in filters', () {
+      expect(searchBloc.state, SearchState());
+      expect(searchBloc.state.filters.dateRange, isA<Range<DateTime>>());
+      expect(
+        searchBloc.state.filters.dateRange,
+        Range(
+          min: DateTime(now.year),
+          max: DateTime(now.year, now.month, now.day),
+        ),
+      );
+    });
+    blocTest<SearchBloc, SearchState>(
+      'when send UpdateMinDate event . min date state should be changed',
+      build: () => searchBloc,
+      act: (bloc) => bloc.add(UpdateMinDate(DateTime(now.year))),
+      expect: () => [
+        SearchState(
+          filters: Filters(
+            dateRange: Range(
+              min: DateTime(now.year),
+              max: DateTime(now.year, now.month, now.day),
+            ),
+          ),
+        ),
+      ],
+    );
+    blocTest<SearchBloc, SearchState>(
+      'when send UpdateMaxDate event . max date state should be changed',
+      build: () => searchBloc,
+      act: (bloc) => bloc.add(UpdateMaxDate(DateTime(now.year, now.month))),
+      expect: () => [
+        SearchState(
+          filters: Filters(
+            dateRange: Range(
+              min: DateTime(now.year),
+              max: DateTime(now.year, now.month),
+            ),
+          ),
+        ),
+      ],
+    );
+  });
+}
+
 void advancedSearchByAmountRange() {
   group('Advanced Search > By Amount range', () {
     late SearchRepository repo;
@@ -97,7 +145,7 @@ void advancedSearchByAmountRange() {
       searchBloc = SearchBloc(searchRepo: repo);
     });
     test('check for init amount in filters', () {
-      expect(searchBloc.state, const SearchState());
+      expect(searchBloc.state, SearchState());
       expect(searchBloc.state.filters.amountRange, isA<Range<int>>());
       expect(
         searchBloc.state.filters.amountRange,
@@ -109,8 +157,10 @@ void advancedSearchByAmountRange() {
       build: () => searchBloc,
       act: (bloc) => bloc.add(const UpdateMinAmount(10)),
       expect: () => [
-        const SearchState(
-          filters: Filters(amountRange: Range(min: 10, max: 10)),
+        SearchState(
+          filters: Filters.withCurrentYear(
+            amountRange: const Range(min: 10, max: 10),
+          ),
         ),
       ],
     );
@@ -119,8 +169,10 @@ void advancedSearchByAmountRange() {
       build: () => searchBloc,
       act: (bloc) => bloc.add(const UpdateMaxAmount(20)),
       expect: () => [
-        const SearchState(
-          filters: Filters(amountRange: Range(min: 0, max: 20)),
+        SearchState(
+          filters: Filters.withCurrentYear(
+            amountRange: const Range(min: 0, max: 20),
+          ),
         ),
       ],
     );
@@ -138,7 +190,7 @@ advancedSearchByCategory() {
     });
     test('check for init categories values', () {
       // check state as unit test for init values (categories list)
-      expect(searchBloc.state, const SearchState());
+      expect(searchBloc.state, SearchState());
       expect(searchBloc.state.filters.categories, []);
     });
     blocTest<SearchBloc, SearchState>(
@@ -146,7 +198,9 @@ advancedSearchByCategory() {
       build: () => searchBloc,
       act: (bloc) => bloc.add(const ToggleCategory(category: 'food')),
       expect: () => [
-        const SearchState(filters: Filters(categories: ['food'])),
+        SearchState(
+          filters: Filters.withCurrentYear(categories: const ['food']),
+        ),
       ],
     );
   });

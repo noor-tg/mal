@@ -15,13 +15,15 @@ part 'search_state.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchRepository searchRepo;
 
-  SearchBloc({required this.searchRepo}) : super(const SearchState()) {
+  SearchBloc({required this.searchRepo}) : super(SearchState()) {
     on<SimpleSearch>(_onSimpleSearch);
     on<ClearSearch>(_onClearSearch);
     on<LoadMore>(_onLoadMore);
     on<ToggleCategory>(_ontoggleCategory);
     on<UpdateMinAmount>(_onUpdateMinAmount);
     on<UpdateMaxAmount>(_onUpdateMaxAmount);
+    on<UpdateMinDate>(_onUpdateMinDate);
+    on<UpdateMaxDate>(_onUpdateMaxDate);
   }
 
   FutureOr<void> _onSimpleSearch(
@@ -121,7 +123,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       currentCategories.add(event.category);
     }
 
-    emit(state.copyWith(filters: Filters(categories: currentCategories)));
+    emit(
+      state.copyWith(
+        filters: Filters.withCurrentYear(categories: currentCategories),
+      ),
+    );
   }
 
   FutureOr<void> _onUpdateMinAmount(
@@ -157,6 +163,44 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       state.copyWith(
         filters: state.filters.copyWith(
           amountRange: Range(min: currentMin, max: event.amountValue),
+        ),
+      ),
+    );
+  }
+
+  FutureOr<void> _onUpdateMinDate(
+    UpdateMinDate event,
+    Emitter<SearchState> emit,
+  ) {
+    DateTime currentMax = state.filters.dateRange.max;
+
+    if (event.dateValue.isAfter(currentMax)) {
+      currentMax = event.dateValue;
+    }
+
+    emit(
+      state.copyWith(
+        filters: state.filters.copyWith(
+          dateRange: Range(min: event.dateValue, max: currentMax),
+        ),
+      ),
+    );
+  }
+
+  FutureOr<void> _onUpdateMaxDate(
+    UpdateMaxDate event,
+    Emitter<SearchState> emit,
+  ) {
+    DateTime currentMin = state.filters.dateRange.min;
+
+    if (currentMin.isAfter(event.dateValue)) {
+      currentMin = event.dateValue;
+    }
+
+    emit(
+      state.copyWith(
+        filters: state.filters.copyWith(
+          dateRange: Range(min: currentMin, max: event.dateValue),
         ),
       ),
     );
