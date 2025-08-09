@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mal/constants.dart';
+import 'package:mal/features/search/domain/bloc/filters.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/entry.dart';
@@ -18,6 +19,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<SimpleSearch>(_onSimpleSearch);
     on<ClearSearch>(_onClearSearch);
     on<LoadMore>(_onLoadMore);
+    on<ToggleCategory>(_ontoggleCategory);
   }
 
   FutureOr<void> _onSimpleSearch(
@@ -102,5 +104,21 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     } catch (err) {
       logger.e(err);
     }
+  }
+
+  FutureOr<void> _ontoggleCategory(
+    ToggleCategory event,
+    Emitter<SearchState> emit,
+  ) async {
+    // get current list filter categories
+    final currentCategories = List<String>.from(state.filters.categories);
+
+    if (currentCategories.contains(event.category)) {
+      currentCategories.remove(event.category);
+    } else {
+      currentCategories.add(event.category);
+    }
+
+    emit(state.copyWith(filters: Filters(categories: currentCategories)));
   }
 }

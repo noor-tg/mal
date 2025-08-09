@@ -10,7 +10,9 @@ class SearchState extends Equatable {
     this.status = SearchStatus.initial,
     this.noMoreData = false,
     this.errorMessage = '',
-  }) : result = result ?? const Result<Entry>(list: [], count: 0);
+    Filters? filters,
+  }) : result = result ?? const Result<Entry>(list: [], count: 0),
+       filters = filters ?? const Filters();
 
   // different states
   final SearchStatus status;
@@ -26,6 +28,8 @@ class SearchState extends Equatable {
   // not empty when status is failure
   final String errorMessage;
 
+  final Filters filters;
+
   @override
   List<Object> get props => [
     term,
@@ -34,6 +38,7 @@ class SearchState extends Equatable {
     status,
     noMoreData,
     errorMessage,
+    filters,
   ];
 
   SearchState copyWith({
@@ -41,8 +46,9 @@ class SearchState extends Equatable {
     int? offset,
     Result<Entry>? result,
     SearchStatus? status,
-    bool? noMoreData = false,
+    bool? noMoreData,
     String? errorMessage,
+    Filters? filters,
   }) {
     return SearchState(
       term: term ?? this.term,
@@ -51,6 +57,7 @@ class SearchState extends Equatable {
       result: result ?? this.result,
       noMoreData: noMoreData ?? this.noMoreData,
       errorMessage: errorMessage ?? this.errorMessage,
+      filters: filters ?? this.filters,
     );
   }
 }

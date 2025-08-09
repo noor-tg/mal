@@ -19,3 +19,9 @@ class SimpleSearch extends SearchEvent {
 class ClearSearch extends SearchEvent {}
 
 class LoadMore extends SearchEvent {}
+
+class ToggleCategory extends SearchEvent {
+  const ToggleCategory({required this.category});
+
+  final String category;
+}
