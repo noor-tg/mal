@@ -1,22 +1,21 @@
 import 'dart:math';
 
-import 'package:mal/models/category.dart';
-
 import 'package:faker/faker.dart';
+import 'package:mal/shared/data/models/category.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/utils.dart';
 
 final random = RandomGenerator(seed: 63833423);
 final faker = Faker.withGenerator(random);
 
-final categories = [
-  Category(title: 'طعام', type: 'منصرف'),
-  Category(title: 'ملابس', type: 'منصرف'),
-  Category(title: 'خدمات', type: 'منصرف'),
-  Category(title: 'أخرى', type: 'منصرف'),
-];
-
 final types = ['دخل', 'منصرف'];
+
+final categories = [
+  Category(title: 'طعام', type: types[0]),
+  Category(title: 'ملابس', type: types[0]),
+  Category(title: 'خدمات', type: types[0]),
+  Category(title: 'أخرى', type: types[0]),
+];
 
 List<Entry> entries = [];
 

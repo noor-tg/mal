@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mal/models/category.dart';
+import 'package:mal/shared/data/models/category.dart';
 import 'package:mal/utils.dart';
 
 final List<Color> colors = [

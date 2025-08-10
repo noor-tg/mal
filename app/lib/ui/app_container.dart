@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/search/data/repositores/sql_respository.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
@@ -24,6 +25,12 @@ class _AppContainerState extends State<AppContainer> {
   var tabIndex = 0;
 
   List<MalPage> pages = [];
+
+  @override
+  void initState() {
+    context.read<CategoriesBloc>().add(AppInit());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

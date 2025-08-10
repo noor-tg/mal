@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mal/l10n/app_localizations.dart';
-import 'package:mal/models/category.dart';
+import 'package:mal/shared/data/models/category.dart';
 
 class CategoriesList extends StatelessWidget {
   final List<Category> categories;

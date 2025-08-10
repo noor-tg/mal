@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mal/features/categories/data/repositories/sql_repository.dart';
+import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
+import 'package:mal/features/categories/domain/repositories/categories_repository.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/ui/app_container.dart';
 
@@ -31,7 +35,22 @@ class MalApp extends StatelessWidget {
       builder: (context, child) {
         return Directionality(textDirection: TextDirection.rtl, child: child!);
       },
-      home: const AppContainer(),
+      home: MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider<CategoriesRepository>(
+            create: (_) => SqlRepository(),
+          ),
+        ],
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<CategoriesBloc>(
+              create: (ctx) =>
+                  CategoriesBloc(repo: ctx.read<CategoriesRepository>()),
+            ),
+          ],
+          child: const AppContainer(),
+        ),
+      ),
     );
   }
 }
