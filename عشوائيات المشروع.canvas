@@ -1,6 +1,94 @@
 {
 	"nodes":[
-		{"id":"250d0368dd66fb19","type":"group","x":-1040,"y":-360,"width":1500,"height":1280,"label":"دورة البحث البسيط و المتقدم"},
+		{"id":"250d0368dd66fb19","type":"group","x":-1040,"y":-360,"width":2220,"height":1840,"label":"دورة البحث البسيط و المتقدم"},
+		{
+			"id":"e0727ea13a27faf3",
+			"type":"text",
+			"text":"بحث متقدم",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-600,
+			"y":100,
+			"width":260,
+			"height":60,
+			"color":"3"
+		},
+		{
+			"id":"77081bf4d5aa6a42",
+			"type":"text",
+			"text":"تغيير نطاق بين تاريخين إنشاء",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-240,
+			"y":250,
+			"width":260,
+			"height":60,
+			"color":"6"
+		},
+		{
+			"id":"4735be52aed763a5",
+			"type":"text",
+			"text":"تغيير نطاق سعر بين قيمتين",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-240,
+			"y":70,
+			"width":260,
+			"height":60,
+			"color":"6"
+		},
+		{
+			"id":"63e38ff1991986e7",
+			"type":"text",
+			"text":"بحث بالحقل",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-600,
+			"y":-160,
+			"width":260,
+			"height":60,
+			"color":"4"
+		},
+		{
+			"id":"a9d7bbd20adb9471",
+			"type":"text",
+			"text":"تغيير حالة وسم (تفعيل \\ إلغاء)",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-240,
+			"y":-60,
+			"width":260,
+			"height":60,
+			"color":"6"
+		},
+		{
+			"id":"0cfc37d99baca8dc",
+			"type":"text",
+			"text":"تغيير الانواع (كل، دخل ، منصرف)",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-240,
+			"y":-160,
+			"width":260,
+			"height":60,
+			"color":"6"
+		},
+		{
+			"id":"1d53c484fb5670ca",
+			"type":"text",
+			"text":"تغيير الترتيب\n- السعر (وعكسه)\n- التاريخ وعكسه\n- الوسم وعكسه\n- الوصف وعكسه",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-240,
+			"y":440,
+			"width":260,
+			"height":200,
+			"color":"6"
+		},
+		{
+			"id":"e0d8ac808a83c5dc",
+			"type":"text",
+			"text":"- حدث ترتيب بالسعر (إفتراضي من الاقل للأكثر)\n- حدث تغيير بالتاريخ (إفتراضا من الاحدث)\n- حدث تغيير بعنوان الوسم (أبجدي)\n- حدث تغيير بالوصف أبجد\n- حدث عكس الترتيب الحالي\n- بشكل إفتراضي الترتيب بالتاريخ من الاحدث للاقدم",
+			"styleAttributes":{"textAlign":"center"},
+			"x":140,
+			"y":540,
+			"width":260,
+			"height":300,
+			"color":"4"
+		},
 		{
 			"id":"ed82b3b262253425",
 			"type":"text",
@@ -35,50 +123,6 @@
 			"color":"4"
 		},
 		{
-			"id":"e0727ea13a27faf3",
-			"type":"text",
-			"text":"بحث متقدم",
-			"styleAttributes":{"textAlign":"center"},
-			"x":-600,
-			"y":100,
-			"width":260,
-			"height":60,
-			"color":"3"
-		},
-		{
-			"id":"77081bf4d5aa6a42",
-			"type":"text",
-			"text":"تغيير نطاق بين تاريخين إنشاء",
-			"styleAttributes":{"textAlign":"center"},
-			"x":-240,
-			"y":250,
-			"width":260,
-			"height":60,
-			"color":"4"
-		},
-		{
-			"id":"4735be52aed763a5",
-			"type":"text",
-			"text":"تغيير نطاق سعر بين قيمتين",
-			"styleAttributes":{"textAlign":"center"},
-			"x":-240,
-			"y":70,
-			"width":260,
-			"height":60,
-			"color":"4"
-		},
-		{
-			"id":"63e38ff1991986e7",
-			"type":"text",
-			"text":"بحث بالحقل",
-			"styleAttributes":{"textAlign":"center"},
-			"x":-600,
-			"y":-160,
-			"width":260,
-			"height":60,
-			"color":"4"
-		},
-		{
 			"id":"ce7c2e40aabfa958",
 			"type":"text",
 			"text":"- القيمة الافتراضية للنوع الكل (لا يوجد تصفية)\n- تصفية بالدخل\n- تصفية بالمنصرف",
@@ -87,60 +131,6 @@
 			"y":-280,
 			"width":260,
 			"height":180,
-			"color":"4"
-		},
-		{
-			"id":"95502fab9673eb6a",
-			"type":"text",
-			"text":"وصف فقط",
-			"styleAttributes":{"textAlign":"center"},
-			"x":-600,
-			"y":-280,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"a9d7bbd20adb9471",
-			"type":"text",
-			"text":"تغيير حالة وسم (تفعيل \\ إلغاء)",
-			"styleAttributes":{"textAlign":"center"},
-			"x":-240,
-			"y":-60,
-			"width":260,
-			"height":60,
-			"color":"4"
-		},
-		{
-			"id":"0cfc37d99baca8dc",
-			"type":"text",
-			"text":"تغيير الانواع (كل، دخل ، منصرف)",
-			"styleAttributes":{"textAlign":"center"},
-			"x":-240,
-			"y":-160,
-			"width":260,
-			"height":60,
-			"color":"4"
-		},
-		{
-			"id":"1d53c484fb5670ca",
-			"type":"text",
-			"text":"تغيير الترتيب\n- السعر (وعكسه)\n- التاريخ وعكسه\n- الوسم وعكسه\n- الوصف وعكسه",
-			"styleAttributes":{"textAlign":"center"},
-			"x":-240,
-			"y":440,
-			"width":260,
-			"height":200,
-			"color":"4"
-		},
-		{
-			"id":"e0d8ac808a83c5dc",
-			"type":"text",
-			"text":"- حدث ترتيب بالسعر (إفتراضي من الاقل للأكثر)\n- حدث تغيير بالتاريخ (إفتراضا من الاحدث)\n- حدث تغيير بعنوان الوسم (أبجدي)\n- حدث تغيير بالوصف أبجد\n- حدث عكس الترتيب الحالي\n- بشكل إفتراضي الترتيب بالتاريخ من الاحدث للاقدم",
-			"styleAttributes":{"textAlign":"center"},
-			"x":140,
-			"y":540,
-			"width":260,
-			"height":300,
 			"color":"4"
 		},
 		{
@@ -153,6 +143,68 @@
 			"width":260,
 			"height":80,
 			"color":"4"
+		},
+		{
+			"id":"eb0a8125c5d69681",
+			"type":"text",
+			"text":"إسترجاع كل الحقول الموجودة للإفتراضي ، مع تصفية للقائمة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-920,
+			"y":290,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"8e36e0c12ceb4e8a",
+			"type":"text",
+			"text":"بناء جملة التصفية لقاعدة من الحقول الموجودة ",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-600,
+			"y":710,
+			"width":260,
+			"height":60,
+			"color":"4"
+		},
+		{
+			"id":"eb64873fc677dab0",
+			"type":"text",
+			"text":"إخفاء نافذة التصفية المتقدم وعرض قائمة البحث الجديدة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-600,
+			"y":910,
+			"width":260,
+			"height":100
+		},
+		{
+			"id":"75d92bd7ae1ad794",
+			"type":"text",
+			"text":"عند ضغط زر البحث",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-600,
+			"y":310,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"b25582cf59d5e3e8",
+			"type":"text",
+			"text":"تنفيذ البحث المتقدم على أساس الحقول الموجودة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-600,
+			"y":500,
+			"width":260,
+			"height":60,
+			"color":"4"
+		},
+		{
+			"id":"95502fab9673eb6a",
+			"type":"text",
+			"text":"وصف فقط",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-600,
+			"y":-280,
+			"width":260,
+			"height":60
 		}
 	],
 	"edges":[
@@ -277,6 +329,53 @@
 			"fromSide":"left",
 			"toNode":"87d80291b13ea95f",
 			"toSide":"right"
+		},
+		{
+			"id":"25d53a7b2a9a6cb0",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromFloating":false,
+			"fromNode":"75d92bd7ae1ad794",
+			"fromSide":"bottom",
+			"toNode":"b25582cf59d5e3e8",
+			"toSide":"top"
+		},
+		{
+			"id":"fe28a573f85157a1",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromFloating":false,
+			"fromNode":"e0727ea13a27faf3",
+			"fromSide":"left",
+			"toNode":"eb0a8125c5d69681",
+			"toSide":"top"
+		},
+		{
+			"id":"3ed2711bb6a2de40",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"b25582cf59d5e3e8",
+			"fromSide":"bottom",
+			"toNode":"8e36e0c12ceb4e8a",
+			"toSide":"top"
+		},
+		{
+			"id":"1923fc8f30079be8",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"8e36e0c12ceb4e8a",
+			"fromSide":"bottom",
+			"toNode":"eb64873fc677dab0",
+			"toSide":"top"
+		},
+		{
+			"id":"54abca185f41d3fd",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"e0727ea13a27faf3",
+			"fromSide":"bottom",
+			"toNode":"75d92bd7ae1ad794",
+			"toSide":"top"
 		}
 	],
 	"metadata":{

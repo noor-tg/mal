@@ -5,6 +5,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mal/data.dart';
 import 'package:mal/features/search/data/repositores/sql_respository.dart';
+import 'package:mal/features/search/domain/bloc/filters.dart';
+import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/shared/db.dart';
@@ -32,7 +34,7 @@ void main() {
       if (res.list.isNotEmpty) {
         final entry = res.list.first;
         expect(entry.uid.length, uuid.v4().length);
-        expect(['منصرف', 'دخل'], contains(entry.type));
+        expect(types, contains(entry.type));
         expect(entry.amount, greaterThan(0));
 
         expect(entry, isA<Entry>());
@@ -46,10 +48,10 @@ void main() {
 
     test('expect empty list when offset is byond result total', () async {
       final totals = await db.query('entries');
-      final res = await repo.searchEntries(term: 'h', offset: totals.length);
+      final res = await repo.searchEntries(term: '', offset: totals.length);
 
       expect(res.list, isEmpty);
-      expect(res.count, 0);
+      expect(res.count, 200);
     });
 
     test(
@@ -96,6 +98,88 @@ void main() {
       for (final entry in res.list) {
         expect(entry.category, isNot(otherCategory));
       }
+    });
+  });
+  advancedSearchTests();
+}
+
+void advancedSearchTests() {
+  group('Advanced Search', () {
+    late SqlRespository repo;
+    late Database db;
+    setUpAll(() async {
+      await dotenv.load();
+      db = await Db.use();
+      await generateData();
+      repo = SqlRespository();
+    });
+    test('filter by categories correctly', () async {
+      // prepare
+      final res = await repo.advancedSearch(
+        SearchState(
+          filters: Filters.withCurrentYear(
+            categories: [categories[0].title, categories[1].title],
+          ),
+        ),
+      );
+      expect(res, isA<Result<Entry>>());
+      expect(res.list.length, greaterThan(0));
+      expect([
+        categories[0].title,
+        categories[1].title,
+      ], contains(res.list.first.category));
+      expect(categories[2].title, isNot(equals(res.list.last.category)));
+    });
+    test('filter by type correctly', () async {
+      // prepare
+      final res = await repo.advancedSearch(
+        SearchState(filters: Filters.withCurrentYear(type: EntryType.income)),
+      );
+      expect(res, isA<Result<Entry>>());
+      expect(res.list.length, greaterThan(0));
+      expect(res.list.first.type, 'دخل');
+      expect(res.list.last.type, 'دخل');
+    });
+    test('filter by amount range', () async {
+      // prepare
+      final res = await repo.advancedSearch(
+        SearchState(
+          filters: Filters.withCurrentYear(
+            amountRange: const Range(min: 0, max: 100),
+          ),
+        ),
+      );
+      expect(res, isA<Result<Entry>>());
+      expect(res.list.length, greaterThan(0));
+      expect(res.list.first.amount, lessThanOrEqualTo(100));
+      expect(res.list.last.amount, lessThanOrEqualTo(100));
+    });
+    test('filter by date range', () async {
+      // prepare
+      final res = await repo.advancedSearch(
+        SearchState(filters: Filters.withCurrentYear()),
+      );
+      final now = DateTime.now();
+      expect(res, isA<Result<Entry>>());
+      expect(res.list.length, greaterThan(0));
+      expect(
+        DateTime.parse(res.list.first.date).isAfter(DateTime(now.year)),
+        true,
+      );
+    });
+    test('check for default applied sorting (date desc)', () async {
+      // prepare
+      final res = await repo.advancedSearch(
+        SearchState(filters: Filters.withCurrentYear()),
+      );
+      expect(res, isA<Result<Entry>>());
+      expect(res.list.length, greaterThan(0));
+      expect(
+        DateTime.parse(
+          res.list.first.date,
+        ).isAfter(DateTime.parse(res.list.last.date)),
+        true,
+      );
     });
   });
 }
