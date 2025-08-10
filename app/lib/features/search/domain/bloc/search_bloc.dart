@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mal/constants.dart';
 import 'package:mal/features/search/domain/bloc/filters.dart';
+import 'package:mal/features/search/domain/bloc/sorting.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/entry.dart';
@@ -19,11 +20,18 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<SimpleSearch>(_onSimpleSearch);
     on<ClearSearch>(_onClearSearch);
     on<LoadMore>(_onLoadMore);
+    // advanced filters
     on<ToggleCategory>(_ontoggleCategory);
     on<UpdateMinAmount>(_onUpdateMinAmount);
     on<UpdateMaxAmount>(_onUpdateMaxAmount);
     on<UpdateMinDate>(_onUpdateMinDate);
     on<UpdateMaxDate>(_onUpdateMaxDate);
+    on<FilterByExpense>(_onFilterByExpense);
+    on<FilterByIncome>(_onFilterByIncome);
+    on<ClearFilterByType>(_onClearFilterByType);
+    // sorting
+    on<SortBy>(_onSortBy);
+    on<ReverseSortDirection>(_onReverseSortDirection);
   }
 
   FutureOr<void> _onSimpleSearch(
@@ -201,6 +209,69 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       state.copyWith(
         filters: state.filters.copyWith(
           dateRange: Range(min: currentMin, max: event.dateValue),
+        ),
+      ),
+    );
+  }
+
+  FutureOr<void> _onFilterByExpense(
+    FilterByExpense event,
+    Emitter<SearchState> emit,
+  ) {
+    emit(
+      state.copyWith(filters: state.filters.copyWith(type: EntryType.expense)),
+    );
+  }
+
+  FutureOr<void> _onFilterByIncome(
+    FilterByIncome event,
+    Emitter<SearchState> emit,
+  ) {
+    emit(
+      state.copyWith(filters: state.filters.copyWith(type: EntryType.income)),
+    );
+  }
+
+  FutureOr<void> _onClearFilterByType(
+    ClearFilterByType event,
+    Emitter<SearchState> emit,
+  ) {
+    emit(state.copyWith(filters: state.filters.copyWith(type: EntryType.all)));
+  }
+
+  FutureOr<void> _onSortBy(SortBy event, Emitter<SearchState> emit) {
+    if (state.sorting.field == event.field) {
+      emit(
+        state.copyWith(
+          sorting: state.sorting.copyWith(
+            direction: state.sorting.direction == SortingDirection.asc
+                ? SortingDirection.desc
+                : SortingDirection.asc,
+          ),
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          sorting: state.sorting.copyWith(
+            field: event.field,
+            direction: event.direction,
+          ),
+        ),
+      );
+    }
+  }
+
+  FutureOr<void> _onReverseSortDirection(
+    ReverseSortDirection event,
+    Emitter<SearchState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        sorting: state.sorting.copyWith(
+          direction: state.sorting.direction == SortingDirection.asc
+              ? SortingDirection.desc
+              : SortingDirection.asc,
         ),
       ),
     );

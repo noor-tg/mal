@@ -49,3 +49,23 @@ class UpdateMaxDate extends SearchEvent {
 
   final DateTime dateValue;
 }
+
+class FilterByExpense extends SearchEvent {}
+
+class FilterByIncome extends SearchEvent {}
+
+class ClearFilterByType extends SearchEvent {}
+
+class SortBy extends SearchEvent {
+  const SortBy({
+    super.term,
+    super.offset,
+    required this.field,
+    this.direction = SortingDirection.asc,
+  });
+
+  final SortingField field;
+  final SortingDirection direction;
+}
+
+class ReverseSortDirection extends SearchEvent {}

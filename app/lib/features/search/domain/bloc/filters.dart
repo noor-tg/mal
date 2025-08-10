@@ -11,22 +11,28 @@ class Range<T> extends Equatable {
   List<Object?> get props => [min, max];
 }
 
+enum EntryType { expense, income, all }
+
 class Filters extends Equatable {
   final List<String> categories;
 
   final Range<int> amountRange;
   final Range<DateTime> dateRange;
 
+  final EntryType type;
+
   const Filters({
     this.categories = const [],
     this.amountRange = const Range(min: 0, max: 0),
     required this.dateRange,
+    this.type = EntryType.all,
   });
 
   // Factory constructor for current year range
   factory Filters.withCurrentYear({
     List<String> categories = const <String>[],
     Range<int> amountRange = const Range<int>(min: 0, max: 0),
+    EntryType type = EntryType.all,
   }) {
     final now = DateTime.now();
     return Filters(
@@ -36,6 +42,7 @@ class Filters extends Equatable {
         min: DateTime(now.year),
         max: DateTime(now.year, now.month, now.day),
       ),
+      type: type,
     );
   }
 
@@ -54,16 +61,18 @@ class Filters extends Equatable {
     List<String>? categories,
     Range<int>? amountRange,
     Range<DateTime>? dateRange,
+    EntryType? type,
   }) {
     return Filters(
       categories: categories ?? this.categories,
       amountRange: amountRange ?? this.amountRange,
       dateRange: dateRange ?? this.dateRange,
+      type: type ?? this.type,
     );
   }
 
   @override
-  List<Object?> get props => [categories, amountRange, dateRange];
+  List<Object?> get props => [categories, amountRange, dateRange, type];
 
   @override
   bool operator ==(Object other) {
@@ -71,7 +80,8 @@ class Filters extends Equatable {
     return other is Filters &&
         const ListEquality().equals(categories, other.categories) &&
         amountRange == other.amountRange &&
-        dateRange == other.dateRange;
+        dateRange == other.dateRange &&
+        type == other.type;
   }
 
   @override

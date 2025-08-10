@@ -11,11 +11,14 @@ class SearchState extends Equatable {
     this.noMoreData = false,
     this.errorMessage = '',
     Filters? filters,
+    Sorting? sorting,
   }) : result = result ?? const Result<Entry>(list: [], count: 0),
-       filters = filters ?? Filters.withCurrentYear();
+       filters = filters ?? Filters.withCurrentYear(),
+       sorting = sorting ?? const Sorting();
 
   // different states
   final SearchStatus status;
+  final Sorting sorting;
 
   // always exist
   final String term;
@@ -39,6 +42,7 @@ class SearchState extends Equatable {
     noMoreData,
     errorMessage,
     filters,
+    sorting,
   ];
 
   SearchState copyWith({
@@ -49,6 +53,7 @@ class SearchState extends Equatable {
     bool? noMoreData,
     String? errorMessage,
     Filters? filters,
+    Sorting? sorting,
   }) {
     return SearchState(
       term: term ?? this.term,
@@ -58,6 +63,7 @@ class SearchState extends Equatable {
       noMoreData: noMoreData ?? this.noMoreData,
       errorMessage: errorMessage ?? this.errorMessage,
       filters: filters ?? this.filters,
+      sorting: sorting ?? this.sorting,
     );
   }
 }

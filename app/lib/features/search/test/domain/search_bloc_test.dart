@@ -7,6 +7,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mal/features/search/domain/bloc/filters.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
+import 'package:mal/features/search/domain/bloc/sorting.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
 // ignore: depend_on_referenced_packages
 import 'package:mocktail/mocktail.dart';
@@ -18,6 +19,8 @@ void main() {
     advancedSearchByCategory();
     advancedSearchByAmountRange();
     advancedSearchByDateRange();
+    advancedSearchByType();
+    sorting();
   });
   // group(SearchBloc, () {
   //   late SearchBloc searchBloc;
@@ -79,6 +82,91 @@ void main() {
   //   ],
   // );
   // });
+}
+
+void sorting() {
+  group('Sorting', () {
+    late SearchRepository repo;
+    late SearchBloc searchBloc;
+    setUp(() {
+      // prepare default values for Search bloc
+      repo = MockRepo();
+      searchBloc = SearchBloc(searchRepo: repo);
+    });
+    test('default sorting by date from latest to oldest', () {
+      expect(searchBloc.state, SearchState());
+      expect(searchBloc.state.sorting.field, SortingField.date);
+      expect(searchBloc.state.sorting.direction, SortingDirection.desc);
+    });
+    blocTest<SearchBloc, SearchState>(
+      'when SortByField Event is sent with amount value. Sorting field should be amount',
+      build: () => searchBloc,
+      act: (bloc) => bloc.add(const SortBy(field: SortingField.amount)),
+      expect: () => [
+        SearchState(
+          sorting: const Sorting(
+            field: SortingField.amount,
+            direction: SortingDirection.asc,
+          ),
+        ),
+      ],
+    );
+    blocTest<SearchBloc, SearchState>(
+      'when SortBy Event value equals existing sorting value. Sorting direction should be changed',
+      build: () {
+        searchBloc.add(const SortBy(field: SortingField.amount));
+        return searchBloc;
+      },
+      act: (bloc) => bloc.add(const SortBy(field: SortingField.amount)),
+      expect: () => [
+        SearchState(
+          sorting: const Sorting(
+            field: SortingField.amount,
+            direction: SortingDirection.asc,
+          ),
+        ),
+        SearchState(sorting: const Sorting(field: SortingField.amount)),
+      ],
+    );
+  });
+}
+
+void advancedSearchByType() {
+  group('Advanced Search > By Type >', () {
+    late SearchRepository repo;
+    late SearchBloc searchBloc;
+    setUp(() {
+      // prepare default values for Search bloc
+      repo = MockRepo();
+      searchBloc = SearchBloc(searchRepo: repo);
+    });
+    test('check for init filter by type', () {
+      expect(searchBloc.state, SearchState());
+      expect(searchBloc.state.filters.type, EntryType.all);
+    });
+    blocTest<SearchBloc, SearchState>(
+      'when send FilterByExpense Event is sent. filter type should be set to expense',
+      build: () => searchBloc,
+      act: (bloc) => bloc.add(FilterByExpense()),
+      expect: () => [
+        SearchState(filters: Filters.withCurrentYear(type: EntryType.expense)),
+      ],
+    );
+    blocTest<SearchBloc, SearchState>(
+      'when send FilterByIncome Event is sent. filter type should be set to income',
+      build: () => searchBloc,
+      act: (bloc) => bloc.add(FilterByIncome()),
+      expect: () => [
+        SearchState(filters: Filters.withCurrentYear(type: EntryType.income)),
+      ],
+    );
+    blocTest<SearchBloc, SearchState>(
+      'when send ClearFilterByType Event is sent. filter type should be set to all',
+      build: () => searchBloc,
+      act: (bloc) => bloc.add(ClearFilterByType()),
+      expect: () => [SearchState(filters: Filters.withCurrentYear())],
+    );
+  });
 }
 
 void advancedSearchByDateRange() {
