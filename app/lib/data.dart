@@ -28,11 +28,11 @@ Future<void> generateData() async {
     entries.add(
       Entry(
         description: faker.lorem.sentence(),
-        amount: Random().nextInt(100),
+        amount: Random().nextInt(1000),
         category: categories[Random().nextInt(categories.length - 1)].title,
         type: types[Random().nextInt(types.length)],
         date: DateTime(
-          2025,
+          [2024, 2025][random.nextInt(2)],
           7,
           random.nextInt(30),
           random.nextInt(24),
