@@ -69,3 +69,5 @@ class SortBy extends SearchEvent {
 }
 
 class ReverseSortDirection extends SearchEvent {}
+
+class ApplyFilters extends SearchEvent {}

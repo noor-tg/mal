@@ -9,6 +9,8 @@ import 'package:mal/features/search/domain/bloc/filters.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/domain/bloc/sorting.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
+import 'package:mal/result.dart';
+import 'package:mal/shared/data/models/entry.dart';
 // ignore: depend_on_referenced_packages
 import 'package:mocktail/mocktail.dart';
 
@@ -21,6 +23,7 @@ void main() {
     advancedSearchByDateRange();
     advancedSearchByType();
     sorting();
+    applyAdvancedFilters();
   });
   // group(SearchBloc, () {
   //   late SearchBloc searchBloc;
@@ -82,6 +85,35 @@ void main() {
   //   ],
   // );
   // });
+}
+
+void applyAdvancedFilters() {
+  late SearchRepository repo;
+  late SearchBloc searchBloc;
+  setUp(() {
+    // prepare default values for Search bloc
+    repo = MockRepo();
+    searchBloc = SearchBloc(searchRepo: repo);
+  });
+  blocTest<SearchBloc, SearchState>(
+    'when send ApplyFilters. then repository advancedSearch func should be called',
+    build: () {
+      const mockResult = Result<Entry>(
+        list: [],
+        count: 0,
+      ); // or however you create Result
+
+      when(
+        () => repo.advancedSearch(searchBloc.state),
+      ).thenAnswer((_) async => mockResult);
+      return searchBloc;
+    },
+    act: (bloc) => bloc.add(ApplyFilters()),
+    verify: (bloc) {
+      verify(() => repo.advancedSearch(bloc.state)).called(1);
+    },
+    expect: () => [SearchState()],
+  );
 }
 
 void sorting() {

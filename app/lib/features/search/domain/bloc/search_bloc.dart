@@ -32,6 +32,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     // sorting
     on<SortBy>(_onSortBy);
     on<ReverseSortDirection>(_onReverseSortDirection);
+    // actions
+    on<ApplyFilters>(_onApplyFilters);
   }
 
   FutureOr<void> _onSimpleSearch(
@@ -275,5 +277,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         ),
       ),
     );
+  }
+
+  FutureOr<void> _onApplyFilters(
+    ApplyFilters event,
+    Emitter<SearchState> emit,
+  ) async {
+    await searchRepo.advancedSearch(state);
+    emit(state);
   }
 }
