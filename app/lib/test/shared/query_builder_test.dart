@@ -15,7 +15,7 @@ void main() {
     test(
       'set table on init, defaults for where , whereArgs, limit, offset',
       () async {
-        final q = QueryBuilder(table: 'entries');
+        final q = QueryBuilder('entries');
 
         expect(QueryBuilder, isNot(null));
 
@@ -34,13 +34,13 @@ void main() {
         expect(q.whereArgs, isA<List<Object?>>());
         expect(q.whereArgs, []);
 
-        expect(q.sortBy, isA<String?>());
-        expect(q.sortBy, null);
+        expect(q.gsortBy, isA<String?>());
+        expect(q.gsortBy, null);
       },
     );
 
     test('filter by single column', () {
-      final q = QueryBuilder(table: 'entries');
+      final q = QueryBuilder('entries');
 
       // ignore: cascade_invocations
       q.where('category', '=', 'test');
@@ -50,7 +50,7 @@ void main() {
     });
 
     test('filter by like', () {
-      final q = QueryBuilder(table: 'entries');
+      final q = QueryBuilder('entries');
 
       // ignore: cascade_invocations
       q.whereLike('category', 'test');
@@ -60,7 +60,7 @@ void main() {
     });
 
     test('filter by in list', () {
-      final q = QueryBuilder(table: 'entries');
+      final q = QueryBuilder('entries');
 
       // ignore: cascade_invocations
       q.whereIn('category', ['ok', 'test']);
@@ -70,7 +70,7 @@ void main() {
     });
 
     test('filter by range', () {
-      final q = QueryBuilder(table: 'entries');
+      final q = QueryBuilder('entries');
 
       // ignore: cascade_invocations
       q.whereBetween<int>('amount', 0, 10);
@@ -80,7 +80,7 @@ void main() {
     });
 
     test('when use where 2 times there is and in filterQuery', () {
-      final q = QueryBuilder(table: 'entries');
+      final q = QueryBuilder('entries');
 
       // ignore: cascade_invocations
       q.where('category', '=', 'test').where('description', '=', 'ok');
@@ -90,7 +90,7 @@ void main() {
     });
 
     test('get list from table', () async {
-      final q = QueryBuilder(table: 'entries');
+      final q = QueryBuilder('entries');
 
       final result = await q.getAll();
       expect(result, isA<List<Map<String, Object?>>>());
@@ -98,7 +98,7 @@ void main() {
     });
 
     test('get single row from table', () async {
-      final q = QueryBuilder(table: 'entries');
+      final q = QueryBuilder('entries');
 
       final result = await q.getOne();
       expect(result, isA<Map<String, Object?>>());

@@ -1,3 +1,4 @@
+import 'package:mal/features/search/domain/bloc/sorting.dart';
 import 'package:mal/shared/db.dart';
 
 class QueryBuilder {
@@ -12,13 +13,13 @@ class QueryBuilder {
 
   // getters
   String get table => _table;
-  String? get sortBy => _sortBy;
+  String? get gsortBy => _sortBy;
   String? get filterQuery => _filterQuery;
   int get goffset => _offset;
   int get glimit => _limit;
   List<Object?> get whereArgs => _whereArgs;
 
-  QueryBuilder({required String table}) : _table = table;
+  QueryBuilder(String table) : _table = table;
 
   QueryBuilder where(String column, String param, String value) {
     _filterQuery ??= '';
@@ -114,6 +115,12 @@ class QueryBuilder {
 
   QueryBuilder offset(int value) {
     _offset = value;
+
+    return this;
+  }
+
+  QueryBuilder sortBy(String field, SortingDirection direction) {
+    _sortBy = '"$field" ${direction.name}';
 
     return this;
   }
