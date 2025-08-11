@@ -106,10 +106,10 @@ void main() {
 void advancedSearchTests() {
   group('Advanced Search', () {
     late SqlRespository repo;
-    late Database db;
+    // late Database db;
     setUpAll(() async {
       await dotenv.load();
-      db = await Db.use();
+      // db = await Db.use();
       await generateData();
       repo = SqlRespository();
     });
