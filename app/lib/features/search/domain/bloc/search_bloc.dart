@@ -283,7 +283,18 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     ApplyFilters event,
     Emitter<SearchState> emit,
   ) async {
-    await searchRepo.advancedSearch(state);
-    emit(state);
+    emit(state.copyWith(status: SearchStatus.loading));
+    try {
+      final result = await searchRepo.advancedSearch(state);
+      emit(state.copyWith(result: result, status: SearchStatus.success));
+    } catch (err) {
+      emit(
+        state.copyWith(
+          status: SearchStatus.failure,
+          errorMessage: err.toString(),
+        ),
+      );
+      logger.t(err);
+    }
   }
 }

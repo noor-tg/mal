@@ -89,6 +89,7 @@ class QueryBuilder {
       whereArgs: _whereArgs,
       limit: _limit,
       offset: _offset,
+      orderBy: _sortBy,
     );
 
     return res;

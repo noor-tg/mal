@@ -13,6 +13,7 @@
   "newCategory": "إضافة وسم",
   "categoryTitle": "العنوان",
   "categoryType": "النوع",
+  "type": "النوع",
   "save": "حفظ",
   "expense": "منصرف",
   "cancel": "إلغاء",
@@ -31,8 +32,12 @@
   "currentMonth": "الشهر الحالي",
   "noDataFound": "لا يوجد بيانات",
   "description": "وصف",
-  "date": "تاريخ",
+  "date": "التاريخ",
   "searchHint": "منصرف ، ملابس ، ملاحظة .. إلخ",
   "noMoreData": "لا يوجد بيانات إضافية",
-  "searchTitleResults": "نتائج البحث"
+  "searchTitleResults": "نتائج البحث",
+  "advancedSearch": "بحث متقدم",
+  "categories": "الوسوم",
+  "all": "الكل",
+  "order": "الترتيب"
 }

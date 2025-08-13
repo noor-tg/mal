@@ -160,6 +160,12 @@ abstract class AppLocalizations {
   /// **'النوع'**
   String get categoryType;
 
+  /// No description provided for @type.
+  ///
+  /// In ar, this message translates to:
+  /// **'النوع'**
+  String get type;
+
   /// No description provided for @save.
   ///
   /// In ar, this message translates to:
@@ -271,7 +277,7 @@ abstract class AppLocalizations {
   /// No description provided for @date.
   ///
   /// In ar, this message translates to:
-  /// **'تاريخ'**
+  /// **'التاريخ'**
   String get date;
 
   /// No description provided for @searchHint.
@@ -291,6 +297,30 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'نتائج البحث'**
   String get searchTitleResults;
+
+  /// No description provided for @advancedSearch.
+  ///
+  /// In ar, this message translates to:
+  /// **'بحث متقدم'**
+  String get advancedSearch;
+
+  /// No description provided for @categories.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوسوم'**
+  String get categories;
+
+  /// No description provided for @all.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكل'**
+  String get all;
+
+  /// No description provided for @order.
+  ///
+  /// In ar, this message translates to:
+  /// **'الترتيب'**
+  String get order;
 }
 
 class _AppLocalizationsDelegate

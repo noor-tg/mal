@@ -1,7 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
+import 'package:mal/features/search/ui/views/advanced_search.dart';
 import 'package:mal/features/search/ui/views/search_body.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
@@ -17,30 +17,28 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final _controller = TextEditingController();
   var scrollController = ScrollController();
-  late StreamSubscription _blocSubscription;
 
   @override
   void initState() {
-    super.initState();
-    _blocSubscription = context.read<SearchBloc>().stream.listen(
-      logger.i,
-      // ignore: unnecessary_lambdas
-      onError: (error) => logger.t(error),
-    );
+    final searchBloc = context.read<SearchBloc>();
     scrollController.addListener(() async {
       if (scrollController.position.maxScrollExtent ==
           scrollController.offset) {
-        if (context.read<SearchBloc>().state.status == SearchStatus.loading) {
+        if (searchBloc.state.status == SearchStatus.loading) {
           return;
         }
-        context.read<SearchBloc>().add(LoadMore());
+        searchBloc.add(LoadMore());
       }
     });
+    super.initState();
   }
 
   @override
   void dispose() {
-    _blocSubscription.cancel();
+    // _blocSubscription.cancel();
+    scrollController.dispose();
+    _controller.dispose();
+
     super.dispose();
   }
 
@@ -56,6 +54,27 @@ class _SearchScreenState extends State<SearchScreen> {
             children: [
               Row(
                 children: [
+                  IconButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                        useSafeArea: true,
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (ctx) => MultiBlocProvider(
+                          providers: [
+                            BlocProvider.value(
+                              value: context.read<CategoriesBloc>(),
+                            ),
+                            BlocProvider.value(
+                              value: context.read<SearchBloc>(),
+                            ),
+                          ],
+                          child: const AdvancedSearch(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.filter_list, color: Colors.blue),
+                  ),
                   Expanded(
                     child: TextField(
                       controller: _controller,

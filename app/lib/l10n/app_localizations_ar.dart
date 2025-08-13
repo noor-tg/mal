@@ -42,6 +42,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get categoryType => 'النوع';
 
   @override
+  String get type => 'النوع';
+
+  @override
   String get save => 'حفظ';
 
   @override
@@ -97,7 +100,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get description => 'وصف';
 
   @override
-  String get date => 'تاريخ';
+  String get date => 'التاريخ';
 
   @override
   String get searchHint => 'منصرف ، ملابس ، ملاحظة .. إلخ';
@@ -107,4 +110,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get searchTitleResults => 'نتائج البحث';
+
+  @override
+  String get advancedSearch => 'بحث متقدم';
+
+  @override
+  String get categories => 'الوسوم';
+
+  @override
+  String get all => 'الكل';
+
+  @override
+  String get order => 'الترتيب';
 }
