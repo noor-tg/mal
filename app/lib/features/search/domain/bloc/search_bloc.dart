@@ -17,6 +17,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchRepository searchRepo;
 
   SearchBloc({required this.searchRepo}) : super(SearchState()) {
+    on<SetTerm>(_onSetTerm);
     on<SimpleSearch>(_onSimpleSearch);
     on<ClearSearch>(_onClearSearch);
     on<LoadMore>(_onLoadMore);
@@ -60,10 +61,16 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     Function(Result<Entry> result) handleResult,
   ) async {
     try {
-      final result = await searchRepo.searchEntries(
-        term: event.term,
-        offset: event.offset,
-      );
+      late Result<Entry> result;
+      if (state.simpleSearchActive) {
+        result = await searchRepo.searchEntries(
+          term: event.term,
+          offset: event.offset,
+        );
+      } else {
+        // this is will likely be used by load more event
+        result = await searchRepo.advancedSearch(state);
+      }
       if (result.list.isEmpty) {
         return emit(
           state.copyWith(
@@ -312,5 +319,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         offset: 0,
       ),
     );
+  }
+
+  FutureOr<void> _onSetTerm(SetTerm event, Emitter<SearchState> emit) {
+    emit(state.copyWith(term: event.term));
   }
 }

@@ -20,6 +20,19 @@ class SearchState extends Equatable {
   final SearchStatus status;
   final Sorting sorting;
 
+  // all of these are defaults . so if currnt values equal it . there is no active advanced search
+  bool get simpleSearchActive =>
+      filters.categories.isNotEmpty &&
+      filters.amountRange.min == 0 &&
+      filters.amountRange.max == 0 &&
+      // first day of year
+      filters.dateRange.min.difference(DateTime(DateTime.now().year)).inDays ==
+          0 &&
+      filters.dateRange.max.difference(DateTime.now()).inDays == 0 &&
+      filters.type == EntryType.all &&
+      sorting.field == SortingField.date &&
+      sorting.direction == SortingDirection.desc;
+
   // always exist
   final String term;
   final int offset;

@@ -18,6 +18,7 @@ class MockRepo extends Mock implements SearchRepository {}
 
 void main() {
   group('$SearchBloc >', () {
+    simpleSearchAddTerm();
     advancedSearchByCategory();
     advancedSearchByAmountRange();
     advancedSearchByDateRange();
@@ -86,6 +87,22 @@ void main() {
   //   ],
   // );
   // });
+}
+
+void simpleSearchAddTerm() {
+  late SearchRepository repo;
+  late SearchBloc searchBloc;
+  setUp(() {
+    // prepare default values for Search bloc
+    repo = MockRepo();
+    searchBloc = SearchBloc(searchRepo: repo);
+  });
+  blocTest<SearchBloc, SearchState>(
+    'when send SetTerm Event. term should be set correctly',
+    build: () => searchBloc,
+    act: (bloc) => bloc.add(const SetTerm(term: 'food')),
+    expect: () => [SearchState(term: 'food')],
+  );
 }
 
 void clearAdvancedFilters() {

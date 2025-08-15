@@ -79,10 +79,16 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: TextField(
                       controller: _controller,
                       onChanged: (value) async {
+                        final searchBloc = context.read<SearchBloc>();
+
                         if (value.trim().isEmpty) return;
-                        context.read<SearchBloc>().add(
-                          SimpleSearch(term: value.trim()),
-                        );
+                        if (searchBloc.state.simpleSearchActive) {
+                          searchBloc.add(SimpleSearch(term: value.trim()));
+                        } else {
+                          searchBloc
+                            ..add(SetTerm(term: value.trim()))
+                            ..add(ApplyFilters());
+                        }
                       },
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(),
@@ -95,7 +101,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   IconButton(
                     onPressed: () {
                       setState(() {
-                        context.read<SearchBloc>().add(ClearSearch());
+                        context.read<SearchBloc>()
+                          ..add(ClearSearch())
+                          ..add(ClearFilters());
                         _controller.clear();
                       });
                     },

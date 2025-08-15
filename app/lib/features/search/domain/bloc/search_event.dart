@@ -16,6 +16,10 @@ class SimpleSearch extends SearchEvent {
   const SimpleSearch({super.term, super.offset});
 }
 
+class SetTerm extends SearchEvent {
+  const SetTerm({super.term});
+}
+
 class ClearSearch extends SearchEvent {}
 
 class LoadMore extends SearchEvent {}
