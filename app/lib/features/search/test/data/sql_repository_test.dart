@@ -124,6 +124,7 @@ void advancedSearchTests() {
       );
       expect(res, isA<Result<Entry>>());
       expect(res.list.length, greaterThan(0));
+      expect(res.count, greaterThan(0));
       expect([
         categories[0].title,
         categories[1].title,

@@ -108,6 +108,18 @@ class QueryBuilder {
     return res.first;
   }
 
+  Future<int> count() async {
+    final db = await Db.use();
+    final res = await db.query(
+      columns: ['count(uid) as total'],
+      _table,
+      where: _filterQuery,
+      whereArgs: _whereArgs,
+    );
+
+    return res.first['total'] as int;
+  }
+
   QueryBuilder limit(int value) {
     _limit = value;
 

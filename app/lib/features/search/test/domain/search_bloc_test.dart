@@ -24,6 +24,7 @@ void main() {
     advancedSearchByType();
     sorting();
     applyAdvancedFilters();
+    clearAdvancedFilters();
   });
   // group(SearchBloc, () {
   //   late SearchBloc searchBloc;
@@ -87,6 +88,25 @@ void main() {
   // });
 }
 
+void clearAdvancedFilters() {
+  late SearchRepository repo;
+  late SearchBloc searchBloc;
+
+  setUp(() {
+    registerFallbackValue(FakeSearchState());
+
+    // prepare default values for Search bloc
+    repo = MockRepo();
+    searchBloc = SearchBloc(searchRepo: repo);
+  });
+  blocTest<SearchBloc, SearchState>(
+    'when send ClearFilters. then the state should be reset',
+    build: () => searchBloc,
+    act: (bloc) => bloc.add(ClearFilters()),
+    expect: () => [SearchState()],
+  );
+}
+
 class FakeSearchState extends Fake implements SearchState {}
 
 void applyAdvancedFilters() {
@@ -121,9 +141,6 @@ void applyAdvancedFilters() {
         (state) =>
             state.status == SearchStatus.success && state.result.count == 0,
       ),
-      //
-      //   SearchState(status: SearchStatus.loading),
-      //   SearchState(status: SearchStatus.success),
     ],
   );
 }

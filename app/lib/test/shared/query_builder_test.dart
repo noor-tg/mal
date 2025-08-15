@@ -104,5 +104,12 @@ void main() {
       expect(result, isA<Map<String, Object?>>());
       expect(result['uid'], isA<String>());
     });
+    test('count query from table', () async {
+      final q = QueryBuilder('entries');
+
+      final result = await q.count();
+      expect(result, isA<int>());
+      expect(result, greaterThan(0));
+    });
   });
 }

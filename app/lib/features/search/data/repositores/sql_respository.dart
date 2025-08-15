@@ -29,8 +29,15 @@ class SqlRespository extends SearchRepository {
       sorting: queryData.sorting,
     );
 
+    final count = await sqlProvider.getCountByFilters(
+      term: queryData.term,
+      offset: queryData.offset,
+      filters: queryData.filters,
+      sorting: queryData.sorting,
+    );
+
     final data = List.generate(list.length, (i) => Entry.fromMap(list[i]));
 
-    return Result<Entry>(list: data, count: 0);
+    return Result<Entry>(list: data, count: count);
   }
 }

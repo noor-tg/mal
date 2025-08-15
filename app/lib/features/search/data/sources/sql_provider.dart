@@ -91,4 +91,56 @@ class SqlProvider {
         .sortBy(sorting.field.name, sorting.direction)
         .getAll();
   }
+
+  Future<int> getCountByFilters({
+    required String term,
+    required int offset,
+    required Filters filters,
+    required Sorting sorting,
+  }) async {
+    final q = QueryBuilder('entries');
+
+    // search by description
+    final search = '%$term%';
+    if (term.isNotEmpty) {
+      q.whereLike('description', search);
+    }
+
+    // search by type
+    if (filters.type != EntryType.all) {
+      switch (filters.type) {
+        case EntryType.expense:
+          q.where('type', '=', 'منصرف');
+          break;
+        case EntryType.income:
+          q.where('type', '=', 'دخل');
+          break;
+        case EntryType.all:
+      }
+    }
+
+    // search by categories
+    if (filters.categories.isNotEmpty) {
+      q.whereIn('category', filters.categories);
+    }
+
+    // search by amount range
+    if (filters.amountRange.max > 0) {
+      q.whereBetween(
+        'amount',
+        filters.amountRange.min.toString(),
+        filters.amountRange.max.toString(),
+      );
+    }
+
+    final result = await q
+        .whereBetween(
+          'date',
+          filters.dateRange.min.toIso8601String(),
+          filters.dateRange.max.toIso8601String(),
+        )
+        .count();
+
+    return result;
+  }
 }
