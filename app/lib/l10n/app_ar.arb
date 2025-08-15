@@ -39,5 +39,7 @@
   "advancedSearch": "بحث متقدم",
   "categories": "الوسوم",
   "all": "الكل",
-  "order": "الترتيب"
+  "order": "الترتيب",
+  "search": "بحث",
+  "reset": "تراجع"
 }

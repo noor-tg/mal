@@ -34,6 +34,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<ReverseSortDirection>(_onReverseSortDirection);
     // actions
     on<ApplyFilters>(_onApplyFilters);
+    on<ClearFilters>(_onClearFilters);
   }
 
   FutureOr<void> _onSimpleSearch(
@@ -296,5 +297,20 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       );
       logger.t(err);
     }
+  }
+
+  FutureOr<void> _onClearFilters(
+    ClearFilters event,
+    Emitter<SearchState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        status: SearchStatus.initial,
+        filters: Filters.empty(),
+        sorting: const Sorting(),
+        result: const Result(list: [], count: 0),
+        offset: 0,
+      ),
+    );
   }
 }

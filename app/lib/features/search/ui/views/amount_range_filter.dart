@@ -17,13 +17,21 @@ class _AmountRangeFilterState extends State<AmountRangeFilter> {
   final max = 1000;
   late RangeValues values;
 
-  var minController = TextEditingController();
+  final minController = TextEditingController();
 
-  var maxController = TextEditingController();
+  final maxController = TextEditingController();
 
   @override
   void initState() {
-    values = RangeValues(0, max.toDouble());
+    final amountRange = context.read<SearchBloc>().state.filters.amountRange;
+    values = RangeValues(
+      amountRange.min.toDouble(),
+      amountRange.max.toDouble() > 0
+          ? amountRange.max.toDouble()
+          : max.toDouble(),
+    );
+    minController.text = values.start.toInt().toString();
+    maxController.text = values.end.toInt().toString();
     super.initState();
   }
 

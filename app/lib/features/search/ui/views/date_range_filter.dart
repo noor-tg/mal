@@ -18,13 +18,14 @@ class _DateRangeFilterState extends State<DateRangeFilter> {
   late RangeValues values;
 
   final minController = TextEditingController();
-
   final maxController = TextEditingController();
+
   late DateTime startOfYear;
   late DateTime now;
 
   @override
   void initState() {
+    final dateRange = context.read<SearchBloc>().state.filters.dateRange;
     now = DateTime.now();
     startOfYear = DateTime(now.year);
     final today = now;
@@ -33,7 +34,14 @@ class _DateRangeFilterState extends State<DateRangeFilter> {
     const minValue = 0;
     final maxValue = today.difference(startOfYear).inDays.toDouble();
 
-    values = RangeValues(minValue.toDouble(), maxValue);
+    values = RangeValues(
+      dateRange.min.isAfter(startOfYear)
+          ? dateRange.min.difference(startOfYear).inDays.toDouble()
+          : minValue.toDouble(),
+      dateRange.max.isBefore(today)
+          ? dateRange.max.difference(startOfYear).inDays.toDouble()
+          : maxValue,
+    );
     max = maxValue.toInt();
     super.initState();
   }

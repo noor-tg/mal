@@ -59,7 +59,8 @@
 			"x":520,
 			"y":-220,
 			"width":260,
-			"height":60
+			"height":60,
+			"color":"4"
 		},
 		{
 			"id":"e00bb59b6d10390e",
@@ -102,7 +103,8 @@
 			"x":520,
 			"y":640,
 			"width":260,
-			"height":60
+			"height":60,
+			"color":"4"
 		},
 		{
 			"id":"10bd1f27094b6b2e",
@@ -113,17 +115,6 @@
 			"y":-60,
 			"width":260,
 			"height":130,
-			"color":"4"
-		},
-		{
-			"id":"ce7c2e40aabfa958",
-			"type":"text",
-			"text":"- القيمة الافتراضية للنوع الكل (لا يوجد تصفية)\n- تصفية بالدخل\n- تصفية بالمنصرف",
-			"styleAttributes":{"textAlign":"center"},
-			"x":140,
-			"y":-280,
-			"width":260,
-			"height":180,
 			"color":"4"
 		},
 		{
@@ -160,15 +151,26 @@
 			"color":"4"
 		},
 		{
-			"id":"a9d7bbd20adb9471",
+			"id":"77081bf4d5aa6a42",
 			"type":"text",
-			"text":"تغيير حالة وسم (تفعيل \\ إلغاء)",
+			"text":"تغيير نطاق بين تاريخين إنشاء",
 			"styleAttributes":{"textAlign":"center"},
 			"x":-240,
-			"y":-60,
+			"y":250,
 			"width":260,
 			"height":60,
 			"color":"6"
+		},
+		{
+			"id":"ce7c2e40aabfa958",
+			"type":"text",
+			"text":"- القيمة الافتراضية للنوع الكل (لا يوجد تصفية)\n- تصفية بالدخل\n- تصفية بالمنصرف",
+			"styleAttributes":{"textAlign":"center"},
+			"x":140,
+			"y":-280,
+			"width":260,
+			"height":180,
+			"color":"4"
 		},
 		{
 			"id":"4735be52aed763a5",
@@ -177,28 +179,6 @@
 			"styleAttributes":{"textAlign":"center"},
 			"x":-240,
 			"y":70,
-			"width":260,
-			"height":60,
-			"color":"6"
-		},
-		{
-			"id":"0cfc37d99baca8dc",
-			"type":"text",
-			"text":"تغيير الانواع (كل، دخل ، منصرف)",
-			"styleAttributes":{"textAlign":"center"},
-			"x":-240,
-			"y":-160,
-			"width":260,
-			"height":60,
-			"color":"6"
-		},
-		{
-			"id":"77081bf4d5aa6a42",
-			"type":"text",
-			"text":"تغيير نطاق بين تاريخين إنشاء",
-			"styleAttributes":{"textAlign":"center"},
-			"x":-240,
-			"y":250,
 			"width":260,
 			"height":60,
 			"color":"6"
@@ -222,7 +202,8 @@
 			"x":-600,
 			"y":310,
 			"width":260,
-			"height":60
+			"height":60,
+			"color":"4"
 		},
 		{
 			"id":"b25582cf59d5e3e8",
@@ -257,17 +238,6 @@
 			"color":"3"
 		},
 		{
-			"id":"63e38ff1991986e7",
-			"type":"text",
-			"text":"بحث بالحقل",
-			"styleAttributes":{"textAlign":"center"},
-			"x":-600,
-			"y":-160,
-			"width":260,
-			"height":60,
-			"color":"4"
-		},
-		{
 			"id":"8e36e0c12ceb4e8a",
 			"type":"text",
 			"text":"بناء جملة التصفية لقاعدة من الحقول الموجودة ",
@@ -286,7 +256,41 @@
 			"x":-600,
 			"y":910,
 			"width":260,
-			"height":100
+			"height":100,
+			"color":"4"
+		},
+		{
+			"id":"a9d7bbd20adb9471",
+			"type":"text",
+			"text":"تغيير حالة وسم (تفعيل \\ إلغاء)",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-240,
+			"y":-60,
+			"width":260,
+			"height":60,
+			"color":"6"
+		},
+		{
+			"id":"0cfc37d99baca8dc",
+			"type":"text",
+			"text":"تغيير الانواع (كل، دخل ، منصرف)",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-240,
+			"y":-160,
+			"width":260,
+			"height":60,
+			"color":"6"
+		},
+		{
+			"id":"63e38ff1991986e7",
+			"type":"text",
+			"text":"بحث بالحقل",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-600,
+			"y":-160,
+			"width":260,
+			"height":60,
+			"color":"4"
 		},
 		{
 			"id":"87d80291b13ea95f",

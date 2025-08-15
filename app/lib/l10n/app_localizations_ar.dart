@@ -122,4 +122,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get order => 'الترتيب';
+
+  @override
+  String get search => 'بحث';
+
+  @override
+  String get reset => 'تراجع';
 }

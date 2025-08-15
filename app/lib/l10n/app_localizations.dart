@@ -321,6 +321,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الترتيب'**
   String get order;
+
+  /// No description provided for @search.
+  ///
+  /// In ar, this message translates to:
+  /// **'بحث'**
+  String get search;
+
+  /// No description provided for @reset.
+  ///
+  /// In ar, this message translates to:
+  /// **'تراجع'**
+  String get reset;
 }
 
 class _AppLocalizationsDelegate
