@@ -87,10 +87,15 @@ void main() {
   // });
 }
 
+class FakeSearchState extends Fake implements SearchState {}
+
 void applyAdvancedFilters() {
   late SearchRepository repo;
   late SearchBloc searchBloc;
+
   setUp(() {
+    registerFallbackValue(FakeSearchState());
+
     // prepare default values for Search bloc
     repo = MockRepo();
     searchBloc = SearchBloc(searchRepo: repo);
@@ -98,21 +103,28 @@ void applyAdvancedFilters() {
   blocTest<SearchBloc, SearchState>(
     'when send ApplyFilters. then repository advancedSearch func should be called',
     build: () {
-      const mockResult = Result<Entry>(
-        list: [],
-        count: 0,
-      ); // or however you create Result
+      const mockResult = Result<Entry>(list: [], count: 0);
 
       when(
-        () => repo.advancedSearch(searchBloc.state),
+        () => repo.advancedSearch(any()),
       ).thenAnswer((_) async => mockResult);
       return searchBloc;
     },
     act: (bloc) => bloc.add(ApplyFilters()),
     verify: (bloc) {
-      verify(() => repo.advancedSearch(bloc.state)).called(1);
+      verify(() => repo.advancedSearch(any())).called(1);
     },
-    expect: () => [SearchState()],
+
+    expect: () => [
+      predicate<SearchState>((state) => state.status == SearchStatus.loading),
+      predicate<SearchState>(
+        (state) =>
+            state.status == SearchStatus.success && state.result.count == 0,
+      ),
+      //
+      //   SearchState(status: SearchStatus.loading),
+      //   SearchState(status: SearchStatus.success),
+    ],
   );
 }
 
