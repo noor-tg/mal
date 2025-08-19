@@ -16,6 +16,10 @@ import 'package:mocktail/mocktail.dart';
 
 class MockRepo extends Mock implements SearchRepository {}
 
+class FakeSearchState extends Fake implements SearchState {}
+
+class FakeSearchEvent extends Fake implements SearchEvent {}
+
 void main() {
   group('$SearchBloc >', () {
     simpleSearchAddTerm();
@@ -27,72 +31,14 @@ void main() {
     applyAdvancedFilters();
     clearAdvancedFilters();
   });
-  // group(SearchBloc, () {
-  //   late SearchBloc searchBloc;
-  //   late Database db;
-  //   // ignore: unused_local_variable
-  //   late List<Map<String, dynamic>> all;
-
-  //   setUpAll(() async {
-  //     databaseFactory = databaseFactoryFfi;
-  //     await dotenv.load();
-  //     db = await Db.use();
-  //     await generateData();
-  //     all = await db.query('entries');
-  //   });
-
-  //   late Result<Entry> result;
-
-  //   setUp(() async {
-  //     final repo = SqlRespository();
-  //     result = await repo.searchEntries(term: types[0]);
-  //     searchBloc = SearchBloc(searchRepo: SqlRespository());
-  //   });
-
-  //   test('init state correct', () {
-  //     expect(searchBloc.state.status, SearchStatus.initial);
-  //   });
-
-  //   blocTest<SearchBloc, SearchState>(
-  //     'emit [loading, success] when send search event',
-  //     build: () => searchBloc,
-  //     act: (bloc) => bloc.add(SimpleSearch(term: types[0], offset: 0)),
-  //     wait: const Duration(milliseconds: 10),
-  //     expect: () => [
-  //       equals(SearchState(status: SearchStatus.loading)),
-  //       equals(
-  //         SearchState(
-  //           status: SearchStatus.success,
-  //           term: types[0],
-  //           result: result,
-  //         ),
-  //       ),
-  //     ],
-  //   );
-
-  // TODO: fix this test
-  // blocTest<SearchBloc, SearchState>(
-  //   'emit next items in offset when send loadmore event',
-  //   build: () => searchBloc,
-  //   act: (bloc) => bloc.add(LoadMore()),
-  //   wait: const Duration(milliseconds: 10),
-  //   expect: () => [
-  //     equals(
-  //       SearchState(
-  //         status: SearchStatus.success,
-  //         offset: 10,
-  //         result: Result(list: searchBloc.state.result.list, count: 200),
-  //       ),
-  //     ),
-  //   ],
-  // );
-  // });
 }
 
 void simpleSearchAddTerm() {
   late SearchRepository repo;
   late SearchBloc searchBloc;
   setUp(() {
+    registerFallbackValue(FakeSearchState());
+    registerFallbackValue(FakeSearchEvent());
     // prepare default values for Search bloc
     repo = MockRepo();
     searchBloc = SearchBloc(searchRepo: repo);
@@ -102,6 +48,29 @@ void simpleSearchAddTerm() {
     build: () => searchBloc,
     act: (bloc) => bloc.add(const SetTerm(term: 'food')),
     expect: () => [SearchState(term: 'food')],
+  );
+  blocTest<SearchBloc, SearchState>(
+    'when send SimpleSearch event. then repository searchEntries func should be called',
+    build: () {
+      const mockResult = Result<Entry>(list: [], count: 0);
+
+      when(
+        () => searchBloc.searchRoutine(any(), any(), any()),
+      ).thenAnswer((_) async => mockResult);
+      return searchBloc;
+    },
+    act: (bloc) => bloc.add(const SimpleSearch(term: 'food', offset: 0)),
+    verify: (bloc) {
+      verify(() => bloc.searchRoutine(any(), any(), any())).called(1);
+    },
+
+    // expect: () => [
+    //   predicate<SearchState>((state) => state.status == SearchStatus.loading),
+    //   predicate<SearchState>(
+    //     (state) =>
+    //         state.status == SearchStatus.success && state.result.count == 0,
+    //   ),
+    // ],
   );
 }
 
@@ -123,8 +92,6 @@ void clearAdvancedFilters() {
     expect: () => [SearchState()],
   );
 }
-
-class FakeSearchState extends Fake implements SearchState {}
 
 void applyAdvancedFilters() {
   late SearchRepository repo;
