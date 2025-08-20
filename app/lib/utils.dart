@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:mal/shared/db.dart';
 import 'package:uuid/uuid.dart';
-import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart' as sql;
 
 const uuid = Uuid();
@@ -27,42 +27,7 @@ class MalPage {
 }
 
 Future<sql.Database> createOrOpenDB() async {
-  final dbPath = await sql.getDatabasesPath();
-  return sql.openDatabase(
-    path.join(dbPath, 'mal.db'),
-    onCreate: (db, version) async {
-      final batch = db.batch();
-
-      categoriesMigrateUp(batch);
-      entriesMigrateUp(batch);
-
-      await batch.commit();
-      logger.i('database updated');
-    },
-    version: 1,
-  );
-}
-
-void entriesMigrateUp(sql.Batch batch) {
-  batch.execute('''CREATE TABLE entries(
-      uid text primary key,
-      description text,
-      type text,
-      category text,
-      date TEXT DEFAULT (datetime('now')),
-      amount int
-  );
-  ''');
-}
-
-void categoriesMigrateUp(sql.Batch batch) {
-  batch.execute('''
-    CREATE TABLE categories(
-       uid text primary key,
-       title text,
-       type text
-    );
-  ''');
+  return Db.use();
 }
 
 class DaySums {
