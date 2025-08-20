@@ -4,6 +4,8 @@ import 'package:faker/faker.dart';
 import 'package:mal/shared/data/models/category.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/utils.dart';
+// ignore: depend_on_referenced_packages
+import 'package:sqflite_common/sqlite_api.dart';
 
 final random = RandomGenerator(seed: 63833423);
 final faker = Faker.withGenerator(random);
@@ -17,11 +19,14 @@ final categories = [
   Category(title: 'أخرى', type: types[0]),
 ];
 
-List<Entry> entries = [];
-
 Future<void> generateData() async {
   final db = await createOrOpenDB();
-  await db.delete('categories');
+  await generateCategories(db);
+  await generateEntries(db);
+}
+
+Future<void> generateEntries(Database db) async {
+  final List<Entry> entries = [];
   await db.delete('entries');
   final random = Random();
   for (int i = 0; i < 200; i++) {
@@ -42,16 +47,18 @@ Future<void> generateData() async {
       ),
     );
   }
-  final batch = db.batch();
+  for (final entry in entries) {
+    await db.insert('entries', entry.toMap());
+  }
+}
+
+Future<void> generateCategories(Database db) async {
+  await db.delete('categories');
   for (final category in categories) {
-    batch.insert('categories', {
+    await db.insert('categories', {
       'uid': category.uid,
       'title': category.title,
       'type': category.type,
     });
   }
-  for (final entry in entries) {
-    batch.insert('entries', entry.toMap());
-  }
-  await batch.commit();
 }
