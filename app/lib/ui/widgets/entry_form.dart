@@ -214,7 +214,6 @@ class _EntryFormState extends ConsumerState<EntryForm> {
                           if (value == null) return;
                           setState(() {
                             _category = value;
-                            logger.i('selected category $_category');
                           });
                         },
                       ),
@@ -267,7 +266,6 @@ class _EntryFormState extends ConsumerState<EntryForm> {
     try {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        logger.i(_category);
         final entry = Entry(
           uid: widget.entry?.uid,
           description: _description,

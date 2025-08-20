@@ -56,8 +56,8 @@ class EntriesNotifier extends StateNotifier<List<Entry>> {
           .toList();
     } catch (err) {
       logger
-        ..i('error in provider')
-        ..i(err);
+        ..e('error in provider')
+        ..e(err);
     }
   }
 

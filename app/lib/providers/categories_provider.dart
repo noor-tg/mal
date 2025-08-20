@@ -85,8 +85,8 @@ class CategoriesNotifier extends StateNotifier<Map<String, List<Category>>> {
       };
     } catch (err) {
       logger
-        ..i('error in provider')
-        ..i(err);
+        ..e('error in provider')
+        ..e(err);
     }
   }
 
