@@ -118,7 +118,7 @@ class _EntryDetailsState extends State<EntryDetails> {
                 ),
               ),
               box16,
-              MalTitle(text: l10n!.description),
+              MalTitle(text: l10n!.title),
               box8,
               Card.filled(
                 color: Colors.white,
