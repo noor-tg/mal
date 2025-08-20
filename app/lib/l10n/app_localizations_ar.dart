@@ -39,6 +39,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get categoryTitle => 'العنوان';
 
   @override
+  String get title => 'العنوان';
+
+  @override
   String get categoryType => 'النوع';
 
   @override
@@ -128,4 +131,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get reset => 'تراجع';
+
+  @override
+  String get notSelected => 'لم يتم الاختيار';
 }

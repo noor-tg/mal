@@ -4,6 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mal/ui/mal_app.dart';
 
 void main() async {
+  runApp(await initMalApp());
+}
+
+Future<Widget> initMalApp() async {
   await dotenv.load();
-  runApp(const ProviderScope(child: MalApp()));
+  return const ProviderScope(child: MalApp());
 }

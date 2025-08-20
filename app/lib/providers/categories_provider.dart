@@ -122,10 +122,6 @@ Future<List<Map<String, dynamic>>> getPieData(String type) async {
   );
 
   final random = Random();
-  logger
-    ..i('hi')
-    ..i(res)
-    ..i(total);
 
   if (res.isNotEmpty) {
     for (final item in res) {

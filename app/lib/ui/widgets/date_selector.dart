@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
 
 class DateSelector extends StatelessWidget {
@@ -26,7 +27,11 @@ class DateSelector extends StatelessWidget {
           onPressed: selectDate,
           child: Row(
             children: [
-              Text(_date == null ? 'Not Selected' : formatter.format(_date)),
+              Text(
+                _date == null
+                    ? AppLocalizations.of(context)!.notSelected
+                    : formatter.format(_date),
+              ),
               const SizedBox(width: 8),
               const Icon(Icons.calendar_month),
             ],

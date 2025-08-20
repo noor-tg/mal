@@ -94,7 +94,7 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('ar')];
 
-  /// reports screen title
+  /// No description provided for @reportsTitle.
   ///
   /// In ar, this message translates to:
   /// **'تقارير'**
@@ -153,6 +153,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'العنوان'**
   String get categoryTitle;
+
+  /// No description provided for @title.
+  ///
+  /// In ar, this message translates to:
+  /// **'العنوان'**
+  String get title;
 
   /// No description provided for @categoryType.
   ///
@@ -333,6 +339,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تراجع'**
   String get reset;
+
+  /// No description provided for @notSelected.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يتم الاختيار'**
+  String get notSelected;
 }
 
 class _AppLocalizationsDelegate

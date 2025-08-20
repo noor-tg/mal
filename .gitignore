@@ -1,2 +1,4 @@
 .obsidian/workspace.json
 app/coverage
+app/android/.kotlin/sessions
+app/android/build/reports/problems

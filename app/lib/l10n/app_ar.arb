@@ -1,8 +1,5 @@
 {
   "reportsTitle": "تقارير",
-  "@reportsTitle": {
-    "description": "reports screen title"
-  },
   "tabReportsLabel": "تقارير",
   "tabCalendarLabel": "تقوم",
   "tabSearchLabel": "بحث",
@@ -12,6 +9,7 @@
   "income": "دخل",
   "newCategory": "إضافة وسم",
   "categoryTitle": "العنوان",
+  "title": "العنوان",
   "categoryType": "النوع",
   "type": "النوع",
   "save": "حفظ",
@@ -41,5 +39,6 @@
   "all": "الكل",
   "order": "الترتيب",
   "search": "بحث",
-  "reset": "تراجع"
+  "reset": "تراجع",
+  "notSelected": "لم يتم الاختيار"
 }
