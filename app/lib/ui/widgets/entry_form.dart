@@ -288,7 +288,7 @@ class _EntryFormState extends ConsumerState<EntryForm> {
         ).showSnackBar(SnackBar(content: Text(l10n.entrySavedSuccessfully)));
       }
     } catch (error) {
-      logger.i(error);
+      logger.e(error);
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(error.toString())));

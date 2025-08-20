@@ -3,10 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mal/data.dart';
 import 'package:mal/l10n/app_localizations_ar.dart';
 import 'package:mal/main.dart';
 // ignore: depend_on_referenced_packages
 import 'package:patrol/patrol.dart';
+
+import 'test_utils.dart';
+
+final l10n = AppLocalizationsAr();
 
 void main() {
   entryFormTest();
@@ -20,15 +25,16 @@ void entryDetailsTest() {
     ($) async {
       final app = await initMalApp();
 
+      await generateData();
+
       await $.pumpWidgetAndSettle(app);
 
-      final l10n = AppLocalizationsAr();
-
-      expect($(AppBar).first.$(l10n.reportsTitle), findsOneWidget);
+      expect($(AppBar), hasTitleIn([l10n.reportsTitle]));
       await $(
         ListTile,
       ).at(0).scrollTo(scrollDirection: AxisDirection.down).tap();
 
+      expect($(AppBar), hasTitleIn([l10n.income, l10n.expense]));
       expect($(l10n.title), findsOneWidget);
       expect($(Icons.edit), findsOneWidget);
       expect($(Icons.delete), findsOneWidget);
@@ -49,9 +55,7 @@ void entryFormTest() {
 
       await $.pumpWidgetAndSettle(app);
 
-      final l10n = AppLocalizationsAr();
-
-      expect($(AppBar).first.$(l10n.reportsTitle), findsOneWidget);
+      expect($(AppBar), hasTitleIn([l10n.reportsTitle]));
       await $(Icons.create).tap();
 
       expect($(l10n.newEntry), findsOneWidget);
