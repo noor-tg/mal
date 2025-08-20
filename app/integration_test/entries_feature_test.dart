@@ -11,7 +11,11 @@ import 'package:mal/ui/mal_app.dart';
 import 'package:patrol/patrol.dart';
 
 void main() {
-  patrolTest(
+  entryFormTest();
+}
+
+void entryFormTest() {
+  return patrolTest(
     'fill entry form successfully and see success message',
     framePolicy: LiveTestWidgetsFlutterBindingFramePolicy.fullyLive,
     ($) async {
