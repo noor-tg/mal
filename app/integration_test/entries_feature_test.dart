@@ -1,17 +1,43 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mal/l10n/app_localizations_ar.dart';
-import 'package:mal/ui/mal_app.dart';
+import 'package:mal/main.dart';
 // ignore: depend_on_referenced_packages
 import 'package:patrol/patrol.dart';
 
 void main() {
   entryFormTest();
+  entryDetailsTest();
+}
+
+void entryDetailsTest() {
+  return patrolTest(
+    'check for details view',
+    framePolicy: LiveTestWidgetsFlutterBindingFramePolicy.fullyLive,
+    ($) async {
+      final app = await initMalApp();
+
+      await $.pumpWidgetAndSettle(app);
+
+      final l10n = AppLocalizationsAr();
+
+      expect($(AppBar).first.$(l10n.reportsTitle), findsOneWidget);
+      await $(
+        ListTile,
+      ).at(0).scrollTo(scrollDirection: AxisDirection.down).tap();
+
+      expect($(l10n.title), findsOneWidget);
+      expect($(Icons.edit), findsOneWidget);
+      expect($(Icons.delete), findsOneWidget);
+
+      if (!Platform.isMacOS) {
+        await $.native.pressHome();
+      }
+    },
+  );
 }
 
 void entryFormTest() {
@@ -19,9 +45,9 @@ void entryFormTest() {
     'fill entry form successfully and see success message',
     framePolicy: LiveTestWidgetsFlutterBindingFramePolicy.fullyLive,
     ($) async {
-      await dotenv.load();
+      final app = await initMalApp();
 
-      await $.pumpWidgetAndSettle(const ProviderScope(child: MalApp()));
+      await $.pumpWidgetAndSettle(app);
 
       final l10n = AppLocalizationsAr();
 
