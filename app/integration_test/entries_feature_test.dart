@@ -116,3 +116,31 @@ void entryEditTest() {
     },
   );
 }
+
+void entryDeleteTest() {
+  return patrolTest(
+    'edit existing entry successfully',
+    framePolicy: LiveTestWidgetsFlutterBindingFramePolicy.fullyLive,
+    ($) async {
+      final app = await initMalApp();
+
+      await generateData();
+
+      await $.pumpWidgetAndSettle(app);
+
+      expect($(AppBar), hasTitleIn([l10n.reportsTitle]));
+      await $(
+        ListTile,
+      ).at(0).scrollTo(scrollDirection: AxisDirection.down).tap();
+
+      expect($(AppBar), hasTitleIn([l10n.income, l10n.expense]));
+      expect($(l10n.title), findsWidgets);
+      expect($(Icons.edit), findsOneWidget);
+      expect($(Icons.delete), findsOneWidget);
+
+      await $(Icons.delete).tap();
+
+      expect($(l10n.entrySavedSuccessfully), findsOneWidget);
+    },
+  );
+}

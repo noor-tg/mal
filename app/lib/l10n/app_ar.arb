@@ -41,5 +41,6 @@
   "order": "الترتيب",
   "search": "بحث",
   "reset": "تراجع",
-  "notSelected": "لم يتم الاختيار"
+  "notSelected": "لم يتم الاختيار",
+  "entryRemovedSuccessfully": "تم الحذف بنجاح"
 }

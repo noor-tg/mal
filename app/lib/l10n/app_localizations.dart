@@ -351,6 +351,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'لم يتم الاختيار'**
   String get notSelected;
+
+  /// No description provided for @entryRemovedSuccessfully.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم الحذف بنجاح'**
+  String get entryRemovedSuccessfully;
 }
 
 class _AppLocalizationsDelegate

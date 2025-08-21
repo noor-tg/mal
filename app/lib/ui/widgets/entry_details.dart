@@ -24,7 +24,7 @@ class _EntryDetailsState extends State<EntryDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         title: Text(entry.type),
@@ -38,6 +38,23 @@ class _EntryDetailsState extends State<EntryDetails> {
                 'entries',
                 where: 'uid = ?',
                 whereArgs: [entry.uid],
+              );
+              // ignore: use_build_context_synchronously
+              ScaffoldMessenger.of(context).clearSnackBars();
+              // ignore: use_build_context_synchronously
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(l10n.entryRemovedSuccessfully),
+                  duration: const Duration(seconds: 3),
+                  action: SnackBarAction(
+                    onPressed: () {
+                      setState(() async {
+                        await db.insert('entries', entry.toMap());
+                      });
+                    },
+                    label: l10n.reset,
+                  ),
+                ),
               );
               setState(() {
                 Navigator.of(context).pop();

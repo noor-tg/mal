@@ -137,4 +137,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notSelected => 'لم يتم الاختيار';
+
+  @override
+  String get entryRemovedSuccessfully => 'تم الحذف بنجاح';
 }
