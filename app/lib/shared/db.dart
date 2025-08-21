@@ -12,7 +12,8 @@ class Db {
     String? dbName;
     final dbenv = dotenv.env['DB_NAME'];
     if (dbenv != null && dbenv.contains('memory')) {
-      dbName = dotenv.env['DB_NAME'];
+      final dbPath = await sql.getDatabasesPath();
+      dbName = path.join(dbPath, 'test.db');
     } else {
       final dbPath = await sql.getDatabasesPath();
       dbName = path.join(dbPath, 'mal.db');

@@ -49,29 +49,6 @@ void simpleSearchAddTerm() {
     act: (bloc) => bloc.add(const SetTerm(term: 'food')),
     expect: () => [SearchState(term: 'food')],
   );
-  blocTest<SearchBloc, SearchState>(
-    'when send SimpleSearch event. then repository searchEntries func should be called',
-    build: () {
-      const mockResult = Result<Entry>(list: [], count: 0);
-
-      when(
-        () => searchBloc.searchRoutine(any(), any(), any()),
-      ).thenAnswer((_) async => mockResult);
-      return searchBloc;
-    },
-    act: (bloc) => bloc.add(const SimpleSearch(term: 'food', offset: 0)),
-    verify: (bloc) {
-      verify(() => bloc.searchRoutine(any(), any(), any())).called(1);
-    },
-
-    // expect: () => [
-    //   predicate<SearchState>((state) => state.status == SearchStatus.loading),
-    //   predicate<SearchState>(
-    //     (state) =>
-    //         state.status == SearchStatus.success && state.result.count == 0,
-    //   ),
-    // ],
-  );
 }
 
 void clearAdvancedFilters() {

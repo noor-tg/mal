@@ -17,17 +17,17 @@ void main() {
   setUpAll(() {
     databaseFactory = databaseFactoryFfi;
   });
-  group('search repository > ', () {
-    late SqlRespository repo;
-    late Database db;
-    setUpAll(() async {
-      await dotenv.load();
-      db = await Db.use();
-      await generateData();
-      repo = SqlRespository();
-    });
+  simpleSearchTests();
+  advancedSearchTests();
+}
 
+void simpleSearchTests() {
+  group('search repository > ', () {
     test('simple search by description, category or type', () async {
+      await dotenv.load();
+      await generateData();
+      final repo = SqlRespository();
+
       final res = await repo.searchEntries(term: 'h');
       expect(res, isA<Result<Entry>>());
       expect(res.list, isA<List<Entry>>());
@@ -47,6 +47,11 @@ void main() {
     });
 
     test('expect empty list when offset is byond result total', () async {
+      await dotenv.load();
+      final db = await Db.use();
+      await generateData();
+      final repo = SqlRespository();
+
       final totals = await db.query('entries');
       final res = await repo.searchEntries(term: '', offset: totals.length);
 
@@ -57,6 +62,10 @@ void main() {
     test(
       'expect all results returned from latest to oldest when there is no search term',
       () async {
+        await dotenv.load();
+        await generateData();
+        final repo = SqlRespository();
+
         final res = await repo.searchEntries(term: '');
 
         expect(res.count, greaterThan(0));
@@ -69,6 +78,10 @@ void main() {
     );
 
     test('search by type', () async {
+      await dotenv.load();
+      await generateData();
+      final repo = SqlRespository();
+
       // when filter by type
       final res = await repo.searchEntries(term: types[0]);
       // then all result should be related to this type
@@ -84,6 +97,10 @@ void main() {
     });
 
     test('search by category', () async {
+      await dotenv.load();
+      await generateData();
+      final repo = SqlRespository();
+
       final random = Random();
       final category = categories[random.nextInt(categories.length)].title;
       final res = await repo.searchEntries(term: category);
@@ -100,20 +117,15 @@ void main() {
       }
     });
   });
-  advancedSearchTests();
 }
 
 void advancedSearchTests() {
   group('Advanced Search', () {
-    late SqlRespository repo;
-    // late Database db;
-    setUpAll(() async {
-      await dotenv.load();
-      // db = await Db.use();
-      await generateData();
-      repo = SqlRespository();
-    });
     test('filter by categories correctly', () async {
+      await dotenv.load();
+      await generateData();
+      final repo = SqlRespository();
+
       // prepare
       final res = await repo.advancedSearch(
         SearchState(
@@ -132,6 +144,9 @@ void advancedSearchTests() {
       expect(categories[2].title, isNot(equals(res.list.last.category)));
     });
     test('filter by type correctly', () async {
+      await dotenv.load();
+      await generateData();
+      final repo = SqlRespository();
       // prepare
       final res = await repo.advancedSearch(
         SearchState(filters: Filters.withCurrentYear(type: EntryType.income)),
@@ -142,6 +157,9 @@ void advancedSearchTests() {
       expect(res.list.last.type, 'دخل');
     });
     test('filter by amount range', () async {
+      await dotenv.load();
+      await generateData();
+      final repo = SqlRespository();
       // prepare
       final res = await repo.advancedSearch(
         SearchState(
@@ -156,6 +174,9 @@ void advancedSearchTests() {
       expect(res.list.last.amount, lessThanOrEqualTo(100));
     });
     test('filter by date range', () async {
+      await dotenv.load();
+      await generateData();
+      final repo = SqlRespository();
       // prepare
       final res = await repo.advancedSearch(
         SearchState(filters: Filters.withCurrentYear()),
@@ -169,6 +190,9 @@ void advancedSearchTests() {
       );
     });
     test('check for default applied sorting (date desc)', () async {
+      await dotenv.load();
+      await generateData();
+      final repo = SqlRespository();
       // prepare
       final res = await repo.advancedSearch(
         SearchState(filters: Filters.withCurrentYear()),
