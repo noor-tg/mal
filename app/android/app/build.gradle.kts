@@ -30,6 +30,7 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
         testInstrumentationRunner = "pl.leancode.patrol.PatrolJUnitRunner"
+        testInstrumentationRunner = "com.noortg.mal.AllurePatrolJUnitRunner"          
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
     }
 
@@ -47,6 +48,10 @@ android {
 
     dependencies {
         androidTestUtil("androidx.test:orchestrator:1.5.1")
+        androidTestImplementation("io.qameta.allure:allure-kotlin-model:2.4.0")
+        androidTestImplementation("io.qameta.allure:allure-kotlin-commons:2.4.0")
+        androidTestImplementation("io.qameta.allure:allure-kotlin-junit4:2.4.0")
+        androidTestImplementation("io.qameta.allure:allure-kotlin-android:2.4.0")
     }
 
 }
