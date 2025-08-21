@@ -38,10 +38,6 @@ void entryDetailsTest() {
       expect($(l10n.title), findsOneWidget);
       expect($(Icons.edit), findsOneWidget);
       expect($(Icons.delete), findsOneWidget);
-
-      if (!Platform.isMacOS) {
-        await $.native.pressHome();
-      }
     },
   );
 }
@@ -74,9 +70,9 @@ void entryFormTest() {
 
       expect($(l10n.entrySavedSuccessfully), findsOneWidget);
 
-      if (!Platform.isMacOS) {
-        await $.native.pressHome();
-      }
+      // if (!Platform.isMacOS) {
+      //   await $.native.pressHome();
+      // }
     },
   );
 }

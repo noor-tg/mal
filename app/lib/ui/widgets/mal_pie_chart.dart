@@ -35,10 +35,12 @@ class _MalPieChartState extends State<MalPieChart> {
                         touchedTitle = '';
                         return;
                       }
-                      touchedTitle = pieTouchResponse
-                          .touchedSection!
-                          .touchedSection!
-                          .title;
+                      touchedTitle =
+                          pieTouchResponse
+                              .touchedSection
+                              ?.touchedSection
+                              ?.title ??
+                          '';
                     });
                   },
                 ),
