@@ -238,6 +238,12 @@ abstract class AppLocalizations {
   /// **'تسجيل مدخل'**
   String get newEntry;
 
+  /// No description provided for @editEntry.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل مدخل'**
+  String get editEntry;
+
   /// No description provided for @amountErrorMessage.
   ///
   /// In ar, this message translates to:
@@ -247,7 +253,7 @@ abstract class AppLocalizations {
   /// No description provided for @entrySavedSuccessfully.
   ///
   /// In ar, this message translates to:
-  /// **'تم تسجيل المدخل بنحاج'**
+  /// **'تم حفظ المدخل بنجاح'**
   String get entrySavedSuccessfully;
 
   /// No description provided for @categoresSavedSuccessfully.

@@ -69,7 +69,7 @@ class _EntryFormState extends ConsumerState<EntryForm> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                l10n.newEntry,
+                widget.entry != null ? l10n.editEntry : l10n.newEntry,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 20,

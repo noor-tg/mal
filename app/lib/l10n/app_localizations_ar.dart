@@ -82,10 +82,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get newEntry => 'تسجيل مدخل';
 
   @override
+  String get editEntry => 'تعديل مدخل';
+
+  @override
   String get amountErrorMessage => 'يرجى إدخال قيمة أكثر من 0';
 
   @override
-  String get entrySavedSuccessfully => 'تم تسجيل المدخل بنحاج';
+  String get entrySavedSuccessfully => 'تم حفظ المدخل بنجاح';
 
   @override
   String get categoresSavedSuccessfully => 'تم تسجيل وسم بنجاح';
