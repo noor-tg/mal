@@ -17,7 +17,7 @@ void main() {
   entryCreateTest();
   entryDetailsTest();
   entryEditTest();
-  // entryDeleteTest();
+  entryDeleteTest();
 }
 
 void entryDetailsTest() {
@@ -119,7 +119,7 @@ void entryEditTest() {
 
 void entryDeleteTest() {
   return patrolTest(
-    'edit existing entry successfully',
+    'delete existing entry successfully',
     framePolicy: LiveTestWidgetsFlutterBindingFramePolicy.fullyLive,
     ($) async {
       final app = await initMalApp();
@@ -140,7 +140,7 @@ void entryDeleteTest() {
 
       await $(Icons.delete).tap();
 
-      expect($(l10n.entrySavedSuccessfully), findsOneWidget);
+      expect($(l10n.entryRemovedSuccessfully), findsOneWidget);
     },
   );
 }
