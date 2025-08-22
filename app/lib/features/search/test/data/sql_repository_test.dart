@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mal/data.dart';

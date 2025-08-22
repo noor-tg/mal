@@ -50,4 +50,22 @@ class Entry extends Equatable {
       'date': date,
     };
   }
+
+  Entry copyWith({
+    String? uid,
+    String? description,
+    int? amount,
+    String? category,
+    String? type,
+    String? date,
+  }) {
+    return Entry(
+      uid: uid ?? this.uid,
+      description: description ?? this.description,
+      amount: amount ?? this.amount,
+      category: category ?? this.category,
+      type: type ?? this.type,
+      date: date ?? this.date,
+    );
+  }
 }
