@@ -10,12 +10,12 @@ import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/shared/db.dart';
+import 'package:mal/test/unit_utils.dart';
 import 'package:mal/utils.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
-  setUpAll(() {
-    databaseFactory = databaseFactoryFfi;
+  setUpAll(() async {
+    await GeneralSetup.init();
   });
   simpleSearchTests();
   advancedSearchTests();
@@ -24,8 +24,6 @@ void main() {
 void simpleSearchTests() {
   group('search repository > ', () {
     test('simple search by description, category or type', () async {
-      await dotenv.load();
-      await generateData();
       final repo = SqlRespository();
 
       final res = await repo.searchEntries(term: 'h');
@@ -47,9 +45,7 @@ void simpleSearchTests() {
     });
 
     test('expect empty list when offset is byond result total', () async {
-      await dotenv.load();
       final db = await Db.use();
-      await generateData();
       final repo = SqlRespository();
 
       final totals = await db.query('entries');
@@ -62,8 +58,6 @@ void simpleSearchTests() {
     test(
       'expect all results returned from latest to oldest when there is no search term',
       () async {
-        await dotenv.load();
-        await generateData();
         final repo = SqlRespository();
 
         final res = await repo.searchEntries(term: '');
@@ -78,8 +72,6 @@ void simpleSearchTests() {
     );
 
     test('search by type', () async {
-      await dotenv.load();
-      await generateData();
       final repo = SqlRespository();
 
       // when filter by type
@@ -97,8 +89,6 @@ void simpleSearchTests() {
     });
 
     test('search by category', () async {
-      await dotenv.load();
-      await generateData();
       final repo = SqlRespository();
 
       final random = Random();
@@ -122,8 +112,6 @@ void simpleSearchTests() {
 void advancedSearchTests() {
   group('Advanced Search', () {
     test('filter by categories correctly', () async {
-      await dotenv.load();
-      await generateData();
       final repo = SqlRespository();
 
       // prepare
@@ -144,8 +132,6 @@ void advancedSearchTests() {
       expect(categories[2].title, isNot(equals(res.list.last.category)));
     });
     test('filter by type correctly', () async {
-      await dotenv.load();
-      await generateData();
       final repo = SqlRespository();
       // prepare
       final res = await repo.advancedSearch(
@@ -157,8 +143,6 @@ void advancedSearchTests() {
       expect(res.list.last.type, 'دخل');
     });
     test('filter by amount range', () async {
-      await dotenv.load();
-      await generateData();
       final repo = SqlRespository();
       // prepare
       final res = await repo.advancedSearch(
@@ -174,8 +158,6 @@ void advancedSearchTests() {
       expect(res.list.last.amount, lessThanOrEqualTo(100));
     });
     test('filter by date range', () async {
-      await dotenv.load();
-      await generateData();
       final repo = SqlRespository();
       // prepare
       final res = await repo.advancedSearch(
@@ -190,8 +172,6 @@ void advancedSearchTests() {
       );
     });
     test('check for default applied sorting (date desc)', () async {
-      await dotenv.load();
-      await generateData();
       final repo = SqlRespository();
       // prepare
       final res = await repo.advancedSearch(

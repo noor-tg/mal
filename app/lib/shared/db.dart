@@ -10,17 +10,14 @@ class Db {
     if (_database != null) return _database!;
 
     String? dbName;
-    final dbenv = dotenv.env['DB_NAME'];
-    if (dbenv != null && dbenv.contains('memory')) {
+    final dbFile = dbName = dotenv.env['DB_PATH'] ?? ':memory:';
+    if (!dbFile.contains('memory')) {
       final dbPath = await sql.getDatabasesPath();
-      dbName = path.join(dbPath, 'test.db');
-    } else {
-      final dbPath = await sql.getDatabasesPath();
-      dbName = path.join(dbPath, 'mal.db');
+      dbName = path.join(dbPath, dbFile);
     }
 
     _database = await sql.openDatabase(
-      dbName!,
+      dbName,
       onCreate: (db, version) async {
         final batch = db.batch();
 

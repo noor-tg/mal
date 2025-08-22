@@ -1,15 +1,11 @@
 // ignore: depend_on_referenced_packages
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mal/data.dart';
 import 'package:mal/shared/query_builder.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:mal/test/unit_utils.dart';
 
 void main() {
   setUpAll(() async {
-    await dotenv.load();
-    databaseFactory = databaseFactoryFfi;
-    await generateData();
+    await GeneralSetup.init();
   });
   group(QueryBuilder, () {
     test(
