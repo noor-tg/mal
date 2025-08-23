@@ -21,37 +21,40 @@ class SqlRepository extends EntriesRepository {
   }
 
   @override
-  Future<Result<Entry>> find(List<Where> where) async {
+  Future<Result<Entry>> find({List<Where>? where}) async {
     final listQb = QueryBuilder('entries');
-    for (final single in where) {
-      if (single.oprand == '=') {
-        listQb.where(single.field, single.oprand, single.value as String);
+    final countQb = QueryBuilder('entries');
+    if (where != null) {
+      for (final single in where) {
+        if (single.oprand == '=') {
+          listQb.where(single.field, single.oprand, single.value as String);
+        }
+        if (single.oprand == 'like') {
+          listQb.whereLike(single.field, single.value as String);
+        }
+        if (single.oprand == 'between') {
+          listQb.whereIn(single.field, single.value as List<String>);
+        }
       }
-      if (single.oprand == 'like') {
-        listQb.whereLike(single.field, single.value as String);
-      }
-      if (single.oprand == 'between') {
-        listQb.whereIn(single.field, single.value as List<String>);
+
+      for (final single in where) {
+        if (single.oprand == '=') {
+          countQb.where(single.field, single.oprand, single.value as String);
+        }
+        if (single.oprand == 'like') {
+          countQb.whereLike(single.field, single.value as String);
+        }
+        if (single.oprand == 'between') {
+          countQb.whereIn(single.field, single.value as List<String>);
+        }
       }
     }
+
     final data = await listQb.getAll();
     final list = List.generate(
       data.length,
       (index) => Entry.fromMap(data[index]),
     );
-
-    final countQb = QueryBuilder('entries');
-    for (final single in where) {
-      if (single.oprand == '=') {
-        countQb.where(single.field, single.oprand, single.value as String);
-      }
-      if (single.oprand == 'like') {
-        countQb.whereLike(single.field, single.value as String);
-      }
-      if (single.oprand == 'between') {
-        countQb.whereIn(single.field, single.value as List<String>);
-      }
-    }
     final count = await countQb.count();
 
     return Result(list: list, count: count);

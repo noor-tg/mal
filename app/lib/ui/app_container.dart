@@ -31,6 +31,7 @@ class _AppContainerState extends State<AppContainer> {
   @override
   void initState() {
     context.read<CategoriesBloc>().add(AppInit());
+    context.read<EntriesBloc>().add(LoadAll());
     super.initState();
   }
 

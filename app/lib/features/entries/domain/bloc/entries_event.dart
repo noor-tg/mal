@@ -12,3 +12,5 @@ final class StoreEntry extends EntriesEvent {
 
   const StoreEntry(this.entry);
 }
+
+final class LoadAll extends EntriesEvent {}

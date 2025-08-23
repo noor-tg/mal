@@ -13,6 +13,7 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
 
   EntriesBloc({required this.repo}) : super(const EntriesState()) {
     on<StoreEntry>(_onStoreEntry);
+    on<LoadAll>(_onLoadAll);
   }
 
   Future<void> _onStoreEntry(
@@ -40,5 +41,13 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
         ),
       );
     }
+  }
+
+  Future<void> _onLoadAll(LoadAll event, Emitter<EntriesState> emit) async {
+    emit(state.copyWith(status: EntriesStatus.loading));
+
+    final result = await repo.find();
+
+    emit(state.copyWith(all: result.list, status: EntriesStatus.success));
   }
 }
