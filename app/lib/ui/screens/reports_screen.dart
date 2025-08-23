@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/providers/entries_provider.dart';
 import 'package:mal/ui/screens/mal_page_container.dart';
@@ -50,7 +52,11 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
           const SizedBox(height: 16),
           MalTitle(text: l10n.todayEntries),
           const SizedBox(height: 8),
-          EntriesList(entries: entries),
+          BlocBuilder<EntriesBloc, EntriesState>(
+            builder: (BuildContext context, state) {
+              return EntriesList(entries: state.all);
+            },
+          ),
         ],
       ),
     );
