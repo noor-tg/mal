@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/providers/categories_provider.dart';
-import 'package:mal/providers/entries_provider.dart';
 import 'package:mal/shared/data/models/category.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/ui/widgets/date_selector.dart';
 import 'package:mal/utils.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 @immutable
 class EntryForm extends ConsumerStatefulWidget {
@@ -272,16 +273,15 @@ class _EntryFormState extends ConsumerState<EntryForm> {
           type: _type,
           amount: _amount,
           category: _category,
-          date: _date != null
-              ? _date!.toIso8601String()
-              : DateTime.now().toIso8601String(),
+          date: _date?.toIso8601String(),
         );
-        ref
-            .read(entriesProvider.notifier)
-            .saveEntry(
-              entry: entry,
-              operaton: widget.entry == null ? 'insert' : 'update',
-            );
+        context.read<EntriesBloc>().add(StoreEntry(entry));
+        // ref
+        //     .read(entriesProvider.notifier)
+        //     .saveEntry(
+        //       entry: entry,
+        //       operaton: widget.entry == null ? 'insert' : 'update',
+        //     );
         Navigator.of(context).pop(widget.entry != null);
         ScaffoldMessenger.of(
           context,

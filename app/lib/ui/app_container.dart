@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
+import 'package:mal/features/entries/data/repositories/sql_repository.dart';
+import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
+import 'package:mal/features/entries/domain/repositories/entries_repository.dart';
 import 'package:mal/features/search/data/repositores/sql_respository.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
@@ -98,7 +101,17 @@ class _AppContainerState extends State<AppContainer> {
                       useSafeArea: true,
                       isScrollControlled: true,
                       context: context,
-                      builder: (ctx) => const EntryForm(),
+                      builder: (context) => RepositoryProvider(
+                        create: (_) {
+                          return SqlRepository();
+                        },
+                        child: BlocProvider(
+                          create: (BuildContext ctx) {
+                            return EntriesBloc(repo: ctx.read<SqlRepository>());
+                          },
+                          child: const EntryForm(),
+                        ),
+                      ),
                     );
                   },
                 ),

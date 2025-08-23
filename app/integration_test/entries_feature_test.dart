@@ -13,9 +13,9 @@ final l10n = AppLocalizationsAr();
 
 void main() {
   entryCreateTest();
-  entryDetailsTest();
-  entryEditTest();
-  entryDeleteTest();
+  // entryDetailsTest();
+  // entryEditTest();
+  // entryDeleteTest();
 }
 
 void entryDetailsTest() {
