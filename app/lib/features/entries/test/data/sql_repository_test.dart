@@ -27,9 +27,9 @@ void getManyEntriesTest() {
     // query using sql provider
     await repo.store(entry);
     // update
-    final result = await repo.find([
-      Where(field: 'uid', oprand: '=', value: entry.uid),
-    ]);
+    final result = await repo.find(
+      where: [Where(field: 'uid', oprand: '=', value: entry.uid)],
+    );
     expect(result.list.isNotEmpty, true);
     expect(result.count, greaterThan(0));
   });

@@ -6,29 +6,29 @@ class EntriesState extends Equatable {
   const EntriesState({
     this.currentEntry,
     this.status = EntriesStatus.initial,
-    this.all = const [],
+    this.today = const [],
     this.errorMessage,
   });
 
   final EntriesStatus status;
   final Entry? currentEntry;
-  final List<Entry> all;
+  final List<Entry> today;
   final String? errorMessage;
 
   @override
-  List<Object?> get props => [status, currentEntry, errorMessage, all];
+  List<Object?> get props => [status, currentEntry, errorMessage, today];
 
   EntriesState copyWith({
     EntriesStatus? status,
     Entry? currentEntry,
-    List<Entry>? all,
+    List<Entry>? today,
     String? errorMessage,
   }) {
     return EntriesState(
       status: status ?? this.status,
       currentEntry: currentEntry,
       errorMessage: errorMessage ?? this.errorMessage,
-      all: all ?? this.all,
+      today: today ?? this.today,
     );
   }
 }

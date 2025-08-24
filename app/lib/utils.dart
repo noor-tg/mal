@@ -141,3 +141,7 @@ const box16 = SizedBox(height: 16, width: 16);
 const box24 = SizedBox(height: 24, width: 24);
 
 final logger = Logger();
+
+DateTime now() {
+  return DateTime.now();
+}

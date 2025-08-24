@@ -30,7 +30,6 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    final entries = ref.watch(entriesProvider);
     return MalPageContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -54,7 +53,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
           const SizedBox(height: 8),
           BlocBuilder<EntriesBloc, EntriesState>(
             builder: (BuildContext context, state) {
-              return EntriesList(entries: state.all);
+              return EntriesList(entries: state.today);
             },
           ),
         ],

@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mal/features/entries/domain/repositories/entries_repository.dart';
 import 'package:mal/shared/data/models/entry.dart';
+import 'package:mal/utils.dart';
 
 part 'entries_event.dart';
 part 'entries_state.dart';
@@ -13,7 +14,7 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
 
   EntriesBloc({required this.repo}) : super(const EntriesState()) {
     on<StoreEntry>(_onStoreEntry);
-    on<LoadAll>(_onLoadAll);
+    on<LoadTodayEntries>(_onLoadToday);
   }
 
   Future<void> _onStoreEntry(
@@ -25,15 +26,21 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
     );
     try {
       final stored = await repo.store(state.currentEntry!);
+      final today = DateTime.now().toIso8601String().substring(0, 10);
       emit(
         state.copyWith(
           status: EntriesStatus.success,
-          all: [stored, ...state.all],
           // ignore: avoid_redundant_argument_values
           currentEntry: null,
         ),
       );
-    } catch (err) {
+      if (stored.date.contains(today)) {
+        add(LoadTodayEntries());
+      }
+    } catch (err, trace) {
+      logger
+        ..e(err)
+        ..t(trace);
       emit(
         state.copyWith(
           status: EntriesStatus.failure,
@@ -43,11 +50,26 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
     }
   }
 
-  Future<void> _onLoadAll(LoadAll event, Emitter<EntriesState> emit) async {
-    emit(state.copyWith(status: EntriesStatus.loading));
+  Future<void> _onLoadToday(
+    LoadTodayEntries event,
+    Emitter<EntriesState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(status: EntriesStatus.loading));
 
-    final result = await repo.find();
+      final result = await repo.today();
 
-    emit(state.copyWith(all: result.list, status: EntriesStatus.success));
+      emit(state.copyWith(today: result.list, status: EntriesStatus.success));
+    } catch (err, trace) {
+      logger
+        ..e(err)
+        ..t(trace);
+      emit(
+        state.copyWith(
+          status: EntriesStatus.failure,
+          errorMessage: err.toString(),
+        ),
+      );
+    }
   }
 }

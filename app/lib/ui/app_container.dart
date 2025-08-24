@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
-import 'package:mal/features/entries/data/repositories/sql_repository.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/features/search/data/repositores/sql_respository.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
@@ -31,7 +30,7 @@ class _AppContainerState extends State<AppContainer> {
   @override
   void initState() {
     context.read<CategoriesBloc>().add(AppInit());
-    context.read<EntriesBloc>().add(LoadAll());
+    context.read<EntriesBloc>().add(LoadTodayEntries());
     super.initState();
   }
 

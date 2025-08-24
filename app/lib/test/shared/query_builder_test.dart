@@ -18,8 +18,8 @@ void main() {
         expect(q.table, isA<String>());
         expect(q.table, 'entries');
 
-        expect(q.glimit, isA<int>());
-        expect(q.glimit, 10);
+        expect(q.glimit, isA<int?>());
+        expect(q.glimit, null);
 
         expect(q.goffset, isA<int>());
         expect(q.goffset, 0);

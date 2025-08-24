@@ -8,7 +8,7 @@ class QueryBuilder {
   String? _filterQuery;
   final List<Object?> _whereArgs = [];
 
-  int _limit = 10;
+  int? _limit;
   int _offset = 0;
 
   // getters
@@ -16,12 +16,12 @@ class QueryBuilder {
   String? get gsortBy => _sortBy;
   String? get filterQuery => _filterQuery;
   int get goffset => _offset;
-  int get glimit => _limit;
+  int? get glimit => _limit;
   List<Object?> get whereArgs => _whereArgs;
 
   QueryBuilder(String table) : _table = table;
 
-  QueryBuilder where(String column, String param, String value) {
+  QueryBuilder where(String column, String param, Object? value) {
     _filterQuery ??= '';
     final otherFilterExist = _filterQuery != null && _filterQuery != '';
 
