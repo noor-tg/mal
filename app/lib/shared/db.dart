@@ -1,5 +1,4 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mal/utils.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 
@@ -25,7 +24,7 @@ class Db {
         _entriesMigrateUp(batch);
 
         await batch.commit();
-        logger.i('database updated');
+        // logger.i('database updated');
       },
       version: 1,
     );

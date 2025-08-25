@@ -66,6 +66,13 @@ Future<void> generateCategories(Database db) async {
   }
 }
 
+Category fakeCategory() {
+  return Category(
+    title: faker.lorem.sentence(),
+    type: types[Random().nextInt(types.length)],
+  );
+}
+
 Future<void> clearCategories() async {
   final db = await Db.use();
   await db.delete('categories');

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
+import 'package:mal/features/categories/ui/views/categories_screen.dart';
+import 'package:mal/features/categories/ui/widgets/new_category.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/features/search/data/repositores/sql_respository.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/features/search/ui/views/search_screen.dart';
 import 'package:mal/l10n/app_localizations.dart';
-import 'package:mal/ui/screens/categories_screen.dart';
 import 'package:mal/ui/screens/reports_screen.dart';
 import 'package:mal/ui/widgets/entry_form.dart';
 import 'package:mal/ui/widgets/main_drawer.dart';
-import 'package:mal/ui/widgets/new_category.dart';
 import 'package:mal/utils.dart';
 
 class AppContainer extends StatefulWidget {
@@ -73,7 +73,13 @@ class _AppContainerState extends State<AppContainer> {
                 useSafeArea: true,
                 isScrollControlled: true,
                 context: context,
-                builder: (ctx) => const NewCategory(),
+                builder: (ctx) {
+                  final categoriesBloc = context.read<CategoriesBloc>();
+                  return BlocProvider.value(
+                    value: categoriesBloc,
+                    child: const NewCategory(),
+                  );
+                },
               );
             },
           ),

@@ -1,15 +1,36 @@
 part of 'categories_bloc.dart';
 
 class CategoriesState extends Equatable {
-  const CategoriesState({Result<Category>? categories})
-    : categories = categories ?? const Result(list: [], count: 0);
+  const CategoriesState({
+    this.errorMessage,
+    this.status = BlocStatus.initial,
+    Result<Category>? categories,
+  }) : categories = categories ?? const Result(list: [], count: 0);
 
   final Result<Category> categories;
 
-  @override
-  List<Object> get props => [categories];
+  final BlocStatus status;
 
-  CategoriesState copyWith({Result<Category>? categories}) {
-    return CategoriesState(categories: categories ?? this.categories);
+  final String? errorMessage;
+
+  List<Category> get expenses =>
+      categories.list.where((cat) => cat.type == 'منصرفات').toList();
+
+  List<Category> get income =>
+      categories.list.where((cat) => cat.type == 'دخل').toList();
+
+  @override
+  List<Object?> get props => [categories, status, errorMessage];
+
+  CategoriesState copyWith({
+    Result<Category>? categories,
+    BlocStatus? status,
+    String? errorMessage,
+  }) {
+    return CategoriesState(
+      categories: categories ?? this.categories,
+      status: status ?? this.status,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
   }
 }

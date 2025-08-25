@@ -8,7 +8,7 @@ class Category {
   final String title;
   final String type;
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {'uid': uid, 'title': title, 'type': type};
   }
 

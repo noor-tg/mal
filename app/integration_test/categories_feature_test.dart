@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mal/data.dart';
 import 'package:mal/l10n/app_localizations_ar.dart';
 import 'package:mal/main.dart';
+import 'package:mal/shared/db.dart';
 // ignore: depend_on_referenced_packages
 import 'package:patrol/patrol.dart';
 
@@ -24,7 +25,9 @@ void categoryRemoveTest() {
     ($) async {
       final app = await initMalApp();
 
+      final db = await Db.use();
       await clearCategories();
+      await generateCategories(db);
 
       await $.pumpWidgetAndSettle(app);
 
@@ -57,7 +60,9 @@ void categoriesListTest() {
     ($) async {
       final app = await initMalApp();
 
+      final db = await Db.use();
       await clearCategories();
+      await generateCategories(db);
 
       await $.pumpWidgetAndSettle(app);
 

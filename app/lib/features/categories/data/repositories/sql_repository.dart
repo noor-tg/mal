@@ -25,4 +25,24 @@ class SqlRepository extends CategoriesRepository {
 
     return Result(list: data, count: count);
   }
+
+  @override
+  Future<Category> store(Category category) async {
+    try {
+      await sqlProvider.store(category.toMap());
+
+      return category;
+    } catch (err) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> remove(String uid) async {
+    try {
+      await sqlProvider.remove(uid);
+    } catch (err) {
+      rethrow;
+    }
+  }
 }

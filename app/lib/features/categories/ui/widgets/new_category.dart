@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
-import 'package:mal/providers/categories_provider.dart';
+import 'package:mal/shared/data/models/category.dart';
 
 class NewCategory extends ConsumerStatefulWidget {
   const NewCategory({super.key});
@@ -119,9 +121,9 @@ class _NewCategoryState extends ConsumerState<NewCategory> {
       categoryTypeIsValid();
       if (_formKey.currentState!.validate() && typeIsValid) {
         _formKey.currentState!.save();
-        ref
-            .read(categoriesProvider.notifier)
-            .addCategory(_categoryTitle!, _categoryType!);
+        context.read<CategoriesBloc>().add(
+          StoreCategory(Category(title: _categoryTitle!, type: _categoryType!)),
+        );
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(l10n.categoresSavedSuccessfully)),

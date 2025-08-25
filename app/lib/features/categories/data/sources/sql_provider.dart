@@ -29,4 +29,16 @@ class SqlProvider {
 
     return res.isNotEmpty ? res.first['total'] as int : 0;
   }
+
+  Future<void> store(Map<String, Object?> data) async {
+    final db = await Db.use();
+
+    await db.insert(table, data);
+  }
+
+  Future<void> remove(String uid) async {
+    final db = await Db.use();
+
+    await db.delete(table, where: 'uid = ?', whereArgs: [uid]);
+  }
 }

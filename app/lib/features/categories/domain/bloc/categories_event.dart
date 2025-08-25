@@ -10,3 +10,13 @@ sealed class CategoriesEvent extends Equatable {
 class AppInit extends CategoriesEvent {}
 
 class SeedCategoriedWhenEmpty extends CategoriesEvent {}
+
+class StoreCategory extends CategoriesEvent {
+  final Category category;
+  const StoreCategory(this.category);
+}
+
+class RemoveCategory extends CategoriesEvent {
+  final String uid;
+  const RemoveCategory(this.uid);
+}
