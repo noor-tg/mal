@@ -55,7 +55,7 @@ void removeSingleEntryTest() {
     // query using sql provider
     await repo.store(entry);
     // update
-    final result = await repo.remove(entry);
+    final result = await repo.remove(entry.uid);
     // check results
     final storedEntry = await db.query(
       'entries',

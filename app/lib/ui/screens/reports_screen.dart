@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mal/data.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
-import 'package:mal/providers/entries_provider.dart';
-import 'package:mal/shared/db.dart';
 import 'package:mal/ui/screens/mal_page_container.dart';
 import 'package:mal/ui/widgets/daily_sums_chart.dart';
 import 'package:mal/ui/widgets/mal_title.dart';

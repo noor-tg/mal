@@ -15,7 +15,7 @@ void main() {
   entryCreateTest();
   entryDetailsTest();
   entryEditTest();
-  // entryDeleteTest();
+  entryDeleteTest();
 }
 
 void entryDetailsTest() {
@@ -128,6 +128,8 @@ void entryDeleteTest() {
       final app = await initMalApp();
 
       await generateData();
+
+      await generateTodayEntry();
 
       await $.pumpWidgetAndSettle(app);
 

@@ -34,25 +34,18 @@ class _EntryDetailsState extends State<EntryDetails> {
           IconButton(
             color: Colors.red,
             icon: const Icon(Icons.delete),
-            onPressed: () async {
-              final db = await createOrOpenDB();
-              await db.delete(
-                'entries',
-                where: 'uid = ?',
-                whereArgs: [entry.uid],
-              );
+            onPressed: () {
+              context.read<EntriesBloc>().add(RemoveEntry(entry));
               // ignore: use_build_context_synchronously
               ScaffoldMessenger.of(context).clearSnackBars();
               // ignore: use_build_context_synchronously
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(l10n.entryRemovedSuccessfully),
-                  duration: const Duration(seconds: 3),
+                  duration: const Duration(seconds: 7),
                   action: SnackBarAction(
                     onPressed: () {
-                      setState(() async {
-                        await db.insert('entries', entry.toMap());
-                      });
+                      context.read<EntriesBloc>().add(StoreEntry(entry));
                     },
                     label: l10n.reset,
                   ),

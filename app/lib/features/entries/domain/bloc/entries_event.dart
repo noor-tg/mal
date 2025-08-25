@@ -19,4 +19,10 @@ final class EditEntry extends EntriesEvent {
   const EditEntry(this.entry);
 }
 
+final class RemoveEntry extends EntriesEvent {
+  final Entry entry;
+
+  const RemoveEntry(this.entry);
+}
+
 final class LoadTodayEntries extends EntriesEvent {}

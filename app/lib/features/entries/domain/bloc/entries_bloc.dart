@@ -15,6 +15,7 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
   EntriesBloc({required this.repo}) : super(const EntriesState()) {
     on<StoreEntry>(_onStoreEntry);
     on<EditEntry>(_onEditEntry);
+    on<RemoveEntry>(_onRemoveEntry);
     on<LoadTodayEntries>(_onLoadToday);
   }
 
@@ -92,6 +93,37 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
         ),
       );
       if (stored.date.contains(today)) {
+        add(LoadTodayEntries());
+      }
+    } catch (err, trace) {
+      logger
+        ..e(err)
+        ..t(trace);
+      emit(
+        state.copyWith(
+          status: EntriesStatus.failure,
+          errorMessage: err.toString(),
+        ),
+      );
+    }
+  }
+
+  FutureOr<void> _onRemoveEntry(
+    RemoveEntry event,
+    Emitter<EntriesState> emit,
+  ) async {
+    emit(state.copyWith(status: EntriesStatus.loading));
+    try {
+      await repo.remove(event.entry.uid);
+      final today = DateTime.now().toIso8601String().substring(0, 10);
+      emit(
+        state.copyWith(
+          status: EntriesStatus.success,
+          // ignore: avoid_redundant_argument_values
+          currentEntry: null,
+        ),
+      );
+      if (event.entry.date.contains(today)) {
         add(LoadTodayEntries());
       }
     } catch (err, trace) {

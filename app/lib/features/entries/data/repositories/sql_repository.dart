@@ -87,11 +87,11 @@ class SqlRepository extends EntriesRepository {
   }
 
   @override
-  Future<bool> remove(Entry entry) async {
+  Future<bool> remove(String uid) async {
     try {
       final db = await Db.use();
 
-      await db.delete('entries', where: 'uid = ?', whereArgs: [entry.uid]);
+      await db.delete('entries', where: 'uid = ?', whereArgs: [uid]);
 
       return true;
     } catch (err) {

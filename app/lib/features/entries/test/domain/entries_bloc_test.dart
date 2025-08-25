@@ -99,7 +99,7 @@ void addNewEntryForTodayTest() {
       when(() => repo.store(any())).thenAnswer((_) async {
         return entry;
       });
-      when(() => repo.today()).thenAnswer((_) async {
+      when(repo.today).thenAnswer((_) async {
         return Result<Entry>(list: [entry], count: 1);
       });
     },
@@ -113,7 +113,7 @@ void addNewEntryForTodayTest() {
     verify: (bloc) {
       // Verify that the repository store method was called with the correct entry
       verify(() => repo.store(entry)).called(1);
-      verify(() => repo.today()).called(1);
+      verify(repo.today).called(1);
     },
   );
 }
