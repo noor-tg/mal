@@ -8,3 +8,5 @@ sealed class CategoriesEvent extends Equatable {
 }
 
 class AppInit extends CategoriesEvent {}
+
+class SeedCategoriedWhenEmpty extends CategoriesEvent {}

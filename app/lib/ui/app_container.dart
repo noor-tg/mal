@@ -29,6 +29,7 @@ class _AppContainerState extends State<AppContainer> {
 
   @override
   void initState() {
+    context.read<CategoriesBloc>().add(SeedCategoriedWhenEmpty());
     context.read<CategoriesBloc>().add(AppInit());
     context.read<EntriesBloc>().add(LoadTodayEntries());
     super.initState();
