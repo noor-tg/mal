@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:faker/faker.dart';
 import 'package:mal/shared/data/models/category.dart';
 import 'package:mal/shared/data/models/entry.dart';
+import 'package:mal/shared/db.dart';
 import 'package:mal/utils.dart';
 // ignore: depend_on_referenced_packages
 import 'package:sqflite_common/sqlite_api.dart';
@@ -63,4 +64,11 @@ Future<void> generateCategories(Database db) async {
       'type': category.type,
     });
   }
+}
+
+Future<void> generateTodayEntry() async {
+  var entry = fakeEntry();
+  entry = entry.copyWith(date: DateTime.now().toIso8601String());
+  final db = await Db.use();
+  await db.insert('entries', entry.toMap());
 }

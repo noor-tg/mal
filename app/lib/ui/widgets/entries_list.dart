@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/ui/widgets/entry_details.dart';
@@ -24,7 +26,13 @@ class EntriesList extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (ctx) => EntryDetails(entry: entry),
+                            builder: (ctx) {
+                              final entriesBloc = context.read<EntriesBloc>();
+                              return BlocProvider.value(
+                                value: entriesBloc,
+                                child: EntryDetails(entry: entry),
+                              );
+                            },
                           ),
                         );
                       },

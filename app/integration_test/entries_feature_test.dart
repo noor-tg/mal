@@ -13,8 +13,8 @@ final l10n = AppLocalizationsAr();
 
 void main() {
   entryCreateTest();
-  // entryDetailsTest();
-  // entryEditTest();
+  entryDetailsTest();
+  entryEditTest();
   // entryDeleteTest();
 }
 
@@ -26,6 +26,8 @@ void entryDetailsTest() {
       final app = await initMalApp();
 
       await generateData();
+
+      await generateTodayEntry();
 
       await $.pumpWidgetAndSettle(app);
 
@@ -70,6 +72,7 @@ void entryCreateTest() {
 
       expect($(l10n.entrySavedSuccessfully), findsOneWidget);
 
+      expect($('test'), findsOneWidget);
       // if (!Platform.isMacOS) {
       //   await $.native.pressHome();
       // }
@@ -85,6 +88,8 @@ void entryEditTest() {
       final app = await initMalApp();
 
       await generateData();
+
+      await generateTodayEntry();
 
       await $.pumpWidgetAndSettle(app);
 

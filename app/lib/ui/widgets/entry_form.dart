@@ -275,13 +275,11 @@ class _EntryFormState extends ConsumerState<EntryForm> {
           category: _category,
           date: _date?.toIso8601String(),
         );
-        context.read<EntriesBloc>().add(StoreEntry(entry));
-        // ref
-        //     .read(entriesProvider.notifier)
-        //     .saveEntry(
-        //       entry: entry,
-        //       operaton: widget.entry == null ? 'insert' : 'update',
-        //     );
+        if (widget.entry == null) {
+          context.read<EntriesBloc>().add(StoreEntry(entry));
+        } else {
+          context.read<EntriesBloc>().add(EditEntry(entry));
+        }
         Navigator.of(context).pop(widget.entry != null);
         ScaffoldMessenger.of(
           context,

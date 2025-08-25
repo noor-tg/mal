@@ -8,7 +8,7 @@ class GeneralSetup {
   static init() async {
     if (_isInited) return;
 
-    await dotenv.load();
+    await dotenv.load(fileName: '.env.test');
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
     await generateData();
