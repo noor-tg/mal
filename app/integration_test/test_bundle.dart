@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol/patrol.dart';
 
 // START: GENERATED TEST IMPORTS
-import 'entries_feature_test.dart' as entries_feature_test;
+import 'categories_feature_test.dart' as categories_feature_test;
 // END: GENERATED TEST IMPORTS
 
 Future<void> main() async {
@@ -16,6 +16,6 @@ Future<void> main() async {
         debugDefaultTargetPlatformOverride;
 
   // START: GENERATED TEST GROUPS
-  group('entries_feature_test', entries_feature_test.main);
+  group('categories_feature_test', categories_feature_test.main);
   // END: GENERATED TEST GROUPS
 }

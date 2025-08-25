@@ -66,6 +66,11 @@ Future<void> generateCategories(Database db) async {
   }
 }
 
+Future<void> clearCategories() async {
+  final db = await Db.use();
+  await db.delete('categories');
+}
+
 Future<void> generateTodayEntry() async {
   var entry = fakeEntry();
   entry = entry.copyWith(date: DateTime.now().toIso8601String());
