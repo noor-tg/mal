@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/category.dart';
 
-class NewCategory extends ConsumerStatefulWidget {
+class NewCategory extends StatefulWidget {
   const NewCategory({super.key});
 
   @override
-  ConsumerState<NewCategory> createState() => _NewCategoryState();
+  State<NewCategory> createState() => _NewCategoryState();
 }
 
-class _NewCategoryState extends ConsumerState<NewCategory> {
+class _NewCategoryState extends State<NewCategory> {
   String? _categoryTitle = '';
   String? _categoryType = '';
   bool typeIsValid = true;
