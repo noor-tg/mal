@@ -42,9 +42,20 @@ class CategoriesList extends StatelessWidget {
               ),
             ),
           ),
-          onDismissed: (direction) {
-            _removeItem(categories[index].uid);
+          confirmDismiss: (direction) async {
+            // This prevents the widget from being immediately removed
+            // and gives us control over when to actually remove it
+            return true;
           },
+          onDismissed: (direction) {
+            // Use a post-frame callback to ensure the dismiss animation completes
+            // before calling the remove function
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _removeItem(categories[index].uid);
+            });
+          },
+          direction: DismissDirection
+              .startToEnd, // Only allows right-to-left dismissal
           key: ValueKey(categories[index].uid),
           child: ListTile(title: Text(categories[index].title)),
         ),

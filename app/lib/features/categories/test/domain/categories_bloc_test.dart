@@ -17,7 +17,42 @@ void main() {
   // ignore: unnecessary_lambdas
   group('$CategoriesBloc >', () {
     addNewCategoryTest();
+    removeCategoryTest();
   });
+}
+
+void removeCategoryTest() {
+  final category = fakeCategory();
+  final repo = MockRepo();
+  setUpAll(() {
+    registerFallbackValue(MockRepo());
+    registerFallbackValue(fakeCategory());
+  });
+
+  blocTest<CategoriesBloc, CategoriesState>(
+    'when send RemoveCategory event. category should be removed from categories state',
+    build: () => CategoriesBloc(repo: repo),
+    setUp: () {
+      // Mock the repository store method to succeed
+      when(() => repo.remove(any())).thenAnswer((_) {
+        return Future.value();
+      });
+      when(repo.find).thenAnswer((_) async {
+        return const Result<Category>(list: [], count: 0);
+      });
+    },
+    act: (bloc) => bloc.add(RemoveCategory(category.uid)),
+    expect: () => [
+      const CategoriesState(status: BlocStatus.loading),
+      const CategoriesState(
+        status: BlocStatus.success,
+        categories: Result(list: [], count: 0),
+      ),
+    ],
+    verify: (bloc) {
+      verify(() => repo.remove(category.uid)).called(1);
+    },
+  );
 }
 
 void addNewCategoryTest() {

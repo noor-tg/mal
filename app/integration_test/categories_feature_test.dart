@@ -43,7 +43,8 @@ void categoryRemoveTest() {
 
       await $.tester.drag(
         $(categories[0].title),
-        Offset($.tester.getSize(find.byType(Dismissible).first).width, 0),
+        // use (-) so to drag from right to left
+        Offset(-$.tester.getSize(find.byType(Dismissible).first).width, 0),
       );
 
       await Future.delayed(const Duration(milliseconds: 100));
