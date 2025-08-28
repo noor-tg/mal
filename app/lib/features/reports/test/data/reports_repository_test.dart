@@ -1,0 +1,24 @@
+// ignore: depend_on_referenced_packages
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mal/features/reports/data/repositories/sql_repository.dart';
+import 'package:mal/test/unit_utils.dart';
+
+void main() async {
+  group('Reports SQL Repository', () {
+    setUpAll(() async {
+      await GeneralSetup.init();
+    });
+    test('> get all totals', () async {
+      final repo = SqlRepository();
+      // query using sql provider
+      final result = await repo.totals();
+      // check results
+      expect(result.balance, isA<int>());
+      expect(result.incomes, isA<int>());
+      expect(result.expenses, isA<int>());
+    });
+    // test('> calc month sums', () async {});
+    // test('> calc income categories sums', () async {}, skip: true);
+    // test('> calc expenses categories sums', () async {}, skip: true);
+  });
+}

@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
@@ -97,16 +98,19 @@ Future<Sums> loadDailySums() async {
   return data;
 }
 
-class Totals {
+class Totals extends Equatable {
   final int balance;
   final int incomes;
   final int expenses;
 
-  Totals({
+  const Totals({
     required this.balance,
     required this.incomes,
     required this.expenses,
   });
+
+  @override
+  List<Object?> get props => [balance, incomes, expenses];
 }
 
 Future<Totals> loadTotals() async {

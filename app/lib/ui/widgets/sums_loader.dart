@@ -19,7 +19,7 @@ class SumsLoader extends StatelessWidget {
             mainColor: primary.withAlpha(200),
             period: const Duration(milliseconds: 1500),
             direction: ShimmerDirection.ttb,
-            child: SumsCard(
+            child: const SumsCard(
               totals: Totals(balance: 0, incomes: 0, expenses: 0),
             ),
           );
