@@ -28,8 +28,6 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     CategoriesEvent event,
     Emitter<CategoriesState> emit,
   ) async {
-    final db = await createOrOpenDB();
-    logger.i(await db.query('categories'));
     final result = await repo.find();
 
     emit(state.copyWith(categories: result));
@@ -40,7 +38,6 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     Emitter<CategoriesState> emit,
   ) async {
     final db = await Db.use();
-    // await db.delete('categories');
     final categories = await repo.find();
     if (categories.list.isEmpty) {
       await generateCategories(db);

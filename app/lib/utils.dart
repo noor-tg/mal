@@ -113,33 +113,6 @@ class Totals extends Equatable {
   List<Object?> get props => [balance, incomes, expenses];
 }
 
-Future<Totals> loadTotals() async {
-  final db = await createOrOpenDB();
-
-  final incomes = await db.query(
-    'entries',
-    columns: ['sum(amount) as sum', 'type'],
-    where: 'type = ?',
-    whereArgs: ['دخل'],
-    groupBy: '"type"',
-  );
-
-  final expenses = await db.query(
-    'entries',
-    columns: ['sum(amount) as sum', 'type'],
-    where: 'type = ?',
-    whereArgs: ['منصرف'],
-    groupBy: '"type"',
-  );
-
-  final incomeSum = incomes.isNotEmpty ? incomes.first['sum'] as int : 0;
-  final expensesSum = expenses.isNotEmpty ? expenses.first['sum'] as int : 0;
-
-  final balance = incomeSum - expensesSum;
-
-  return Totals(balance: balance, incomes: incomeSum, expenses: expensesSum);
-}
-
 const box8 = SizedBox(height: 8, width: 8);
 const box16 = SizedBox(height: 16, width: 16);
 const box24 = SizedBox(height: 24, width: 24);
