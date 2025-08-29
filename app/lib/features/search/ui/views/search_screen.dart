@@ -68,6 +68,9 @@ class _SearchScreenState extends State<SearchScreen> {
                             BlocProvider.value(
                               value: context.read<SearchBloc>(),
                             ),
+                            BlocProvider.value(
+                              value: context.read<CategoriesBloc>(),
+                            ),
                           ],
                           child: const AdvancedSearch(),
                         ),

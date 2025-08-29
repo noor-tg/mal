@@ -2,6 +2,7 @@ import 'dart:math';
 
 // ignore: depend_on_referenced_packages
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mal/constants.dart';
 import 'package:mal/data.dart';
 import 'package:mal/features/search/data/repositores/sql_respository.dart';
 import 'package:mal/features/search/domain/bloc/filters.dart';

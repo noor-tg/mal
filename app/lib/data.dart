@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:faker/faker.dart';
+import 'package:mal/constants.dart';
 import 'package:mal/shared/data/models/category.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/shared/db.dart';
@@ -11,13 +12,11 @@ import 'package:sqflite_common/sqlite_api.dart';
 final random = RandomGenerator(seed: 63833423);
 final faker = Faker.withGenerator(random);
 
-final types = ['دخل', 'منصرف'];
-
 final categories = [
-  Category(title: 'طعام', type: types[0]),
-  Category(title: 'ملابس', type: types[0]),
-  Category(title: 'خدمات', type: types[0]),
-  Category(title: 'أخرى', type: types[0]),
+  Category(title: 'طعام', type: expenseType),
+  Category(title: 'ملابس', type: expenseType),
+  Category(title: 'خدمات', type: expenseType),
+  Category(title: 'أخرى', type: expenseType),
 ];
 
 Future<void> generateData() async {
