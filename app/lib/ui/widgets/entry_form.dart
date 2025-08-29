@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mal/constants.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
@@ -48,17 +49,29 @@ class _EntryFormState extends State<EntryForm> {
     final l10n = AppLocalizations.of(context)!;
 
     return BlocBuilder<CategoriesBloc, CategoriesState>(
-      builder: (BuildContext context, state) {
+      builder: (BuildContext ctx, state) {
         List<Category> categoriesByType = [];
-        if (_type == l10n.income) {
+        if (_type == incomeType) {
           categoriesByType = state.income;
         }
-        if (_type == l10n.expense) {
+        if (_type == expenseType) {
           categoriesByType = state.expenses;
         }
         if (categoriesByType.isNotEmpty && _category == '') {
           _category = categoriesByType[0].title;
         }
+
+        if (categoriesByType.isNotEmpty) {
+          final categoryExists = categoriesByType.any(
+            (cat) => cat.title == _category,
+          );
+          if (_category == '' || !categoryExists) {
+            _category = categoriesByType[0].title;
+          }
+        } else {
+          _category = ''; // Reset if no categories available
+        }
+
         return Container(
           padding: const EdgeInsets.all(16),
           width: double.infinity,
@@ -103,25 +116,13 @@ class _EntryFormState extends State<EntryForm> {
                               RadioMenuButton(
                                 value: l10n.expense,
                                 groupValue: _type,
-                                onChanged: (value) {
-                                  if (value == null) return;
-                                  setState(() {
-                                    _type = value;
-                                  });
-                                  state.didChange(value);
-                                },
+                                onChanged: (value) => _setType(value, state),
                                 child: Text(l10n.expense),
                               ),
                               RadioMenuButton(
                                 value: l10n.income,
                                 groupValue: _type,
-                                onChanged: (value) {
-                                  if (value == null) return;
-                                  setState(() {
-                                    _type = value;
-                                  });
-                                  state.didChange(value);
-                                },
+                                onChanged: (value) => _setType(value, state),
                                 child: Text(l10n.income),
                               ),
                             ],
@@ -294,5 +295,14 @@ class _EntryFormState extends State<EntryForm> {
         context,
       ).showSnackBar(SnackBar(content: Text(error.toString())));
     }
+  }
+
+  void _setType(String? value, state) {
+    if (value == null) return;
+    setState(() {
+      _type = value;
+      _category = '';
+    });
+    state.didChange(value);
   }
 }
