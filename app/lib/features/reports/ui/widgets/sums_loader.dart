@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mal/ui/widgets/no_data_centered.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mal/enums.dart';
+import 'package:mal/features/reports/domain/bloc/reports_bloc.dart';
 import 'package:mal/ui/widgets/sums_card.dart';
 import 'package:mal/utils.dart';
 import 'package:shimmer_effects_plus/shimmer_effects_plus.dart';
@@ -9,11 +11,10 @@ class SumsLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: loadTotals(),
-      builder: (BuildContext context, snapshot) {
+    return BlocBuilder<ReportsBloc, ReportsState>(
+      builder: (BuildContext context, state) {
         final primary = Theme.of(context).colorScheme.primary;
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (state.totalsStatus == BlocStatus.loading) {
           return ShimmerEffectWidget.cover(
             subColor: primary.withAlpha(255),
             mainColor: primary.withAlpha(200),
@@ -25,15 +26,11 @@ class SumsLoader extends StatelessWidget {
           );
         }
 
-        if (snapshot.hasError) {
-          return Text('test :: ${snapshot.error}');
+        if (state.totalsStatus == BlocStatus.failure) {
+          return Text('test :: ${state.errorMessage}');
         }
 
-        if (snapshot.data == null) {
-          return const NoDataCentered();
-        }
-
-        return SumsCard(totals: snapshot.data!);
+        return SumsCard(totals: state.totals);
       },
     );
   }

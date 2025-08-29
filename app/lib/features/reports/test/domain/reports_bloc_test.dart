@@ -25,21 +25,21 @@ void main() {
 void checkInitValuesTest() {
   group('$ReportsBloc >', () {
     final mockRepo = MockReportsRepository();
-    final reportsBloc = ReportsBloc(mockRepo);
+    final reportsBloc = ReportsBloc(repo: mockRepo);
     setUp(() {
       registerFallbackValue(mockRepo);
     });
 
     test('initial state is correct', () {
       expect(reportsBloc.state, const ReportsState());
-      expect(reportsBloc.state.status, BlocStatus.initial);
+      expect(reportsBloc.state.totalsStatus, BlocStatus.initial);
     });
   });
 }
 
 void loadTotalsSuccessTest() {
   final mockRepo = MockReportsRepository();
-  final reportsBloc = ReportsBloc(mockRepo);
+  final reportsBloc = ReportsBloc(repo: mockRepo);
   setUp(() {
     registerFallbackValue(mockRepo);
   });
@@ -52,8 +52,8 @@ void loadTotalsSuccessTest() {
     },
     act: (bloc) => bloc.add(LoadTotals()),
     expect: () => [
-      const ReportsState(status: BlocStatus.loading),
-      const ReportsState(status: BlocStatus.success, totals: mockTotals),
+      const ReportsState(totalsStatus: BlocStatus.loading),
+      const ReportsState(totalsStatus: BlocStatus.success, totals: mockTotals),
     ],
     verify: (_) {
       verify(mockRepo.totals).called(1);
@@ -63,7 +63,7 @@ void loadTotalsSuccessTest() {
 
 void loadTotalsFailsTest() {
   final mockRepo = MockReportsRepository();
-  final reportsBloc = ReportsBloc(mockRepo);
+  final reportsBloc = ReportsBloc(repo: mockRepo);
   setUp(() {
     registerFallbackValue(mockRepo);
   });
@@ -75,9 +75,9 @@ void loadTotalsFailsTest() {
     },
     act: (bloc) => bloc.add(LoadTotals()),
     expect: () => [
-      const ReportsState(status: BlocStatus.loading),
+      const ReportsState(totalsStatus: BlocStatus.loading),
       const ReportsState(
-        status: BlocStatus.failure,
+        totalsStatus: BlocStatus.failure,
         errorMessage: 'Exception: db error',
       ),
     ],
@@ -89,7 +89,7 @@ void loadTotalsFailsTest() {
 
 void loadTotalsMultipleEventsTest() {
   final mockRepo = MockReportsRepository();
-  final reportsBloc = ReportsBloc(mockRepo);
+  final reportsBloc = ReportsBloc(repo: mockRepo);
   const mockTotals = Totals(balance: 0, incomes: 0, expenses: 0);
   setUp(() {
     registerFallbackValue(mockRepo);
@@ -106,10 +106,10 @@ void loadTotalsMultipleEventsTest() {
         ..add(LoadTotals());
     },
     expect: () => [
-      const ReportsState(status: BlocStatus.loading),
-      const ReportsState(status: BlocStatus.success, totals: mockTotals),
-      const ReportsState(status: BlocStatus.loading),
-      const ReportsState(status: BlocStatus.success, totals: mockTotals),
+      const ReportsState(totalsStatus: BlocStatus.loading),
+      const ReportsState(totalsStatus: BlocStatus.success, totals: mockTotals),
+      const ReportsState(totalsStatus: BlocStatus.loading),
+      const ReportsState(totalsStatus: BlocStatus.success, totals: mockTotals),
     ],
     verify: (_) {
       verify(mockRepo.totals).called(2);

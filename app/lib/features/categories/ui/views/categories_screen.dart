@@ -14,6 +14,12 @@ class CategoriesScreen extends StatefulWidget {
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
+  void initState() {
+    context.read<CategoriesBloc>().add(AppInit());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final emptyList = Center(
       child: Card.filled(

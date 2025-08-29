@@ -10,7 +10,7 @@ part 'reports_event.dart';
 part 'reports_state.dart';
 
 class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
-  ReportsBloc(this.repo) : super(const ReportsState()) {
+  ReportsBloc({required this.repo}) : super(const ReportsState()) {
     on<LoadTotals>(_onLoadTotals);
   }
 
@@ -20,18 +20,18 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
     LoadTotals event,
     Emitter<ReportsState> emit,
   ) async {
-    emit(state.copyWith(status: BlocStatus.loading));
+    emit(state.copyWith(totalsStatus: BlocStatus.loading));
     try {
       final totals = await repo.totals();
 
-      emit(state.copyWith(status: BlocStatus.success, totals: totals));
+      emit(state.copyWith(totalsStatus: BlocStatus.success, totals: totals));
     } catch (err, trace) {
       logger
         ..e(err)
         ..t(trace);
       emit(
         state.copyWith(
-          status: BlocStatus.failure,
+          totalsStatus: BlocStatus.failure,
           errorMessage: err.toString(),
         ),
       );

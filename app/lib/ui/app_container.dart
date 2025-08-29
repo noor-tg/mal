@@ -4,12 +4,13 @@ import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/categories/ui/views/categories_screen.dart';
 import 'package:mal/features/categories/ui/widgets/new_category.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
+import 'package:mal/features/reports/domain/bloc/reports_bloc.dart';
+import 'package:mal/features/reports/ui/views/reports_screen.dart';
 import 'package:mal/features/search/data/repositores/sql_respository.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/features/search/ui/views/search_screen.dart';
 import 'package:mal/l10n/app_localizations.dart';
-import 'package:mal/ui/screens/reports_screen.dart';
 import 'package:mal/ui/widgets/entry_form.dart';
 import 'package:mal/ui/widgets/main_drawer.dart';
 import 'package:mal/utils.dart';
@@ -30,9 +31,14 @@ class _AppContainerState extends State<AppContainer> {
   @override
   void initState() {
     context.read<CategoriesBloc>().add(SeedCategoriedWhenEmpty());
+    initEvents();
+    super.initState();
+  }
+
+  void initEvents() {
     context.read<CategoriesBloc>().add(AppInit());
     context.read<EntriesBloc>().add(LoadTodayEntries());
-    super.initState();
+    context.read<ReportsBloc>().add(LoadTotals());
   }
 
   @override
@@ -64,12 +70,15 @@ class _AppContainerState extends State<AppContainer> {
       MalPage(
         icon: const Icon(Icons.dashboard),
         title: l10n.tabCategoriesLabel,
-        widget: (key) => CategoriesScreen(key: key),
+        widget: (key) => BlocProvider.value(
+          value: context.read<CategoriesBloc>(),
+          child: CategoriesScreen(key: key),
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.dashboard_customize, color: theme.onPrimary),
-            onPressed: () {
-              showModalBottomSheet(
+            onPressed: () async {
+              await showModalBottomSheet(
                 useSafeArea: true,
                 isScrollControlled: true,
                 context: context,
@@ -101,16 +110,24 @@ class _AppContainerState extends State<AppContainer> {
             : [
                 IconButton(
                   icon: Icon(Icons.create, color: theme.onPrimary),
-                  onPressed: () {
-                    showModalBottomSheet(
+                  onPressed: () async {
+                    await showModalBottomSheet(
                       useSafeArea: true,
                       isScrollControlled: true,
                       context: context,
-                      builder: (ctx) => BlocProvider.value(
-                        value: context.read<EntriesBloc>(),
+                      builder: (ctx) => MultiBlocProvider(
+                        providers: [
+                          BlocProvider.value(
+                            value: context.read<EntriesBloc>(),
+                          ),
+                          BlocProvider.value(
+                            value: context.read<CategoriesBloc>(),
+                          ),
+                        ],
                         child: const EntryForm(),
                       ),
                     );
+                    initEvents();
                   },
                 ),
               ],

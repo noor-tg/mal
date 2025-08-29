@@ -5,9 +5,12 @@ import 'package:mal/features/categories/data/repositories/sql_repository.dart'
     as categories;
 import 'package:mal/features/entries/data/repositories/sql_repository.dart'
     as entries;
+import 'package:mal/features/reports/data/repositories/sql_repository.dart'
+    as reports;
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/categories/domain/repositories/categories_repository.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
+import 'package:mal/features/reports/domain/bloc/reports_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/ui/app_container.dart';
 
@@ -49,6 +52,11 @@ class MalApp extends StatelessWidget {
               return entries.SqlRepository();
             },
           ),
+          RepositoryProvider(
+            create: (_) {
+              return reports.SqlRepository();
+            },
+          ),
         ],
         child: MultiBlocProvider(
           providers: [
@@ -59,6 +67,10 @@ class MalApp extends StatelessWidget {
             BlocProvider<EntriesBloc>(
               create: (ctx) =>
                   EntriesBloc(repo: ctx.read<entries.SqlRepository>()),
+            ),
+            BlocProvider(
+              create: (ctx) =>
+                  ReportsBloc(repo: ctx.read<reports.SqlRepository>()),
             ),
           ],
           child: const AppContainer(),

@@ -14,10 +14,10 @@ class CategoriesState extends Equatable {
   final String? errorMessage;
 
   List<Category> get expenses =>
-      categories.list.where((cat) => cat.type == 'منصرفات').toList();
+      categories.list.where((cat) => cat.type == expenseType).toList();
 
   List<Category> get income =>
-      categories.list.where((cat) => cat.type == 'دخل').toList();
+      categories.list.where((cat) => cat.type == incomeType).toList();
 
   @override
   List<Object?> get props => [categories, status, errorMessage];

@@ -29,7 +29,14 @@ class SqlRepository extends CategoriesRepository {
   @override
   Future<Category> store(Category category) async {
     try {
-      await sqlProvider.store(category.toMap());
+      final result = await find(
+        where: 'title = ? AND type = ?',
+        whereArgs: [category.title, category.type],
+      );
+
+      if (result.list.isEmpty) {
+        await sqlProvider.store(category.toMap());
+      }
 
       return category;
     } catch (err) {

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:mal/constants.dart';
 import 'package:mal/data.dart';
 import 'package:mal/enums.dart';
 import 'package:mal/features/categories/domain/repositories/categories_repository.dart';
@@ -27,6 +28,8 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     CategoriesEvent event,
     Emitter<CategoriesState> emit,
   ) async {
+    final db = await createOrOpenDB();
+    logger.i(await db.query('categories'));
     final result = await repo.find();
 
     emit(state.copyWith(categories: result));
@@ -37,6 +40,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     Emitter<CategoriesState> emit,
   ) async {
     final db = await Db.use();
+    // await db.delete('categories');
     final categories = await repo.find();
     if (categories.list.isEmpty) {
       await generateCategories(db);
