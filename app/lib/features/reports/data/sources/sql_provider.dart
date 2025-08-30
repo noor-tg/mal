@@ -39,4 +39,26 @@ class SqlProvider {
       groupBy: '"by_date"',
     );
   }
+
+  Future<List<Map<String, Object?>>> sumByCategoryAndType(String type) async {
+    final db = await createOrOpenDB();
+    return db.query(
+      'entries',
+      columns: ['category', 'sum(amount) as sum'],
+      groupBy: 'category',
+      where: 'type = ?',
+      whereArgs: [type],
+      orderBy: 'sum DESC',
+    );
+  }
+
+  sumEntriesByType(String type) async {
+    final db = await createOrOpenDB();
+    return db.query(
+      'entries',
+      columns: ['sum(amount) as sum'],
+      where: 'type = ?',
+      whereArgs: [type],
+    );
+  }
 }

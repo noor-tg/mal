@@ -10,6 +10,7 @@ import 'package:mal/features/reports/data/repositories/sql_repository.dart'
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/categories/domain/repositories/categories_repository.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
+import 'package:mal/features/reports/domain/bloc/categories_report/categories_report_bloc.dart';
 import 'package:mal/features/reports/domain/bloc/daily_sums/daily_sums_bloc.dart';
 import 'package:mal/features/reports/domain/bloc/totals/totals_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
@@ -76,6 +77,10 @@ class MalApp extends StatelessWidget {
             BlocProvider(
               create: (ctx) =>
                   DailySumsBloc(repo: ctx.read<reports.SqlRepository>()),
+            ),
+            BlocProvider(
+              create: (ctx) =>
+                  CategoriesReportBloc(repo: ctx.read<reports.SqlRepository>()),
             ),
           ],
           child: const AppContainer(),

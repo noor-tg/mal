@@ -1,0 +1,25 @@
+import 'package:flutter/material.dart';
+
+final List<Color> colors = [
+  Colors.red,
+  Colors.green,
+  Colors.blue,
+  Colors.yellow,
+  Colors.orange,
+  Colors.purple,
+  Colors.pink,
+  Colors.brown,
+  Colors.grey,
+  Colors.black,
+  Colors.white,
+  Colors.teal,
+  Colors.cyan,
+  Colors.indigo,
+  Colors.lime,
+  Colors.amber,
+  Colors.deepOrange,
+  Colors.deepPurple,
+  Colors.lightBlue,
+  Colors.lightGreen,
+  Colors.blueGrey,
+];
