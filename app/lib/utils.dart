@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
@@ -31,14 +30,6 @@ Future<sql.Database> createOrOpenDB() async {
   return Db.use();
 }
 
-class DaySums {
-  final String day;
-  final int income;
-  final int expenses;
-
-  DaySums({required this.day, required this.income, required this.expenses});
-}
-
 List<String> getCurrentMonthDays() {
   final now = DateTime.now();
   // Generate list of date strings
@@ -50,67 +41,6 @@ List<String> getCurrentMonthDays() {
   }
 
   return days;
-}
-
-class Sums {
-  final List<int> incomes;
-  final List<int> expenses;
-
-  Sums({required this.incomes, required this.expenses});
-}
-
-Future<Sums> loadDailySums() async {
-  final db = await createOrOpenDB();
-
-  final incomeSums = await db.query(
-    'entries',
-    columns: ['sum(amount) as sum', 'date("date") as by_date'],
-    where: 'type = ?',
-    whereArgs: ['دخل'],
-    groupBy: '"by_date"',
-  );
-  final expensesSums = await db.query(
-    'entries',
-    columns: ['sum(amount) as sum', 'date("date") as by_date'],
-    where: 'type = ?',
-    whereArgs: ['منصرف'],
-    groupBy: '"by_date"',
-  );
-
-  final Sums data = Sums(expenses: [], incomes: []);
-
-  final days = getCurrentMonthDays();
-  for (final day in days) {
-    final dayIncome = incomeSums
-        .where((row) => (row['by_date'] as String).substring(8) == day)
-        .toList();
-
-    final dayExpenses = expensesSums
-        .where((row) => (row['by_date'] as String).substring(8) == day)
-        .toList();
-
-    data.incomes.add(dayIncome.isNotEmpty ? dayIncome.first['sum'] as int : 0);
-    data.expenses.add(
-      dayExpenses.isNotEmpty ? dayExpenses.first['sum'] as int : 0,
-    );
-  }
-
-  return data;
-}
-
-class Totals extends Equatable {
-  final int balance;
-  final int incomes;
-  final int expenses;
-
-  const Totals({
-    required this.balance,
-    required this.incomes,
-    required this.expenses,
-  });
-
-  @override
-  List<Object?> get props => [balance, incomes, expenses];
 }
 
 const box8 = SizedBox(height: 8, width: 8);

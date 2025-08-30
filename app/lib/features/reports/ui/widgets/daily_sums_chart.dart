@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mal/enums.dart';
+import 'package:mal/features/reports/domain/bloc/daily_sums/daily_sums_bloc.dart';
 import 'package:mal/ui/widgets/line_container.dart';
 import 'package:mal/ui/widgets/no_data_centered.dart';
-import 'package:mal/utils.dart';
 
 class DailySumsChart extends StatelessWidget {
   const DailySumsChart({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Sums>(
-      future: loadDailySums(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+    return BlocBuilder<DailySumsBloc, DailySumsState>(
+      builder: (context, state) {
+        if (state.status == BlocStatus.loading) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (snapshot.hasError) {
+        if (state.status == BlocStatus.failure) {
           return Center(
             child: Text(
-              'Error loading data: ${snapshot.error.toString()}',
+              'Error loading data: ${state.errorMessage.toString()}',
               style: const TextStyle(color: Colors.red, fontSize: 16),
               textAlign: TextAlign.center,
             ),
@@ -26,9 +27,9 @@ class DailySumsChart extends StatelessWidget {
         }
 
         final emptyIncomesExpenses =
-            snapshot.data!.incomes.isEmpty && snapshot.data!.expenses.isEmpty;
+            state.list.incomes.isEmpty && state.list.expenses.isEmpty;
 
-        if (!snapshot.hasData || emptyIncomesExpenses) {
+        if (emptyIncomesExpenses) {
           return const NoDataCentered();
         }
 
@@ -36,8 +37,8 @@ class DailySumsChart extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           child: Center(
             child: LineContainer(
-              first: snapshot.data!.incomes,
-              second: snapshot.data!.expenses,
+              first: state.list.incomes,
+              second: state.list.expenses,
             ),
           ),
         );

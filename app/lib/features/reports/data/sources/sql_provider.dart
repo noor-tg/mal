@@ -28,4 +28,15 @@ class SqlProvider {
 
     return expenses.isNotEmpty ? expenses.first['sum'] as int : 0;
   }
+
+  Future<dynamic> daySums(String type) async {
+    final db = await createOrOpenDB();
+    return db.query(
+      'entries',
+      columns: ['sum(amount) as sum', 'date("date") as by_date'],
+      where: 'type = ?',
+      whereArgs: [type],
+      groupBy: '"by_date"',
+    );
+  }
 }

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
-import 'package:mal/features/reports/domain/bloc/reports_bloc.dart';
+import 'package:mal/features/reports/domain/bloc/daily_sums/daily_sums_bloc.dart';
+import 'package:mal/features/reports/domain/bloc/totals/totals_bloc.dart';
+import 'package:mal/features/reports/ui/widgets/daily_sums_chart.dart';
 import 'package:mal/features/reports/ui/widgets/sums_loader.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/ui/screens/mal_page_container.dart';
@@ -21,7 +23,8 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
   @override
   void initState() {
     context.read<EntriesBloc>().add(LoadTodayEntries());
-    context.read<ReportsBloc>().add(LoadTotals());
+    context.read<TotalsBloc>().add(RequestTotalsData());
+    context.read<DailySumsBloc>().add(RequestDailySumsData());
     super.initState();
   }
 
@@ -35,10 +38,10 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
         children: [
           const SizedBox(height: 16),
           const SumsLoader(),
-          // const SizedBox(height: 16),
-          // MalTitle(text: l10n.currentMonth),
-          // const SizedBox(height: 8),
-          // const Card.filled(color: Colors.white, child: DailySumsChart()),
+          const SizedBox(height: 16),
+          MalTitle(text: l10n.currentMonth),
+          const SizedBox(height: 8),
+          const Card.filled(color: Colors.white, child: DailySumsChart()),
           // const SizedBox(height: 16),
           // MalTitle(text: l10n.expenses),
           // const SizedBox(height: 4),

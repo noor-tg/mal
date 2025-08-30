@@ -4,7 +4,7 @@ import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/categories/ui/views/categories_screen.dart';
 import 'package:mal/features/categories/ui/widgets/new_category.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
-import 'package:mal/features/reports/domain/bloc/reports_bloc.dart';
+import 'package:mal/features/reports/domain/bloc/totals/totals_bloc.dart';
 import 'package:mal/features/reports/ui/views/reports_screen.dart';
 import 'package:mal/features/search/data/repositores/sql_respository.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
@@ -38,7 +38,7 @@ class _AppContainerState extends State<AppContainer> {
   void initEvents() {
     context.read<CategoriesBloc>().add(AppInit());
     context.read<EntriesBloc>().add(LoadTodayEntries());
-    context.read<ReportsBloc>().add(LoadTotals());
+    context.read<TotalsBloc>().add(RequestTotalsData());
   }
 
   @override

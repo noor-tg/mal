@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/enums.dart';
-import 'package:mal/features/reports/domain/bloc/reports_bloc.dart';
+import 'package:mal/features/reports/domain/bloc/totals/totals_bloc.dart';
+import 'package:mal/features/reports/domain/entities/totals.dart';
 import 'package:mal/ui/widgets/sums_card.dart';
-import 'package:mal/utils.dart';
 import 'package:shimmer_effects_plus/shimmer_effects_plus.dart';
 
 class SumsLoader extends StatelessWidget {
@@ -11,10 +11,10 @@ class SumsLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ReportsBloc, ReportsState>(
+    return BlocBuilder<TotalsBloc, TotalsState>(
       builder: (BuildContext context, state) {
         final primary = Theme.of(context).colorScheme.primary;
-        if (state.totalsStatus == BlocStatus.loading) {
+        if (state.status == BlocStatus.loading) {
           return ShimmerEffectWidget.cover(
             subColor: primary.withAlpha(255),
             mainColor: primary.withAlpha(200),
@@ -26,7 +26,7 @@ class SumsLoader extends StatelessWidget {
           );
         }
 
-        if (state.totalsStatus == BlocStatus.failure) {
+        if (state.status == BlocStatus.failure) {
           return Text('test :: ${state.errorMessage}');
         }
 
