@@ -109,35 +109,10 @@ class SqlRepository extends EntriesRepository {
   }
 
   @override
-  Future<Result<Entry>> today({List<Where>? where}) async {
+  Future<Result<Entry>> today() async {
     try {
       final listQb = QueryBuilder('entries');
       final countQb = QueryBuilder('entries');
-      if (where != null) {
-        for (final single in where) {
-          if (single.oprand == '=') {
-            listQb.where(single.field, single.oprand, single.value);
-          }
-          if (single.oprand == 'like') {
-            listQb.whereLike(single.field, single.value as String);
-          }
-          if (single.oprand == 'between') {
-            listQb.whereIn(single.field, single.value as List<String>);
-          }
-        }
-
-        for (final single in where) {
-          if (single.oprand == '=') {
-            countQb.where(single.field, single.oprand, single.value as String);
-          }
-          if (single.oprand == 'like') {
-            countQb.whereLike(single.field, single.value as String);
-          }
-          if (single.oprand == 'between') {
-            countQb.whereIn(single.field, single.value as List<String>);
-          }
-        }
-      }
 
       final data = await listQb
           .whereLike('date', DateTime.now().toIso8601String().substring(0, 10))
