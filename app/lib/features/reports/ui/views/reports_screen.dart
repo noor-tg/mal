@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/features/reports/domain/bloc/categories_report/categories_report_bloc.dart';
 import 'package:mal/features/reports/domain/bloc/daily_sums/daily_sums_bloc.dart';
@@ -13,14 +12,14 @@ import 'package:mal/ui/screens/mal_page_container.dart';
 import 'package:mal/ui/widgets/mal_title.dart';
 import 'package:mal/ui/widgets/entries_list.dart';
 
-class ReportsScreen extends ConsumerStatefulWidget {
+class ReportsScreen extends StatefulWidget {
   const ReportsScreen({super.key});
 
   @override
-  ConsumerState<ReportsScreen> createState() => _ReportsScreenState();
+  State<ReportsScreen> createState() => _ReportsScreenState();
 }
 
-class _ReportsScreenState extends ConsumerState<ReportsScreen> {
+class _ReportsScreenState extends State<ReportsScreen> {
   var tabIndex = 0;
   @override
   void initState() {
