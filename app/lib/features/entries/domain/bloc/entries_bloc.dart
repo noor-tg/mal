@@ -79,11 +79,9 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
     EditEntry event,
     Emitter<EntriesState> emit,
   ) async {
-    emit(
-      state.copyWith(status: EntriesStatus.loading, currentEntry: event.entry),
-    );
+    emit(state.copyWith(status: EntriesStatus.loading));
     try {
-      final stored = await repo.edit(state.currentEntry!);
+      final stored = await repo.edit(event.entry);
       final today = DateTime.now().toIso8601String().substring(0, 10);
       emit(
         state.copyWith(

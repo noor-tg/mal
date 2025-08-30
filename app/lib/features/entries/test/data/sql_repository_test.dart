@@ -6,17 +6,19 @@ import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/shared/db.dart';
 import 'package:mal/shared/where.dart';
 import 'package:mal/test/unit_utils.dart';
+import 'package:mal/utils.dart';
 
 void main() {
   group('Entries SQL Repository', () {
     setUpAll(() async {
       await GeneralSetup.init();
     });
+    getManyEntriesTest();
+    getTodayEntriesTest();
     storeSingleEntryTest();
     updateSingleEntryTest();
-    removeSingleEntryTest();
     getSingleEntryTest();
-    getManyEntriesTest();
+    removeSingleEntryTest();
   });
 }
 
@@ -30,6 +32,20 @@ void getManyEntriesTest() {
     final result = await repo.find(
       where: [Where(field: 'uid', oprand: '=', value: entry.uid)],
     );
+    expect(result.list.isNotEmpty, true);
+    expect(result.count, greaterThan(0));
+  });
+}
+
+void getTodayEntriesTest() {
+  test('> get today Entries', () async {
+    final repo = SqlRepository();
+    var entry = fakeEntry();
+    entry = entry.copyWith(date: now().toIso8601String());
+    // query using sql provider
+    await repo.store(entry);
+    // update
+    final result = await repo.today();
     expect(result.list.isNotEmpty, true);
     expect(result.count, greaterThan(0));
   });

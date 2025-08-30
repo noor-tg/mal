@@ -17,7 +17,16 @@ void main() async {
       expect(result.incomes, isA<int>());
       expect(result.expenses, isA<int>());
     });
-    // test('> calc month sums', () async {});
+    test('> calc month sums', () async {
+      final repo = SqlRepository();
+      // query using sql provider
+      final result = await repo.dailySums();
+      // check results
+      expect(result.incomes, isA<List<int>>());
+      expect(result.incomes.length, greaterThan(0));
+      expect(result.expenses, isA<List<int>>());
+      expect(result.expenses.length, greaterThan(0));
+    });
     // test('> calc income categories sums', () async {}, skip: true);
     // test('> calc expenses categories sums', () async {}, skip: true);
   });

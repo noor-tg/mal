@@ -8,5 +8,5 @@ abstract class EntriesRepository {
   Future<Entry> edit(Entry entry);
   Future<bool> remove(String uid);
   Future<Result<Entry>> find({List<Where>? where});
-  Future<Result<Entry>> today({List<Where>? where});
+  Future<Result<Entry>> today();
 }

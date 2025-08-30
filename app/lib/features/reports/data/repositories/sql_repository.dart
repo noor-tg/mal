@@ -33,17 +33,17 @@ class SqlRepository extends ReportsRepository {
     final incomeSums = await sqlProvider.daySums(incomeType);
     final expensesSums = await sqlProvider.daySums(expenseType);
 
-    // ignore: prefer_const_constructors
-    final data = Sums(expenses: [], incomes: []);
+    final List<int> incomes = [];
+    final List<int> expenses = [];
 
     final days = getCurrentMonthDays();
 
     for (final day in days) {
-      data.incomes.add(getDaySum(incomeSums, day));
-      data.expenses.add(getDaySum(expensesSums, day));
+      incomes.add(getDaySum(incomeSums, day));
+      expenses.add(getDaySum(expensesSums, day));
     }
 
-    return data;
+    return Sums(incomes: incomes, expenses: expenses);
   }
 
   int getDaySum(List<Map<String, Object?>> list, String day) {

@@ -21,7 +21,12 @@ class DailySumsBloc extends Bloc<DailySumsEvent, DailySumsState> {
     RequestDailySumsData event,
     Emitter<DailySumsState> emit,
   ) async {
-    emit(state.copyWith(status: BlocStatus.loading));
+    emit(
+      state.copyWith(
+        status: BlocStatus.loading,
+        list: const Sums(incomes: [], expenses: []),
+      ),
+    );
     try {
       final dailySums = await repo.dailySums();
 
