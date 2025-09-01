@@ -11,7 +11,6 @@ final List<Color> colors = [
   Colors.brown,
   Colors.grey,
   Colors.black,
-  Colors.white,
   Colors.teal,
   Colors.cyan,
   Colors.indigo,
