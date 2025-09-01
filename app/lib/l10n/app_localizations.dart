@@ -109,7 +109,7 @@ abstract class AppLocalizations {
   /// No description provided for @tabCalendarLabel.
   ///
   /// In ar, this message translates to:
-  /// **'تقوم'**
+  /// **'تقويم'**
   String get tabCalendarLabel;
 
   /// No description provided for @tabSearchLabel.

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mal/features/calendar/ui/views/calendar_screen.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/categories/ui/views/categories_screen.dart';
 import 'package:mal/features/categories/ui/widgets/new_category.dart';
@@ -93,6 +94,13 @@ class _AppContainerState extends State<AppContainer> {
             },
           ),
         ],
+      ),
+
+      MalPage(
+        icon: const Icon(Icons.calendar_month),
+        title: l10n.tabCalendarLabel,
+        widget: (key) => CalendarScreen(key: key),
+        actions: [],
       ),
     ];
 

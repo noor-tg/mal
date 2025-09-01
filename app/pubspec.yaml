@@ -54,6 +54,7 @@ dependencies:
   sqflite_common_ffi: ^2.3.6
   bloc: ^9.0.0
   collection: ^1.19.1
+  table_calendar: ^3.2.0
 
 dev_dependencies:
   flutter_test:

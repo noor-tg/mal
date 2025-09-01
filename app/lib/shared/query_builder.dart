@@ -120,6 +120,19 @@ class QueryBuilder {
     return res.first['total'] as int;
   }
 
+  Future<List<Map<String, Object?>>> sumBy(String field, String by) async {
+    final db = await Db.use();
+    final res = await db.query(
+      columns: ['SUM($field) as "sum"', by],
+      _table,
+      where: _filterQuery,
+      whereArgs: _whereArgs,
+      groupBy: by.split('as').first.trim(),
+    );
+
+    return res;
+  }
+
   QueryBuilder limit(int value) {
     _limit = value;
 

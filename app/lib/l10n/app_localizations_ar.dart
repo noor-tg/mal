@@ -15,7 +15,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tabReportsLabel => 'تقارير';
 
   @override
-  String get tabCalendarLabel => 'تقوم';
+  String get tabCalendarLabel => 'تقويم';
 
   @override
   String get tabSearchLabel => 'بحث';
