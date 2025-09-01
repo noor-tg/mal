@@ -25,8 +25,8 @@
 	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تعديل مدخل
 	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حذف مدخل
 	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;بحث بسيط و متقدم (ترتيب)
-2. [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;واجهة التقويم (حسابات المدخلات باليوم)
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تفاصيل يوم في التقويم (تصفية مدخلات باليوم)
+2. [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;واجهة التقويم (حسابات المدخلات باليوم)
+	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تفاصيل يوم في التقويم (تصفية مدخلات باليوم)
 3. [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تصنيفات (إعادة بناء بال bloc لتأكيد إكتمال الخاصية)
 	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تسجيل
 	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;قائمة
@@ -50,14 +50,14 @@
 	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تسجيل خروج
 	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تسجيل مستخدم جديد
 	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;نسيت كلمة المرور (بصمة أو رمز الهاتف لتسجيل الدخول للحساب وتغيير كلمة المرور)
-8. [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;الميزانية
+8. [-]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;الميزانية
 	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;إضافة ميزانية
 	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حذف ميزانية 
 	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تعديل ميزانية
 	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;قائمة الميزانيات
 	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تفاصيل ميزانية
 9. [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حساب الارباح و الخسائر
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;لكل شهر
+	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;لكل سنة
 
 ## ما تم إنجازه (نسخة ٢)
 1. [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;مزامنة المدخلات
