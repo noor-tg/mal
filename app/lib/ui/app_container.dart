@@ -173,10 +173,6 @@ class _AppContainerState extends State<AppContainer> {
                   BottomNavigationBarItem(icon: page.icon, label: page.title),
             )
             .toList(),
-        // BottomNavigationBarItem(
-        //   icon: Icon(Icons.calendar_today),
-        //   label: AppLocalizations.of(context)!.tabCalendarLabel,
-        // ),
       ),
     );
   }

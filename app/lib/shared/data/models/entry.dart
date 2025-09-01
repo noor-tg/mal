@@ -21,7 +21,7 @@ class Entry extends Equatable {
   final String type;
 
   String prefixedAmount(String incomeL10n) =>
-      '${amount.toString()} ${type == incomeL10n ? "+" : "-"}';
+      '${moneyFormat(amount).toString()} ${type == incomeL10n ? "+" : "-"}';
 
   Color color(String incomeL10n) =>
       type == incomeL10n ? Colors.green : Colors.red;

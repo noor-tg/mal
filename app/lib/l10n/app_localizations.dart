@@ -357,6 +357,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تم الحذف بنجاح'**
   String get entryRemovedSuccessfully;
+
+  /// No description provided for @entries.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدخلات'**
+  String get entries;
 }
 
 class _AppLocalizationsDelegate

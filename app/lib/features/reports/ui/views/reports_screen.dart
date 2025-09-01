@@ -64,57 +64,5 @@ class _ReportsScreenState extends State<ReportsScreen> {
         ],
       ),
     );
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: Text(
-    //       AppLocalizations.of(context)!.reportsTitle,
-    //       style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-    //     ),
-    //     backgroundColor: Theme.of(context).colorScheme.primary,
-    //     iconTheme: IconThemeData(
-    //       color: Theme.of(context).colorScheme.onPrimary,
-    //     ),
-    //     // centerTitle: true,
-    //     actions: [
-    //       IconButton(
-    //         icon: Icon(
-    //           Icons.create,
-    //           color: Theme.of(context).colorScheme.onPrimary,
-    //         ),
-    //         onPressed: () {},
-    //       ),
-    //     ],
-    //   ),
-    //   body: body,
-    //   drawer: MainDrawer(),
-    //   bottomNavigationBar: BottomNavigationBar(
-    //     elevation: 40,
-    //     type: BottomNavigationBarType.fixed,
-    //     currentIndex: tabIndex,
-    //     onTap: (index) {
-    //       setState(() {
-    //         tabIndex = index;
-    //       });
-    //     },
-    //     items: [
-    //       BottomNavigationBarItem(
-    //         icon: Icon(Icons.pie_chart),
-    //         label: AppLocalizations.of(context)!.tabReportsLabel,
-    //       ),
-    //       // BottomNavigationBarItem(
-    //       //   icon: Icon(Icons.search),
-    //       //   label: AppLocalizations.of(context)!.tabSearchLabel,
-    //       // ),
-    //       // BottomNavigationBarItem(
-    //       //   icon: Icon(Icons.calendar_today),
-    //       //   label: AppLocalizations.of(context)!.tabCalendarLabel,
-    //       // ),
-    //       BottomNavigationBarItem(
-    //         icon: Icon(Icons.category),
-    //         label: AppLocalizations.of(context)!.tabCategoriesLabel,
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 }

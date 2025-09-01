@@ -140,4 +140,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get entryRemovedSuccessfully => 'تم الحذف بنجاح';
+
+  @override
+  String get entries => 'مدخلات';
 }

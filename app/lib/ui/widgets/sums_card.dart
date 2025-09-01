@@ -22,7 +22,7 @@ class SumsCard extends StatelessWidget {
                 Text(l10n!.reportsBalance),
                 const SizedBox(width: 16),
                 Text(
-                  moneyFormat(context, totals.balance),
+                  moneyFormat(totals.balance),
                   style: Theme.of(context).textTheme.displaySmall?.copyWith(
                     color: Colors.lightBlue,
                     fontWeight: FontWeight.bold,
@@ -42,7 +42,7 @@ class SumsCard extends StatelessWidget {
                         children: [
                           Text(l10n.expenses),
                           Text(
-                            moneyFormat(context, totals.expenses),
+                            moneyFormat(totals.expenses),
                             style: Theme.of(context).textTheme.headlineMedium
                                 ?.copyWith(color: Colors.red),
                           ),
@@ -60,7 +60,7 @@ class SumsCard extends StatelessWidget {
                         children: [
                           Text(l10n.income),
                           Text(
-                            moneyFormat(context, totals.incomes),
+                            moneyFormat(totals.incomes),
                             style: Theme.of(context).textTheme.headlineMedium
                                 ?.copyWith(color: Colors.lightGreen),
                           ),

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mal/features/calendar/data/repositories/sql_repository.dart'
+    as calendar;
+import 'package:mal/features/calendar/domain/bloc/calendar_bloc.dart';
 import 'package:mal/features/categories/data/repositories/sql_repository.dart'
     as categories;
 import 'package:mal/features/entries/data/repositories/sql_repository.dart'
@@ -59,6 +62,11 @@ class MalApp extends StatelessWidget {
               return reports.SqlRepository();
             },
           ),
+          RepositoryProvider(
+            create: (_) {
+              return calendar.SqlRepository();
+            },
+          ),
         ],
         child: MultiBlocProvider(
           providers: [
@@ -81,6 +89,10 @@ class MalApp extends StatelessWidget {
             BlocProvider(
               create: (ctx) =>
                   CategoriesReportBloc(repo: ctx.read<reports.SqlRepository>()),
+            ),
+            BlocProvider(
+              create: (ctx) =>
+                  CalendarBloc(repo: ctx.read<calendar.SqlRepository>()),
             ),
           ],
           child: const AppContainer(),

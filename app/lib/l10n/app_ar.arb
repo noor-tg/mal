@@ -42,5 +42,6 @@
   "search": "بحث",
   "reset": "تراجع",
   "notSelected": "لم يتم الاختيار",
-  "entryRemovedSuccessfully": "تم الحذف بنجاح"
+  "entryRemovedSuccessfully": "تم الحذف بنجاح",
+  "entries": "مدخلات"
 }

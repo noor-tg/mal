@@ -1,8 +1,11 @@
 import 'package:mal/features/calendar/data/sources/sql_provider.dart';
 import 'package:mal/features/calendar/domain/repositories/calendar_repository.dart';
 import 'package:mal/features/calendar/domain/repositories/day_sums.dart';
+import 'package:mal/shared/data/models/entry.dart';
+import 'package:mal/shared/query_builder.dart';
 import 'package:mal/shared/where.dart';
 import 'package:mal/utils.dart';
+import 'package:mal/utils/dates.dart';
 
 class SqlRepository extends CalendarRepository {
   final sqlProvider = SqlProvider();
@@ -29,7 +32,7 @@ class SqlRepository extends CalendarRepository {
 
     final List<DaySums> list = [];
 
-    final dates = getCurrentMonthDays();
+    final dates = getMonthDays(year, month);
 
     for (final day in dates) {
       final income = incomes
@@ -52,7 +55,23 @@ class SqlRepository extends CalendarRepository {
     return list;
   }
 
-  bool compareDate(String isoDate, String dayFormated) {
-    return DateTime.parse(isoDate).day == int.parse(dayFormated);
+  @override
+  Future<List<Entry>> getSelectedDayEntries(DateTime date) async {
+    try {
+      final qb = QueryBuilder('entries');
+
+      final data = await qb
+          .whereLike('date', date.toIso8601String().substring(0, 10))
+          .getAll();
+
+      return data.isNotEmpty
+          ? List.generate(data.length, (index) => Entry.fromMap(data[index]))
+          : [];
+    } catch (err, trace) {
+      logger
+        ..e(err)
+        ..t(trace);
+      rethrow;
+    }
   }
 }

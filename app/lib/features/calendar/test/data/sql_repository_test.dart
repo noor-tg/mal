@@ -35,6 +35,5 @@ void getCurrentMonthDaysSumsTests() {
 
     expect(list.isNotEmpty, true);
     expect(list.length, greaterThan(0));
-    logger.i(list);
   });
 }

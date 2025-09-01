@@ -111,7 +111,7 @@ class _EntryDetailsState extends State<EntryDetails> {
                     child: Column(
                       children: [
                         Text(
-                          moneyFormat(context, entry.amount),
+                          moneyFormat(entry.amount),
                           style: Theme.of(context).textTheme.displayMedium
                               ?.copyWith(
                                 fontWeight: FontWeight.bold,

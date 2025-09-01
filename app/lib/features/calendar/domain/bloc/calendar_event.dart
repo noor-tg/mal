@@ -16,3 +16,12 @@ class FetchSelectedMonthData extends CalendarEvent {
   @override
   List<Object> get props => [year, month];
 }
+
+class FetchSelectedDayData extends CalendarEvent {
+  final DateTime date;
+
+  const FetchSelectedDayData(this.date);
+
+  @override
+  List<Object> get props => [date];
+}
