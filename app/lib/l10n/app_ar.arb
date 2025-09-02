@@ -43,5 +43,9 @@
   "reset": "تراجع",
   "notSelected": "لم يتم الاختيار",
   "entryRemovedSuccessfully": "تم الحذف بنجاح",
-  "entries": "مدخلات"
+  "entries": "مدخلات",
+  "logo": "مال",
+  "userName": "الاسم",
+  "clear": "مسح",
+  "password": "كلمة مرور"
 }

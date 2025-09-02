@@ -16,6 +16,7 @@ import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/features/reports/domain/bloc/categories_report/categories_report_bloc.dart';
 import 'package:mal/features/reports/domain/bloc/daily_sums/daily_sums_bloc.dart';
 import 'package:mal/features/reports/domain/bloc/totals/totals_bloc.dart';
+import 'package:mal/features/user/ui/views/auth_screen.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/ui/app_container.dart';
 
@@ -95,7 +96,7 @@ class MalApp extends StatelessWidget {
                   CalendarBloc(repo: ctx.read<calendar.SqlRepository>()),
             ),
           ],
-          child: const AppContainer(),
+          child: const AuthScreen(),
         ),
       ),
     );

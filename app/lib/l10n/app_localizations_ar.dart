@@ -143,4 +143,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get entries => 'مدخلات';
+
+  @override
+  String get logo => 'مال';
+
+  @override
+  String get userName => 'الاسم';
+
+  @override
+  String get clear => 'مسح';
+
+  @override
+  String get password => 'كلمة مرور';
 }

@@ -363,6 +363,30 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'مدخلات'**
   String get entries;
+
+  /// No description provided for @logo.
+  ///
+  /// In ar, this message translates to:
+  /// **'مال'**
+  String get logo;
+
+  /// No description provided for @userName.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم'**
+  String get userName;
+
+  /// No description provided for @clear.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسح'**
+  String get clear;
+
+  /// No description provided for @password.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة مرور'**
+  String get password;
 }
 
 class _AppLocalizationsDelegate
