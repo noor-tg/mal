@@ -155,4 +155,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get password => 'كلمة مرور';
+
+  @override
+  String get haveAnAccount => 'لديك حساب ؟ سجل دخول';
+
+  @override
+  String get registerUser => 'حساب جديد';
 }

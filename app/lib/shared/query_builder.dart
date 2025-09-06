@@ -95,7 +95,7 @@ class QueryBuilder {
     return res;
   }
 
-  Future<Map<String, Object?>> getOne() async {
+  Future<Map<String, Object?>?> getOne() async {
     final db = await Db.use();
     final res = await db.query(
       _table,
@@ -105,6 +105,9 @@ class QueryBuilder {
       offset: _offset,
     );
 
+    if (res.isEmpty) {
+      return null;
+    }
     return res.first;
   }
 

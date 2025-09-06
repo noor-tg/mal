@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 
 class MainDrawer extends StatelessWidget {
   // const MainDrawer({super.key, required this.onSelectScreen});
@@ -26,13 +28,18 @@ class MainDrawer extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: Row(
               children: [
-                const Icon(Icons.fastfood),
+                const Icon(Icons.logout),
                 const SizedBox(width: 10),
-                Text(
-                  'Cooking :fire:',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+                TextButton(
+                  onPressed: () {
+                    context.read<AuthBloc>().add(const AuthLogoutRequested());
+                  },
+                  child: Text(
+                    'تسجيل خروج',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
             ),

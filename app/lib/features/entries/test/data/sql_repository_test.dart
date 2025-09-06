@@ -110,12 +110,15 @@ void updateSingleEntryTest() {
 
 void storeSingleEntryTest() {
   test('> store single Entry', () async {
+    // given
     final db = await Db.use();
     final repo = SqlRepository();
     final entry = fakeEntry();
-    // query using sql provider
+
+    // when
     final result = await repo.store(entry);
-    // check results
+
+    // then
     expect(result.uid, entry.uid);
     final storedEntry = await db.query(
       'entries',

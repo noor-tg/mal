@@ -22,9 +22,9 @@ class Db {
 
         _categoriesMigrateUp(batch);
         _entriesMigrateUp(batch);
+        _usersMigrateUp(batch);
 
         await batch.commit();
-        // logger.i('database updated');
       },
       version: 1,
     );
@@ -51,5 +51,29 @@ class Db {
        type text
     );
   ''');
+  }
+
+  static void _usersMigrateUp(sql.Batch batch) {
+    batch.execute('''
+      CREATE TABLE users(
+        uid TEXT PRIMARY KEY,
+        avatar TEXT,
+        name TEXT NOT NULL,
+        pin_hash TEXT NOT NULL,
+        salt TEXT NOT NULL,
+        biometric_enabled INTEGER NOT NULL DEFAULT 0,
+        created_at TEXT NOT NULL,
+        updated_at TEXT
+      )
+    ''');
+  }
+
+  static Future<void> deleteOldDatabase() async {
+    final dbFile = dotenv.env['DB_PATH'] ?? ':memory:';
+    final dbPath = await sql.getDatabasesPath();
+    final dpath = path.join(dbPath, dbFile);
+
+    // Close database if it's open
+    await sql.deleteDatabase(dpath);
   }
 }

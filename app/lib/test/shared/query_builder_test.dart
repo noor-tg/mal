@@ -98,7 +98,7 @@ void main() {
 
       final result = await q.getOne();
       expect(result, isA<Map<String, Object?>>());
-      expect(result['uid'], isA<String>());
+      expect(result!['uid'], isA<String>());
     });
     test('count query from table', () async {
       final q = QueryBuilder('entries');

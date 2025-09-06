@@ -387,6 +387,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'كلمة مرور'**
   String get password;
+
+  /// No description provided for @haveAnAccount.
+  ///
+  /// In ar, this message translates to:
+  /// **'لديك حساب ؟ سجل دخول'**
+  String get haveAnAccount;
+
+  /// No description provided for @registerUser.
+  ///
+  /// In ar, this message translates to:
+  /// **'حساب جديد'**
+  String get registerUser;
 }
 
 class _AppLocalizationsDelegate

@@ -54,6 +54,14 @@ Entry fakeEntry() {
   );
 }
 
+Map<String, String> fakeUser() {
+  return {
+    'name': faker.internet.userName(),
+    'pin': faker.internet.macAddress(),
+    'salt': faker.internet.macAddress(),
+  };
+}
+
 Future<void> generateCategories(Database db) async {
   await db.delete('categories');
   for (final category in categories) {

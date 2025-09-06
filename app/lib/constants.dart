@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 const kSearchLimit = 10;
 
 const incomeType = 'دخل';
@@ -105,3 +108,19 @@ String approximate(int amount) {
   }
   return '$amount';
 }
+
+final colorScheme = ColorScheme.fromSeed(
+  // brightness: Brightness.light,
+  seedColor: Colors.purpleAccent,
+  surface: Colors.white,
+);
+
+final theme = ThemeData().copyWith(
+  scaffoldBackgroundColor: colorScheme.surface,
+  colorScheme: colorScheme,
+  textTheme: GoogleFonts.cairoTextTheme().copyWith(
+    titleSmall: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+    titleMedium: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+    titleLarge: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+  ),
+);
