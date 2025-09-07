@@ -2,6 +2,7 @@ import 'package:mal/features/user/data/sources/sql_provider.dart';
 import 'package:mal/features/user/domain/repositories/user_repository.dart';
 import 'package:mal/shared/data/models/user.dart';
 import 'package:mal/shared/query_builder.dart';
+import 'package:mal/utils.dart';
 
 class SqlRepository extends UserRepository {
   final sqlProvider = SqlProvider();
@@ -29,5 +30,22 @@ class SqlRepository extends UserRepository {
     }
 
     return User.fromMap(user);
+  }
+
+  @override
+  Future<bool> toggleBiometric(String name, bool enabled) async {
+    try {
+      final db = await createOrOpenDB();
+      await db.update(
+        'users',
+        {'biometric_enabled': enabled ? 1 : 0},
+        where: 'name = ?',
+        whereArgs: [name],
+      );
+      return true;
+    } catch (e) {
+      logger.e('Error setting biometric: $e');
+      return false;
+    }
   }
 }

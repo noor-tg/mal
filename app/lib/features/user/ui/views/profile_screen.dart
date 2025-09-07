@@ -1,13 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mal/features/user/data/services/biometric_service.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/ui/views/user_avatar.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool _isBiometricAvailable = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkBiometricAvailability();
+  }
+
+  Future<void> _checkBiometricAvailability() async {
+    final isAvailable = await BiometricService.isBiometricAvailable();
+    if (mounted) {
+      setState(() {
+        _isBiometricAvailable = isAvailable;
+      });
+    }
+  }
+
+  void _toggleBiometric(bool enabled, String userName) {
+    context.read<AuthBloc>().add(
+      AuthBiometricToggleRequested(name: userName, enabled: enabled),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,11 +100,56 @@ class ProfileScreen extends StatelessWidget {
                                   state.user.name,
                                   style: subStyle,
                                 ),
+                                trailing: SizedBox(
+                                  width: 60,
+                                  child: IconButton(
+                                    icon: const Icon(Icons.create),
+                                    onPressed: () {},
+                                  ),
+                                ),
                               ),
                               ListTile(
                                 leading: const Icon(Icons.lock, size: 32),
                                 title: Text(l10n.password, style: titleStyle),
                                 subtitle: Text('* * * *', style: subStyle),
+                                trailing: SizedBox(
+                                  width: 60,
+                                  child: IconButton(
+                                    icon: const Icon(Icons.create),
+                                    onPressed: () {},
+                                  ),
+                                ),
+                              ),
+                              ListTile(
+                                leading: const Icon(
+                                  Icons.fingerprint,
+                                  size: 32,
+                                ),
+                                title: Text(
+                                  l10n.biometricEnabled,
+                                  style: titleStyle,
+                                ),
+                                subtitle: Text(
+                                  state.biometricEnabled
+                                      ? l10n.enabled
+                                      : l10n.disabled,
+                                  style: subStyle,
+                                ),
+                                trailing: SizedBox(
+                                  width: 60,
+                                  child: _isBiometricAvailable
+                                      ? Switch(
+                                          value: state.biometricEnabled,
+                                          onChanged: (enabled) =>
+                                              _toggleBiometric(
+                                                enabled,
+                                                state.user.name,
+                                              ),
+                                          activeColor:
+                                              theme.colorScheme.primary,
+                                        )
+                                      : const Icon(Icons.block),
+                                ),
                               ),
                               ListTile(
                                 leading: const Icon(
@@ -104,34 +178,12 @@ class ProfileScreen extends StatelessWidget {
                                   style: subStyle,
                                 ),
                               ),
-                              ListTile(
-                                leading: const Icon(
-                                  Icons.fingerprint,
-                                  size: 32,
-                                ),
-                                title: Text(
-                                  l10n.biometricEnabled,
-                                  style: titleStyle,
-                                ),
-                                subtitle: Text(
-                                  state.user.biometricEnabled
-                                      ? l10n.enabled
-                                      : l10n.disabled,
-                                  style: subStyle,
-                                ),
-                                // trailing: Switch(
-                                //   value: state.biometricEnabled,
-                                //   onChanged: (enabled) {},
-                                //   // _toggleBiometric(enabled, userName),
-                                //   // activeColor: Colors.blue.shade600,
-                                // ),
-                              ),
                             ],
                           ),
                         ),
                       ],
                     )
-                  : const Column(),
+                  : const Text('Not Authed'),
             ),
           ),
         );

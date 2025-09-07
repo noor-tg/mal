@@ -18,7 +18,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthRegisterAndLoginRequested>(_onRegisterAndLoginRequested);
     on<AuthLoginWithPinRequested>(_onLoginWithPinRequested);
     // on<AuthLoginWithBiometricRequested>(_onLoginWithBiometricRequested);
-    // on<AuthBiometricToggleRequested>(_onBiometricToggleRequested);
+    on<AuthBiometricToggleRequested>(_onBiometricToggleRequested);
     on<AuthLogoutRequested>(_onLogoutRequested);
   }
 
@@ -85,9 +85,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await BiometricService.setLastAuthenticatedUser(user.uid);
 
       logger.i('accept as logged in');
-      emit(
-        AuthRegistrationSuccessWithLogin(user: user, biometricEnabled: false),
-      );
+      emit(AuthAuthenticated(user: user, biometricEnabled: false));
     } catch (e, t) {
       logger
         ..e('register failed')
@@ -180,6 +178,51 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ..e(e)
         ..t(t);
       emit(AuthError(message: 'Login failed: ${e.toString()}'));
+    }
+  }
+
+  Future<void> _onBiometricToggleRequested(
+    AuthBiometricToggleRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      if (event.enabled) {
+        // Check if biometric is available before enabling
+        final isAvailable = await BiometricService.isBiometricAvailable();
+        if (!isAvailable) {
+          emit(
+            const AuthError(
+              message: 'Biometric authentication not available on this device',
+            ),
+          );
+          return;
+        }
+
+        // Test biometric authentication before enabling
+        final authResult = await BiometricService.authenticate();
+
+        if (authResult != BiometricAuthResult.success) {
+          emit(const AuthError(message: 'Biometric verification failed'));
+          return;
+        }
+      }
+
+      // Update preference
+      await BiometricService.setBiometricPreference(event.name, event.enabled);
+      await repo.toggleBiometric(event.name, event.enabled);
+
+      // If currently authenticated, update state
+      if (state is AuthAuthenticated) {
+        final currentState = state as AuthAuthenticated;
+        emit(
+          AuthAuthenticated(
+            user: currentState.user,
+            biometricEnabled: event.enabled,
+          ),
+        );
+      }
+    } catch (e) {
+      emit(AuthError(message: 'Failed to toggle biometric: ${e.toString()}'));
     }
   }
 }

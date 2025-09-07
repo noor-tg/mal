@@ -58,4 +58,6 @@ abstract class UserRepository {
   }
 
   Future<User> getUser(String uid);
+
+  Future<bool> toggleBiometric(String name, bool enabled);
 }
