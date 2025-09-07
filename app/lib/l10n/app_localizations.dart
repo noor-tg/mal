@@ -385,7 +385,7 @@ abstract class AppLocalizations {
   /// No description provided for @password.
   ///
   /// In ar, this message translates to:
-  /// **'كلمة مرور'**
+  /// **'رمز المرور'**
   String get password;
 
   /// No description provided for @haveAnAccount.
@@ -399,6 +399,24 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'حساب جديد'**
   String get registerUser;
+
+  /// No description provided for @login.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل دخول'**
+  String get login;
+
+  /// No description provided for @notHaveAccount.
+  ///
+  /// In ar, this message translates to:
+  /// **'ليس لديك حساب ؟ أنشئ حساب'**
+  String get notHaveAccount;
+
+  /// No description provided for @registerBtn.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجل'**
+  String get registerBtn;
 }
 
 class _AppLocalizationsDelegate

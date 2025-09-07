@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
+import 'package:mal/features/user/ui/views/login_screen.dart';
 import 'package:mal/features/user/ui/views/register_screen.dart';
 import 'package:mal/ui/app_container.dart';
 import 'package:mal/ui/splash_screen.dart';
@@ -12,13 +13,13 @@ GoRouter createAppRouter(BuildContext context) {
     redirect: (context, state) {
       final authState = context.read<AuthBloc>().state;
       final isSplashRoute = state.matchedLocation == '/';
-      // final isLoginRoute = state.matchedLocation == '/login';
+      final isLoginRoute = state.matchedLocation == '/login';
       final isRegisterRoute = state.matchedLocation == '/register';
 
       // If authenticated and trying to access login/register/splash, redirect to dashboard
       if ((authState is AuthAuthenticated ||
               authState is AuthRegistrationSuccessWithLogin) &&
-          (isRegisterRoute || isSplashRoute)) {
+          (isRegisterRoute || isSplashRoute || isLoginRoute)) {
         return '/dashboard';
       }
 
@@ -26,7 +27,7 @@ GoRouter createAppRouter(BuildContext context) {
       if (authState is AuthUnauthenticated &&
               state.matchedLocation == '/dashboard' ||
           state.matchedLocation == '/') {
-        return '/register';
+        return '/login';
       }
 
       return null; // No redirect needed
@@ -37,11 +38,11 @@ GoRouter createAppRouter(BuildContext context) {
         name: 'splash',
         builder: (context, state) => const SplashScreen(),
       ),
-      // GoRoute(
-      //   path: '/login',
-      //   name: 'login',
-      //   builder: (context, state) => const LoginScreen(),
-      // ),
+      GoRoute(
+        path: '/login',
+        name: 'login',
+        builder: (context, state) => const LoginScreen(),
+      ),
       GoRoute(
         path: '/register',
         name: 'register',

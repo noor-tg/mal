@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -33,6 +34,7 @@ class MainDrawer extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     context.read<AuthBloc>().add(const AuthLogoutRequested());
+                    context.go('/login');
                   },
                   child: Text(
                     'تسجيل خروج',

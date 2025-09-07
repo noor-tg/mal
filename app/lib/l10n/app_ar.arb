@@ -47,7 +47,10 @@
   "logo": "مال",
   "userName": "الاسم",
   "clear": "مسح",
-  "password": "كلمة مرور",
+  "password": "رمز المرور",
   "haveAnAccount": "لديك حساب ؟ سجل دخول",
-  "registerUser": "حساب جديد"
+  "registerUser": "حساب جديد",
+  "login": "تسجيل دخول",
+  "notHaveAccount": "ليس لديك حساب ؟ أنشئ حساب",
+  "registerBtn": "سجل"
 }

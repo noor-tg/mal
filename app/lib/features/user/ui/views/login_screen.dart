@@ -2,24 +2,66 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+// ignore: unused_import
+import 'package:mal/features/user/data/services/biometric_service.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/ui/widgets/pin_input.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<State<PinInput>> _pinInputKey = GlobalKey();
   String _pinValue = '';
 
   String _nameValue = '';
+
+  // bool _isBiometricAvailable = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // _initializeBiometric();
+  }
+
+  // NOTICE: enable when done with bio login
+  // Future<void> _loginWithBiometric() async {
+  //   if (_selectedUser == null) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text('Please select a user first'),
+  //         backgroundColor: Colors.orange,
+  //       ),
+  //     );
+  //     return;
+  //   }
+
+  //   // Check if user has biometric enabled
+  //   final biometricEnabled = await BiometricService.getBiometricPreference(
+  //     _selectedUser!,
+  //   );
+  //   if (!biometricEnabled) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text('Biometric login not enabled for this user'),
+  //         backgroundColor: Colors.orange,
+  //       ),
+  //     );
+  //     return;
+  //   }
+
+  // if (!mounted) return;
+  // context.read<AuthBloc>().add(
+  //   AuthLoginWithBiometricRequested(name: _selectedUser!),
+  // );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               box16,
               Center(
                 child: Text(
-                  l10n.registerUser,
+                  l10n.login,
                   style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -170,16 +212,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   vertical: 16,
                                 ),
                                 child: Text(
-                                  l10n.registerBtn,
+                                  l10n.login,
                                   style: const TextStyle(color: Colors.white),
                                 ),
                               ),
                             ),
                             TextButton(
                               onPressed: () {
-                                context.go('/login');
+                                context.go('/register');
                               },
-                              child: Text(l10n.haveAnAccount),
+                              child: Text(l10n.notHaveAccount),
                             ),
                           ],
                         ),
@@ -207,17 +249,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _submitForm() {
-    logger.i('before validation');
     if (!_formKey.currentState!.validate()) {
       logger.i('not valid');
       return;
     }
-    logger.i('save data');
     _formKey.currentState!.save();
 
-    logger.i('register submitted');
     context.read<AuthBloc>().add(
-      AuthRegisterAndLoginRequested(name: _nameValue, pin: _pinValue),
+      AuthLoginWithPinRequested(name: _nameValue, pin: _pinValue),
     );
 
     // NOTICE: this is to learn from it to make the avatar in the future
@@ -263,4 +302,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
     return null;
   }
+
+  // void _initializeBiometric() async {
+  //   final isAvailable = await BiometricService.isBiometricAvailable();
+  //   setState(() {
+  //     _isBiometricAvailable = isAvailable;
+  //   });
+  // }
 }

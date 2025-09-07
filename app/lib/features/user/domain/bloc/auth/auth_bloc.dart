@@ -16,7 +16,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({required this.repo}) : super(const AuthInitial()) {
     on<AuthCheckStatusRequested>(_onCheckStatusRequested);
     on<AuthRegisterAndLoginRequested>(_onRegisterAndLoginRequested);
-    // on<AuthLoginWithPinRequested>(_onLoginWithPinRequested);
+    on<AuthLoginWithPinRequested>(_onLoginWithPinRequested);
     // on<AuthLoginWithBiometricRequested>(_onLoginWithBiometricRequested);
     // on<AuthBiometricToggleRequested>(_onBiometricToggleRequested);
     on<AuthLogoutRequested>(_onLogoutRequested);
@@ -130,5 +130,56 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) {
     emit(const AuthUnauthenticated());
+  }
+
+  FutureOr<void> _onLoginWithPinRequested(
+    AuthLoginWithPinRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(const AuthLoading());
+
+    try {
+      final Map<String, String> errors = {};
+
+      // Validate input
+      if (event.name.trim().isEmpty) {
+        errors['name'] = 'Name cannot be empty';
+      } else if (event.name.trim().length < 2) {
+        errors['name'] = 'Name must be at least 2 characters';
+      }
+
+      if (event.pin.isEmpty) {
+        errors['pin'] = 'Please enter a PIN';
+      } else if (event.pin.length < 4) {
+        errors['pin'] = 'PIN must be at least 4 digits';
+      }
+
+      if (errors.isNotEmpty) {
+        emit(
+          AuthError(
+            message: 'Please fix the errors below',
+            fieldsErrors: errors,
+          ),
+        );
+        return;
+      }
+
+      final user = await repo.verifyPin(event.name, event.pin);
+
+      if (user == null) {
+        emit(const AuthError(message: 'login failed'));
+        return;
+      }
+
+      await BiometricService.setLastAuthenticatedUser(user.uid);
+
+      emit(AuthAuthenticated(user: user, biometricEnabled: false));
+    } catch (e, t) {
+      logger
+        ..e('login failed')
+        ..e(e)
+        ..t(t);
+      emit(AuthError(message: 'Login failed: ${e.toString()}'));
+    }
   }
 }
