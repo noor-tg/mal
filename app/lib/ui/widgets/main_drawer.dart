@@ -31,15 +31,22 @@ class MainDrawer extends StatelessWidget {
               children: [
                 const Icon(Icons.logout),
                 const SizedBox(width: 10),
-                TextButton(
-                  onPressed: () {
-                    context.read<AuthBloc>().add(const AuthLogoutRequested());
-                    context.go('/login');
+                BlocListener<AuthBloc, AuthState>(
+                  listener: (BuildContext context, state) {
+                    if (state is AuthUnauthenticated) {
+                      Navigator.pop(context);
+                      context.go('/login');
+                    }
                   },
-                  child: Text(
-                    'تسجيل خروج',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
+                  child: TextButton(
+                    onPressed: () {
+                      context.read<AuthBloc>().add(const AuthLogoutRequested());
+                    },
+                    child: Text(
+                      'تسجيل خروج',
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
