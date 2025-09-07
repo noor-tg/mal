@@ -417,6 +417,48 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'سجل'**
   String get registerBtn;
+
+  /// No description provided for @profile.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملف المستخدم'**
+  String get profile;
+
+  /// No description provided for @member_since.
+  ///
+  /// In ar, this message translates to:
+  /// **'عضو منذ'**
+  String get member_since;
+
+  /// No description provided for @updatedAt.
+  ///
+  /// In ar, this message translates to:
+  /// **'أخر تحديث'**
+  String get updatedAt;
+
+  /// No description provided for @biometricEnabled.
+  ///
+  /// In ar, this message translates to:
+  /// **'دخول الحيوي'**
+  String get biometricEnabled;
+
+  /// No description provided for @enabled.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفعل'**
+  String get enabled;
+
+  /// No description provided for @disabled.
+  ///
+  /// In ar, this message translates to:
+  /// **'موقوف'**
+  String get disabled;
+
+  /// No description provided for @personalInfo.
+  ///
+  /// In ar, this message translates to:
+  /// **'معلومات أساسية'**
+  String get personalInfo;
 }
 
 class _AppLocalizationsDelegate

@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/ui/views/login_screen.dart';
+import 'package:mal/features/user/ui/views/profile_screen.dart';
 import 'package:mal/features/user/ui/views/register_screen.dart';
 import 'package:mal/ui/app_container.dart';
 import 'package:mal/ui/splash_screen.dart';
 
 GoRouter createAppRouter(BuildContext context) {
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: '/profile',
     redirect: (context, state) {
       final authState = context.read<AuthBloc>().state;
       final isSplashRoute = state.matchedLocation == '/';
@@ -52,6 +53,11 @@ GoRouter createAppRouter(BuildContext context) {
         path: '/dashboard',
         name: 'dashboard',
         builder: (context, state) => const AppContainer(),
+      ),
+      GoRoute(
+        path: '/profile',
+        name: 'profile',
+        builder: (context, state) => const ProfileScreen(),
       ),
     ],
   );

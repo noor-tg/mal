@@ -52,5 +52,12 @@
   "registerUser": "حساب جديد",
   "login": "تسجيل دخول",
   "notHaveAccount": "ليس لديك حساب ؟ أنشئ حساب",
-  "registerBtn": "سجل"
+  "registerBtn": "سجل",
+  "profile": "ملف المستخدم",
+  "member_since": "عضو منذ",
+  "updatedAt": "أخر تحديث",
+  "biometricEnabled": "دخول الحيوي",
+  "enabled": "مفعل",
+  "disabled": "موقوف",
+  "personalInfo": "معلومات أساسية"
 }

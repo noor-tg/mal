@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
+import 'package:mal/l10n/app_localizations.dart';
 
 class MainDrawer extends StatelessWidget {
   // const MainDrawer({super.key, required this.onSelectScreen});
@@ -11,6 +12,7 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -54,17 +56,10 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.restaurant, size: 26),
-            title: const Text('Meals'),
+            leading: const Icon(Icons.account_box, size: 26),
+            title: Text(l10n.profile),
             onTap: () {
-              // onSelectScreen('meals');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.toggle_off_outlined, size: 26),
-            title: const Text('Filters'),
-            onTap: () {
-              // onSelectScreen('filters');
+              context.go('/profile');
             },
           ),
         ],

@@ -170,4 +170,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get registerBtn => 'سجل';
+
+  @override
+  String get profile => 'ملف المستخدم';
+
+  @override
+  String get member_since => 'عضو منذ';
+
+  @override
+  String get updatedAt => 'أخر تحديث';
+
+  @override
+  String get biometricEnabled => 'دخول الحيوي';
+
+  @override
+  String get enabled => 'مفعل';
+
+  @override
+  String get disabled => 'موقوف';
+
+  @override
+  String get personalInfo => 'معلومات أساسية';
 }
