@@ -48,4 +48,14 @@ class SqlRepository extends UserRepository {
       return false;
     }
   }
+
+  @override
+  Future<User?> getUserByName(String name) async {
+    final user = await QueryBuilder('users').where('name', '=', name).getOne();
+    if (user == null) {
+      return null;
+    }
+
+    return User.fromMap(user);
+  }
 }

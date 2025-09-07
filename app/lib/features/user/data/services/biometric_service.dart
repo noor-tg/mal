@@ -121,13 +121,10 @@ class BiometricService {
   }
 
   // Store biometric preference for user
-  static Future<void> setBiometricPreference(
-    String username,
-    bool enabled,
-  ) async {
+  static Future<void> setBiometricPreference(String name, bool enabled) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('biometric_$username', enabled);
+      await prefs.setBool('biometric_$name', enabled);
     } catch (e) {
       // ignore: avoid_print
       logger.e('Error setting biometric preference: $e');
@@ -135,10 +132,10 @@ class BiometricService {
   }
 
   // Get biometric preference for user
-  static Future<bool> getBiometricPreference(String uid) async {
+  static Future<bool> getBiometricPreference(String name) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return prefs.getBool('biometric_$uid') ?? false;
+      return prefs.getBool('biometric_$name') ?? false;
     } catch (e) {
       logger.e('Error getting biometric preference: $e');
       return false;

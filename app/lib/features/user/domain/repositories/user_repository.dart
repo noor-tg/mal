@@ -45,6 +45,7 @@ abstract class UserRepository {
       final inputHash = hashPin(pin, salt);
 
       if (inputHash == storedHash) {
+        logger.i(user);
         return User.fromMap(user);
       }
 
@@ -60,4 +61,6 @@ abstract class UserRepository {
   Future<User> getUser(String uid);
 
   Future<bool> toggleBiometric(String name, bool enabled);
+
+  Future<User?> getUserByName(String name);
 }

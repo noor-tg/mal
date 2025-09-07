@@ -17,7 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthCheckStatusRequested>(_onCheckStatusRequested);
     on<AuthRegisterAndLoginRequested>(_onRegisterAndLoginRequested);
     on<AuthLoginWithPinRequested>(_onLoginWithPinRequested);
-    // on<AuthLoginWithBiometricRequested>(_onLoginWithBiometricRequested);
+    on<AuthLoginWithBiometricRequested>(_onLoginWithBiometricRequested);
     on<AuthBiometricToggleRequested>(_onBiometricToggleRequested);
     on<AuthLogoutRequested>(_onLogoutRequested);
   }
@@ -171,7 +171,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       await BiometricService.setLastAuthenticatedUser(user.uid);
 
-      emit(AuthAuthenticated(user: user, biometricEnabled: false));
+      emit(
+        AuthAuthenticated(user: user, biometricEnabled: user.biometricEnabled),
+      );
     } catch (e, t) {
       logger
         ..e('login failed')
@@ -223,6 +225,82 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     } catch (e) {
       emit(AuthError(message: 'Failed to toggle biometric: ${e.toString()}'));
+    }
+  }
+
+  FutureOr<void> _onLoginWithBiometricRequested(
+    AuthLoginWithBiometricRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(const AuthLoading());
+
+    try {
+      // Check if biometric is available
+      final isAvailable = await BiometricService.isBiometricAvailable();
+      if (!isAvailable) {
+        emit(
+          const AuthError(message: 'Biometric authentication not available'),
+        );
+        return;
+      }
+
+      // Check if user has biometric enabled
+      final biometricEnabled = await BiometricService.getBiometricPreference(
+        event.name,
+      );
+      if (!biometricEnabled) {
+        emit(
+          const AuthError(
+            message: 'Biometric authentication not enabled for this user',
+          ),
+        );
+        return;
+      }
+
+      // Authenticate with biometric
+      final authResult = await BiometricService.authenticate();
+
+      switch (authResult) {
+        case BiometricAuthResult.success:
+          final user = await repo.getUserByName(event.name);
+          if (user != null) {
+            await BiometricService.setLastAuthenticatedUser(event.name);
+            emit(AuthAuthenticated(user: user, biometricEnabled: true));
+          } else {
+            emit(const AuthError(message: 'User not found'));
+          }
+          break;
+        case BiometricAuthResult.failed:
+          emit(const AuthError(message: 'Biometric authentication failed'));
+          break;
+        case BiometricAuthResult.notAvailable:
+          emit(
+            const AuthError(message: 'Biometric authentication not available'),
+          );
+          break;
+        case BiometricAuthResult.notEnrolled:
+          emit(const AuthError(message: 'No biometric credentials enrolled'));
+          break;
+        case BiometricAuthResult.lockedOut:
+          emit(const AuthError(message: 'Biometric authentication locked out'));
+          break;
+        case BiometricAuthResult.cancelled:
+          emit(const AuthError(message: 'Biometric authentication canceled'));
+          break;
+        case BiometricAuthResult.systemCancelled:
+          emit(
+            const AuthError(message: 'Biometric authentication SystemCancel'),
+          );
+          break;
+        case BiometricAuthResult.invalidContext:
+          emit(
+            const AuthError(message: 'Biometric authentication invalidContext'),
+          );
+        case BiometricAuthResult.notSetUp:
+          emit(const AuthError(message: 'Biometric authentication notSetup'));
+      }
+    } catch (e) {
+      emit(AuthError(message: 'Biometric login failed: ${e.toString()}'));
     }
   }
 }

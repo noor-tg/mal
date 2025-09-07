@@ -10,7 +10,7 @@ import 'package:mal/ui/splash_screen.dart';
 
 GoRouter createAppRouter(BuildContext context) {
   return GoRouter(
-    initialLocation: '/profile',
+    initialLocation: '/',
     redirect: (context, state) {
       final authState = context.read<AuthBloc>().state;
       final isSplashRoute = state.matchedLocation == '/';
@@ -18,16 +18,14 @@ GoRouter createAppRouter(BuildContext context) {
       final isRegisterRoute = state.matchedLocation == '/register';
 
       // If authenticated and trying to access login/register/splash, redirect to dashboard
-      if ((authState is AuthAuthenticated ||
-              authState is AuthRegistrationSuccessWithLogin) &&
+      if (authState is AuthAuthenticated &&
           (isRegisterRoute || isSplashRoute || isLoginRoute)) {
         return '/dashboard';
       }
 
       // If not authenticated and trying to access dashboard, redirect to login
       if (authState is AuthUnauthenticated &&
-              state.matchedLocation == '/dashboard' ||
-          state.matchedLocation == '/') {
+          (!isSplashRoute || !isLoginRoute || !isRegisterRoute)) {
         return '/login';
       }
 
