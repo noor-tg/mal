@@ -20,6 +20,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLoginWithBiometricRequested>(_onLoginWithBiometricRequested);
     on<AuthBiometricToggleRequested>(_onBiometricToggleRequested);
     on<AuthLogoutRequested>(_onLogoutRequested);
+    on<UpdateName>(_onUpdateName);
+    on<UpdatePin>(_onUpdatePin);
   }
 
   FutureOr<void> _onRegisterAndLoginRequested(
@@ -301,6 +303,56 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     } catch (e) {
       emit(AuthError(message: 'Biometric login failed: ${e.toString()}'));
+    }
+  }
+
+  FutureOr<void> _onUpdateName(
+    UpdateName event,
+    Emitter<AuthState> emit,
+  ) async {
+    if (state is AuthAuthenticated) {
+      final db = await createOrOpenDB();
+      var user = await repo.getUser(event.uid);
+      await BiometricService.removeBiometricPreference(user.name);
+      await db.update(
+        'users',
+        {'name': event.name},
+        where: 'uid = ?',
+        whereArgs: [event.uid],
+      );
+
+      await BiometricService.setBiometricPreference(
+        event.name,
+        user.biometricEnabled,
+      );
+
+      user = await repo.getUser(event.uid);
+
+      emit(
+        AuthAuthenticated(user: user, biometricEnabled: user.biometricEnabled),
+      );
+    }
+  }
+
+  FutureOr<void> _onUpdatePin(UpdatePin event, Emitter<AuthState> emit) async {
+    if (state is AuthAuthenticated) {
+      final db = await createOrOpenDB();
+
+      var user = await repo.getUser(event.uid);
+      final hashed = repo.hashPin(event.pin, user.salt);
+
+      await db.update(
+        'users',
+        {'pin_hash': hashed},
+        where: 'uid = ?',
+        whereArgs: [event.uid],
+      );
+
+      user = await repo.getUser(event.uid);
+
+      emit(
+        AuthAuthenticated(user: user, biometricEnabled: user.biometricEnabled),
+      );
     }
   }
 }

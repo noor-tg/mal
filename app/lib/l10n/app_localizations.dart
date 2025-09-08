@@ -459,6 +459,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'معلومات أساسية'**
   String get personalInfo;
+
+  /// No description provided for @editName.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل الاسم'**
+  String get editName;
+
+  /// No description provided for @editPin.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل رمز المرور'**
+  String get editPin;
 }
 
 class _AppLocalizationsDelegate

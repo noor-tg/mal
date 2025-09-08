@@ -131,6 +131,17 @@ class BiometricService {
     }
   }
 
+  // Store biometric preference for user
+  static Future<void> removeBiometricPreference(String name) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('biometric_$name');
+    } catch (e) {
+      // ignore: avoid_print
+      logger.e('Error removing biometric preference: $e');
+    }
+  }
+
   // Get biometric preference for user
   static Future<bool> getBiometricPreference(String name) async {
     try {

@@ -191,4 +191,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get personalInfo => 'معلومات أساسية';
+
+  @override
+  String get editName => 'تعديل الاسم';
+
+  @override
+  String get editPin => 'تعديل رمز المرور';
 }

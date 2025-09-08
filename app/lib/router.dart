@@ -10,7 +10,7 @@ import 'package:mal/ui/splash_screen.dart';
 
 GoRouter createAppRouter(BuildContext context) {
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: '/profile',
     redirect: (context, state) {
       final authState = context.read<AuthBloc>().state;
       final isSplashRoute = state.matchedLocation == '/';

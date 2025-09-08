@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mal/features/user/data/services/biometric_service.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
+import 'package:mal/features/user/ui/views/update_name_modal.dart';
+import 'package:mal/features/user/ui/views/update_pin_modal.dart';
 import 'package:mal/features/user/ui/views/user_avatar.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
@@ -16,6 +18,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _isBiometricAvailable = false;
+
+  final _nameController = TextEditingController();
 
   @override
   void initState() {
@@ -104,7 +108,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   width: 60,
                                   child: IconButton(
                                     icon: const Icon(Icons.create),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      _nameController.text = state.user.name;
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            UpdateNameModal(
+                                              nameController: _nameController,
+                                              l10n: l10n,
+                                            ),
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
@@ -116,7 +130,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   width: 60,
                                   child: IconButton(
                                     icon: const Icon(Icons.create),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            UpdatePinModal(l10n: l10n),
+                                      );
+                                    },
                                   ),
                                 ),
                               ),

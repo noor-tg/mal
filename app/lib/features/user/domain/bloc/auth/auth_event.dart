@@ -56,3 +56,23 @@ final class AuthLogoutRequested extends AuthEvent {
 final class AuthCheckStatusRequested extends AuthEvent {
   const AuthCheckStatusRequested();
 }
+
+final class UpdateName extends AuthEvent {
+  final String name;
+  final String uid;
+
+  const UpdateName({required this.name, required this.uid});
+
+  @override
+  List<Object> get props => [name, uid];
+}
+
+final class UpdatePin extends AuthEvent {
+  final String pin;
+  final String uid;
+
+  const UpdatePin({required this.pin, required this.uid});
+
+  @override
+  List<Object> get props => [pin, uid];
+}

@@ -59,5 +59,7 @@
   "biometricEnabled": "دخول الحيوي",
   "enabled": "مفعل",
   "disabled": "موقوف",
-  "personalInfo": "معلومات أساسية"
+  "personalInfo": "معلومات أساسية",
+  "editName": "تعديل الاسم",
+  "editPin": "تعديل رمز المرور"
 }

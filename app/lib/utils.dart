@@ -46,6 +46,7 @@ List<String> getCurrentMonthDays() {
 const box8 = SizedBox(height: 8, width: 8);
 const box16 = SizedBox(height: 16, width: 16);
 const box24 = SizedBox(height: 24, width: 24);
+const box32 = SizedBox(height: 32, width: 32);
 
 final logger = Logger();
 

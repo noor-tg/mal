@@ -295,42 +295,6 @@ class _LoginScreenState extends State<LoginScreen> {
     context.read<AuthBloc>().add(
       AuthLoginWithPinRequested(name: _nameController.text, pin: _pinValue),
     );
-
-    // NOTICE: this is to learn from it to make the avatar in the future
-    // try {
-    //   if (_isLogin) {
-    //     final user = await pb
-    //         .collection('users')
-    //         .authWithPassword(_emailValue, _passwordValue);
-    //     // print(user);
-    //   } else {
-    //     if (_pickedImage == null) {
-    //       throw Exception('please select Image');
-    //     }
-    //     await pb
-    //         .collection('users')
-    //         .create(
-    //           body: {
-    //             'name': _nameValue,
-    //             'email': _emailValue,
-    //             'password': _passwordValue,
-    //             'passwordConfirm': _passwordValue,
-    //           },
-    //           files: [
-    //             await http.MultipartFile.fromPath('avatar', _pickedImage!.path),
-    //           ],
-    //         );
-    //     final user = await pb
-    //         .collection('users')
-    //         .authWithPassword(_emailValue, _passwordValue);
-    //     // print(user);
-    //   }
-    // } on Exception catch (error) {
-    //   ScaffoldMessenger.of(context).clearSnackBars();
-    //   ScaffoldMessenger.of(
-    //     context,
-    //   ).showSnackBar(SnackBar(content: Text(error.toString())));
-    // }
   }
 
   String? _getFieldError(AuthState state, String field) {
