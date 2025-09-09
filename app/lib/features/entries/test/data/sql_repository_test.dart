@@ -45,7 +45,8 @@ void getTodayEntriesTest() {
     // query using sql provider
     await repo.store(entry);
     // update
-    final result = await repo.today();
+    // TODO: update tests . create user . associate with entry on store fake. and then use instead of uuid.v4()
+    final result = await repo.today(uuid.v4());
     expect(result.list.isNotEmpty, true);
     expect(result.count, greaterThan(0));
   });

@@ -7,6 +7,7 @@ import 'package:mal/features/reports/domain/bloc/totals/totals_bloc.dart';
 import 'package:mal/features/reports/ui/widgets/daily_sums_chart.dart';
 import 'package:mal/features/reports/ui/widgets/pie_chart_loader.dart';
 import 'package:mal/features/reports/ui/widgets/sums_loader.dart';
+import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/ui/screens/mal_page_container.dart';
 import 'package:mal/ui/widgets/mal_title.dart';
@@ -23,11 +24,14 @@ class _ReportsScreenState extends State<ReportsScreen> {
   var tabIndex = 0;
   @override
   void initState() {
-    context.read<EntriesBloc>().add(LoadTodayEntries());
-    context.read<TotalsBloc>().add(RequestTotalsData());
-    context.read<DailySumsBloc>().add(RequestDailySumsData());
-    context.read<CategoriesReportBloc>().add(RequestIncomesPieReportData());
-    context.read<CategoriesReportBloc>().add(RequestExpensesPieReportData());
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticated) {
+      context.read<EntriesBloc>().add(LoadTodayEntries(authState.user.uid));
+      context.read<TotalsBloc>().add(RequestTotalsData());
+      context.read<DailySumsBloc>().add(RequestDailySumsData());
+      context.read<CategoriesReportBloc>().add(RequestIncomesPieReportData());
+      context.read<CategoriesReportBloc>().add(RequestExpensesPieReportData());
+    }
     super.initState();
   }
 

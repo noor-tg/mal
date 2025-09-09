@@ -32,24 +32,27 @@ class Db {
   }
 
   static void _entriesMigrateUp(sql.Batch batch) {
-    batch.execute('''CREATE TABLE entries(
-      uid text primary key,
-      description text,
-      type text,
-      category text,
-      date TEXT DEFAULT (datetime('now')),
-      amount int
-  );
+    batch.execute('''
+      CREATE TABLE entries(
+        uid text primary key,
+        description text,
+        user_uid text,
+        type text,
+        category text,
+        date TEXT DEFAULT (datetime('now')),
+        amount int
+      );
   ''');
   }
 
   static void _categoriesMigrateUp(sql.Batch batch) {
     batch.execute('''
-    CREATE TABLE categories(
-       uid text primary key,
-       title text,
-       type text
-    );
+      CREATE TABLE categories(
+        uid text primary key,
+        user_uid text,
+        title text,
+        type text
+      );
   ''');
   }
 

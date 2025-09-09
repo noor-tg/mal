@@ -29,6 +29,7 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
     try {
       final stored = await repo.store(state.currentEntry!);
       final today = DateTime.now().toIso8601String().substring(0, 10);
+      final userUid = event.entry.userUid;
       emit(
         state.copyWith(
           status: EntriesStatus.success,
@@ -37,7 +38,7 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
         ),
       );
       if (stored.date.contains(today)) {
-        add(LoadTodayEntries());
+        add(LoadTodayEntries(userUid));
       }
     } catch (err, trace) {
       logger
@@ -59,8 +60,13 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
     try {
       emit(state.copyWith(status: EntriesStatus.loading));
 
-      final result = await repo.today();
+      final result = await repo.today(event.userUid);
 
+      logger
+        ..i('today user uid')
+        ..i(event.userUid)
+        ..i('today result')
+        ..i(result);
       emit(state.copyWith(today: result.list, status: EntriesStatus.success));
     } catch (err, trace) {
       logger
@@ -83,6 +89,7 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
     try {
       final stored = await repo.edit(event.entry);
       final today = DateTime.now().toIso8601String().substring(0, 10);
+      final userUid = event.entry.userUid;
       emit(
         state.copyWith(
           status: EntriesStatus.success,
@@ -91,7 +98,7 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
         ),
       );
       if (stored.date.contains(today)) {
-        add(LoadTodayEntries());
+        add(LoadTodayEntries(userUid));
       }
     } catch (err, trace) {
       logger
@@ -114,6 +121,7 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
     try {
       await repo.remove(event.entry.uid);
       final today = DateTime.now().toIso8601String().substring(0, 10);
+      final userUid = event.entry.userUid;
       emit(
         state.copyWith(
           status: EntriesStatus.success,
@@ -122,7 +130,7 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
         ),
       );
       if (event.entry.date.contains(today)) {
-        add(LoadTodayEntries());
+        add(LoadTodayEntries(userUid));
       }
     } catch (err, trace) {
       logger

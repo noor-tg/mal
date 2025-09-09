@@ -11,9 +11,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 @immutable
 class EntryForm extends StatefulWidget {
-  const EntryForm({super.key, this.entry});
-
+  const EntryForm({super.key, this.entry, this.userUid})
+    : assert(
+        entry != null || userUid != null,
+        'EntryForm requires either entry or userUid',
+      );
   final Entry? entry;
+
+  final String? userUid;
 
   @override
   State<EntryForm> createState() => _EntryFormState();
@@ -34,7 +39,9 @@ class _EntryFormState extends State<EntryForm> {
 
   @override
   void initState() {
-    super.initState();
+    if (widget.entry == null && widget.userUid == null) {
+      throw Exception('form should either have entry user uid or auth uid');
+    }
     if (widget.entry != null) {
       _description = widget.entry!.description;
       _amount = widget.entry!.amount;
@@ -42,6 +49,7 @@ class _EntryFormState extends State<EntryForm> {
       _category = widget.entry!.category;
       _date = DateTime.parse(widget.entry!.date);
     }
+    super.initState();
   }
 
   @override
@@ -273,6 +281,7 @@ class _EntryFormState extends State<EntryForm> {
         _formKey.currentState!.save();
         final entry = Entry(
           uid: widget.entry?.uid,
+          userUid: widget.entry?.userUid ?? widget.userUid ?? '',
           description: _description,
           type: _type,
           amount: _amount,

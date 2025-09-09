@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
-import 'package:flutter_bloc/flutter_bloc.dart'; // Add this import for context.watch()
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DateRangeFilter extends StatefulWidget {
   const DateRangeFilter({super.key, required this.l10n, required this.theme});

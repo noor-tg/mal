@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mal/features/calendar/ui/views/calendar_screen.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/categories/ui/views/categories_screen.dart';
@@ -10,8 +13,10 @@ import 'package:mal/features/search/data/repositores/sql_respository.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/features/search/ui/views/search_screen.dart';
+import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/ui/views/profile_screen.dart';
 import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/mal_page.dart';
 import 'package:mal/ui/logout_button.dart';
 import 'package:mal/ui/new_category_button.dart';
 import 'package:mal/ui/widgets/entry_form.dart';
@@ -38,23 +43,21 @@ class _AppContainerState extends State<AppContainer> {
   }
 
   void initEvents() {
-    context.read<CategoriesBloc>().add(AppInit());
-    context.read<EntriesBloc>().add(LoadTodayEntries());
-    context.read<TotalsBloc>().add(RequestTotalsData());
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticated) {
+      context.read<CategoriesBloc>().add(AppInit());
+      context.read<EntriesBloc>().add(LoadTodayEntries(authState.user.uid));
+      context.read<TotalsBloc>().add(RequestTotalsData());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context).colorScheme;
+    final authState = context.read<AuthBloc>().state;
 
     pages = [
-      MalPage(
-        icon: const Icon(Icons.account_box),
-        title: l10n.profileLabel,
-        widget: (key) => ProfileScreen(key: key),
-        actions: [const LogoutButton()],
-      ),
       MalPage(
         icon: const Icon(Icons.pie_chart),
         title: l10n.reportsTitle,
@@ -91,6 +94,16 @@ class _AppContainerState extends State<AppContainer> {
         widget: (key) => CalendarScreen(key: key),
         actions: [],
       ),
+      MalPage(
+        avatar: authState is AuthAuthenticated && authState.user.avatar != null
+            ? FileImage(File(authState.user.avatar!))
+            : null,
+        title: authState is AuthAuthenticated
+            ? authState.user.name.substring(0, 4)
+            : l10n.profileLabel,
+        widget: (key) => ProfileScreen(key: key),
+        actions: [const LogoutButton()],
+      ),
     ];
 
     return Scaffold(
@@ -108,23 +121,36 @@ class _AppContainerState extends State<AppContainer> {
                 IconButton(
                   icon: Icon(Icons.create, color: theme.onPrimary),
                   onPressed: () async {
-                    await showModalBottomSheet(
-                      useSafeArea: true,
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (ctx) => MultiBlocProvider(
-                        providers: [
-                          BlocProvider.value(
-                            value: context.read<EntriesBloc>(),
+                    try {
+                      final authState = context.read<AuthBloc>().state;
+                      if (authState is AuthAuthenticated) {
+                        final userUid = authState.user.uid;
+
+                        await showModalBottomSheet(
+                          useSafeArea: true,
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (ctx) => MultiBlocProvider(
+                            providers: [
+                              BlocProvider.value(
+                                value: context.read<EntriesBloc>(),
+                              ),
+                              BlocProvider.value(
+                                value: context.read<CategoriesBloc>(),
+                              ),
+                            ],
+                            child: EntryForm(userUid: userUid),
                           ),
-                          BlocProvider.value(
-                            value: context.read<CategoriesBloc>(),
-                          ),
-                        ],
-                        child: const EntryForm(),
-                      ),
-                    );
-                    initEvents();
+                        );
+                        initEvents();
+                      } else {
+                        context.go('/login');
+                      }
+                    } catch (e, t) {
+                      logger
+                        ..e(e)
+                        ..t(t);
+                    }
                   },
                 ),
               ],
@@ -157,8 +183,16 @@ class _AppContainerState extends State<AppContainer> {
         },
         items: pages
             .map(
-              (page) =>
-                  BottomNavigationBarItem(icon: page.icon, label: page.title),
+              (page) => BottomNavigationBarItem(
+                icon:
+                    page.icon ??
+                    CircleAvatar(
+                      radius: 12,
+                      backgroundImage: page.avatar,
+                      backgroundColor: Colors.white,
+                    ),
+                label: page.title,
+              ),
             )
             .toList(),
       ),

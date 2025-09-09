@@ -256,6 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                             TextButton(
                               onPressed: () {
+                                logger.i('go to register');
                                 context.go('/register');
                               },
                               child: Text(l10n.notHaveAccount),

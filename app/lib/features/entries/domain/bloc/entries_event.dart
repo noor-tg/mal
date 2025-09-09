@@ -25,4 +25,8 @@ final class RemoveEntry extends EntriesEvent {
   const RemoveEntry(this.entry);
 }
 
-final class LoadTodayEntries extends EntriesEvent {}
+final class LoadTodayEntries extends EntriesEvent {
+  final String userUid;
+
+  const LoadTodayEntries(this.userUid);
+}

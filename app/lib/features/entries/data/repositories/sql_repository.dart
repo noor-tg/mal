@@ -109,12 +109,14 @@ class SqlRepository extends EntriesRepository {
   }
 
   @override
-  Future<Result<Entry>> today() async {
+  Future<Result<Entry>> today(String userUid) async {
     try {
+      logger.i(await QueryBuilder('entries').getAll());
       final listQb = QueryBuilder('entries');
       final countQb = QueryBuilder('entries');
 
       final data = await listQb
+          .where('user_uid', '=', userUid)
           .whereLike('date', DateTime.now().toIso8601String().substring(0, 10))
           .getAll();
       final list = List.generate(
@@ -122,6 +124,7 @@ class SqlRepository extends EntriesRepository {
         (index) => Entry.fromMap(data[index]),
       );
       final count = await countQb
+          .where('user_uid', '=', userUid)
           .whereLike('date', DateTime.now().toIso8601String().substring(0, 10))
           .count();
 

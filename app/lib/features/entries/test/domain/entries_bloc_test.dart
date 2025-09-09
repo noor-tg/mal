@@ -8,6 +8,7 @@ import 'package:mal/features/entries/domain/repositories/entries_repository.dart
 import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/shared/where.dart';
+import 'package:mal/utils.dart';
 // ignore: depend_on_referenced_packages
 import 'package:mocktail/mocktail.dart';
 
@@ -41,7 +42,7 @@ void removeEntryForTodayTest() {
       when(() => repo.remove(any())).thenAnswer((_) async {
         return true;
       });
-      when(repo.today).thenAnswer((_) async {
+      when(() => repo.today(any())).thenAnswer((_) async {
         return Result<Entry>(list: [entry], count: 1);
       });
     },
@@ -55,7 +56,7 @@ void removeEntryForTodayTest() {
     verify: (bloc) {
       // Verify that the repository store method was called with the correct entry
       verify(() => repo.remove(entry.uid)).called(1);
-      verify(repo.today).called(1);
+      verify(() => repo.today(any())).called(1);
     },
   );
 }
@@ -77,7 +78,7 @@ void editEntryForTodayTest() {
       when(() => repo.edit(any())).thenAnswer((_) async {
         return entry;
       });
-      when(repo.today).thenAnswer((_) async {
+      when(() => repo.today(any())).thenAnswer((_) async {
         return Result<Entry>(list: [entry], count: 1);
       });
     },
@@ -91,7 +92,7 @@ void editEntryForTodayTest() {
     verify: (bloc) {
       // Verify that the repository store method was called with the correct entry
       verify(() => repo.edit(any())).called(1);
-      verify(repo.today).called(1);
+      verify(() => repo.today(any())).called(1);
     },
   );
 }
@@ -141,17 +142,17 @@ void loadAllEntriesTest() {
     build: () => EntriesBloc(repo: repo),
     setUp: () {
       // Mock the repository store method to succeed
-      when(repo.today).thenAnswer((_) async {
+      when(() => repo.today(any())).thenAnswer((_) async {
         return Result<Entry>(list: [entry], count: 1);
       });
     },
-    act: (bloc) => bloc.add(LoadTodayEntries()),
+    act: (bloc) => bloc.add(LoadTodayEntries(uuid.v4())),
     expect: () => [
       const EntriesState(status: EntriesStatus.loading),
       EntriesState(status: EntriesStatus.success, today: [entry]),
     ],
     verify: (bloc) {
-      verify(repo.today).called(1);
+      verify(() => repo.today(any())).called(1);
     },
   );
 }
@@ -172,7 +173,7 @@ void addNewEntryForTodayTest() {
       when(() => repo.store(any())).thenAnswer((_) async {
         return entry;
       });
-      when(repo.today).thenAnswer((_) async {
+      when(() => repo.today(any())).thenAnswer((_) async {
         return Result<Entry>(list: [entry], count: 1);
       });
     },
@@ -186,7 +187,7 @@ void addNewEntryForTodayTest() {
     verify: (bloc) {
       // Verify that the repository store method was called with the correct entry
       verify(() => repo.store(entry)).called(1);
-      verify(repo.today).called(1);
+      verify(() => repo.today(any())).called(1);
     },
   );
 }

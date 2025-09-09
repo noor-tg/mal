@@ -86,6 +86,7 @@ class _EntryDetailsState extends State<EntryDetails> {
                     category: result.first['category'] as String,
                     type: result.first['type'] as String,
                     date: result.first['date'] as String,
+                    userUid: result.first['user_uid'] as String,
                   );
                 });
               }
