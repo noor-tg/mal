@@ -25,7 +25,7 @@ GoRouter createAppRouter(BuildContext context) {
 
       // If not authenticated and trying to access dashboard, redirect to login
       if (authState is AuthUnauthenticated &&
-          (!isSplashRoute || !isLoginRoute || !isRegisterRoute)) {
+          (!isSplashRoute && !isLoginRoute && !isRegisterRoute)) {
         return '/login';
       }
 
