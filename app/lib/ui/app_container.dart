@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/features/calendar/ui/views/calendar_screen.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/categories/ui/views/categories_screen.dart';
-import 'package:mal/features/categories/ui/widgets/new_category.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/features/reports/domain/bloc/totals/totals_bloc.dart';
 import 'package:mal/features/reports/ui/views/reports_screen.dart';
@@ -11,9 +10,11 @@ import 'package:mal/features/search/data/repositores/sql_respository.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/features/search/ui/views/search_screen.dart';
+import 'package:mal/features/user/ui/views/profile_screen.dart';
 import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/ui/logout_button.dart';
+import 'package:mal/ui/new_category_button.dart';
 import 'package:mal/ui/widgets/entry_form.dart';
-import 'package:mal/ui/widgets/main_drawer.dart';
 import 'package:mal/utils.dart';
 
 class AppContainer extends StatefulWidget {
@@ -49,6 +50,12 @@ class _AppContainerState extends State<AppContainer> {
 
     pages = [
       MalPage(
+        icon: const Icon(Icons.account_box),
+        title: l10n.profileLabel,
+        widget: (key) => ProfileScreen(key: key),
+        actions: [const LogoutButton()],
+      ),
+      MalPage(
         icon: const Icon(Icons.pie_chart),
         title: l10n.reportsTitle,
         widget: (key) => ReportsScreen(key: key),
@@ -75,25 +82,7 @@ class _AppContainerState extends State<AppContainer> {
           value: context.read<CategoriesBloc>(),
           child: CategoriesScreen(key: key),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.dashboard_customize, color: theme.onPrimary),
-            onPressed: () async {
-              await showModalBottomSheet(
-                useSafeArea: true,
-                isScrollControlled: true,
-                context: context,
-                builder: (ctx) {
-                  final categoriesBloc = context.read<CategoriesBloc>();
-                  return BlocProvider.value(
-                    value: categoriesBloc,
-                    child: const NewCategory(),
-                  );
-                },
-              );
-            },
-          ),
-        ],
+        actions: [NewCategoryButton(theme: theme)],
       ),
 
       MalPage(
@@ -152,7 +141,6 @@ class _AppContainerState extends State<AppContainer> {
           );
         },
       ),
-      drawer: const MainDrawer(),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 40,
         type: BottomNavigationBarType.fixed,
