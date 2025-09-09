@@ -12,20 +12,6 @@ String moneyFormat(int value) {
   return NumberFormat.decimalPattern('ar_SA').format(value);
 }
 
-class MalPage {
-  MalPage({
-    required this.widget,
-    required this.title,
-    required this.icon,
-    required this.actions,
-  });
-
-  final String title;
-  final Widget Function(Key? key) widget;
-  final Icon icon;
-  final List<Widget> actions;
-}
-
 Future<sql.Database> createOrOpenDB() async {
   return Db.use();
 }
