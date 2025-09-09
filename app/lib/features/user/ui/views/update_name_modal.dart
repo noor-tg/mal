@@ -16,7 +16,16 @@ class UpdateNameModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
+    return BlocConsumer<AuthBloc, AuthState>(
+      listenWhen: (prev, current) {
+        if (prev is AuthAuthenticated && current is AuthAuthenticated) {
+          return prev.user.name != current.user.name;
+        }
+        return false;
+      },
+      listener: (context, state) {
+        Navigator.pop(context);
+      },
       builder: (BuildContext context, AuthState state) => Container(
         color: Colors.white,
         child: Column(

@@ -197,4 +197,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get editPin => 'تعديل رمز المرور';
+
+  @override
+  String get selectSource => 'إختر مصدر الصورة';
+
+  @override
+  String get selectCamera => 'الكاميرا';
+
+  @override
+  String get selectGallery => 'معرض الصور';
+
+  @override
+  String get profileLabel => 'المستخدم';
 }

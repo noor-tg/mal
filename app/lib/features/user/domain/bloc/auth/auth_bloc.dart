@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -6,6 +7,8 @@ import 'package:mal/features/user/data/services/biometric_service.dart';
 import 'package:mal/features/user/domain/repositories/user_repository.dart';
 import 'package:mal/shared/data/models/user.dart';
 import 'package:mal/utils.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as sysprovider;
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -22,6 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLogoutRequested>(_onLogoutRequested);
     on<UpdateName>(_onUpdateName);
     on<UpdatePin>(_onUpdatePin);
+    on<UpdateAvatar>(_onUpdateAvatar);
   }
 
   FutureOr<void> _onRegisterAndLoginRequested(
@@ -267,6 +271,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           final user = await repo.getUserByName(event.name);
           if (user != null) {
             await BiometricService.setLastAuthenticatedUser(event.name);
+            logger.i(user);
             emit(AuthAuthenticated(user: user, biometricEnabled: true));
           } else {
             emit(const AuthError(message: 'User not found'));
@@ -354,5 +359,36 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         AuthAuthenticated(user: user, biometricEnabled: user.biometricEnabled),
       );
     }
+  }
+
+  FutureOr<void> _onUpdateAvatar(
+    UpdateAvatar event,
+    Emitter<AuthState> emit,
+  ) async {
+    if (state is AuthAuthenticated) {
+      final db = await createOrOpenDB();
+      final stored = await storImage(event.avatar);
+
+      await db.update(
+        'users',
+        {'avatar': stored.path},
+        where: 'uid = ?',
+        whereArgs: [event.uid],
+      );
+
+      final user = await repo.getUser(event.uid);
+
+      emit(
+        AuthAuthenticated(user: user, biometricEnabled: user.biometricEnabled),
+      );
+    }
+  }
+
+  Future<File> storImage(File image) async {
+    final appDir = await sysprovider.getApplicationDocumentsDirectory();
+    final ext = path.extension(image.path);
+    final uid = uuid.v4();
+    final name = '$uid$ext';
+    return image.copy('${appDir.path}/$name');
   }
 }

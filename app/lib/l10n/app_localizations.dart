@@ -471,6 +471,30 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تعديل رمز المرور'**
   String get editPin;
+
+  /// No description provided for @selectSource.
+  ///
+  /// In ar, this message translates to:
+  /// **'إختر مصدر الصورة'**
+  String get selectSource;
+
+  /// No description provided for @selectCamera.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكاميرا'**
+  String get selectCamera;
+
+  /// No description provided for @selectGallery.
+  ///
+  /// In ar, this message translates to:
+  /// **'معرض الصور'**
+  String get selectGallery;
+
+  /// No description provided for @profileLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'المستخدم'**
+  String get profileLabel;
 }
 
 class _AppLocalizationsDelegate

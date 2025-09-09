@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const kSearchLimit = 10;
+const kAvatarPath = 'assets/avatar.png';
 
 const incomeType = 'دخل';
 const expenseType = 'منصرف';

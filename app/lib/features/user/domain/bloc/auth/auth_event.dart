@@ -76,3 +76,13 @@ final class UpdatePin extends AuthEvent {
   @override
   List<Object> get props => [pin, uid];
 }
+
+final class UpdateAvatar extends AuthEvent {
+  final File avatar;
+  final String uid;
+
+  const UpdateAvatar({required this.avatar, required this.uid});
+
+  @override
+  List<Object> get props => [avatar, uid];
+}

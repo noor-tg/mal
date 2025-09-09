@@ -61,5 +61,9 @@
   "disabled": "موقوف",
   "personalInfo": "معلومات أساسية",
   "editName": "تعديل الاسم",
-  "editPin": "تعديل رمز المرور"
+  "editPin": "تعديل رمز المرور",
+  "selectSource": "إختر مصدر الصورة",
+  "selectCamera": "الكاميرا",
+  "selectGallery": "معرض الصور",
+  "profileLabel": "المستخدم"
 }

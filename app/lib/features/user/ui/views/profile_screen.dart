@@ -1,11 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mal/features/user/data/services/biometric_service.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/ui/views/update_name_modal.dart';
 import 'package:mal/features/user/ui/views/update_pin_modal.dart';
-import 'package:mal/features/user/ui/views/user_avatar.dart';
+import 'package:mal/features/user/ui/widgets/user_image_picker.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
 
@@ -47,7 +48,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     return BlocBuilder<AuthBloc, AuthState>(
+      buildWhen: (_, __) {
+        return true;
+      },
       builder: (context, state) {
+        if (state is AuthAuthenticated) {
+          logger.i(state.user);
+        }
         final subStyle = theme.textTheme.titleLarge?.copyWith(
           color: Colors.grey[700],
         );
@@ -55,19 +62,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           color: Colors.grey[700],
         );
         return Scaffold(
-          appBar: AppBar(
-            title: Text(l10n.profile),
-            backgroundColor: theme.colorScheme.primary,
-            foregroundColor: Colors.white,
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.arrow_forward, size: 32),
-                onPressed: () {
-                  context.go('/dashboard');
-                },
-              ),
-            ],
-          ),
           body: Container(
             width: double.infinity,
             height: double.infinity,
@@ -78,7 +72,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ? Column(
                       children: [
                         const SizedBox(height: 48),
-                        const UserAvatar(),
+                        UserImagePicker(
+                          existingImage: state.user.avatar == null
+                              ? null
+                              : File(state.user.avatar!),
+                          onPickImage: (File pickedImage) {
+                            context.read<AuthBloc>().add(
+                              UpdateAvatar(
+                                avatar: pickedImage,
+                                uid: state.user.uid,
+                              ),
+                            );
+                          },
+                        ),
                         const SizedBox(height: 32),
                         Text(
                           l10n.personalInfo,
