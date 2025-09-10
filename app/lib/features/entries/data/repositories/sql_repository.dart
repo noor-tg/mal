@@ -111,7 +111,6 @@ class SqlRepository extends EntriesRepository {
   @override
   Future<Result<Entry>> today(String userUid) async {
     try {
-      logger.i(await QueryBuilder('entries').getAll());
       final listQb = QueryBuilder('entries');
       final countQb = QueryBuilder('entries');
 

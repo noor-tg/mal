@@ -40,13 +40,14 @@ void getManyEntriesTest() {
 void getTodayEntriesTest() {
   test('> get today Entries', () async {
     final repo = SqlRepository();
-    var entry = fakeEntry();
+    final user = await fakeStoredUser();
+    var entry = fakeEntry(userUid: user!.uid);
     entry = entry.copyWith(date: now().toIso8601String());
     // query using sql provider
     await repo.store(entry);
     // update
     // TODO: update tests . create user . associate with entry on store fake. and then use instead of uuid.v4()
-    final result = await repo.today(uuid.v4());
+    final result = await repo.today(user.uid);
     expect(result.list.isNotEmpty, true);
     expect(result.count, greaterThan(0));
   });

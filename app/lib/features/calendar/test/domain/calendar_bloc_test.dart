@@ -165,7 +165,7 @@ void main() {
 
         expect(
           state.props,
-          equals(<Object?>[BlocStatus.success, 'error', const <DaySums>[]]),
+          equals(<Object?>[BlocStatus.success, 'error', const [], const []]),
         );
       });
 
@@ -218,7 +218,7 @@ void main() {
 
       test('FetchSelectedMonthData props are correct', () {
         const event = FetchSelectedMonthData(2024, 1);
-        expect(event.props, equals([2024, 1]));
+        expect(event.props, [2024, 1]);
       });
 
       test('FetchSelectedMonthData with different values are not equal', () {

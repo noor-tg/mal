@@ -62,11 +62,6 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
 
       final result = await repo.today(event.userUid);
 
-      logger
-        ..i('today user uid')
-        ..i(event.userUid)
-        ..i('today result')
-        ..i(result);
       emit(state.copyWith(today: result.list, status: EntriesStatus.success));
     } catch (err, trace) {
       logger

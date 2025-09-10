@@ -39,10 +39,10 @@ Future<void> generateEntries(Database db) async {
   }
 }
 
-Entry fakeEntry() {
+Entry fakeEntry({String? userUid}) {
   final random = Random();
   return Entry(
-    userUid: uuid.v4(),
+    userUid: userUid ?? uuid.v4(),
     description: faker.lorem.sentence(),
     amount: Random().nextInt(1000),
     category: categories[Random().nextInt(categories.length - 1)].title,
