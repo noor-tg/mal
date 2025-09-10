@@ -47,7 +47,7 @@ class _AppContainerState extends State<AppContainer> {
     if (authState is AuthAuthenticated) {
       context.read<CategoriesBloc>().add(AppInit());
       context.read<EntriesBloc>().add(LoadTodayEntries(authState.user.uid));
-      context.read<TotalsBloc>().add(RequestTotalsData());
+      context.read<TotalsBloc>().add(RequestTotalsData(authState.user.uid));
     }
   }
 

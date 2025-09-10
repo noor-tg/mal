@@ -5,4 +5,11 @@ sealed class TotalsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class RequestTotalsData extends TotalsEvent {}
+class RequestTotalsData extends TotalsEvent {
+  final String userUid;
+
+  RequestTotalsData(this.userUid);
+
+  @override
+  List<Object> get props => [userUid];
+}

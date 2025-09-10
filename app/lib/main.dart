@@ -16,9 +16,9 @@ void main() async {
 
 Future<Widget> initMalApp() async {
   await dotenv.load();
-  // await Db.deleteOldDatabase();
-  // final prefs = await SharedPreferences.getInstance();
+  await Db.deleteOldDatabase();
+  final prefs = await SharedPreferences.getInstance();
   // logger.i(prefs.getKeys());
-  // await prefs.remove('last_auth_user');
+  await prefs.remove('last_auth_user');
   return const MalApp();
 }

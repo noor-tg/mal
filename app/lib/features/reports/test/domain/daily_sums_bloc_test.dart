@@ -6,6 +6,7 @@ import 'package:mal/enums.dart';
 import 'package:mal/features/reports/domain/entities/sums.dart';
 import 'package:mal/features/reports/domain/repositories/reports_repository.dart';
 import 'package:mal/features/reports/domain/bloc/daily_sums/daily_sums_bloc.dart';
+import 'package:mal/utils.dart';
 // ignore: depend_on_referenced_packages
 import 'package:mocktail/mocktail.dart';
 
@@ -38,16 +39,18 @@ void main() {
       blocTest<DailySumsBloc, DailySumsState>(
         'emits [loading, success] when data is fetched successfully',
         build: () {
-          when(() => mockRepo.dailySums()).thenAnswer((_) async => mockSums);
+          when(
+            () => mockRepo.dailySums(any()),
+          ).thenAnswer((_) async => mockSums);
           return dailySumsBloc;
         },
-        act: (bloc) => bloc.add(RequestDailySumsData()),
+        act: (bloc) => bloc.add(RequestDailySumsData(uuid.v4())),
         expect: () => [
           const DailySumsState(status: BlocStatus.loading),
           const DailySumsState(status: BlocStatus.success, list: mockSums),
         ],
         verify: (_) {
-          verify(() => mockRepo.dailySums()).called(1);
+          verify(() => mockRepo.dailySums(any())).called(1);
         },
       );
 
@@ -55,11 +58,11 @@ void main() {
         'emits [loading, failure] when repository throws exception',
         build: () {
           when(
-            () => mockRepo.dailySums(),
+            () => mockRepo.dailySums(any()),
           ).thenThrow(Exception('Network error'));
           return dailySumsBloc;
         },
-        act: (bloc) => bloc.add(RequestDailySumsData()),
+        act: (bloc) => bloc.add(RequestDailySumsData(uuid.v4())),
         expect: () => [
           const DailySumsState(status: BlocStatus.loading),
           const DailySumsState(
@@ -68,7 +71,7 @@ void main() {
           ),
         ],
         verify: (_) {
-          verify(() => mockRepo.dailySums()).called(1);
+          verify(() => mockRepo.dailySums(any())).called(1);
         },
       );
 
@@ -76,26 +79,28 @@ void main() {
       blocTest<DailySumsBloc, DailySumsState>(
         'emits [loading, success] with empty lists when repository returns empty data',
         build: () {
-          when(() => mockRepo.dailySums()).thenAnswer((_) async => emptySums);
+          when(
+            () => mockRepo.dailySums(any()),
+          ).thenAnswer((_) async => emptySums);
           return dailySumsBloc;
         },
-        act: (bloc) => bloc.add(RequestDailySumsData()),
+        act: (bloc) => bloc.add(RequestDailySumsData(uuid.v4())),
         expect: () => [
           const DailySumsState(status: BlocStatus.loading),
           const DailySumsState(status: BlocStatus.success, list: emptySums),
         ],
         verify: (_) {
-          verify(() => mockRepo.dailySums()).called(1);
+          verify(() => mockRepo.dailySums(any())).called(1);
         },
       );
 
       blocTest<DailySumsBloc, DailySumsState>(
         'emits [loading, failure] when repository throws generic error',
         build: () {
-          when(() => mockRepo.dailySums()).thenThrow('Connection timeout');
+          when(() => mockRepo.dailySums(any())).thenThrow('Connection timeout');
           return dailySumsBloc;
         },
-        act: (bloc) => bloc.add(RequestDailySumsData()),
+        act: (bloc) => bloc.add(RequestDailySumsData(uuid.v4())),
         expect: () => [
           const DailySumsState(status: BlocStatus.loading),
           const DailySumsState(
@@ -104,20 +109,22 @@ void main() {
           ),
         ],
         verify: (_) {
-          verify(() => mockRepo.dailySums()).called(1);
+          verify(() => mockRepo.dailySums(any())).called(1);
         },
       );
 
       blocTest<DailySumsBloc, DailySumsState>(
         'handles multiple consecutive requests correctly',
         build: () {
-          when(() => mockRepo.dailySums()).thenAnswer((_) async => mockSums);
+          when(
+            () => mockRepo.dailySums(any()),
+          ).thenAnswer((_) async => mockSums);
           return dailySumsBloc;
         },
         act: (bloc) {
           bloc
-            ..add(RequestDailySumsData())
-            ..add(RequestDailySumsData());
+            ..add(RequestDailySumsData(uuid.v4()))
+            ..add(RequestDailySumsData(uuid.v4()));
         },
         expect: () => [
           const DailySumsState(status: BlocStatus.loading),
@@ -126,7 +133,7 @@ void main() {
           const DailySumsState(status: BlocStatus.success, list: mockSums),
         ],
         verify: (_) {
-          verify(() => mockRepo.dailySums()).called(2);
+          verify(() => mockRepo.dailySums(any())).called(2);
         },
       );
     });

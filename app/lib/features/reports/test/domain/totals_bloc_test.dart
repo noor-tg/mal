@@ -6,6 +6,7 @@ import 'package:mal/enums.dart';
 import 'package:mal/features/reports/domain/bloc/totals/totals_bloc.dart';
 import 'package:mal/features/reports/domain/entities/totals.dart';
 import 'package:mal/features/reports/domain/repositories/reports_repository.dart';
+import 'package:mal/utils.dart';
 // ignore: depend_on_referenced_packages
 import 'package:mocktail/mocktail.dart';
 
@@ -47,16 +48,16 @@ void loadTotalsSuccessTest() {
   blocTest<TotalsBloc, TotalsState>(
     'emits [loading, success] when repo.totals() succeeds',
     build: () {
-      when(mockRepo.totals).thenAnswer((_) async => mockTotals);
+      when(() => mockRepo.totals(any())).thenAnswer((_) async => mockTotals);
       return reportsBloc;
     },
-    act: (bloc) => bloc.add(RequestTotalsData()),
+    act: (bloc) => bloc.add(RequestTotalsData(uuid.v4())),
     expect: () => [
       const TotalsState(status: BlocStatus.loading),
       const TotalsState(status: BlocStatus.success, totals: mockTotals),
     ],
     verify: (_) {
-      verify(mockRepo.totals).called(1);
+      verify(() => mockRepo.totals(any())).called(1);
     },
   );
 }
@@ -70,10 +71,10 @@ void loadTotalsFailsTest() {
   blocTest<TotalsBloc, TotalsState>(
     'emits [loading, failure] when repo.totals() throws exception',
     build: () {
-      when(mockRepo.totals).thenThrow(Exception('db error'));
+      when(() => mockRepo.totals(any())).thenThrow(Exception('db error'));
       return reportsBloc;
     },
-    act: (bloc) => bloc.add(RequestTotalsData()),
+    act: (bloc) => bloc.add(RequestTotalsData(uuid.v4())),
     expect: () => [
       const TotalsState(status: BlocStatus.loading),
       const TotalsState(
@@ -82,7 +83,7 @@ void loadTotalsFailsTest() {
       ),
     ],
     verify: (_) {
-      verify(mockRepo.totals).called(1);
+      verify(() => mockRepo.totals(any())).called(1);
     },
   );
 }
@@ -97,13 +98,13 @@ void loadTotalsMultipleEventsTest() {
   blocTest<TotalsBloc, TotalsState>(
     'handles multiple LoadTotals events correctly',
     build: () {
-      when(mockRepo.totals).thenAnswer((_) async => mockTotals);
+      when(() => mockRepo.totals(any())).thenAnswer((_) async => mockTotals);
       return reportsBloc;
     },
     act: (bloc) {
       bloc
-        ..add(RequestTotalsData())
-        ..add(RequestTotalsData());
+        ..add(RequestTotalsData(uuid.v4()))
+        ..add(RequestTotalsData(uuid.v4()));
     },
     expect: () => [
       const TotalsState(status: BlocStatus.loading),
@@ -112,7 +113,7 @@ void loadTotalsMultipleEventsTest() {
       const TotalsState(status: BlocStatus.success, totals: mockTotals),
     ],
     verify: (_) {
-      verify(mockRepo.totals).called(2);
+      verify(() => mockRepo.totals(any())).called(2);
     },
   );
 }

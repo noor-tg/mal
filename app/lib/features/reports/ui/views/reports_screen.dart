@@ -27,10 +27,16 @@ class _ReportsScreenState extends State<ReportsScreen> {
     final authState = context.read<AuthBloc>().state;
     if (authState is AuthAuthenticated) {
       context.read<EntriesBloc>().add(LoadTodayEntries(authState.user.uid));
-      context.read<TotalsBloc>().add(RequestTotalsData());
-      context.read<DailySumsBloc>().add(RequestDailySumsData());
-      context.read<CategoriesReportBloc>().add(RequestIncomesPieReportData());
-      context.read<CategoriesReportBloc>().add(RequestExpensesPieReportData());
+      context.read<TotalsBloc>().add(RequestTotalsData(authState.user.uid));
+      context.read<DailySumsBloc>().add(
+        RequestDailySumsData(authState.user.uid),
+      );
+      context.read<CategoriesReportBloc>().add(
+        RequestIncomesPieReportData(authState.user.uid),
+      );
+      context.read<CategoriesReportBloc>().add(
+        RequestExpensesPieReportData(authState.user.uid),
+      );
     }
     super.initState();
   }

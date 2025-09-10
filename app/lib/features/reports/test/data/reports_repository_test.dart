@@ -1,5 +1,6 @@
 // ignore: depend_on_referenced_packages
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mal/data.dart';
 import 'package:mal/features/reports/data/repositories/sql_repository.dart';
 import 'package:mal/test/unit_utils.dart';
 
@@ -9,9 +10,10 @@ void main() async {
       await GeneralSetup.init();
     });
     test('> get all totals', () async {
+      final user = await fakeStoredUser();
       final repo = SqlRepository();
       // query using sql provider
-      final result = await repo.totals();
+      final result = await repo.totals(user!.uid);
       // check results
       expect(result.balance, isA<int>());
       expect(result.incomes, isA<int>());
@@ -19,8 +21,9 @@ void main() async {
     });
     test('> calc month sums', () async {
       final repo = SqlRepository();
+      final user = await fakeStoredUser();
       // query using sql provider
-      final result = await repo.dailySums();
+      final result = await repo.dailySums(user!.uid);
       // check results
       expect(result.incomes, isA<List<int>>());
       expect(result.incomes.length, greaterThan(0));

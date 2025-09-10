@@ -27,7 +27,7 @@ class CategoriesReportBloc
   ) async {
     emit(state.copyWith(status: BlocStatus.loading));
     try {
-      final data = await repo.getCategoriesPrecents(incomeType);
+      final data = await repo.getCategoriesPrecents(incomeType, event.userUid);
 
       emit(state.copyWith(status: BlocStatus.success, incomesData: data));
     } catch (err, trace) {
@@ -49,7 +49,7 @@ class CategoriesReportBloc
   ) async {
     emit(state.copyWith(status: BlocStatus.loading));
     try {
-      final data = await repo.getCategoriesPrecents(expenseType);
+      final data = await repo.getCategoriesPrecents(expenseType, event.userUid);
 
       emit(state.copyWith(status: BlocStatus.success, expensesData: data));
     } catch (err, trace) {

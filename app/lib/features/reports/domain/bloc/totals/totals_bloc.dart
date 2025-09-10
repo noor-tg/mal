@@ -23,7 +23,7 @@ class TotalsBloc extends Bloc<TotalsEvent, TotalsState> {
   ) async {
     emit(state.copyWith(status: BlocStatus.loading));
     try {
-      final totals = await repo.totals();
+      final totals = await repo.totals(event.userUid);
 
       emit(state.copyWith(status: BlocStatus.success, totals: totals));
     } catch (err, trace) {

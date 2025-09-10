@@ -28,7 +28,7 @@ class DailySumsBloc extends Bloc<DailySumsEvent, DailySumsState> {
       ),
     );
     try {
-      final dailySums = await repo.dailySums();
+      final dailySums = await repo.dailySums(event.userUid);
 
       emit(state.copyWith(status: BlocStatus.success, list: dailySums));
     } catch (err, trace) {

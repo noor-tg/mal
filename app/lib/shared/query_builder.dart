@@ -130,7 +130,7 @@ class QueryBuilder {
       _table,
       where: _filterQuery,
       whereArgs: _whereArgs,
-      groupBy: by.split('as').first.trim(),
+      groupBy: by.contains(' as ') ? by.split('as').first.trim() : by,
     );
 
     return res;

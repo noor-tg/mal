@@ -11,69 +11,75 @@ class SumsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Card.filled(
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+    return Column(
+      children: [
+        Row(
           children: [
-            Column(
-              children: [
-                Text(l10n!.reportsBalance),
-                const SizedBox(width: 16),
-                Text(
-                  moneyFormat(totals.balance),
-                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                    color: Colors.lightBlue,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: Card.filled(
-                    color: Colors.red.withAlpha(20),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          Text(l10n.expenses),
-                          Text(
-                            moneyFormat(totals.expenses),
-                            style: Theme.of(context).textTheme.headlineMedium
-                                ?.copyWith(color: Colors.red),
-                          ),
-                        ],
+            Expanded(
+              child: Card.filled(
+                color: Colors.lightBlue.withAlpha(20),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    Text(l10n!.reportsBalance),
+                    const SizedBox(width: 16),
+                    Text(
+                      moneyFormat(totals.balance),
+                      style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                        color: Colors.lightBlue,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 16),
+                  ],
                 ),
-                Expanded(
-                  child: Card.filled(
-                    color: Colors.lightGreen.withAlpha(20),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          Text(l10n.income),
-                          Text(
-                            moneyFormat(totals.incomes),
-                            style: Theme.of(context).textTheme.headlineMedium
-                                ?.copyWith(color: Colors.lightGreen),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ],
         ),
-      ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: Card.filled(
+                color: Colors.red.withAlpha(20),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      Text(l10n.expenses),
+                      Text(
+                        moneyFormat(totals.expenses),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.headlineMedium?.copyWith(color: Colors.red),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Card.filled(
+                color: Colors.lightGreen.withAlpha(20),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      Text(l10n.income),
+                      Text(
+                        moneyFormat(totals.incomes),
+                        style: Theme.of(context).textTheme.headlineMedium
+                            ?.copyWith(color: Colors.lightGreen),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

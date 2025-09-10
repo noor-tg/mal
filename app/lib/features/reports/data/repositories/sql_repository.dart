@@ -13,10 +13,10 @@ class SqlRepository extends ReportsRepository {
   final sqlProvider = SqlProvider();
 
   @override
-  Future<Totals> totals() async {
+  Future<Totals> totals(String userUid) async {
     try {
-      final incomeSum = await sqlProvider.incomesTotal();
-      final expensesSum = await sqlProvider.expensesTotal();
+      final incomeSum = await sqlProvider.incomesTotal(userUid);
+      final expensesSum = await sqlProvider.expensesTotal(userUid);
       final balance = incomeSum - expensesSum;
 
       return Totals(
@@ -33,9 +33,9 @@ class SqlRepository extends ReportsRepository {
   }
 
   @override
-  Future<Sums> dailySums() async {
-    final incomeSums = await sqlProvider.daySums(incomeType);
-    final expensesSums = await sqlProvider.daySums(expenseType);
+  Future<Sums> dailySums(String userUid) async {
+    final incomeSums = await sqlProvider.daySums(incomeType, userUid);
+    final expensesSums = await sqlProvider.daySums(expenseType, userUid);
 
     final List<int> incomes = [];
     final List<int> expenses = [];
@@ -58,12 +58,18 @@ class SqlRepository extends ReportsRepository {
   }
 
   @override
-  Future<List<CategoryReport>> getCategoriesPrecents(String type) async {
+  Future<List<CategoryReport>> getCategoriesPrecents(
+    String type,
+    String userUid,
+  ) async {
     final List<CategoryReport> data = [];
 
-    final categoriesSums = await sqlProvider.sumByCategoryAndType(type);
+    final categoriesSums = await sqlProvider.sumByCategoryAndType(
+      type,
+      userUid,
+    );
 
-    final total = await sqlProvider.sumEntriesByType(type);
+    final total = await sqlProvider.sumEntriesByType(type, userUid);
 
     final random = Random();
 

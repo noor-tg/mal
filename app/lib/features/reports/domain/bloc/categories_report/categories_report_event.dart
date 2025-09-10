@@ -7,6 +7,20 @@ sealed class CategoriesReportEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class RequestIncomesPieReportData extends CategoriesReportEvent {}
+class RequestIncomesPieReportData extends CategoriesReportEvent {
+  const RequestIncomesPieReportData(this.userUid);
 
-class RequestExpensesPieReportData extends CategoriesReportEvent {}
+  final String userUid;
+
+  @override
+  List<Object> get props => [userUid];
+}
+
+class RequestExpensesPieReportData extends CategoriesReportEvent {
+  const RequestExpensesPieReportData(this.userUid);
+
+  final String userUid;
+
+  @override
+  List<Object> get props => [userUid];
+}

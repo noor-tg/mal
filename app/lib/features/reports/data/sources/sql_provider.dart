@@ -1,64 +1,51 @@
-import 'package:mal/utils.dart';
+import 'package:mal/constants.dart';
+import 'package:mal/features/search/domain/bloc/sorting.dart';
+import 'package:mal/shared/query_builder.dart';
 
 class SqlProvider {
-  Future<int> incomesTotal() async {
-    final db = await createOrOpenDB();
-
-    final incomes = await db.query(
-      'entries',
-      columns: ['sum(amount) as sum', 'type'],
-      where: 'type = ?',
-      whereArgs: ['دخل'],
-      groupBy: '"type"',
-    );
+  Future<int> incomesTotal(String userUid) async {
+    final incomes = await QueryBuilder('entries')
+        .where('type', '=', incomeType)
+        .where('user_uid', '=', userUid)
+        .sumBy('amount', 'type');
 
     return incomes.isNotEmpty ? incomes.first['sum'] as int : 0;
   }
 
-  Future<int> expensesTotal() async {
-    final db = await createOrOpenDB();
-
-    final expenses = await db.query(
-      'entries',
-      columns: ['sum(amount) as sum', 'type'],
-      where: 'type = ?',
-      whereArgs: ['منصرف'],
-      groupBy: '"type"',
-    );
+  Future<int> expensesTotal(String userUid) async {
+    final expenses = await QueryBuilder('entries')
+        .where('type', '=', expenseType)
+        .where('user_uid', '=', userUid)
+        .sumBy('amount', 'type');
 
     return expenses.isNotEmpty ? expenses.first['sum'] as int : 0;
   }
 
-  Future<dynamic> daySums(String type) async {
-    final db = await createOrOpenDB();
-    return db.query(
-      'entries',
-      columns: ['sum(amount) as sum', 'date("date") as by_date'],
-      where: 'type = ?',
-      whereArgs: [type],
-      groupBy: '"by_date"',
-    );
+  Future<dynamic> daySums(String type, String userUid) async {
+    return QueryBuilder('entries')
+        .where('type', '=', type)
+        .where('user_uid', '=', userUid)
+        .sumBy('amount', 'date("date") as by_date');
   }
 
-  Future<List<Map<String, Object?>>> sumByCategoryAndType(String type) async {
-    final db = await createOrOpenDB();
-    return db.query(
-      'entries',
-      columns: ['category', 'sum(amount) as sum'],
-      groupBy: 'category',
-      where: 'type = ?',
-      whereArgs: [type],
-      orderBy: 'sum DESC',
-    );
+  Future<List<Map<String, Object?>>> sumByCategoryAndType(
+    String type,
+    String userUid,
+  ) async {
+    return QueryBuilder('entries')
+        .where('type', '=', type)
+        .where('user_uid', '=', userUid)
+        .sortBy('sum', SortingDirection.desc)
+        .sumBy('amount', 'category');
   }
 
-  sumEntriesByType(String type) async {
-    final db = await createOrOpenDB();
-    return db.query(
-      'entries',
-      columns: ['sum(amount) as sum'],
-      where: 'type = ?',
-      whereArgs: [type],
-    );
+  Future<List<Map<String, Object?>>> sumEntriesByType(
+    String type,
+    String userUid,
+  ) async {
+    return QueryBuilder('entries')
+        .where('type', '=', type)
+        .where('user_uid', '=', userUid)
+        .sumBy('amount', 'type');
   }
 }

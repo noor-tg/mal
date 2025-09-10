@@ -2,8 +2,11 @@ import 'dart:math';
 
 import 'package:faker/faker.dart';
 import 'package:mal/constants.dart';
+import 'package:mal/features/user/data/repositories/sql_repository.dart'
+    as user;
 import 'package:mal/shared/data/models/category.dart';
 import 'package:mal/shared/data/models/entry.dart';
+import 'package:mal/shared/data/models/user.dart';
 import 'package:mal/shared/db.dart';
 import 'package:mal/utils.dart';
 // ignore: depend_on_referenced_packages
@@ -61,6 +64,14 @@ Map<String, String> fakeUser() {
     'pin': faker.internet.macAddress(),
     'salt': faker.internet.macAddress(),
   };
+}
+
+Future<User?> fakeStoredUser() async {
+  final data = fakeUser();
+  final repo = user.SqlRepository();
+
+  await repo.register(name: data['name'] as String, pin: '1234');
+  return repo.getUserByName(data['name'] as String);
 }
 
 Future<void> generateCategories(Database db) async {

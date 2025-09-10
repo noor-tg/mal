@@ -7,4 +7,11 @@ sealed class DailySumsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class RequestDailySumsData extends DailySumsEvent {}
+class RequestDailySumsData extends DailySumsEvent {
+  final String userUid;
+
+  const RequestDailySumsData(this.userUid);
+
+  @override
+  List<Object> get props => [userUid];
+}
