@@ -7,6 +7,8 @@ import 'package:mal/features/calendar/ui/views/calendar_screen.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/categories/ui/views/categories_screen.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
+import 'package:mal/features/reports/domain/bloc/categories_report/categories_report_bloc.dart';
+import 'package:mal/features/reports/domain/bloc/daily_sums/daily_sums_bloc.dart';
 import 'package:mal/features/reports/domain/bloc/totals/totals_bloc.dart';
 import 'package:mal/features/reports/ui/views/reports_screen.dart';
 import 'package:mal/features/search/data/repositores/sql_respository.dart';
@@ -53,6 +55,15 @@ class _AppContainerState extends State<AppContainer> {
       context.read<CategoriesBloc>().add(AppInit(authState.user.uid));
       context.read<EntriesBloc>().add(LoadTodayEntries(authState.user.uid));
       context.read<TotalsBloc>().add(RequestTotalsData(authState.user.uid));
+      context.read<DailySumsBloc>().add(
+        RequestDailySumsData(authState.user.uid),
+      );
+      context.read<CategoriesReportBloc>().add(
+        RequestIncomesPieReportData(authState.user.uid),
+      );
+      context.read<CategoriesReportBloc>().add(
+        RequestExpensesPieReportData(authState.user.uid),
+      );
     }
   }
 

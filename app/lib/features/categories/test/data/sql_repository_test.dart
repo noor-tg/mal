@@ -20,8 +20,6 @@ void main() async {
         'users',
       ).sortBy('date', SortingDirection.asc).getAll();
       final categories = await QueryBuilder('categories').getAll();
-      logger.i(userInfo);
-      logger.i(categories);
       // query using sql provider
       final result = await repo.find(
         userUid: userInfo.isNotEmpty
