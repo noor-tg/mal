@@ -28,7 +28,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     CategoriesEvent event,
     Emitter<CategoriesState> emit,
   ) async {
-    final result = await repo.find();
+    final result = await repo.find(userUid: event.userUid);
 
     emit(state.copyWith(categories: result));
   }
@@ -38,9 +38,9 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     Emitter<CategoriesState> emit,
   ) async {
     final db = await Db.use();
-    final categories = await repo.find();
+    final categories = await repo.find(userUid: event.userUid);
     if (categories.list.isEmpty) {
-      await generateCategories(db);
+      await generateCategories(db, event.userUid);
     }
   }
 
@@ -54,7 +54,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 
       emit(state.copyWith(status: BlocStatus.success));
 
-      add(AppInit());
+      add(AppInit(event.category.userUid));
     } catch (err, trace) {
       logger
         ..e(err)
@@ -78,7 +78,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 
       emit(state.copyWith(status: BlocStatus.success));
 
-      add(AppInit());
+      add(AppInit(event.userUid));
     } catch (err, trace) {
       logger
         ..e(err)

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
+import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/category.dart';
 
@@ -120,9 +121,18 @@ class _NewCategoryState extends State<NewCategory> {
       categoryTypeIsValid();
       if (_formKey.currentState!.validate() && typeIsValid) {
         _formKey.currentState!.save();
-        context.read<CategoriesBloc>().add(
-          StoreCategory(Category(title: _categoryTitle!, type: _categoryType!)),
-        );
+        final authState = context.read<AuthBloc>().state;
+        if (authState is AuthAuthenticated) {
+          context.read<CategoriesBloc>().add(
+            StoreCategory(
+              Category(
+                title: _categoryTitle!,
+                type: _categoryType!,
+                userUid: authState.user.uid,
+              ),
+            ),
+          );
+        }
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(l10n.categoresSavedSuccessfully)),

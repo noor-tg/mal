@@ -24,10 +24,10 @@ void categoryRemoveTest() {
     framePolicy: LiveTestWidgetsFlutterBindingFramePolicy.fullyLive,
     ($) async {
       final app = await initMalApp();
-
       final db = await Db.use();
       await clearCategories();
-      await generateCategories(db);
+      final user = await fakeStoredUser();
+      await generateCategories(db, user!.uid);
 
       await $.pumpWidgetAndSettle(app);
 
@@ -38,18 +38,18 @@ void categoryRemoveTest() {
       expect($(l10n.income), findsOneWidget);
       expect($(l10n.expenses), findsOneWidget);
       for (final category in categories) {
-        expect($(category.title), findsOneWidget);
+        expect($(category['title']), findsOneWidget);
       }
 
       await $.tester.drag(
-        $(categories[0].title),
+        $(categories[0]['title']),
         // use (-) so to drag from right to left
         Offset(-$.tester.getSize(find.byType(Dismissible).first).width, 0),
       );
 
       await Future.delayed(const Duration(milliseconds: 100));
 
-      expect($(categories[0].title), findsNothing);
+      expect($(categories[0]['title']), findsNothing);
     },
   );
 }
@@ -63,7 +63,8 @@ void categoriesListTest() {
 
       final db = await Db.use();
       await clearCategories();
-      await generateCategories(db);
+      final user = await fakeStoredUser();
+      await generateCategories(db, user!.uid);
 
       await $.pumpWidgetAndSettle(app);
 
@@ -74,7 +75,7 @@ void categoriesListTest() {
       expect($(l10n.income), findsOneWidget);
       expect($(l10n.expenses), findsOneWidget);
       for (final category in categories) {
-        expect($(category.title), findsOneWidget);
+        expect($(category['title']), findsOneWidget);
       }
     },
   );

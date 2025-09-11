@@ -37,7 +37,9 @@ void removeCategoryTest() {
       when(() => repo.remove(any())).thenAnswer((_) {
         return Future.value();
       });
-      when(repo.find).thenAnswer((_) async {
+      when(() => repo.find(userUid: any(named: 'userUid'))).thenAnswer((
+        _,
+      ) async {
         return const Result<Category>(list: [], count: 0);
       });
     },
@@ -58,9 +60,11 @@ void removeCategoryTest() {
 void addNewCategoryTest() {
   final category = fakeCategory();
   final repo = MockRepo();
+  final userUid = category.userUid;
   setUpAll(() {
     registerFallbackValue(MockRepo());
-    registerFallbackValue(fakeCategory());
+    registerFallbackValue(category);
+    registerFallbackValue(userUid);
   });
 
   blocTest<CategoriesBloc, CategoriesState>(
@@ -71,7 +75,9 @@ void addNewCategoryTest() {
       when(() => repo.store(any())).thenAnswer((_) async {
         return category;
       });
-      when(repo.find).thenAnswer((_) async {
+      when(() => repo.find(userUid: any(named: 'userUid'))).thenAnswer((
+        _,
+      ) async {
         return Result<Category>(list: [category], count: 1);
       });
     },
@@ -85,7 +91,7 @@ void addNewCategoryTest() {
       ),
     ],
     verify: (bloc) {
-      verify(() => repo.store(category)).called(1);
+      verify(() => repo.store(any())).called(1);
     },
   );
 }

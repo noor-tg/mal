@@ -1,33 +1,35 @@
+import 'package:mal/features/search/domain/bloc/sorting.dart';
 import 'package:mal/shared/db.dart';
+import 'package:mal/shared/query_builder.dart';
+import 'package:mal/shared/where.dart';
 
 class SqlProvider {
   final table = 'categories';
 
   Future<List<Map<String, Object?>>> queryList({
-    String? where,
-    List<dynamic>? whereArgs,
+    List<Where> whereList = const [],
+    required String userUid,
   }) async {
-    final db = await Db.use();
-    final res = await db.query(
-      table,
-      where: where,
-      whereArgs: whereArgs,
-      orderBy: '"title" ASC',
-    );
-    return res;
+    final qb = QueryBuilder('categories').where('user_uid', '=', userUid);
+
+    for (final where in whereList) {
+      qb.where(where.field, where.oprand, where.value);
+    }
+
+    return qb.sortBy('title', SortingDirection.asc).getAll();
   }
 
-  Future<int> queryCount({String? where, List<dynamic>? whereArgs}) async {
-    final db = await Db.use();
+  Future<int> queryCount({
+    List<Where> whereList = const [],
+    required String userUid,
+  }) async {
+    final qb = QueryBuilder('categories').where('user_uid', '=', userUid);
 
-    final res = await db.query(
-      table,
-      columns: ['count(uid) as total'],
-      where: where,
-      whereArgs: whereArgs,
-    );
+    for (final where in whereList) {
+      qb.where(where.field, where.oprand, where.value);
+    }
 
-    return res.isNotEmpty ? res.first['total'] as int : 0;
+    return qb.count();
   }
 
   Future<void> store(Map<String, Object?> data) async {

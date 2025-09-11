@@ -37,7 +37,12 @@ class _AppContainerState extends State<AppContainer> {
 
   @override
   void initState() {
-    context.read<CategoriesBloc>().add(SeedCategoriedWhenEmpty());
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticated) {
+      context.read<CategoriesBloc>().add(
+        SeedCategoriedWhenEmpty(authState.user.uid),
+      );
+    }
     initEvents();
     super.initState();
   }
@@ -45,7 +50,7 @@ class _AppContainerState extends State<AppContainer> {
   void initEvents() {
     final authState = context.read<AuthBloc>().state;
     if (authState is AuthAuthenticated) {
-      context.read<CategoriesBloc>().add(AppInit());
+      context.read<CategoriesBloc>().add(AppInit(authState.user.uid));
       context.read<EntriesBloc>().add(LoadTodayEntries(authState.user.uid));
       context.read<TotalsBloc>().add(RequestTotalsData(authState.user.uid));
     }

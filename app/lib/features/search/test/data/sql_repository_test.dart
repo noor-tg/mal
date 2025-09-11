@@ -92,16 +92,19 @@ void simpleSearchTests() {
       final repo = SqlRespository();
 
       final random = Random();
-      final category = categories[random.nextInt(categories.length)].title;
+      final category =
+          categories[random.nextInt(categories.length)]['title'] as String;
       final res = await repo.searchEntries(term: category);
       for (final entry in res.list) {
         expect(entry.category, category);
       }
       final filteredCategories = categories
-          .where((cat) => cat.title != category)
+          .where((cat) => cat['title'] != category)
           .toList();
       final otherCategory =
-          filteredCategories[random.nextInt(filteredCategories.length)].title;
+          filteredCategories[random.nextInt(
+            filteredCategories.length,
+          )]['title'];
       for (final entry in res.list) {
         expect(entry.category, isNot(otherCategory));
       }
@@ -118,7 +121,10 @@ void advancedSearchTests() {
       final res = await repo.advancedSearch(
         SearchState(
           filters: Filters.withCurrentYear(
-            categories: [categories[0].title, categories[1].title],
+            categories: [
+              categories[0]['title'] as String,
+              categories[1]['title'] as String,
+            ],
           ),
         ),
       );
@@ -126,10 +132,10 @@ void advancedSearchTests() {
       expect(res.list.length, greaterThan(0));
       expect(res.count, greaterThan(0));
       expect([
-        categories[0].title,
-        categories[1].title,
+        categories[0]['title'],
+        categories[1]['title'],
       ], contains(res.list.first.category));
-      expect(categories[2].title, isNot(equals(res.list.last.category)));
+      expect(categories[2]['title'], isNot(equals(res.list.last.category)));
     });
     test('filter by type correctly', () async {
       final repo = SqlRespository();

@@ -16,19 +16,20 @@ final random = RandomGenerator(seed: 63833423);
 final faker = Faker.withGenerator(random);
 
 final categories = [
-  Category(title: 'طعام', type: expenseType),
-  Category(title: 'ملابس', type: expenseType),
-  Category(title: 'خدمات', type: expenseType),
-  Category(title: 'أخرى', type: expenseType),
+  {'title': 'طعام', 'type': expenseType},
+  {'title': 'ملابس', 'type': expenseType},
+  {'title': 'خدمات', 'type': expenseType},
+  {'title': 'أخرى', 'type': expenseType},
 ];
 
 Future<void> generateData() async {
   final db = await createOrOpenDB();
-  await generateCategories(db);
-  await generateEntries(db);
+  final user = await fakeStoredUser();
+  await generateCategories(db, user!.uid);
+  await generateEntries(db, user.uid);
 }
 
-Future<void> generateEntries(Database db) async {
+Future<void> generateEntries(Database db, String userUid) async {
   final List<Entry> entries = [];
   await db.delete('entries');
   for (int i = 0; i < 200; i++) {
@@ -45,7 +46,8 @@ Entry fakeEntry({String? userUid}) {
     userUid: userUid ?? uuid.v4(),
     description: faker.lorem.sentence(),
     amount: Random().nextInt(1000),
-    category: categories[Random().nextInt(categories.length - 1)].title,
+    category:
+        categories[Random().nextInt(categories.length - 1)]['title'] as String,
     type: types[Random().nextInt(types.length)],
     date: DateTime(
       [2024, 2025][random.nextInt(2)],
@@ -74,19 +76,21 @@ Future<User?> fakeStoredUser() async {
   return repo.getUserByName(data['name'] as String);
 }
 
-Future<void> generateCategories(Database db) async {
+Future<void> generateCategories(Database db, String userUid) async {
   await db.delete('categories');
   for (final category in categories) {
     await db.insert('categories', {
-      'uid': category.uid,
-      'title': category.title,
-      'type': category.type,
+      'uid': uuid.v4(),
+      'title': category['title'],
+      'type': category['type'],
+      'user_uid': userUid,
     });
   }
 }
 
-Category fakeCategory() {
+Category fakeCategory({String? userUid}) {
   return Category(
+    userUid: userUid ?? uuid.v4(),
     title: faker.lorem.sentence(),
     type: types[Random().nextInt(types.length)],
   );
