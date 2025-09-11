@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:mal/constants.dart';
 import 'package:mal/features/calendar/domain/bloc/calendar_bloc.dart';
 import 'package:mal/features/calendar/domain/repositories/day_sums.dart';
+import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/ui/widgets/entries_list.dart';
 import 'package:mal/utils.dart';
@@ -61,9 +62,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
   void initState() {
     super.initState();
     _selectedDay = DateTime.now();
-    context.read<CalendarBloc>().add(
-      FetchSelectedMonthData(_focusedDay.year, _focusedDay.month),
-    );
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticated) {
+      context.read<CalendarBloc>().add(
+        FetchSelectedMonthData(
+          _focusedDay.year,
+          _focusedDay.month,
+          authState.user.uid,
+        ),
+      );
+      context.read<CalendarBloc>().add(
+        FetchSelectedDayData(_selectedDay!, authState.user.uid),
+      );
+    }
   }
 
   List<DaySums> _getTransactionsForDay(DateTime day, CalendarState state) {
@@ -259,9 +270,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
     setState(() {
       _focusedDay = focusedDay;
     });
-    context.read<CalendarBloc>().add(
-      FetchSelectedMonthData(_focusedDay.year, _focusedDay.month),
-    );
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticated) {
+      context.read<CalendarBloc>().add(
+        FetchSelectedMonthData(
+          _focusedDay.year,
+          _focusedDay.month,
+          authState.user.uid,
+        ),
+      );
+    }
   }
 
   void onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -271,6 +289,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
         _focusedDay = focusedDay;
       });
     }
-    context.read<CalendarBloc>().add(FetchSelectedDayData(_selectedDay!));
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticated) {
+      context.read<CalendarBloc>().add(
+        FetchSelectedDayData(_selectedDay!, authState.user.uid),
+      );
+    }
   }
 }

@@ -11,7 +11,11 @@ class SqlRepository extends CalendarRepository {
   final sqlProvider = SqlProvider();
 
   @override
-  Future<List<DaySums>> getSelectedMonthSums(int year, int month) async {
+  Future<List<DaySums>> getSelectedMonthSums(
+    int year,
+    int month,
+    String userUid,
+  ) async {
     final formatedMonth = month < 10 ? '0$month' : '$month';
 
     final incomes = await sqlProvider.getIncomesSumsByDate(
@@ -20,6 +24,7 @@ class SqlRepository extends CalendarRepository {
         oprand: 'like',
         value: '$year-$formatedMonth',
       ),
+      userUid: userUid,
     );
 
     final expenses = await sqlProvider.getExpensesSumsByDate(
@@ -28,6 +33,7 @@ class SqlRepository extends CalendarRepository {
         oprand: 'like',
         value: '$year-$formatedMonth',
       ),
+      userUid: userUid,
     );
 
     final List<DaySums> list = [];
@@ -56,12 +62,16 @@ class SqlRepository extends CalendarRepository {
   }
 
   @override
-  Future<List<Entry>> getSelectedDayEntries(DateTime date) async {
+  Future<List<Entry>> getSelectedDayEntries(
+    DateTime date,
+    String userUid,
+  ) async {
     try {
       final qb = QueryBuilder('entries');
 
       final data = await qb
           .whereLike('date', date.toIso8601String().substring(0, 10))
+          .where('user_uid', '=', userUid)
           .getAll();
 
       return data.isNotEmpty

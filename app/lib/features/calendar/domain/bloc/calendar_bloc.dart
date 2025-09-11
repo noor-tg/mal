@@ -19,12 +19,16 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   }
 
   FutureOr<void> _onFetchSelectedMonthData(
-    event,
+    FetchSelectedMonthData event,
     Emitter<CalendarState> emit,
   ) async {
     emit(state.copyWith(status: BlocStatus.loading, selectedMonthData: []));
     try {
-      final data = await repo.getSelectedMonthSums(event.year, event.month);
+      final data = await repo.getSelectedMonthSums(
+        event.year,
+        event.month,
+        event.userUid,
+      );
 
       emit(state.copyWith(status: BlocStatus.success, selectedMonthData: data));
     } catch (err, trace) {
@@ -47,7 +51,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   ) async {
     emit(state.copyWith(status: BlocStatus.loading, selectedDayData: []));
     try {
-      final data = await repo.getSelectedDayEntries(event.date);
+      final data = await repo.getSelectedDayEntries(event.date, event.userUid);
 
       emit(state.copyWith(status: BlocStatus.success, selectedDayData: data));
     } catch (err, trace) {

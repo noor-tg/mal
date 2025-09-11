@@ -7,6 +7,7 @@ import 'package:mal/enums.dart';
 import 'package:mal/features/calendar/domain/repositories/calendar_repository.dart';
 import 'package:mal/features/calendar/domain/repositories/day_sums.dart';
 import 'package:mal/features/calendar/domain/bloc/calendar_bloc.dart';
+import 'package:mal/utils.dart';
 // ignore: depend_on_referenced_packages
 import 'package:mocktail/mocktail.dart';
 
@@ -42,11 +43,11 @@ void main() {
         'emits [loading, success] when getSelectedMonthSums succeeds',
         build: () {
           when(
-            () => mockRepo.getSelectedMonthSums(2024, 1),
+            () => mockRepo.getSelectedMonthSums(2024, 1, any()),
           ).thenAnswer((_) async => mockDaySumsList);
           return calendarBloc;
         },
-        act: (bloc) => bloc.add(const FetchSelectedMonthData(2024, 1)),
+        act: (bloc) => bloc.add(FetchSelectedMonthData(2024, 1, uuid.v4())),
         expect: () => <CalendarState>[
           const CalendarState(status: BlocStatus.loading),
           CalendarState(
@@ -55,7 +56,7 @@ void main() {
           ),
         ],
         verify: (_) {
-          verify(() => mockRepo.getSelectedMonthSums(2024, 1)).called(1);
+          verify(() => mockRepo.getSelectedMonthSums(2024, 1, any())).called(1);
         },
       );
 
@@ -63,11 +64,11 @@ void main() {
         'emits [loading, failure] when getSelectedMonthSums throws exception',
         build: () {
           when(
-            () => mockRepo.getSelectedMonthSums(2024, 1),
+            () => mockRepo.getSelectedMonthSums(2024, 1, any()),
           ).thenThrow(Exception('Failed to fetch data'));
           return calendarBloc;
         },
-        act: (bloc) => bloc.add(const FetchSelectedMonthData(2024, 1)),
+        act: (bloc) => bloc.add(FetchSelectedMonthData(2024, 1, uuid.v4())),
         expect: () => <CalendarState>[
           const CalendarState(status: BlocStatus.loading),
           const CalendarState(
@@ -76,25 +77,26 @@ void main() {
           ),
         ],
         verify: (_) {
-          verify(() => mockRepo.getSelectedMonthSums(2024, 1)).called(1);
+          verify(() => mockRepo.getSelectedMonthSums(2024, 1, any())).called(1);
         },
       );
 
+      final uid = uuid.v4();
       blocTest<CalendarBloc, CalendarState>(
         'emits [loading, success] with empty list when no data is available',
         build: () {
           when(
-            () => mockRepo.getSelectedMonthSums(2024, 2),
+            () => mockRepo.getSelectedMonthSums(2024, 2, uid),
           ).thenAnswer((_) async => <DaySums>[]);
           return calendarBloc;
         },
-        act: (bloc) => bloc.add(const FetchSelectedMonthData(2024, 2)),
+        act: (bloc) => bloc.add(FetchSelectedMonthData(2024, 2, uid)),
         expect: () => <CalendarState>[
           const CalendarState(status: BlocStatus.loading),
           const CalendarState(status: BlocStatus.success),
         ],
         verify: (_) {
-          verify(() => mockRepo.getSelectedMonthSums(2024, 2)).called(1);
+          verify(() => mockRepo.getSelectedMonthSums(2024, 2, uid)).called(1);
         },
       );
 
@@ -102,17 +104,17 @@ void main() {
         'handles multiple consecutive fetch requests correctly',
         build: () {
           when(
-            () => mockRepo.getSelectedMonthSums(2024, 1),
+            () => mockRepo.getSelectedMonthSums(2024, 1, uid),
           ).thenAnswer((_) async => mockDaySumsList);
           when(
-            () => mockRepo.getSelectedMonthSums(2024, 2),
+            () => mockRepo.getSelectedMonthSums(2024, 2, uid),
           ).thenAnswer((_) async => <DaySums>[]);
           return calendarBloc;
         },
         act: (bloc) {
           bloc
-            ..add(const FetchSelectedMonthData(2024, 1))
-            ..add(const FetchSelectedMonthData(2024, 2));
+            ..add(FetchSelectedMonthData(2024, 1, uid))
+            ..add(FetchSelectedMonthData(2024, 2, uid));
         },
         expect: () => <CalendarState>[
           const CalendarState(status: BlocStatus.loading),
@@ -124,20 +126,20 @@ void main() {
           const CalendarState(status: BlocStatus.success),
         ],
         verify: (_) {
-          verify(() => mockRepo.getSelectedMonthSums(2024, 1)).called(1);
-          verify(() => mockRepo.getSelectedMonthSums(2024, 2)).called(1);
+          verify(() => mockRepo.getSelectedMonthSums(2024, 1, uid)).called(1);
+          verify(() => mockRepo.getSelectedMonthSums(2024, 2, uid)).called(1);
         },
       );
 
       blocTest<CalendarBloc, CalendarState>(
         'handles network timeout error gracefully',
         build: () {
-          when(() => mockRepo.getSelectedMonthSums(2024, 1)).thenThrow(
+          when(() => mockRepo.getSelectedMonthSums(2024, 1, any())).thenThrow(
             TimeoutException('Network timeout', const Duration(seconds: 30)),
           );
           return calendarBloc;
         },
-        act: (bloc) => bloc.add(const FetchSelectedMonthData(2024, 1)),
+        act: (bloc) => bloc.add(FetchSelectedMonthData(2024, 1, uuid.v4())),
         expect: () => <CalendarState>[
           const CalendarState(status: BlocStatus.loading),
           const CalendarState(
@@ -147,7 +149,7 @@ void main() {
           ),
         ],
         verify: (_) {
-          verify(() => mockRepo.getSelectedMonthSums(2024, 1)).called(1);
+          verify(() => mockRepo.getSelectedMonthSums(2024, 1, any())).called(1);
         },
       );
     });
@@ -211,20 +213,20 @@ void main() {
     group('CalendarEvent', () {
       test('FetchSelectedMonthData supports value equality', () {
         expect(
-          const FetchSelectedMonthData(2024, 1),
-          equals(const FetchSelectedMonthData(2024, 1)),
+          FetchSelectedMonthData(2024, 1, uuid.v4()),
+          equals(FetchSelectedMonthData(2024, 1, uuid.v4())),
         );
       });
 
       test('FetchSelectedMonthData props are correct', () {
-        const event = FetchSelectedMonthData(2024, 1);
+        final event = FetchSelectedMonthData(2024, 1, uuid.v4());
         expect(event.props, [2024, 1]);
       });
 
       test('FetchSelectedMonthData with different values are not equal', () {
         expect(
-          const FetchSelectedMonthData(2024, 1),
-          isNot(equals(const FetchSelectedMonthData(2024, 2))),
+          FetchSelectedMonthData(2024, 1, uuid.v4()),
+          isNot(equals(FetchSelectedMonthData(2024, 2, uuid.v4()))),
         );
       });
     });

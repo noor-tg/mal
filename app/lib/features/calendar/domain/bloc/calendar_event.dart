@@ -10,8 +10,9 @@ sealed class CalendarEvent extends Equatable {
 class FetchSelectedMonthData extends CalendarEvent {
   final int year;
   final int month;
+  final String userUid;
 
-  const FetchSelectedMonthData(this.year, this.month);
+  const FetchSelectedMonthData(this.year, this.month, this.userUid);
 
   @override
   List<Object> get props => [year, month];
@@ -20,7 +21,9 @@ class FetchSelectedMonthData extends CalendarEvent {
 class FetchSelectedDayData extends CalendarEvent {
   final DateTime date;
 
-  const FetchSelectedDayData(this.date);
+  final String userUid;
+
+  const FetchSelectedDayData(this.date, this.userUid);
 
   @override
   List<Object> get props => [date];

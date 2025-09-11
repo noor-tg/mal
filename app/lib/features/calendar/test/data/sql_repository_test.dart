@@ -5,6 +5,7 @@ import 'package:mal/features/calendar/data/repositories/sql_repository.dart'
     as calendar;
 import 'package:mal/features/entries/data/repositories/sql_repository.dart'
     as entries;
+import 'package:mal/shared/query_builder.dart';
 import 'package:mal/test/unit_utils.dart';
 import 'package:mal/utils.dart';
 
@@ -22,6 +23,7 @@ void getCurrentMonthDaysSumsTests() {
     final calendarRepo = calendar.SqlRepository();
     final entriesRepo = entries.SqlRepository();
 
+    final user = await QueryBuilder('users').getOne();
     var entry = fakeEntry();
     entry = entry.copyWith(date: now().toIso8601String());
 
@@ -31,6 +33,7 @@ void getCurrentMonthDaysSumsTests() {
     final list = await calendarRepo.getSelectedMonthSums(
       now().year,
       now().month,
+      user!['uid'] as String,
     );
 
     expect(list.isNotEmpty, true);
