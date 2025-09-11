@@ -28,7 +28,7 @@ class _EntryFormState extends State<EntryForm> {
   final _formKey = GlobalKey<FormState>();
 
   String _description = '';
-  int _amount = 0;
+  int? _amount;
   String _type = '';
   String _category = '';
   DateTime? _date;
@@ -174,7 +174,7 @@ class _EntryFormState extends State<EntryForm> {
                   ),
                   const SizedBox(height: 24),
                   TextFormField(
-                    initialValue: _amount.toString(),
+                    initialValue: _amount?.toString(),
                     validator: (value) {
                       if (value == null ||
                           int.tryParse(value) == null ||
@@ -284,7 +284,7 @@ class _EntryFormState extends State<EntryForm> {
           userUid: widget.entry?.userUid ?? widget.userUid ?? '',
           description: _description,
           type: _type,
-          amount: _amount,
+          amount: _amount!,
           category: _category,
           date: _date?.toIso8601String(),
         );
