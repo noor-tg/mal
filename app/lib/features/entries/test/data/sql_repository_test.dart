@@ -41,7 +41,7 @@ void getTodayEntriesTest() {
   test('> get today Entries', () async {
     final repo = SqlRepository();
     final user = await fakeStoredUser();
-    var entry = fakeEntry(userUid: user!.uid);
+    var entry = fakeEntry(userUid: user.uid);
     entry = entry.copyWith(date: now().toIso8601String());
     // query using sql provider
     await repo.store(entry);

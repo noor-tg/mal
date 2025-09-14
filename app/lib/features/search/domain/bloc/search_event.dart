@@ -13,7 +13,10 @@ class SearchEvent extends Equatable {
 }
 
 class SimpleSearch extends SearchEvent {
-  const SimpleSearch({super.term, super.offset});
+  final String userUid;
+  const SimpleSearch({required this.userUid, super.term, super.offset = 0});
+  @override
+  List<Object> get props => [userUid];
 }
 
 class SetTerm extends SearchEvent {
@@ -22,7 +25,11 @@ class SetTerm extends SearchEvent {
 
 class ClearSearch extends SearchEvent {}
 
-class LoadMore extends SearchEvent {}
+class LoadMore extends SearchEvent {
+  final String userUid;
+
+  const LoadMore({super.term, super.offset, required this.userUid});
+}
 
 class ToggleCategory extends SearchEvent {
   const ToggleCategory({required this.category});
@@ -74,6 +81,10 @@ class SortBy extends SearchEvent {
 
 class ReverseSortDirection extends SearchEvent {}
 
-class ApplyFilters extends SearchEvent {}
+class ApplyFilters extends SearchEvent {
+  final String userUid;
+
+  const ApplyFilters({super.term, super.offset, required this.userUid});
+}
 
 class ClearFilters extends SearchEvent {}

@@ -6,6 +6,7 @@ import 'package:mal/features/search/ui/views/categories_filter.dart';
 import 'package:mal/features/search/ui/views/date_range_filter.dart';
 import 'package:mal/features/search/ui/views/sorting.dart';
 import 'package:mal/features/search/ui/views/type_filter.dart';
+import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 
 class AdvancedSearch extends StatelessWidget {
@@ -50,7 +51,12 @@ class AdvancedSearch extends StatelessWidget {
               child: BlocBuilder<SearchBloc, SearchState>(
                 builder: (BuildContext ctx, state) => ElevatedButton(
                   onPressed: () {
-                    context.read<SearchBloc>().add(ApplyFilters());
+                    final authState = context.read<AuthBloc>().state;
+                    if (authState is AuthAuthenticated) {
+                      context.read<SearchBloc>().add(
+                        ApplyFilters(userUid: authState.user.uid),
+                      );
+                    }
                     Navigator.pop(context);
                   },
                   child: Padding(

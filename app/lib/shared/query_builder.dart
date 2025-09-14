@@ -34,14 +34,13 @@ class QueryBuilder {
     return this;
   }
 
-  QueryBuilder whereLike(String column, String value) {
+  QueryBuilder whereLike(String column, String value, [String link = 'AND']) {
     _filterQuery ??= '';
     final otherFilterExist = _filterQuery != null && _filterQuery != '';
 
     if (column.trim().isNotEmpty && value.trim().isNotEmpty) {
       _filterQuery =
-          '$_filterQuery ${otherFilterExist ? 'AND' : ''} $column LIKE ?'
-              .trim();
+          '$_filterQuery ${otherFilterExist ? link : ''} $column LIKE ?'.trim();
       // WARNING: this could cause sql injection. how to fix it ?
       _whereArgs.add('%$value%');
     }

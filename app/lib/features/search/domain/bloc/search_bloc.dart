@@ -39,38 +39,18 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   FutureOr<void> _onSimpleSearch(
-    SearchEvent event,
+    SimpleSearch event,
     Emitter<SearchState> emit,
   ) async {
     emit(state.copyWith(status: SearchStatus.loading));
-    await searchRoutine(event, emit, (result) {
-      emit(
-        state.copyWith(
-          term: event.term,
-          offset: event.offset,
-          result: result,
-          status: SearchStatus.success,
-        ),
-      );
-    });
-  }
 
-  FutureOr<void> searchRoutine(
-    SearchEvent event,
-    Emitter<SearchState> emit,
-    Function(Result<Entry> result) handleResult,
-  ) async {
     try {
       late Result<Entry> result;
-      if (state.simpleSearchActive) {
-        result = await searchRepo.searchEntries(
-          term: event.term,
-          offset: event.offset,
-        );
-      } else {
-        // this is will likely be used by load more event
-        result = await searchRepo.advancedSearch(state);
-      }
+      result = await searchRepo.searchEntries(
+        term: event.term,
+        offset: event.offset,
+        userUid: event.userUid,
+      );
       if (result.list.isEmpty) {
         return emit(
           state.copyWith(
@@ -81,9 +61,18 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           ),
         );
       }
-      handleResult(result);
-    } catch (error) {
-      logger.t(error);
+      emit(
+        state.copyWith(
+          term: event.term,
+          offset: event.offset,
+          result: result,
+          status: SearchStatus.success,
+        ),
+      );
+    } catch (error, trace) {
+      logger
+        ..e(error)
+        ..t(trace);
       emit(
         state.copyWith(
           status: SearchStatus.failure,
@@ -107,24 +96,47 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   Future<void> _onLoadMore(LoadMore event, Emitter<SearchState> emit) async {
     final offset = state.offset + kSearchLimit;
+
     try {
-      await searchRoutine(SearchEvent(term: state.term, offset: offset), emit, (
-        result,
-      ) {
-        emit(
+      late Result<Entry> result;
+      if (state.simpleSearchActive) {
+        result = await searchRepo.searchEntries(
+          term: event.term,
+          offset: event.offset,
+          userUid: event.userUid,
+        );
+      } else {
+        result = await searchRepo.advancedSearch(state, event.userUid);
+      }
+      if (result.list.isEmpty) {
+        return emit(
           state.copyWith(
-            term: state.term,
-            offset: offset,
-            result: Result(
-              list: [...state.result.list, ...result.list],
-              count: state.result.count,
-            ),
+            term: event.term,
+            offset: event.offset > 0 ? event.offset - kSearchLimit : 0,
             status: SearchStatus.success,
+            noMoreData: true,
           ),
         );
-      });
-    } catch (err) {
-      logger.e(err);
+      }
+      emit(
+        state.copyWith(
+          term: state.term,
+          offset: offset,
+          result: Result(
+            list: [...state.result.list, ...result.list],
+            count: state.result.count,
+          ),
+          status: SearchStatus.success,
+        ),
+      );
+    } catch (error) {
+      logger.t(error);
+      emit(
+        state.copyWith(
+          status: SearchStatus.failure,
+          errorMessage: error.toString(),
+        ),
+      );
     }
   }
 
@@ -293,7 +305,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   ) async {
     emit(state.copyWith(status: SearchStatus.loading));
     try {
-      final result = await searchRepo.advancedSearch(state);
+      final result = await searchRepo.advancedSearch(state, event.userUid);
       emit(state.copyWith(result: result, status: SearchStatus.success));
     } catch (err) {
       emit(

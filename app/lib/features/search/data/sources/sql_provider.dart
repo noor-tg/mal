@@ -1,7 +1,6 @@
 import 'package:mal/constants.dart';
 import 'package:mal/features/search/domain/bloc/filters.dart';
 import 'package:mal/features/search/domain/bloc/sorting.dart';
-import 'package:mal/shared/db.dart';
 import 'package:mal/shared/query_builder.dart';
 
 class SqlProvider {
@@ -10,32 +9,31 @@ class SqlProvider {
       '"type" = ? or "category" like ? or "description" like ?';
 
   Future<List<Map<String, dynamic>>> searchEntries({
+    required String userUid,
     String term = '',
     int offset = 0,
-  }) async {
-    final db = await Db.use();
+  }) {
     final search = '%$term%';
-    final res = await db.query(
-      table,
-      where: searchWhere,
-      whereArgs: [term, search, search],
-      limit: kSearchLimit,
-      offset: offset,
-      orderBy: '"date" DESC',
-    );
-    return res;
+    return QueryBuilder('entries')
+        .where('user_uid', '=', userUid)
+        .where('type', '=', term)
+        .whereLike('category', search, 'OR')
+        .whereLike('description', search, 'OR')
+        .sortBy('date', SortingDirection.desc)
+        .limit(kSearchLimit)
+        .offset(offset)
+        .getAll();
   }
 
-  Future<int> searchEntriesCount({String term = ''}) async {
-    final db = await Db.use();
+  Future<int> searchEntriesCount({String term = '', required String userUid}) {
     final search = '%$term%';
-    final res = await db.query(
-      table,
-      columns: ['count(uid) as total'],
-      where: searchWhere,
-      whereArgs: [term, search, search],
-    );
-    return res.isEmpty ? 0 : res.first['total'] as int;
+    return QueryBuilder('entries')
+        .where('user_uid', '=', userUid)
+        .where('type', '=', term)
+        .whereLike('category', search, 'OR')
+        .whereLike('description', search, 'OR')
+        .sortBy('date', SortingDirection.desc)
+        .count();
   }
 
   Future<List<Map<String, dynamic>>> getListByFilters({
@@ -43,8 +41,9 @@ class SqlProvider {
     required int offset,
     required Filters filters,
     required Sorting sorting,
+    required String userUid,
   }) async {
-    final q = QueryBuilder('entries');
+    final q = QueryBuilder('entries').where('user_uid', '=', userUid);
 
     // search by description
     final search = '%$term%';
@@ -56,10 +55,10 @@ class SqlProvider {
     if (filters.type != EntryType.all) {
       switch (filters.type) {
         case EntryType.expense:
-          q.where('type', '=', 'منصرف');
+          q.where('type', '=', expenseType);
           break;
         case EntryType.income:
-          q.where('type', '=', 'دخل');
+          q.where('type', '=', incomeType);
           break;
         case EntryType.all:
       }
@@ -97,8 +96,9 @@ class SqlProvider {
     required int offset,
     required Filters filters,
     required Sorting sorting,
+    required String userUid,
   }) async {
-    final q = QueryBuilder('entries');
+    final q = QueryBuilder('entries').where('user_uid', '=', userUid);
 
     // search by description
     final search = '%$term%';

@@ -40,7 +40,7 @@ class Filters extends Equatable {
       amountRange: amountRange,
       dateRange: Range<DateTime>(
         min: DateTime(now.year),
-        max: DateTime(now.year, now.month, now.day),
+        max: DateTime(now.year, now.month, now.day, 23, 59, 59, 999),
       ),
       type: type,
     );

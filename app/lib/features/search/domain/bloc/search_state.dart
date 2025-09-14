@@ -79,4 +79,19 @@ class SearchState extends Equatable {
       sorting: sorting ?? this.sorting,
     );
   }
+
+  @override
+  String toString() {
+    return 'SearchState('
+        'term: $term, \n'
+        'offset: $offset, \n'
+        'status: $status, \n'
+        'result: ${result.list.length} entries (count: ${result.count}), \n'
+        'noMoreData: $noMoreData, \n'
+        'errorMessage: $errorMessage, \n'
+        'filters: $filters, \n'
+        'sorting: $sorting, \n'
+        'simpleSearchActive: $simpleSearchActive \n'
+        ')';
+  }
 }

@@ -13,7 +13,7 @@ void main() async {
       final user = await fakeStoredUser();
       final repo = SqlRepository();
       // query using sql provider
-      final result = await repo.totals(user!.uid);
+      final result = await repo.totals(user.uid);
       // check results
       expect(result.balance, isA<int>());
       expect(result.incomes, isA<int>());
@@ -23,7 +23,7 @@ void main() async {
       final repo = SqlRepository();
       final user = await fakeStoredUser();
       // query using sql provider
-      final result = await repo.dailySums(user!.uid);
+      final result = await repo.dailySums(user.uid);
       // check results
       expect(result.incomes, isA<List<int>>());
       expect(result.incomes.length, greaterThan(0));

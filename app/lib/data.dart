@@ -25,7 +25,7 @@ final categories = [
 Future<void> generateData() async {
   final db = await createOrOpenDB();
   final user = await fakeStoredUser();
-  await generateCategories(db, user!.uid);
+  await generateCategories(db, user.uid);
   await generateEntries(db, user.uid);
 }
 
@@ -33,7 +33,7 @@ Future<void> generateEntries(Database db, String userUid) async {
   final List<Entry> entries = [];
   await db.delete('entries');
   for (int i = 0; i < 200; i++) {
-    entries.add(fakeEntry());
+    entries.add(fakeEntry(userUid: userUid));
   }
   for (final entry in entries) {
     await db.insert('entries', entry.toMap());
@@ -50,8 +50,8 @@ Entry fakeEntry({String? userUid}) {
         categories[Random().nextInt(categories.length - 1)]['title'] as String,
     type: types[Random().nextInt(types.length)],
     date: DateTime(
-      [2024, 2025][random.nextInt(2)],
-      7,
+      2025,
+      [9, 8, 7, 6, 5][Random().nextInt(5)],
       random.nextInt(30),
       random.nextInt(24),
       random.nextInt(60),
@@ -63,17 +63,18 @@ Entry fakeEntry({String? userUid}) {
 Map<String, String> fakeUser() {
   return {
     'name': faker.internet.userName(),
-    'pin': faker.internet.macAddress(),
+    'pin': '1234',
     'salt': faker.internet.macAddress(),
   };
 }
 
-Future<User?> fakeStoredUser() async {
+Future<User> fakeStoredUser() async {
   final data = fakeUser();
   final repo = user.SqlRepository();
 
+  logger.i(data);
   await repo.register(name: data['name'] as String, pin: '1234');
-  return repo.getUserByName(data['name'] as String);
+  return (await repo.getUserByName(data['name'] as String))!;
 }
 
 Future<void> generateCategories(Database db, String userUid) async {

@@ -10,6 +10,7 @@ import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/shared/db.dart';
+import 'package:mal/shared/query_builder.dart';
 import 'package:mal/test/unit_utils.dart';
 import 'package:mal/utils.dart';
 
@@ -25,8 +26,12 @@ void simpleSearchTests() {
   group('search repository > ', () {
     test('simple search by description, category or type', () async {
       final repo = SqlRespository();
+      final user = await QueryBuilder('users').getOne();
 
-      final res = await repo.searchEntries(term: 'h');
+      final res = await repo.searchEntries(
+        term: 'h',
+        userUid: user!['uid'] as String,
+      );
       expect(res, isA<Result<Entry>>());
       expect(res.list, isA<List<Entry>>());
       if (res.list.isNotEmpty) {
@@ -47,9 +52,14 @@ void simpleSearchTests() {
     test('expect empty list when offset is byond result total', () async {
       final db = await Db.use();
       final repo = SqlRespository();
+      final user = await QueryBuilder('users').getOne();
 
       final totals = await db.query('entries');
-      final res = await repo.searchEntries(term: '', offset: totals.length);
+      final res = await repo.searchEntries(
+        term: '',
+        offset: totals.length,
+        userUid: user!['uid'] as String,
+      );
 
       expect(res.list, isEmpty);
       expect(res.count, 200);
@@ -59,8 +69,12 @@ void simpleSearchTests() {
       'expect all results returned from latest to oldest when there is no search term',
       () async {
         final repo = SqlRespository();
+        final user = await QueryBuilder('users').getOne();
 
-        final res = await repo.searchEntries(term: '');
+        final res = await repo.searchEntries(
+          term: '',
+          userUid: user!['uid'] as String,
+        );
 
         expect(res.count, greaterThan(0));
         expect(res.list.first, isA<Entry>());
@@ -73,15 +87,22 @@ void simpleSearchTests() {
 
     test('search by type', () async {
       final repo = SqlRespository();
+      final user = await QueryBuilder('users').getOne();
 
       // when filter by type
-      final res = await repo.searchEntries(term: types[0]);
+      final res = await repo.searchEntries(
+        term: types[0],
+        userUid: user!['uid'] as String,
+      );
       // then all result should be related to this type
       for (final entry in res.list) {
         expect(entry.type, types[0]);
       }
       // other type search result should not contain first type filter
-      final other = await repo.searchEntries(term: types[1]);
+      final other = await repo.searchEntries(
+        term: types[1],
+        userUid: user['uid'] as String,
+      );
 
       for (final entry in other.list) {
         expect(entry.type, isNot(types[0]));
@@ -90,11 +111,15 @@ void simpleSearchTests() {
 
     test('search by category', () async {
       final repo = SqlRespository();
+      final user = await QueryBuilder('users').getOne();
 
       final random = Random();
       final category =
           categories[random.nextInt(categories.length)]['title'] as String;
-      final res = await repo.searchEntries(term: category);
+      final res = await repo.searchEntries(
+        term: category,
+        userUid: user!['uid'] as String,
+      );
       for (final entry in res.list) {
         expect(entry.category, category);
       }
@@ -116,7 +141,12 @@ void advancedSearchTests() {
   group('Advanced Search', () {
     test('filter by categories correctly', () async {
       final repo = SqlRespository();
-
+      final users = await QueryBuilder('users').getAll();
+      final entries = await QueryBuilder('entries').getAll();
+      logger
+        ..i('users')
+        ..i(users)
+        ..i(entries);
       // prepare
       final res = await repo.advancedSearch(
         SearchState(
@@ -127,6 +157,7 @@ void advancedSearchTests() {
             ],
           ),
         ),
+        users.first['uid'] as String,
       );
       expect(res, isA<Result<Entry>>());
       expect(res.list.length, greaterThan(0));
@@ -139,9 +170,11 @@ void advancedSearchTests() {
     });
     test('filter by type correctly', () async {
       final repo = SqlRespository();
+      final user = await QueryBuilder('users').getOne();
       // prepare
       final res = await repo.advancedSearch(
         SearchState(filters: Filters.withCurrentYear(type: EntryType.income)),
+        user!['uid'] as String,
       );
       expect(res, isA<Result<Entry>>());
       expect(res.list.length, greaterThan(0));
@@ -150,6 +183,7 @@ void advancedSearchTests() {
     });
     test('filter by amount range', () async {
       final repo = SqlRespository();
+      final user = await QueryBuilder('users').getOne();
       // prepare
       final res = await repo.advancedSearch(
         SearchState(
@@ -157,6 +191,7 @@ void advancedSearchTests() {
             amountRange: const Range(min: 0, max: 100),
           ),
         ),
+        user!['uid'] as String,
       );
       expect(res, isA<Result<Entry>>());
       expect(res.list.length, greaterThan(0));
@@ -165,9 +200,11 @@ void advancedSearchTests() {
     });
     test('filter by date range', () async {
       final repo = SqlRespository();
+      final user = await QueryBuilder('users').getOne();
       // prepare
       final res = await repo.advancedSearch(
         SearchState(filters: Filters.withCurrentYear()),
+        user!['uid'] as String,
       );
       final now = DateTime.now();
       expect(res, isA<Result<Entry>>());
@@ -179,9 +216,11 @@ void advancedSearchTests() {
     });
     test('check for default applied sorting (date desc)', () async {
       final repo = SqlRespository();
+      final user = await QueryBuilder('users').getOne();
       // prepare
       final res = await repo.advancedSearch(
         SearchState(filters: Filters.withCurrentYear()),
+        user!['uid'] as String,
       );
       expect(res, isA<Result<Entry>>());
       expect(res.list.length, greaterThan(0));

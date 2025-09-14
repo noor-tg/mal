@@ -27,7 +27,7 @@ void categoryRemoveTest() {
       final db = await Db.use();
       await clearCategories();
       final user = await fakeStoredUser();
-      await generateCategories(db, user!.uid);
+      await generateCategories(db, user.uid);
 
       await $.pumpWidgetAndSettle(app);
 
@@ -64,7 +64,7 @@ void categoriesListTest() {
       final db = await Db.use();
       await clearCategories();
       final user = await fakeStoredUser();
-      await generateCategories(db, user!.uid);
+      await generateCategories(db, user.uid);
 
       await $.pumpWidgetAndSettle(app);
 

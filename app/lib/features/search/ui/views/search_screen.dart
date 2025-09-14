@@ -3,6 +3,7 @@ import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/ui/views/advanced_search.dart';
 import 'package:mal/features/search/ui/views/search_body.dart';
+import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
+    context.read<SearchBloc>().stream.listen(logger.i);
     final searchBloc = context.read<SearchBloc>();
     scrollController.addListener(() async {
       if (scrollController.position.maxScrollExtent ==
@@ -27,7 +29,10 @@ class _SearchScreenState extends State<SearchScreen> {
         if (searchBloc.state.status == SearchStatus.loading) {
           return;
         }
-        searchBloc.add(LoadMore());
+        final authState = context.read<AuthBloc>().state;
+        if (authState is AuthAuthenticated) {
+          searchBloc.add(LoadMore(userUid: authState.user.uid));
+        }
       }
     });
     super.initState();
@@ -82,15 +87,23 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: TextField(
                       controller: _controller,
                       onChanged: (value) async {
-                        final searchBloc = context.read<SearchBloc>();
-
                         if (value.trim().isEmpty) return;
-                        if (searchBloc.state.simpleSearchActive) {
-                          searchBloc.add(SimpleSearch(term: value.trim()));
-                        } else {
-                          searchBloc
-                            ..add(SetTerm(term: value.trim()))
-                            ..add(ApplyFilters());
+
+                        final searchBloc = context.read<SearchBloc>();
+                        final authState = context.read<AuthBloc>().state;
+                        if (authState is AuthAuthenticated) {
+                          if (searchBloc.state.simpleSearchActive) {
+                            searchBloc.add(
+                              SimpleSearch(
+                                term: value.trim(),
+                                userUid: authState.user.uid,
+                              ),
+                            );
+                          } else {
+                            searchBloc
+                              ..add(SetTerm(term: value.trim()))
+                              ..add(ApplyFilters(userUid: authState.user.uid));
+                          }
                         }
                       },
                       decoration: InputDecoration(

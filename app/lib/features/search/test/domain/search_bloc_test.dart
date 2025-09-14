@@ -5,12 +5,14 @@
 import 'package:bloc_test/bloc_test.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mal/data.dart';
 import 'package:mal/features/search/domain/bloc/filters.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/domain/bloc/sorting.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/entry.dart';
+import 'package:mal/utils.dart';
 // ignore: depend_on_referenced_packages
 import 'package:mocktail/mocktail.dart';
 
@@ -30,6 +32,7 @@ void main() {
     sorting();
     applyAdvancedFilters();
     clearAdvancedFilters();
+    simpleSearchTestCases();
   });
 }
 
@@ -87,13 +90,13 @@ void applyAdvancedFilters() {
       const mockResult = Result<Entry>(list: [], count: 0);
 
       when(
-        () => repo.advancedSearch(any()),
+        () => repo.advancedSearch(any(), any()),
       ).thenAnswer((_) async => mockResult);
       return searchBloc;
     },
-    act: (bloc) => bloc.add(ApplyFilters()),
+    act: (bloc) => bloc.add(ApplyFilters(userUid: uuid.v4())),
     verify: (bloc) {
-      verify(() => repo.advancedSearch(any())).called(1);
+      verify(() => repo.advancedSearch(any(), any())).called(1);
     },
 
     expect: () => [
@@ -314,4 +317,72 @@ advancedSearchByCategory() {
       ],
     );
   });
+}
+
+void simpleSearchTestCases() {
+  late SearchRepository repo;
+  late SearchBloc searchBloc;
+  setUp(() {
+    registerFallbackValue(FakeSearchState());
+    registerFallbackValue(FakeSearchEvent());
+    // prepare default values for Search bloc
+    repo = MockRepo();
+    searchBloc = SearchBloc(searchRepo: repo);
+  });
+  final entry = fakeEntry();
+  blocTest<SearchBloc, SearchState>(
+    'when send SimpleSearch Event. results should be set correctly',
+    build: () {
+      when(
+        () => repo.searchEntries(
+          term: any(named: 'term'),
+          offset: any(named: 'offset'),
+          userUid: any(named: 'userUid'),
+        ),
+      ).thenAnswer((_) async {
+        return Result(list: [entry], count: 1);
+      });
+      return searchBloc;
+    },
+    act: (bloc) => bloc.add(SimpleSearch(term: 'food', userUid: uuid.v4())),
+    verify: (bloc) {
+      verify(
+        () => repo.searchEntries(
+          term: any(named: 'term'),
+          offset: any(named: 'offset'),
+          userUid: any(named: 'userUid'),
+        ),
+      ).called(1);
+    },
+
+    expect: () => [
+      SearchState(status: SearchStatus.loading),
+      SearchState(
+        term: 'food',
+        status: SearchStatus.success,
+        result: Result(list: [entry], count: 1),
+      ),
+    ],
+  );
+
+  // prepare for test
+  //
+  // run normal bloc test with term and user
+  // and expect loading and success states
+  // -----
+  // prepare for test
+  // bloc test for faliure state
+}
+
+void loadMoreTestCases() {
+  // prepare for test
+  // run normal bloc test with offset and user
+  // and expect to load more
+  // ---
+  // prepare for test
+  // run normal bloc test with offset and user
+  // and expect to get empty result after offset more than total
+  // ---
+  // prepare for test
+  // run bloc test and expect faliure state
 }

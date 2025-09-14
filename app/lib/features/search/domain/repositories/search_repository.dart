@@ -6,6 +6,7 @@ abstract class SearchRepository {
   Future<Result<Entry>> searchEntries({
     required String term,
     required int offset,
+    required String userUid,
   });
-  Future<Result<Entry>> advancedSearch(SearchState queryData);
+  Future<Result<Entry>> advancedSearch(SearchState queryData, String userUid);
 }
