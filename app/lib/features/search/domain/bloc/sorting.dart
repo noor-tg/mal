@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:mal/enums.dart';
 
 enum SortingField { date, amount, category, description, type }
-
-enum SortingDirection { asc, desc }
 
 class Sorting extends Equatable {
   final SortingField field;

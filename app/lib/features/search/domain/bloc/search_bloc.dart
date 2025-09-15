@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mal/constants.dart';
+import 'package:mal/enums.dart';
 import 'package:mal/features/search/domain/bloc/filters.dart';
 import 'package:mal/features/search/domain/bloc/sorting.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';

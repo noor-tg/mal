@@ -1,4 +1,5 @@
 import 'package:mal/constants.dart';
+import 'package:mal/enums.dart';
 import 'package:mal/features/search/domain/bloc/filters.dart';
 import 'package:mal/features/search/domain/bloc/sorting.dart';
 import 'package:mal/shared/query_builder.dart';

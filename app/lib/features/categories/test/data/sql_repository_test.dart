@@ -1,8 +1,8 @@
 // ignore: depend_on_referenced_packages
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mal/data.dart';
+import 'package:mal/enums.dart';
 import 'package:mal/features/categories/data/repositories/sql_repository.dart';
-import 'package:mal/features/search/domain/bloc/sorting.dart';
 import 'package:mal/shared/data/models/category.dart';
 import 'package:mal/shared/db.dart';
 import 'package:mal/shared/query_builder.dart';

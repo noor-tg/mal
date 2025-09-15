@@ -6,6 +6,7 @@ import 'package:bloc_test/bloc_test.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mal/data.dart';
+import 'package:mal/enums.dart';
 import 'package:mal/features/search/domain/bloc/filters.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/domain/bloc/sorting.dart';

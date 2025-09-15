@@ -1,4 +1,4 @@
-import 'package:mal/features/search/domain/bloc/sorting.dart';
+import 'package:mal/enums.dart';
 import 'package:mal/shared/db.dart';
 
 class QueryBuilder {
