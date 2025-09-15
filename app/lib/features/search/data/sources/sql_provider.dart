@@ -18,8 +18,8 @@ class SqlProvider {
     return QueryBuilder('entries')
         .where('user_uid', '=', userUid)
         .where('type', '=', term)
-        .whereLike('category', search, 'OR')
-        .whereLike('description', search, 'OR')
+        .whereLike('category', search, QbLink.or)
+        .whereLike('description', search, QbLink.or)
         .sortBy('date', SortingDirection.desc)
         .limit(kSearchLimit)
         .offset(offset)
@@ -31,8 +31,8 @@ class SqlProvider {
     return QueryBuilder('entries')
         .where('user_uid', '=', userUid)
         .where('type', '=', term)
-        .whereLike('category', search, 'OR')
-        .whereLike('description', search, 'OR')
+        .whereLike('category', search, QbLink.or)
+        .whereLike('description', search, QbLink.or)
         .sortBy('date', SortingDirection.desc)
         .count();
   }

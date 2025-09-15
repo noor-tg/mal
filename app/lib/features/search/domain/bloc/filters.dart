@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:collection/collection.dart';
+import 'package:mal/utils/dates.dart';
 
 class Range<T> extends Equatable {
   final T min;
@@ -38,10 +39,7 @@ class Filters extends Equatable {
     return Filters(
       categories: categories,
       amountRange: amountRange,
-      dateRange: Range<DateTime>(
-        min: DateTime(now.year),
-        max: DateTime(now.year, now.month, now.day, 23, 59, 59, 999),
-      ),
+      dateRange: Range<DateTime>(min: DateTime(now.year), max: todayEnd(now)),
       type: type,
     );
   }
@@ -50,10 +48,7 @@ class Filters extends Equatable {
   factory Filters.empty() {
     final now = DateTime.now();
     return Filters(
-      dateRange: Range<DateTime>(
-        min: DateTime(now.year),
-        max: DateTime(now.year, now.month, now.day),
-      ),
+      dateRange: Range<DateTime>(min: DateTime(now.year), max: todayEnd(now)),
     );
   }
 

@@ -14,6 +14,7 @@ import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/utils.dart';
+import 'package:mal/utils/dates.dart';
 // ignore: depend_on_referenced_packages
 import 'package:mocktail/mocktail.dart';
 
@@ -210,10 +211,7 @@ void advancedSearchByDateRange() {
       expect(searchBloc.state.filters.dateRange, isA<Range<DateTime>>());
       expect(
         searchBloc.state.filters.dateRange,
-        Range(
-          min: DateTime(now.year),
-          max: DateTime(now.year, now.month, now.day),
-        ),
+        Range(min: DateTime(now.year), max: todayEnd(now)),
       );
     });
     blocTest<SearchBloc, SearchState>(
@@ -223,10 +221,7 @@ void advancedSearchByDateRange() {
       expect: () => [
         SearchState(
           filters: Filters(
-            dateRange: Range(
-              min: DateTime(now.year),
-              max: DateTime(now.year, now.month, now.day),
-            ),
+            dateRange: Range(min: DateTime(now.year), max: todayEnd(now)),
           ),
         ),
       ],

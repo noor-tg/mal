@@ -21,3 +21,6 @@ List<String> getMonthDays(int year, int month) {
 bool compareDate(String isoDate, String dayFormated) {
   return DateTime.parse(isoDate).day == int.parse(dayFormated);
 }
+
+DateTime todayEnd(DateTime now) =>
+    DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
