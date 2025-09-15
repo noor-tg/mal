@@ -22,7 +22,7 @@ class SearchState extends Equatable {
 
   // all of these are defaults . so if currnt values equal it . there is no active advanced search
   bool get simpleSearchActive =>
-      filters.categories.isNotEmpty &&
+      filters.categories.isEmpty &&
       filters.amountRange.min == 0 &&
       filters.amountRange.max == 0 &&
       // first day of year

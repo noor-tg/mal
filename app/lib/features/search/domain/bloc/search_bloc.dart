@@ -121,11 +121,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       }
       emit(
         state.copyWith(
-          term: state.term,
+          term: event.term,
           offset: offset,
           result: Result(
             list: [...state.result.list, ...result.list],
-            count: state.result.count,
+            count: result.count,
           ),
           status: SearchStatus.success,
         ),

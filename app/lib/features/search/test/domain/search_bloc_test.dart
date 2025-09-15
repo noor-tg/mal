@@ -35,6 +35,7 @@ void main() {
     applyAdvancedFilters();
     clearAdvancedFilters();
     simpleSearchTestCases();
+    loadMoreTestCases();
   });
 }
 
@@ -381,4 +382,80 @@ void loadMoreTestCases() {
   // ---
   // prepare for test
   // run bloc test and expect faliure state
+
+  late SearchRepository repo;
+  late SearchBloc searchBloc;
+  setUp(() {
+    registerFallbackValue(FakeSearchState());
+    registerFallbackValue(FakeSearchEvent());
+    // prepare default values for Search bloc
+    repo = MockRepo();
+    searchBloc = SearchBloc(searchRepo: repo);
+  });
+  final entry = fakeEntry();
+  blocTest<SearchBloc, SearchState>(
+    'when send LoadMore Event. results should be set correctly',
+    build: () {
+      when(
+        () => repo.searchEntries(
+          term: any(named: 'term'),
+          offset: any(named: 'offset'),
+          userUid: any(named: 'userUid'),
+        ),
+      ).thenAnswer((_) async {
+        return Result(list: [entry], count: 1);
+      });
+      return searchBloc;
+    },
+    act: (bloc) =>
+        bloc.add(LoadMore(term: 'food', offset: 10, userUid: uuid.v4())),
+    verify: (bloc) {
+      verify(
+        () => repo.searchEntries(
+          term: any(named: 'term'),
+          offset: any(named: 'offset'),
+          userUid: any(named: 'userUid'),
+        ),
+      ).called(1);
+    },
+
+    expect: () => [
+      SearchState(
+        term: 'food',
+        offset: 10,
+        status: SearchStatus.success,
+        result: Result(list: [entry], count: 1),
+      ),
+    ],
+  );
+  blocTest<SearchBloc, SearchState>(
+    'when send LoadMore Event with advanced filters enabled. results should be set correctly',
+    build: () {
+      when(() => repo.advancedSearch(any<SearchState>(), any())).thenAnswer((
+        _,
+      ) async {
+        return Result(list: [entry], count: 1);
+      });
+      return searchBloc;
+    },
+    act: (bloc) => bloc
+      ..add(ToggleCategory(category: entry.category))
+      ..add(LoadMore(term: 'food', offset: 10, userUid: uuid.v4())),
+    verify: (bloc) {
+      verify(() => repo.advancedSearch(any<SearchState>(), any())).called(1);
+    },
+
+    expect: () => [
+      SearchState(
+        filters: Filters.withCurrentYear(categories: [entry.category]),
+      ),
+      SearchState(
+        term: 'food',
+        offset: 10,
+        status: SearchStatus.success,
+        result: Result(list: [entry], count: 1),
+        filters: Filters.withCurrentYear(categories: [entry.category]),
+      ),
+    ],
+  );
 }
