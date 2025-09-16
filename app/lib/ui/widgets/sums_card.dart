@@ -11,6 +11,7 @@ class SumsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
     return Column(
       children: [
         Row(
@@ -21,7 +22,13 @@ class SumsCard extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 16),
-                    Text(l10n!.reportsBalance),
+                    Text(
+                      l10n!.reportsBalance,
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        color: Colors.blue[200],
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(width: 16),
                     Text(
                       moneyFormat(totals.balance),
@@ -47,12 +54,17 @@ class SumsCard extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      Text(l10n.expenses),
+                      Text(
+                        l10n.expenses,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: Colors.red[200],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       Text(
                         moneyFormat(totals.expenses),
-                        style: Theme.of(
-                          context,
-                        ).textTheme.headlineMedium?.copyWith(color: Colors.red),
+                        style: Theme.of(context).textTheme.headlineMedium
+                            ?.copyWith(color: Colors.red[700]),
                       ),
                     ],
                   ),
@@ -66,11 +78,17 @@ class SumsCard extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      Text(l10n.income),
+                      Text(
+                        l10n.income,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: Colors.green[400],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       Text(
                         moneyFormat(totals.incomes),
                         style: Theme.of(context).textTheme.headlineMedium
-                            ?.copyWith(color: Colors.lightGreen),
+                            ?.copyWith(color: Colors.green[700]),
                       ),
                     ],
                   ),
