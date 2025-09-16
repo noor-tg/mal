@@ -12,11 +12,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mal/shared/db.dart';
 
 void main() async {
-  await initializeDateFormatting();
   runApp(await initMalApp());
 }
 
 Future<Widget> initMalApp() async {
+  await initializeDateFormatting();
   await dotenv.load();
   // await Db.deleteOldDatabase();
   // await generateData();
