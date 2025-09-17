@@ -34,6 +34,7 @@ class LineContainer extends StatelessWidget {
           ),
           lineTouchData: LineTouchData(
             touchTooltipData: LineTouchTooltipData(
+              getTooltipColor: (group) => Colors.blueGrey[800]!,
               getTooltipItems: (List<LineBarSpot> touchedSpots) {
                 // get first touch spot
                 final first = touchedSpots.first;
@@ -49,27 +50,30 @@ class LineContainer extends StatelessWidget {
                   const TextStyle(),
                   children: [
                     TextSpan(
-                      text: date.toIso8601String().substring(0, 10),
-                      style: const TextStyle(color: Colors.lightBlue),
+                      text: toDate(date),
+                      style: TextStyle(
+                        color: Colors.lightBlue[200],
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     TextSpan(
-                      text: '\n${first.y.toInt().toString()}',
-                      style: TextStyle(color: first.bar.color),
+                      text: '\n${moneyFormat(first.y.toInt())}',
+                      style: TextStyle(
+                        color: Colors.green[200],
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 );
                 // iterate throw other spots
                 final spots = touchedSpots.map((LineBarSpot touchedSpot) {
                   final textStyle = TextStyle(
-                    color:
-                        touchedSpot.bar.gradient?.colors.first ??
-                        touchedSpot.bar.color ??
-                        Colors.blueGrey,
+                    color: Colors.red[200],
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                   );
                   return LineTooltipItem(
-                    touchedSpot.y.toInt().toString(),
+                    moneyFormat(touchedSpot.y.toInt()),
                     textStyle,
                   );
                 }).toList();
@@ -97,6 +101,7 @@ class LineContainer extends StatelessWidget {
             ),
             LineChartBarData(
               isCurved: true,
+              preventCurveOverShooting: true,
               color: Colors.redAccent,
               spots: [
                 for (final entry in second.reversed.toList().asMap().entries)

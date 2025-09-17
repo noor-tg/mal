@@ -2,14 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mal/features/calendar/ui/views/calendar_screen.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/categories/ui/views/categories_screen.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
-import 'package:mal/features/reports/domain/bloc/categories_report/categories_report_bloc.dart';
-import 'package:mal/features/reports/domain/bloc/daily_sums/daily_sums_bloc.dart';
-import 'package:mal/features/reports/domain/bloc/totals/totals_bloc.dart';
 import 'package:mal/features/reports/ui/views/reports_screen.dart';
 import 'package:mal/features/search/data/repositores/sql_respository.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
@@ -39,32 +35,14 @@ class _AppContainerState extends State<AppContainer> {
 
   @override
   void initState() {
-    final authState = context.read<AuthBloc>().state;
-    if (authState is AuthAuthenticated) {
-      context.read<CategoriesBloc>().add(
-        SeedCategoriedWhenEmpty(authState.user.uid),
-      );
-    }
-    initEvents();
     super.initState();
-  }
-
-  void initEvents() {
     final authState = context.read<AuthBloc>().state;
-    if (authState is AuthAuthenticated) {
-      context.read<CategoriesBloc>().add(AppInit(authState.user.uid));
-      context.read<EntriesBloc>().add(LoadTodayEntries(authState.user.uid));
-      context.read<TotalsBloc>().add(RequestTotalsData(authState.user.uid));
-      context.read<DailySumsBloc>().add(
-        RequestDailySumsData(authState.user.uid),
-      );
-      context.read<CategoriesReportBloc>().add(
-        RequestIncomesPieReportData(authState.user.uid),
-      );
-      context.read<CategoriesReportBloc>().add(
-        RequestExpensesPieReportData(authState.user.uid),
-      );
-    }
+    if (authState is! AuthAuthenticated) return;
+
+    context.read<CategoriesBloc>().add(
+      SeedCategoriedWhenEmpty(authState.user.uid),
+    );
+    context.read<CategoriesBloc>().add(AppInit(authState.user.uid));
   }
 
   @override
@@ -139,29 +117,25 @@ class _AppContainerState extends State<AppContainer> {
                   onPressed: () async {
                     try {
                       final authState = context.read<AuthBloc>().state;
-                      if (authState is AuthAuthenticated) {
-                        final userUid = authState.user.uid;
 
-                        await showModalBottomSheet(
-                          useSafeArea: true,
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (ctx) => MultiBlocProvider(
-                            providers: [
-                              BlocProvider.value(
-                                value: context.read<EntriesBloc>(),
-                              ),
-                              BlocProvider.value(
-                                value: context.read<CategoriesBloc>(),
-                              ),
-                            ],
-                            child: EntryForm(userUid: userUid),
-                          ),
-                        );
-                        initEvents();
-                      } else {
-                        context.go('/login');
-                      }
+                      if (authState is! AuthAuthenticated) return;
+
+                      await showModalBottomSheet(
+                        useSafeArea: true,
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (ctx) => MultiBlocProvider(
+                          providers: [
+                            BlocProvider.value(
+                              value: context.read<EntriesBloc>(),
+                            ),
+                            BlocProvider.value(
+                              value: context.read<CategoriesBloc>(),
+                            ),
+                          ],
+                          child: EntryForm(userUid: authState.user.uid),
+                        ),
+                      );
                     } catch (e, t) {
                       logger
                         ..e(e)

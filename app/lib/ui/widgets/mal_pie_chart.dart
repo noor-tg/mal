@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:mal/ui/widgets/indicator.dart';
 import 'package:mal/utils.dart';
 
 class MalPieChart extends StatefulWidget {
@@ -17,6 +16,9 @@ class _MalPieChartState extends State<MalPieChart> {
 
   @override
   Widget build(BuildContext context) {
+    final pieItemStyle = Theme.of(
+      context,
+    ).textTheme.titleMedium?.copyWith(color: Colors.grey[700]);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24.0),
       child: Column(
@@ -46,21 +48,24 @@ class _MalPieChartState extends State<MalPieChart> {
                 ),
                 borderData: FlBorderData(show: false),
                 sectionsSpace: 0,
-                centerSpaceRadius: 30,
+                centerSpaceRadius: 40,
                 sections: showingSections(),
               ),
             ),
           ),
-          box24,
+          box32,
+          box8,
           for (final item in widget.list)
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Indicator(
-                  color: item['color'],
-                  text: "${item['title']} - ${item['value']}",
-                  isSquare: true,
+                Container(color: item['color'], width: 16, height: 16),
+                const SizedBox(width: 16),
+                Expanded(child: Text(item['title'], style: pieItemStyle)),
+                Flexible(
+                  flex: 3,
+                  child: Text(moneyFormat(item['value']), style: pieItemStyle),
                 ),
-                const SizedBox(height: 4),
               ],
             ),
         ],
@@ -72,9 +77,9 @@ class _MalPieChartState extends State<MalPieChart> {
     final List<PieChartSectionData> pieData = [];
     for (final item in widget.list) {
       final isTouched = item['title'] == touchedTitle;
-      final fontSize = isTouched ? 25.0 : 12.0;
-      final radius = isTouched ? 60.0 : 40.0;
-      const shadows = [Shadow(blurRadius: 2)];
+      final fontSize = isTouched ? 25.0 : 18.0;
+      final radius = isTouched ? 60.0 : 60.0;
+      const shadows = [Shadow(blurRadius: 8)];
       pieData.add(
         PieChartSectionData(
           color: item['color'],

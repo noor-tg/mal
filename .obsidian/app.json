@@ -1,5 +1,5 @@
 {
-  "showLineNumber": false,
+  "showLineNumber": true,
   "showUnsupportedFiles": true,
   "attachmentFolderPath": "storage",
   "promptDelete": false,

@@ -1,14 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
-import 'package:mal/features/reports/domain/bloc/categories_report/categories_report_bloc.dart';
-import 'package:mal/features/reports/domain/bloc/daily_sums/daily_sums_bloc.dart';
-import 'package:mal/features/reports/domain/bloc/totals/totals_bloc.dart';
 import 'package:mal/features/reports/ui/widgets/daily_sums_chart.dart';
 import 'package:mal/features/reports/ui/widgets/pie_chart_loader.dart';
 import 'package:mal/features/reports/ui/widgets/sums_loader.dart';
-import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/shared/domain/side_effects.dart';
 import 'package:mal/ui/screens/mal_page_container.dart';
 import 'package:mal/ui/widgets/mal_title.dart';
 import 'package:mal/ui/widgets/entries_list.dart';
@@ -21,24 +20,26 @@ class ReportsScreen extends StatefulWidget {
 }
 
 class _ReportsScreenState extends State<ReportsScreen> {
-  var tabIndex = 0;
+  late StreamSubscription<EntriesState> stream;
   @override
   void initState() {
-    final authState = context.read<AuthBloc>().state;
-    if (authState is AuthAuthenticated) {
-      context.read<EntriesBloc>().add(LoadTodayEntries(authState.user.uid));
-      context.read<TotalsBloc>().add(RequestTotalsData(authState.user.uid));
-      context.read<DailySumsBloc>().add(
-        RequestDailySumsData(authState.user.uid),
-      );
-      context.read<CategoriesReportBloc>().add(
-        RequestIncomesPieReportData(authState.user.uid),
-      );
-      context.read<CategoriesReportBloc>().add(
-        RequestExpensesPieReportData(authState.user.uid),
-      );
-    }
+    reloadReportsData(context);
+
+    stream = context.read<EntriesBloc>().stream.listen((state) {
+      if (OperationType.values.contains(state.operationType)) {
+        if (!mounted) return;
+
+        reloadReportsData(context);
+      }
+    });
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    stream.cancel();
+    super.dispose();
   }
 
   @override

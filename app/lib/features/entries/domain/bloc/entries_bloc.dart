@@ -27,19 +27,15 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
       state.copyWith(status: EntriesStatus.loading, currentEntry: event.entry),
     );
     try {
-      final stored = await repo.store(state.currentEntry!);
-      final today = DateTime.now().toIso8601String().substring(0, 10);
-      final userUid = event.entry.userUid;
+      await repo.store(state.currentEntry!);
       emit(
         state.copyWith(
+          operationType: OperationType.create,
           status: EntriesStatus.success,
           // ignore: avoid_redundant_argument_values
           currentEntry: null,
         ),
       );
-      if (stored.date.contains(today)) {
-        add(LoadTodayEntries(userUid));
-      }
     } catch (err, trace) {
       logger
         ..e(err)
@@ -82,19 +78,15 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
   ) async {
     emit(state.copyWith(status: EntriesStatus.loading));
     try {
-      final stored = await repo.edit(event.entry);
-      final today = DateTime.now().toIso8601String().substring(0, 10);
-      final userUid = event.entry.userUid;
+      await repo.edit(event.entry);
       emit(
         state.copyWith(
+          operationType: OperationType.update,
           status: EntriesStatus.success,
           // ignore: avoid_redundant_argument_values
           currentEntry: null,
         ),
       );
-      if (stored.date.contains(today)) {
-        add(LoadTodayEntries(userUid));
-      }
     } catch (err, trace) {
       logger
         ..e(err)
@@ -115,18 +107,14 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
     emit(state.copyWith(status: EntriesStatus.loading));
     try {
       await repo.remove(event.entry.uid);
-      final today = DateTime.now().toIso8601String().substring(0, 10);
-      final userUid = event.entry.userUid;
       emit(
         state.copyWith(
+          operationType: OperationType.remove,
           status: EntriesStatus.success,
           // ignore: avoid_redundant_argument_values
           currentEntry: null,
         ),
       );
-      if (event.entry.date.contains(today)) {
-        add(LoadTodayEntries(userUid));
-      }
     } catch (err, trace) {
       logger
         ..e(err)
