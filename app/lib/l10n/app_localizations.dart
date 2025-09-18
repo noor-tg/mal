@@ -519,6 +519,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'يجب أن يكون الوصف بين 2 حرف إلي 255'**
   String get entryDescriptionErrorMessage;
+
+  /// No description provided for @edit.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل'**
+  String get edit;
 }
 
 class _AppLocalizationsDelegate

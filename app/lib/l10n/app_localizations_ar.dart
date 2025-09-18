@@ -222,4 +222,7 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get entryDescriptionErrorMessage =>
       'يجب أن يكون الوصف بين 2 حرف إلي 255';
+
+  @override
+  String get edit => 'تعديل';
 }

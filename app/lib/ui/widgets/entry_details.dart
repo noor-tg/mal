@@ -35,13 +35,17 @@ class _EntryDetailsState extends State<EntryDetails> {
         title: Text(entry.type),
         actions: [
           IconButton.filled(
+            tooltip: l10n.remove,
             style: IconButton.styleFrom(
               backgroundColor: Colors.red.withAlpha(30),
             ),
             color: Colors.red,
             icon: const Icon(Icons.delete),
             onPressed: () {
-              context.read<EntriesBloc>().add(RemoveEntry(entry));
+              final entriesBloc = context.read<EntriesBloc>();
+
+              // ignore: cascade_invocations
+              entriesBloc.add(RemoveEntry(entry));
               // ignore: use_build_context_synchronously
               ScaffoldMessenger.of(context).clearSnackBars();
               // ignore: use_build_context_synchronously
@@ -51,7 +55,7 @@ class _EntryDetailsState extends State<EntryDetails> {
                   duration: const Duration(seconds: 7),
                   action: SnackBarAction(
                     onPressed: () {
-                      context.read<EntriesBloc>().add(StoreEntry(entry));
+                      entriesBloc.add(StoreEntry(entry));
                     },
                     label: l10n.reset,
                   ),
@@ -64,6 +68,7 @@ class _EntryDetailsState extends State<EntryDetails> {
           ),
           box8,
           IconButton.filled(
+            tooltip: l10n.edit,
             style: IconButton.styleFrom(
               backgroundColor: Colors.blue.withAlpha(30),
             ),

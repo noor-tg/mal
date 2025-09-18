@@ -69,5 +69,6 @@
   "entry": "مدخل",
   "logout": "تسجيل خروج",
   "selectCorrectCategoryMessage": "يجب إختيار وسم",
-  "entryDescriptionErrorMessage": "يجب أن يكون الوصف بين 2 حرف إلي 255"
+  "entryDescriptionErrorMessage": "يجب أن يكون الوصف بين 2 حرف إلي 255",
+  "edit": "تعديل"
 }
