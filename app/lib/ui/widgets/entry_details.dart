@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/ui/widgets/entry_form.dart';
 import 'package:mal/ui/widgets/mal_title.dart';
 import 'package:mal/utils.dart';
+import 'package:mal/utils/dates.dart';
 
 class EntryDetails extends StatefulWidget {
   const EntryDetails({super.key, required this.entry});
@@ -27,11 +29,15 @@ class _EntryDetailsState extends State<EntryDetails> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(entry.type),
         actions: [
-          IconButton(
+          IconButton.filled(
+            style: IconButton.styleFrom(
+              backgroundColor: Colors.red.withAlpha(30),
+            ),
             color: Colors.red,
             icon: const Icon(Icons.delete),
             onPressed: () {
@@ -56,8 +62,12 @@ class _EntryDetailsState extends State<EntryDetails> {
               });
             },
           ),
-          IconButton(
-            color: Colors.blueAccent,
+          box8,
+          IconButton.filled(
+            style: IconButton.styleFrom(
+              backgroundColor: Colors.blue.withAlpha(30),
+            ),
+            color: Colors.blue,
             icon: const Icon(Icons.edit),
             onPressed: () async {
               final entriesBloc = context.read<EntriesBloc>();
@@ -92,6 +102,7 @@ class _EntryDetailsState extends State<EntryDetails> {
               }
             },
           ),
+          box16,
         ],
       ),
       body: Container(
@@ -123,10 +134,17 @@ class _EntryDetailsState extends State<EntryDetails> {
                         Card.filled(
                           color: Theme.of(
                             context,
-                          ).colorScheme.primary.withAlpha(50),
+                          ).colorScheme.primary.withAlpha(30),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('# ${entry.category}'),
+                            child: Text(
+                              '# ${entry.category}',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -153,7 +171,18 @@ class _EntryDetailsState extends State<EntryDetails> {
                 child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(24.0),
-                  child: Text(entry.date.substring(0, 10)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        DateFormat.yMMMMEEEEd(
+                          'ar',
+                        ).format(DateTime.parse(entry.date)),
+                      ),
+                      box16,
+                      Text(relativeTime(entry.date)),
+                    ],
+                  ),
                 ),
               ),
             ],

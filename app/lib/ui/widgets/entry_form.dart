@@ -79,6 +79,9 @@ class _EntryFormState extends State<EntryForm> {
         } else {
           _category = ''; // Reset if no categories available
         }
+        if (_category == '') {
+          _category = l10n.emptyCategoriesList;
+        }
 
         return Container(
           padding: const EdgeInsets.all(16),
@@ -92,8 +95,9 @@ class _EntryFormState extends State<EntryForm> {
                   Text(
                     widget.entry != null ? l10n.editEntry : l10n.newEntry,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 20,
+                    style: TextStyle(
+                      fontSize: 28,
+                      color: Colors.grey[600],
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -103,7 +107,7 @@ class _EntryFormState extends State<EntryForm> {
                   Text(
                     l10n.categoryType,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 18,
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
@@ -119,19 +123,19 @@ class _EntryFormState extends State<EntryForm> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
+                          Column(
                             children: [
-                              RadioMenuButton(
+                              RadioListTile(
                                 value: l10n.expense,
                                 groupValue: _type,
                                 onChanged: (value) => _setType(value, state),
-                                child: Text(l10n.expense),
+                                title: Text(l10n.expense),
                               ),
-                              RadioMenuButton(
+                              RadioListTile(
                                 value: l10n.income,
                                 groupValue: _type,
                                 onChanged: (value) => _setType(value, state),
-                                child: Text(l10n.income),
+                                title: Text(l10n.income),
                               ),
                             ],
                           ),
@@ -151,11 +155,21 @@ class _EntryFormState extends State<EntryForm> {
                     },
                   ),
                   const SizedBox(height: 24),
+                  Text(
+                    l10n.categoryTitle,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  box8,
                   TextFormField(
                     initialValue: _description,
                     validator: (value) {
-                      if (value == null || value.trim().length < 3) {
-                        return l10n.categoryTitleErrorMessage;
+                      if (value == null ||
+                          value.trim().length < 2 ||
+                          value.trim().length > 255) {
+                        return l10n.entryDescriptionErrorMessage;
                       }
                       return null;
                     },
@@ -167,18 +181,25 @@ class _EntryFormState extends State<EntryForm> {
                         _description = value;
                       });
                     },
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: l10n.categoryTitle,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
                     ),
                   ),
                   const SizedBox(height: 24),
+                  Text(
+                    l10n.amount,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  box8,
                   TextFormField(
                     initialValue: _amount?.toString(),
                     validator: (value) {
                       if (value == null ||
                           int.tryParse(value) == null ||
-                          int.parse(value) < 0) {
+                          int.parse(value) < 1) {
                         return l10n.amountErrorMessage;
                       }
                       return null;
@@ -190,23 +211,36 @@ class _EntryFormState extends State<EntryForm> {
                         _amount = int.parse(value);
                       });
                     },
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: l10n.amount,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
                     ),
                   ),
                   const SizedBox(height: 24),
+                  Text(
+                    l10n.category,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  box8,
                   if (categoriesByType.isNotEmpty)
                     Row(
                       children: [
                         Expanded(
                           child: DropdownButtonFormField(
-                            decoration: InputDecoration(
-                              labelText: l10n.category,
-                              border: const OutlineInputBorder(),
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
                             ),
                             isExpanded: true,
                             value: _category,
+                            validator: (value) {
+                              if (value == null ||
+                                  value == l10n.emptyCategoriesList) {
+                                return l10n.selectCorrectCategoryMessage;
+                              }
+                              return null;
+                            },
                             items: categoriesByType
                                 .map(
                                   (category) => DropdownMenuItem(
@@ -231,7 +265,17 @@ class _EntryFormState extends State<EntryForm> {
                         ),
                       ],
                     ),
+                  if (categoriesByType.isEmpty)
+                    EmptyCategoriesDropdown(category: _category, l10n: l10n),
                   const SizedBox(height: 24),
+                  Text(
+                    l10n.date,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  box8,
                   DateSelector(date: _date, selectDate: selectDate),
                   const SizedBox(height: 24),
                   ElevatedButton(
@@ -244,14 +288,32 @@ class _EntryFormState extends State<EntryForm> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(16),
-                      child: Text(l10n.save),
+                      child: Text(
+                        l10n.save,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                  TextButton(
+                  box24,
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primary.withAlpha(50),
+                        width: 2,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text(l10n.cancel),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Text(l10n.cancel),
+                    ),
                   ),
                 ],
               ),
@@ -313,5 +375,48 @@ class _EntryFormState extends State<EntryForm> {
       _category = '';
     });
     state.didChange(value);
+  }
+}
+
+class EmptyCategoriesDropdown extends StatelessWidget {
+  const EmptyCategoriesDropdown({
+    super.key,
+    required String category,
+    required this.l10n,
+  }) : _category = category;
+
+  final String _category;
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: DropdownButtonFormField(
+            validator: (value) {
+              if (value == null || value == l10n.emptyCategoriesList) {
+                return l10n.selectCorrectCategoryMessage;
+              }
+              return null;
+            },
+            decoration: const InputDecoration(border: OutlineInputBorder()),
+            isExpanded: true,
+            value: _category,
+            items: [
+              DropdownMenuItem(
+                enabled: false,
+                value: l10n.emptyCategoriesList,
+                child: Text(
+                  l10n.emptyCategoriesList,
+                  style: const TextStyle(color: Colors.black54),
+                ),
+              ),
+            ],
+            onChanged: null,
+          ),
+        ),
+      ],
+    );
   }
 }

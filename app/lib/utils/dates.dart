@@ -1,3 +1,5 @@
+import 'package:mal/utils.dart';
+
 int monthLength(int year, int month) {
   final beginningNextMonth = (month < 12)
       ? DateTime(year, month + 1)
@@ -24,3 +26,42 @@ bool compareDate(String isoDate, String dayFormated) {
 
 DateTime todayEnd(DateTime now) =>
     DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
+
+String relativeTime(String date) {
+  final dateTime = DateTime.parse(date);
+
+  final diffInDays = now().difference(dateTime).inDays;
+  final diffInHours = now().difference(dateTime).inHours;
+  final diffInMinutes = now().difference(dateTime).inMinutes;
+  final diffInSeconds = now().difference(dateTime).inSeconds;
+
+  if (now().difference(dateTime).inDays > 365) {
+    return 'منذ ${(diffInDays / 364).floor()} سنة';
+  }
+
+  if (diffInDays > 31) {
+    return 'منذ ${(diffInDays / 30).floor()} شهر';
+  }
+
+  if (diffInDays >= 7) {
+    return 'منذ ${(diffInDays / 7).floor()} أسبوع';
+  }
+
+  if (diffInDays < 7 && diffInDays > 1) {
+    return 'منذ $diffInDays أيام';
+  }
+
+  if (diffInHours <= 24 && diffInHours >= 1) {
+    return 'منذ $diffInHours ساعات';
+  }
+
+  if (diffInMinutes < 60 && diffInMinutes >= 1) {
+    return 'منذ $diffInMinutes دقائق';
+  }
+
+  if (diffInSeconds < 60) {
+    return 'منذ $diffInSeconds ثواني';
+  }
+
+  return dateTime.toIso8601String();
+}

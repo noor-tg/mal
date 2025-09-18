@@ -495,6 +495,30 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'المستخدم'**
   String get profileLabel;
+
+  /// No description provided for @entry.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدخل'**
+  String get entry;
+
+  /// No description provided for @logout.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل خروج'**
+  String get logout;
+
+  /// No description provided for @selectCorrectCategoryMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'يجب إختيار وسم'**
+  String get selectCorrectCategoryMessage;
+
+  /// No description provided for @entryDescriptionErrorMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'يجب أن يكون الوصف بين 2 حرف إلي 255'**
+  String get entryDescriptionErrorMessage;
 }
 
 class _AppLocalizationsDelegate

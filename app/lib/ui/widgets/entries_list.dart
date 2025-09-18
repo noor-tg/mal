@@ -35,7 +35,9 @@ class EntriesList extends StatelessWidget {
             );
           },
           title: Text(
-            entries[index].description.substring(0, 25),
+            entries[index].description.length > 25
+                ? entries[index].description.substring(0, 26)
+                : entries[index].description,
             style: theme.textTheme.titleMedium?.copyWith(
               color: Colors.grey.shade600,
             ),

@@ -79,7 +79,10 @@ class _AppContainerState extends State<AppContainer> {
           value: context.read<CategoriesBloc>(),
           child: CategoriesScreen(key: key),
         ),
-        actions: [NewCategoryButton(theme: theme)],
+        actions: [
+          NewCategoryButton(theme: theme),
+          box16,
+        ],
       ),
 
       MalPage(
@@ -96,7 +99,7 @@ class _AppContainerState extends State<AppContainer> {
             ? authState.user.name.substring(0, 4)
             : l10n.profileLabel,
         widget: (key) => ProfileScreen(key: key),
-        actions: [const LogoutButton()],
+        actions: [const LogoutButton(), box16],
       ),
     ];
 
@@ -112,8 +115,9 @@ class _AppContainerState extends State<AppContainer> {
         actions: pages[tabIndex].actions.isNotEmpty
             ? pages[tabIndex].actions
             : [
-                IconButton(
-                  icon: Icon(Icons.create, color: theme.onPrimary),
+                IconButton.filledTonal(
+                  tooltip: l10n.newEntry,
+                  icon: Icon(Icons.create, color: theme.primary),
                   onPressed: () async {
                     try {
                       final authState = context.read<AuthBloc>().state;
@@ -124,6 +128,7 @@ class _AppContainerState extends State<AppContainer> {
                         useSafeArea: true,
                         isScrollControlled: true,
                         context: context,
+
                         builder: (ctx) => MultiBlocProvider(
                           providers: [
                             BlocProvider.value(
@@ -133,7 +138,10 @@ class _AppContainerState extends State<AppContainer> {
                               value: context.read<CategoriesBloc>(),
                             ),
                           ],
-                          child: EntryForm(userUid: authState.user.uid),
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.90,
+                            child: EntryForm(userUid: authState.user.uid),
+                          ),
                         ),
                       );
                     } catch (e, t) {
@@ -143,6 +151,7 @@ class _AppContainerState extends State<AppContainer> {
                     }
                   },
                 ),
+                box16,
               ],
       ),
       body: PageView.builder(

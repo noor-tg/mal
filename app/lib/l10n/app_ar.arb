@@ -65,5 +65,9 @@
   "selectSource": "إختر مصدر الصورة",
   "selectCamera": "الكاميرا",
   "selectGallery": "معرض الصور",
-  "profileLabel": "المستخدم"
+  "profileLabel": "المستخدم",
+  "entry": "مدخل",
+  "logout": "تسجيل خروج",
+  "selectCorrectCategoryMessage": "يجب إختيار وسم",
+  "entryDescriptionErrorMessage": "يجب أن يكون الوصف بين 2 حرف إلي 255"
 }

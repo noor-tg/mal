@@ -209,4 +209,17 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileLabel => 'المستخدم';
+
+  @override
+  String get entry => 'مدخل';
+
+  @override
+  String get logout => 'تسجيل خروج';
+
+  @override
+  String get selectCorrectCategoryMessage => 'يجب إختيار وسم';
+
+  @override
+  String get entryDescriptionErrorMessage =>
+      'يجب أن يكون الوصف بين 2 حرف إلي 255';
 }

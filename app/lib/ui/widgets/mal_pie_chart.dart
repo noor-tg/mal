@@ -56,17 +56,30 @@ class _MalPieChartState extends State<MalPieChart> {
           box32,
           box8,
           for (final item in widget.list)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(color: item['color'], width: 16, height: 16),
-                const SizedBox(width: 16),
-                Expanded(child: Text(item['title'], style: pieItemStyle)),
-                Flexible(
-                  flex: 3,
-                  child: Text(moneyFormat(item['value']), style: pieItemStyle),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(color: item['color'], width: 16, height: 16),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Text(
+                      item['title'].length > 13
+                          ? item['title'].substring(0, 14)
+                          : item['title'],
+                      style: pieItemStyle,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Text(
+                      moneyFormat(item['value']),
+                      style: pieItemStyle,
+                    ),
+                  ),
+                ],
+              ),
             ),
         ],
       ),
