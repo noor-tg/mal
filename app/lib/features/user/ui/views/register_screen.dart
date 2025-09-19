@@ -6,6 +6,7 @@ import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/ui/widgets/pin_input.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

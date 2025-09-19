@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mal/features/entries/domain/repositories/entries_repository.dart';
 import 'package:mal/shared/data/models/entry.dart';
-import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 
 part 'entries_event.dart';
 part 'entries_state.dart';

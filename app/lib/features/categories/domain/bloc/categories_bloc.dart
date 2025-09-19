@@ -9,7 +9,7 @@ import 'package:mal/features/categories/domain/repositories/categories_repositor
 import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/category.dart';
 import 'package:mal/shared/db.dart';
-import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 
 part 'categories_event.dart';
 part 'categories_state.dart';
@@ -28,9 +28,18 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     CategoriesEvent event,
     Emitter<CategoriesState> emit,
   ) async {
-    final result = await repo.find(userUid: event.userUid);
+    try {
+      final result = await repo.find(userUid: event.userUid);
 
-    emit(state.copyWith(categories: result));
+      logger.json(result.list.map((c) => c.toMap()).toList());
+
+      emit(state.copyWith(categories: result));
+    } catch (e, t) {
+      emit(state.copyWith(status: BlocStatus.failure));
+      logger
+        ..e(e)
+        ..t(t);
+    }
   }
 
   FutureOr<void> _onSeedCategoriesWhenEmpty(
@@ -78,7 +87,9 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 
       emit(state.copyWith(status: BlocStatus.success));
 
+      logger.i('app init before');
       add(AppInit(event.userUid));
+      logger.i('app init after');
     } catch (err, trace) {
       logger
         ..e(err)

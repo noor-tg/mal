@@ -23,7 +23,10 @@ class NewCategoryButton extends StatelessWidget {
             final categoriesBloc = context.read<CategoriesBloc>();
             return BlocProvider.value(
               value: categoriesBloc,
-              child: const NewCategory(),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.90,
+                child: const NewCategory(),
+              ),
             );
           },
         );

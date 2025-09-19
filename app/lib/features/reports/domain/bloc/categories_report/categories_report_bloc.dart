@@ -6,7 +6,7 @@ import 'package:mal/constants.dart';
 import 'package:mal/enums.dart';
 import 'package:mal/features/reports/domain/entities/category_report.dart';
 import 'package:mal/features/reports/domain/repositories/reports_repository.dart';
-import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 
 part 'categories_report_event.dart';
 part 'categories_report_state.dart';

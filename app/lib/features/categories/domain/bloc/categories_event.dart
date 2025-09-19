@@ -24,5 +24,5 @@ class StoreCategory extends CategoriesEvent {
 
 class RemoveCategory extends CategoriesEvent {
   final String uid;
-  const RemoveCategory(this.uid) : super('');
+  const RemoveCategory(this.uid, super.userUid);
 }

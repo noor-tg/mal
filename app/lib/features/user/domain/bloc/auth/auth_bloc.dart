@@ -7,6 +7,7 @@ import 'package:mal/features/user/data/services/biometric_service.dart';
 import 'package:mal/features/user/domain/repositories/user_repository.dart';
 import 'package:mal/shared/data/models/user.dart';
 import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as sysprovider;
 

@@ -5,7 +5,7 @@ import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/shared/db.dart';
 import 'package:mal/shared/query_builder.dart';
 import 'package:mal/shared/where.dart';
-import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 
 class SqlRepository extends EntriesRepository {
   @override

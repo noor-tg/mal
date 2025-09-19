@@ -3,6 +3,7 @@ import 'package:mal/features/user/domain/repositories/user_repository.dart';
 import 'package:mal/shared/data/models/user.dart';
 import 'package:mal/shared/query_builder.dart';
 import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 
 class SqlRepository extends UserRepository {
   final sqlProvider = SqlProvider();

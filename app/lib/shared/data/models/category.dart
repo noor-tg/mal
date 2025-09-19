@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:mal/utils.dart';
 
-class Category {
+class Category extends Equatable {
   Category({
     required this.title,
     required this.type,
@@ -8,7 +9,7 @@ class Category {
     String? uid,
   }) : uid = uid ?? uuid.v4();
 
-  String uid;
+  final String uid;
   final String title;
   final String userUid;
   final String type;
@@ -25,4 +26,7 @@ class Category {
       userUid: map['user_uid'] as String,
     );
   }
+
+  @override
+  List<Object?> get props => [uid, title, type, userUid];
 }

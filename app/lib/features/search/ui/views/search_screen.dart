@@ -7,6 +7,7 @@ import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mal/utils/logger.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

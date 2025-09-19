@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 // ignore: depend_on_referenced_packages
 import 'package:local_auth_android/local_auth_android.dart';
-import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BiometricService {

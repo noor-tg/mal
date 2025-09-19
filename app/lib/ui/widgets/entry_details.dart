@@ -61,9 +61,7 @@ class _EntryDetailsState extends State<EntryDetails> {
                   ),
                 ),
               );
-              setState(() {
-                Navigator.of(context).pop();
-              });
+              Navigator.of(context).pop();
             },
           ),
           box8,
@@ -82,7 +80,10 @@ class _EntryDetailsState extends State<EntryDetails> {
                 context: context,
                 builder: (ctx) => BlocProvider.value(
                   value: entriesBloc,
-                  child: EntryForm(entry: entry),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.90,
+                    child: EntryForm(entry: entry),
+                  ),
                 ),
               );
               if (result == true) {

@@ -6,8 +6,13 @@ import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/category.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/ui/widgets/date_selector.dart';
+import 'package:mal/ui/widgets/dismess_modal_button.dart';
+import 'package:mal/ui/widgets/empty_categories_dropdown.dart';
+import 'package:mal/ui/widgets/submit_button.dart';
+import 'package:mal/ui/widgets/type_field.dart';
 import 'package:mal/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mal/utils/logger.dart';
 
 @immutable
 class EntryForm extends StatefulWidget {
@@ -104,55 +109,11 @@ class _EntryFormState extends State<EntryForm> {
                   const SizedBox(height: 8),
                   const Divider(),
                   const SizedBox(height: 8),
-                  Text(
-                    l10n.categoryType,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  FormField<String>(
-                    initialValue: _type,
-                    validator: (value) {
-                      if (value == null || value == '') {
-                        return l10n.categoryTypeErrorMessage;
-                      }
-                      return null;
+                  TypeField(
+                    onPressed: (value) {
+                      _setType(value, state);
                     },
-                    builder: (state) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            children: [
-                              RadioListTile(
-                                value: l10n.expense,
-                                groupValue: _type,
-                                onChanged: (value) => _setType(value, state),
-                                title: Text(l10n.expense),
-                              ),
-                              RadioListTile(
-                                value: l10n.income,
-                                groupValue: _type,
-                                onChanged: (value) => _setType(value, state),
-                                title: Text(l10n.income),
-                              ),
-                            ],
-                          ),
-                          if (state.hasError)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                state.errorText!,
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.error,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                        ],
-                      );
-                    },
+                    type: _type,
                   ),
                   const SizedBox(height: 24),
                   Text(
@@ -278,43 +239,13 @@ class _EntryFormState extends State<EntryForm> {
                   box8,
                   DateSelector(date: _date, selectDate: selectDate),
                   const SizedBox(height: 24),
-                  ElevatedButton(
+                  SubmitButton(
                     onPressed: () {
                       _submit(l10n);
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      foregroundColor: Colors.white,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text(
-                        l10n.save,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
                   ),
                   box24,
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.primary.withAlpha(50),
-                        width: 2,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text(l10n.cancel),
-                    ),
-                  ),
+                  const DismessModalButton(),
                 ],
               ),
             ),
@@ -375,48 +306,5 @@ class _EntryFormState extends State<EntryForm> {
       _category = '';
     });
     state.didChange(value);
-  }
-}
-
-class EmptyCategoriesDropdown extends StatelessWidget {
-  const EmptyCategoriesDropdown({
-    super.key,
-    required String category,
-    required this.l10n,
-  }) : _category = category;
-
-  final String _category;
-  final AppLocalizations l10n;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: DropdownButtonFormField(
-            validator: (value) {
-              if (value == null || value == l10n.emptyCategoriesList) {
-                return l10n.selectCorrectCategoryMessage;
-              }
-              return null;
-            },
-            decoration: const InputDecoration(border: OutlineInputBorder()),
-            isExpanded: true,
-            value: _category,
-            items: [
-              DropdownMenuItem(
-                enabled: false,
-                value: l10n.emptyCategoriesList,
-                child: Text(
-                  l10n.emptyCategoriesList,
-                  style: const TextStyle(color: Colors.black54),
-                ),
-              ),
-            ],
-            onChanged: null,
-          ),
-        ),
-      ],
-    );
   }
 }

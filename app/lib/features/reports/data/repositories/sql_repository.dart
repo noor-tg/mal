@@ -8,6 +8,7 @@ import 'package:mal/features/reports/domain/entities/sums.dart';
 import 'package:mal/features/reports/domain/entities/totals.dart';
 import 'package:mal/features/reports/domain/repositories/reports_repository.dart';
 import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 
 class SqlRepository extends ReportsRepository {
   final sqlProvider = SqlProvider();

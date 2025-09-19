@@ -8,6 +8,7 @@ import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/categories/domain/repositories/categories_repository.dart';
 import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/category.dart';
+import 'package:mal/utils.dart';
 // ignore: depend_on_referenced_packages
 import 'package:mocktail/mocktail.dart';
 
@@ -43,7 +44,7 @@ void removeCategoryTest() {
         return const Result<Category>(list: [], count: 0);
       });
     },
-    act: (bloc) => bloc.add(RemoveCategory(category.uid)),
+    act: (bloc) => bloc.add(RemoveCategory(category.uid, uuid.v4())),
     expect: () => [
       const CategoriesState(status: BlocStatus.loading),
       const CategoriesState(

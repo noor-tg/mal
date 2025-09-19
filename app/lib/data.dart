@@ -9,6 +9,7 @@ import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/shared/data/models/user.dart';
 import 'package:mal/shared/db.dart';
 import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 // ignore: depend_on_referenced_packages
 import 'package:sqflite_common/sqlite_api.dart';
 

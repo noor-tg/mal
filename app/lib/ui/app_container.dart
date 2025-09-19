@@ -19,6 +19,7 @@ import 'package:mal/ui/logout_button.dart';
 import 'package:mal/ui/new_category_button.dart';
 import 'package:mal/ui/widgets/entry_form.dart';
 import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 
 class AppContainer extends StatefulWidget {
   const AppContainer({super.key});

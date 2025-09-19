@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:mal/shared/data/models/user.dart';
 import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 
 abstract class UserRepository {
   Future<bool> register({required String name, required String pin});

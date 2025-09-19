@@ -9,6 +9,7 @@ import 'package:mal/features/user/ui/views/update_pin_modal.dart';
 import 'package:mal/features/user/ui/widgets/user_image_picker.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

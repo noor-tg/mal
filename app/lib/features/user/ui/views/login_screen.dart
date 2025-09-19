@@ -9,6 +9,7 @@ import 'package:mal/features/user/ui/widgets/pin_input.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/user.dart';
 import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

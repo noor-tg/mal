@@ -9,7 +9,7 @@ import 'package:mal/features/search/domain/bloc/sorting.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/entry.dart';
-import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 
 part 'search_event.dart';
 part 'search_state.dart';

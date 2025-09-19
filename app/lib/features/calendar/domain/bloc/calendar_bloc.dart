@@ -6,7 +6,7 @@ import 'package:mal/enums.dart';
 import 'package:mal/features/calendar/domain/repositories/calendar_repository.dart';
 import 'package:mal/features/calendar/domain/repositories/day_sums.dart';
 import 'package:mal/shared/data/models/entry.dart';
-import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 
 part 'calendar_event.dart';
 part 'calendar_state.dart';

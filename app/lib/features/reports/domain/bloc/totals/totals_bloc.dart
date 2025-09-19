@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:mal/enums.dart';
 import 'package:mal/features/reports/domain/entities/totals.dart';
 import 'package:mal/features/reports/domain/repositories/reports_repository.dart';
-import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 
 part 'totals_event.dart';
 part 'totals_state.dart';
