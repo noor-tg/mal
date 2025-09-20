@@ -18,7 +18,7 @@ class SumsCard extends StatelessWidget {
           children: [
             Expanded(
               child: Card.filled(
-                color: Colors.lightBlue.withAlpha(20),
+                color: Colors.white,
                 child: Column(
                   children: [
                     const SizedBox(height: 16),
@@ -49,7 +49,7 @@ class SumsCard extends StatelessWidget {
           children: [
             Expanded(
               child: Card.filled(
-                color: Colors.red.withAlpha(20),
+                color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
@@ -73,7 +73,7 @@ class SumsCard extends StatelessWidget {
             ),
             Expanded(
               child: Card.filled(
-                color: Colors.lightGreen.withAlpha(20),
+                color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
