@@ -25,18 +25,21 @@ class BottomButton extends StatelessWidget {
       ),
 
       onPressed: onPressed,
-      child: Column(
-        children: [
-          if (pages[index].icon != null && pages[index].icon is Icon)
-            pages[index].icon!,
-          if (pages[index].icon == null && pages[index].avatar is ImageProvider)
-            CircleAvatar(
-              radius: 12,
-              backgroundImage: pages[index].avatar,
-              backgroundColor: Colors.white,
+      child: SizedBox.square(
+        child: Column(
+          children: [
+            if (pages[index].icon != null && pages[index].icon is Icon)
+              pages[index].icon!,
+            Text(
+              pages[index].title,
+              style: TextStyle(
+                fontWeight: activeTab == index
+                    ? FontWeight.w900
+                    : FontWeight.w300,
+              ),
             ),
-          Text(pages[index].title),
-        ],
+          ],
+        ),
       ),
     );
   }

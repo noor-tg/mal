@@ -14,11 +14,7 @@ class NewCategoryButton extends StatelessWidget implements MalPageAction {
   Widget build(BuildContext context) {
     return IconButton.filled(
       tooltip: AppLocalizations.of(context)?.newCategory,
-      icon: const Icon(
-        Icons.dashboard_customize,
-        color: Colors.white,
-        size: 40,
-      ),
+      icon: const Icon(Icons.edit_document, color: Colors.white, size: 40),
       onPressed: () async {
         await onPressed(context);
       },

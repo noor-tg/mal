@@ -54,12 +54,12 @@ class _AppContainerState extends State<AppContainer> {
 
     pages = [
       MalPage(
-        icon: const Icon(Icons.pie_chart),
+        icon: const Icon(Icons.pie_chart, size: 24),
         title: l10n.reportsTitle,
         widget: (key) => ReportsScreen(key: key),
       ),
       MalPage(
-        icon: const Icon(Icons.dashboard),
+        icon: const Icon(Icons.file_copy, size: 24),
         title: l10n.tabCategoriesLabel,
         widget: (key) => BlocProvider.value(
           value: context.read<CategoriesBloc>(),
@@ -68,7 +68,7 @@ class _AppContainerState extends State<AppContainer> {
         action: NewCategoryButton(theme: theme),
       ),
       MalPage(
-        icon: const Icon(Icons.search),
+        icon: const Icon(Icons.search, size: 24),
         title: l10n.tabSearchLabel,
         widget: (key) => RepositoryProvider<SearchRepository>(
           key: key,
@@ -81,7 +81,7 @@ class _AppContainerState extends State<AppContainer> {
         ),
       ),
       MalPage(
-        icon: const Icon(Icons.calendar_month),
+        icon: const Icon(Icons.calendar_month, size: 24),
         title: l10n.tabCalendarLabel,
         widget: (key) => CalendarScreen(key: key),
       ),
@@ -141,6 +141,7 @@ class _AppContainerState extends State<AppContainer> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
+        height: 88,
         color: Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
