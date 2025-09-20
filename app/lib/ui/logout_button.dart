@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/mal_page.dart';
 
-class LogoutButton extends StatelessWidget {
+class LogoutButton extends StatelessWidget implements MalPageAction {
   const LogoutButton({super.key});
 
   @override
@@ -15,17 +16,19 @@ class LogoutButton extends StatelessWidget {
       },
       child: Transform.flip(
         flipX: true,
-        child: IconButton.filledTonal(
+        child: IconButton.filled(
           tooltip: AppLocalizations.of(context)?.logout,
-          icon: Icon(
-            Icons.logout,
-            color: Theme.of(context).colorScheme.primary,
-          ),
+          icon: const Icon(Icons.logout, color: Colors.white, size: 40),
           onPressed: () {
-            context.read<AuthBloc>().add(const AuthLogoutRequested());
+            onPressed(context);
           },
         ),
       ),
     );
+  }
+
+  @override
+  void onPressed(BuildContext context) {
+    context.read<AuthBloc>().add(const AuthLogoutRequested());
   }
 }

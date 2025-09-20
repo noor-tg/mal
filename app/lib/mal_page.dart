@@ -5,15 +5,19 @@ class MalPage {
   MalPage({
     required this.widget,
     required this.title,
-    required this.actions,
+    this.action,
     this.icon,
     FileImage? avatar,
   }) : avatar = avatar ?? const AssetImage(kAvatarPath);
 
   final String title;
-  final Widget Function(Key? key) widget;
-  final List<Widget> actions;
+  final Widget? Function(Key? key) widget;
+  final MalPageAction? action;
 
   Icon? icon;
   ImageProvider? avatar;
+}
+
+abstract class MalPageAction {
+  void onPressed(BuildContext context);
 }

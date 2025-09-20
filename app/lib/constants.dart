@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 const kSearchLimit = 10;
 const kAvatarPath = 'assets/avatar.png';
+final kBgColor = Colors.grey.withAlpha(50);
 
 const incomeType = 'دخل';
 const expenseType = 'منصرف';

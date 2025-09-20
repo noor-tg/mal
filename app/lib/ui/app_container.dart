@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/features/calendar/ui/views/calendar_screen.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/categories/ui/views/categories_screen.dart';
-import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/features/reports/ui/views/reports_screen.dart';
 import 'package:mal/features/search/data/repositores/sql_respository.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
@@ -15,11 +14,12 @@ import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/ui/views/profile_screen.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/mal_page.dart';
+import 'package:mal/ui/add_entry_button.dart';
+import 'package:mal/ui/bottom_button.dart';
+import 'package:mal/ui/half_border_fab.dart';
 import 'package:mal/ui/logout_button.dart';
 import 'package:mal/ui/new_category_button.dart';
-import 'package:mal/ui/widgets/entry_form.dart';
 import 'package:mal/utils.dart';
-import 'package:mal/utils/logger.dart';
 
 class AppContainer extends StatefulWidget {
   const AppContainer({super.key});
@@ -57,7 +57,15 @@ class _AppContainerState extends State<AppContainer> {
         icon: const Icon(Icons.pie_chart),
         title: l10n.reportsTitle,
         widget: (key) => ReportsScreen(key: key),
-        actions: [],
+      ),
+      MalPage(
+        icon: const Icon(Icons.dashboard),
+        title: l10n.tabCategoriesLabel,
+        widget: (key) => BlocProvider.value(
+          value: context.read<CategoriesBloc>(),
+          child: CategoriesScreen(key: key),
+        ),
+        action: NewCategoryButton(theme: theme),
       ),
       MalPage(
         icon: const Icon(Icons.search),
@@ -71,36 +79,21 @@ class _AppContainerState extends State<AppContainer> {
             child: const SearchScreen(),
           ),
         ),
-        actions: [],
       ),
-      MalPage(
-        icon: const Icon(Icons.dashboard),
-        title: l10n.tabCategoriesLabel,
-        widget: (key) => BlocProvider.value(
-          value: context.read<CategoriesBloc>(),
-          child: CategoriesScreen(key: key),
-        ),
-        actions: [
-          NewCategoryButton(theme: theme),
-          box16,
-        ],
-      ),
-
       MalPage(
         icon: const Icon(Icons.calendar_month),
         title: l10n.tabCalendarLabel,
         widget: (key) => CalendarScreen(key: key),
-        actions: [],
       ),
       MalPage(
         avatar: authState is AuthAuthenticated && authState.user.avatar != null
             ? FileImage(File(authState.user.avatar!))
             : null,
         title: authState is AuthAuthenticated
-            ? authState.user.name.substring(0, 4)
+            ? authState.user.name
             : l10n.profileLabel,
         widget: (key) => ProfileScreen(key: key),
-        actions: [const LogoutButton(), box16],
+        action: const LogoutButton(),
       ),
     ];
 
@@ -113,47 +106,20 @@ class _AppContainerState extends State<AppContainer> {
         ),
         backgroundColor: theme.primary,
         iconTheme: IconThemeData(color: theme.onPrimary),
-        actions: pages[tabIndex].actions.isNotEmpty
-            ? pages[tabIndex].actions
-            : [
-                IconButton.filledTonal(
-                  tooltip: l10n.newEntry,
-                  icon: Icon(Icons.create, color: theme.primary),
-                  onPressed: () async {
-                    try {
-                      final authState = context.read<AuthBloc>().state;
-
-                      if (authState is! AuthAuthenticated) return;
-
-                      await showModalBottomSheet(
-                        useSafeArea: true,
-                        isScrollControlled: true,
-                        context: context,
-
-                        builder: (ctx) => MultiBlocProvider(
-                          providers: [
-                            BlocProvider.value(
-                              value: context.read<EntriesBloc>(),
-                            ),
-                            BlocProvider.value(
-                              value: context.read<CategoriesBloc>(),
-                            ),
-                          ],
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.90,
-                            child: EntryForm(userUid: authState.user.uid),
-                          ),
-                        ),
-                      );
-                    } catch (e, t) {
-                      logger
-                        ..e(e)
-                        ..t(t);
-                    }
-                  },
-                ),
-                box16,
-              ],
+        actions: [
+          if (tabIndex != 4)
+            IconButton.filled(
+              icon: CircleAvatar(
+                radius: 18,
+                backgroundImage: pages[4].avatar,
+                backgroundColor: Colors.white,
+              ),
+              onPressed: () {
+                onTabPress(4);
+              },
+            ),
+          box16,
+        ],
       ),
       body: PageView.builder(
         itemCount: pages.length,
@@ -167,35 +133,65 @@ class _AppContainerState extends State<AppContainer> {
           );
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 40,
-        type: BottomNavigationBarType.fixed,
-        currentIndex: tabIndex,
-        onTap: (index) {
-          setState(() {
-            _pageController.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-            );
-            tabIndex = index;
-          });
+      floatingActionButton: HalfBorderFab(
+        child: pages[tabIndex].action as Widget? ?? AddEntryButton(l10n: l10n),
+        onPressed: () {
+          pages[tabIndex].action!.onPressed(context);
         },
-        items: pages
-            .map(
-              (page) => BottomNavigationBarItem(
-                icon:
-                    page.icon ??
-                    CircleAvatar(
-                      radius: 12,
-                      backgroundImage: page.avatar,
-                      backgroundColor: Colors.white,
-                    ),
-                label: page.title,
-              ),
-            )
-            .toList(),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            BottomButton(
+              activeTab: tabIndex,
+              pages: pages,
+              index: 0,
+              onPressed: () {
+                onTabPress(0);
+              },
+            ),
+            BottomButton(
+              activeTab: tabIndex,
+              pages: pages,
+              index: 1,
+              onPressed: () {
+                onTabPress(1);
+              },
+            ),
+            const SizedBox(width: 48),
+            BottomButton(
+              activeTab: tabIndex,
+              pages: pages,
+              index: 2,
+              onPressed: () {
+                onTabPress(2);
+              },
+            ),
+            BottomButton(
+              activeTab: tabIndex,
+              pages: pages,
+              index: 3,
+              onPressed: () {
+                onTabPress(3);
+              },
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  void onTabPress(int index) {
+    setState(() {
+      _pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+      tabIndex = index;
+    });
   }
 }
