@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mal/features/calendar/domain/bloc/calendar_bloc.dart';
 import 'package:mal/features/calendar/domain/repositories/day_sums.dart';
@@ -5,6 +7,7 @@ import 'package:mal/features/calendar/ui/views/calendar_cell.dart';
 import 'package:mal/features/calendar/ui/views/calendar_container.dart';
 import 'package:mal/features/calendar/ui/views/calendar_day_bar.dart';
 import 'package:mal/features/calendar/ui/views/calendar_day_section.dart';
+import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:table_calendar/table_calendar.dart' as calendar;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,11 +23,28 @@ class _CalendarScreenState extends State<CalendarScreen> {
   calendar.CalendarFormat _calendarFormat = calendar.CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+  late StreamSubscription<EntriesState> stream;
 
   @override
   void initState() {
     super.initState();
     _selectedDay = DateTime.now();
+    fetchData();
+    stream = context.read<EntriesBloc>().stream.listen((state) {
+      if (OperationType.values.contains(state.operationType)) {
+        if (!mounted) return;
+        fetchData();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    stream.cancel();
+    super.dispose();
+  }
+
+  void fetchData() {
     final authState = context.read<AuthBloc>().state;
     if (authState is! AuthAuthenticated) return;
     context.read<CalendarBloc>().add(
