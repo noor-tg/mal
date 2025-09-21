@@ -87,7 +87,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
-  Widget calendarCellBuilder(DateTime date, CalendarState state) {
+  Widget calendarCellBuilder(
+    DateTime date,
+    CalendarState state,
+    Color borderColor,
+  ) {
     final totals = _getDailyTotals(date, state);
     final hasTransactions = totals.incomes > 0 || totals.expenses > 0;
 
@@ -95,6 +99,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       hasTransactions: hasTransactions,
       totals: totals,
       date: date,
+      borderColor: borderColor,
     );
   }
 

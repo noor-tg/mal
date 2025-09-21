@@ -8,8 +8,10 @@ class CalendarCell extends StatelessWidget {
     required this.hasTransactions,
     required this.totals,
     required this.date,
+    required this.borderColor,
   });
 
+  final Color borderColor;
   final bool hasTransactions;
   final DaySums totals;
   final DateTime date;
@@ -17,10 +19,14 @@ class CalendarCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(4.0),
+      margin: const EdgeInsets.all(4),
+      width: double.infinity,
+      height: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: Colors.white,
+        border: Border.all(color: borderColor, width: 2),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -21,7 +21,8 @@ class CalendarContainer extends StatelessWidget {
   });
 
   final CalendarState state;
-  final Widget? Function(DateTime day, CalendarState state) calendarCellBuilder;
+  final Widget? Function(DateTime day, CalendarState state, Color borderColor)
+  calendarCellBuilder;
 
   final void Function(DateTime selectedDay, DateTime focusedDay) onDaySelected;
   final void Function(dynamic format) onFormatChanged;
@@ -109,7 +110,17 @@ class CalendarContainer extends StatelessWidget {
         calendarBuilders: calendar.CalendarBuilders(
           // Custom builder to show income/expense amounts
           defaultBuilder: (context, day, focusedDay) {
-            return calendarCellBuilder(day, state);
+            return calendarCellBuilder(day, state, Colors.white);
+          },
+          selectedBuilder: (context, day, focusedDay) {
+            return calendarCellBuilder(
+              day,
+              state,
+              Theme.of(context).colorScheme.primary,
+            );
+          },
+          todayBuilder: (context, day, focusedDay) {
+            return calendarCellBuilder(day, state, Colors.orange);
           },
         ),
       ),
