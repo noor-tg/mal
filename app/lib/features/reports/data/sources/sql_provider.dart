@@ -1,6 +1,7 @@
 import 'package:mal/constants.dart';
 import 'package:mal/enums.dart';
 import 'package:mal/shared/query_builder.dart';
+import 'package:mal/utils.dart';
 
 class SqlProvider {
   Future<int> incomesTotal(String userUid) async {
@@ -21,9 +22,14 @@ class SqlProvider {
     return expenses.isNotEmpty ? expenses.first['sum'] as int : 0;
   }
 
-  Future<dynamic> daySums(String type, String userUid) async {
+  Future<List<Map<String, dynamic>>> daySums(
+    String type,
+    String userUid,
+  ) async {
+    final currentMonth = toDate(DateTime.now()).substring(0, 7);
     return QueryBuilder('entries')
         .where('type', '=', type)
+        .whereLike('date', '$currentMonth%')
         .where('user_uid', '=', userUid)
         .sumBy('amount', 'date("date") as by_date');
   }

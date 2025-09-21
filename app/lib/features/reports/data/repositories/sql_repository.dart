@@ -52,10 +52,10 @@ class SqlRepository extends ReportsRepository {
   }
 
   int getDaySum(List<Map<String, Object?>> list, String day) {
-    final dayIncome = list
-        .where((row) => (row['by_date'] as String).substring(8) == day)
+    final filterByDay = list
+        .where((row) => (row['by_date'] as String).substring(8, 10) == day)
         .toList();
-    return dayIncome.isNotEmpty ? dayIncome.first['sum'] as int : 0;
+    return filterByDay.isNotEmpty ? filterByDay.first['sum'] as int : 0;
   }
 
   @override

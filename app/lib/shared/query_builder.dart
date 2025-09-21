@@ -130,8 +130,8 @@ class QueryBuilder {
   Future<List<Map<String, Object?>>> sumBy(String field, String by) async {
     final db = await Db.use();
     final res = await db.query(
-      columns: ['SUM($field) as "sum"', by],
       _table,
+      columns: ['SUM($field) as "sum"', by],
       where: _filterQuery,
       whereArgs: _whereArgs,
       groupBy: by.contains(' as ') ? by.split('as').first.trim() : by,

@@ -29,14 +29,15 @@ class AppContainer extends StatefulWidget {
 }
 
 class _AppContainerState extends State<AppContainer> {
-  final PageController _pageController = PageController(initialPage: 3);
-  var tabIndex = 3;
+  late PageController _pageController;
+  int tabIndex = 0;
 
   List<MalPage> pages = [];
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController(initialPage: tabIndex);
     final authState = context.read<AuthBloc>().state;
     if (authState is! AuthAuthenticated) return;
 

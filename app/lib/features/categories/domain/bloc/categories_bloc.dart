@@ -31,8 +31,6 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     try {
       final result = await repo.find(userUid: event.userUid);
 
-      logger.json(result.list.map((c) => c.toMap()).toList());
-
       emit(state.copyWith(categories: result));
     } catch (e, t) {
       emit(state.copyWith(status: BlocStatus.failure));
