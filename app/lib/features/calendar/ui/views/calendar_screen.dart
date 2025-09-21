@@ -28,11 +28,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
     weekendTextStyle: TextStyle(color: Colors.red[600]),
     holidayTextStyle: TextStyle(color: Colors.red[600]),
     selectedDecoration: BoxDecoration(
-      color: Colors.blue[600],
+      // color: Colors.blue[600],
+      border: BoxBorder.all(color: Colors.blue),
       borderRadius: BorderRadius.circular(8),
     ),
     todayDecoration: BoxDecoration(
-      color: Colors.orange[400],
+      border: BoxBorder.all(color: Colors.orange),
       borderRadius: BorderRadius.circular(8),
     ),
     markerDecoration: const BoxDecoration(color: Colors.transparent),
@@ -186,7 +187,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     horizontal: 24,
                     vertical: 16,
                   ),
-                  child: EntriesList(entries: state.selectedDayData),
+                  child: SingleChildScrollView(
+                    child: EntriesList(entries: state.selectedDayData),
+                  ),
                 ),
               ),
           ],
@@ -202,12 +205,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return Container(
       margin: const EdgeInsets.all(4.0),
       decoration: BoxDecoration(
-        color: calendar.isSameDay(_selectedDay, day)
-            ? Colors.blue[600]
-            : (calendar.isSameDay(DateTime.now(), day)
-                  ? Colors.orange[400]
-                  : Colors.transparent),
+        // shape: calendar.isSameDay(_selectedDay, day)
+        //     ? Colors.blue[600]
+        //     : (calendar.isSameDay(DateTime.now(), day)
+        //           ? Colors.orange[400]
+        //           : Colors.transparent),
         borderRadius: BorderRadius.circular(8),
+        color: Colors.white,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -218,7 +222,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               color:
                   calendar.isSameDay(_selectedDay, day) ||
                       calendar.isSameDay(DateTime.now(), day)
-                  ? Colors.white
+                  ? Colors.yellow
                   : Colors.black,
               fontWeight: FontWeight.bold,
             ),
@@ -233,7 +237,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   color:
                       calendar.isSameDay(_selectedDay, day) ||
                           calendar.isSameDay(DateTime.now(), day)
-                      ? Colors.white
+                      ? Colors.yellow
                       : Colors.green[700],
                   fontWeight: FontWeight.bold,
                 ),
@@ -247,7 +251,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   color:
                       calendar.isSameDay(_selectedDay, day) ||
                           calendar.isSameDay(DateTime.now(), day)
-                      ? Colors.white
+                      ? Colors.yellow
                       : Colors.red[700],
                   fontWeight: FontWeight.bold,
                 ),

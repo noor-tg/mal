@@ -29,8 +29,8 @@ class AppContainer extends StatefulWidget {
 }
 
 class _AppContainerState extends State<AppContainer> {
-  final PageController _pageController = PageController();
-  var tabIndex = 0;
+  final PageController _pageController = PageController(initialPage: 3);
+  var tabIndex = 3;
 
   List<MalPage> pages = [];
 
