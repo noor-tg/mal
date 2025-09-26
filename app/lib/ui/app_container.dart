@@ -30,7 +30,7 @@ class AppContainer extends StatefulWidget {
 
 class _AppContainerState extends State<AppContainer> {
   late PageController _pageController;
-  int tabIndex = 0;
+  int tabIndex = 2;
 
   List<MalPage> pages = [];
 

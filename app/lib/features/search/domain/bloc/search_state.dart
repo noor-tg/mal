@@ -10,11 +10,15 @@ class SearchState extends Equatable {
     this.status = SearchStatus.initial,
     this.noMoreData = false,
     this.errorMessage = '',
+    this.categories = const [],
+    this.maxAmount = 0,
     Filters? filters,
     Sorting? sorting,
+    Range<DateTime>? dateRange,
   }) : result = result ?? const Result<Entry>(list: [], count: 0),
        filters = filters ?? Filters.withCurrentYear(),
-       sorting = sorting ?? const Sorting();
+       sorting = sorting ?? const Sorting(),
+       dateRange = dateRange ?? Range(min: DateTime(now().year), max: now());
 
   // different states
   final SearchStatus status;
@@ -35,6 +39,7 @@ class SearchState extends Equatable {
 
   // always exist
   final String term;
+  final List<String> categories;
   final int offset;
   final Result<Entry> result;
 
@@ -46,6 +51,10 @@ class SearchState extends Equatable {
 
   final Filters filters;
 
+  final int maxAmount;
+
+  final Range<DateTime> dateRange;
+
   @override
   List<Object> get props => [
     term,
@@ -56,6 +65,9 @@ class SearchState extends Equatable {
     errorMessage,
     filters,
     sorting,
+    categories,
+    maxAmount,
+    dateRange,
   ];
 
   SearchState copyWith({
@@ -67,6 +79,9 @@ class SearchState extends Equatable {
     String? errorMessage,
     Filters? filters,
     Sorting? sorting,
+    List<String>? categories,
+    int? maxAmount,
+    Range<DateTime>? dateRange,
   }) {
     return SearchState(
       term: term ?? this.term,
@@ -77,6 +92,9 @@ class SearchState extends Equatable {
       errorMessage: errorMessage ?? this.errorMessage,
       filters: filters ?? this.filters,
       sorting: sorting ?? this.sorting,
+      categories: categories ?? this.categories,
+      maxAmount: maxAmount ?? this.maxAmount,
+      dateRange: dateRange ?? this.dateRange,
     );
   }
 
@@ -86,6 +104,9 @@ class SearchState extends Equatable {
         'term: $term, \n'
         'offset: $offset, \n'
         'status: $status, \n'
+        'categories: $categories, \n'
+        'maxAmount: $maxAmount, \n'
+        'dateRange: $dateRange, \n'
         'result: ${result.list.length} entries (count: ${result.count}), \n'
         'noMoreData: $noMoreData, \n'
         'errorMessage: $errorMessage, \n'

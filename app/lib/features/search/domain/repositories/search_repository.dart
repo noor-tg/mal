@@ -1,3 +1,4 @@
+import 'package:mal/features/search/domain/bloc/filters.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/entry.dart';
@@ -9,4 +10,10 @@ abstract class SearchRepository {
     required String userUid,
   });
   Future<Result<Entry>> advancedSearch(SearchState queryData, String userUid);
+
+  Future<List<String>> fetchCategories();
+
+  Future<int> fetchMaxAmount();
+
+  Future<Range<DateTime>> fetchDateBoundries();
 }

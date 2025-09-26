@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +15,7 @@ class AmountRangeFilter extends StatefulWidget {
 }
 
 class _AmountRangeFilterState extends State<AmountRangeFilter> {
-  final max = 1000;
+  int max = 1000;
   late RangeValues values;
 
   final minController = TextEditingController();
@@ -23,7 +24,9 @@ class _AmountRangeFilterState extends State<AmountRangeFilter> {
 
   @override
   void initState() {
-    final amountRange = context.read<SearchBloc>().state.filters.amountRange;
+    final searchBloc = context.read<SearchBloc>();
+    max = searchBloc.state.maxAmount;
+    final amountRange = searchBloc.state.filters.amountRange;
     values = RangeValues(
       amountRange.min.toDouble(),
       amountRange.max.toDouble() > 0
@@ -110,10 +113,18 @@ class _AmountRangeFilterState extends State<AmountRangeFilter> {
                                 labelText: 'الادنى',
                                 border: OutlineInputBorder(),
                               ),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
                               keyboardType: TextInputType.number,
                               onChanged: (value) {
                                 if (value.isEmpty) return;
-                                if (double.parse(value) > values.end) return;
+                                final parsed = double.parse(value);
+                                if (parsed > values.end) return;
+                                if (parsed > max) {
+                                  value = max.toString();
+                                  minController.text = value;
+                                }
                                 setState(() {
                                   searchBloc.add(
                                     UpdateMinAmount(int.parse(value)),
@@ -134,10 +145,18 @@ class _AmountRangeFilterState extends State<AmountRangeFilter> {
                                 labelText: 'الاعلى',
                                 border: OutlineInputBorder(),
                               ),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
                               keyboardType: TextInputType.number,
                               onChanged: (value) {
                                 if (value.isEmpty) return;
-                                if (double.parse(value) < values.start) return;
+                                final parsed = double.parse(value);
+                                if (parsed < values.start) return;
+                                if (parsed > max) {
+                                  value = max.toString();
+                                  maxController.text = value;
+                                }
                                 setState(() {
                                   searchBloc.add(
                                     UpdateMaxAmount(int.parse(value)),

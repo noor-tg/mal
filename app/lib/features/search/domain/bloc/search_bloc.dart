@@ -9,6 +9,7 @@ import 'package:mal/features/search/domain/bloc/sorting.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/entry.dart';
+import 'package:mal/utils.dart';
 import 'package:mal/utils/logger.dart';
 
 part 'search_event.dart';
@@ -37,6 +38,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     // actions
     on<ApplyFilters>(_onApplyFilters);
     on<ClearFilters>(_onClearFilters);
+    on<FetchEntriesCategoriesList>(_onFetchEntriesCategoriesList);
+    on<FetchMaxAmount>(_onFetchMaxAmount);
+    on<FetchDateBoundries>(_onFetchDateBoundries);
   }
 
   FutureOr<void> _onSimpleSearch(
@@ -336,5 +340,76 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   FutureOr<void> _onSetTerm(SetTerm event, Emitter<SearchState> emit) {
     emit(state.copyWith(term: event.term));
+  }
+
+  FutureOr<void> _onFetchEntriesCategoriesList(
+    FetchEntriesCategoriesList event,
+    Emitter<SearchState> emit,
+  ) async {
+    try {
+      // get list
+      final categories = await searchRepo.fetchCategories();
+      // set to search state
+      emit(state.copyWith(categories: categories));
+    } catch (e, t) {
+      logger
+        ..e(e)
+        ..t(t);
+      emit(
+        state.copyWith(
+          status: SearchStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  FutureOr<void> _onFetchMaxAmount(
+    FetchMaxAmount event,
+    Emitter<SearchState> emit,
+  ) async {
+    try {
+      // get list
+      final maxAmount = await searchRepo.fetchMaxAmount();
+      // set to search state
+      emit(state.copyWith(maxAmount: maxAmount));
+    } catch (e, t) {
+      logger
+        ..e(e)
+        ..t(t);
+      emit(
+        state.copyWith(
+          status: SearchStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  FutureOr<void> _onFetchDateBoundries(
+    FetchDateBoundries event,
+    Emitter<SearchState> emit,
+  ) async {
+    try {
+      // get list
+      final Range<DateTime> range = await searchRepo.fetchDateBoundries();
+      // set to search state
+      emit(
+        state.copyWith(
+          dateRange: range,
+          filters: state.filters.copyWith(dateRange: range),
+        ),
+      );
+    } catch (e, t) {
+      logger
+        ..e(e)
+        ..t(t);
+      emit(
+        state.copyWith(
+          status: SearchStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
   }
 }

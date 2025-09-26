@@ -10,6 +10,9 @@ class Range<T> extends Equatable {
 
   @override
   List<Object?> get props => [min, max];
+
+  @override
+  String toString() => '$T(min: $min, max: $max)';
 }
 
 enum EntryType { expense, income, all }

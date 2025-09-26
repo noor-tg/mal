@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 
 class DateRangeFilter extends StatefulWidget {
   const DateRangeFilter({super.key, required this.l10n, required this.theme});
@@ -17,51 +19,58 @@ class _DateRangeFilterState extends State<DateRangeFilter> {
   late int max;
   late RangeValues values;
 
-  final minController = TextEditingController();
-  final maxController = TextEditingController();
-
-  late DateTime startOfYear;
-  late DateTime now;
+  late DateTime defaultMin;
+  late DateTime defaultMax;
 
   @override
   void initState() {
-    final dateRange = context.read<SearchBloc>().state.filters.dateRange;
-    now = DateTime.now();
-    startOfYear = DateTime(now.year);
-    final today = now;
+    // entries date range
+    final searchState = context.read<SearchBloc>().state;
+
+    final entriesDateRange = searchState.dateRange;
+    final filtersDateRange = searchState.filters.dateRange;
+
+    defaultMin = entriesDateRange.min;
+    defaultMax = entriesDateRange.max;
+
+    // so I want to handle default state for min date as current year first day
+    // for example 2025-1-1
+    // and max date to current date 2025-9-25
+    // but then there is 2 possiblities
+    // 1. user change min and max
+    // 2. the default min and max fetched from the entries table
+    // --- here if there is no entries. set to default
+    // --- else set to entries min and max
 
     // Convert dates to days since startOfYear
-    const minValue = 0;
-    final maxValue = today.difference(startOfYear).inDays.toDouble();
 
-    values = RangeValues(
-      dateRange.min.isAfter(startOfYear)
-          ? dateRange.min.difference(startOfYear).inDays.toDouble()
-          : minValue.toDouble(),
-      dateRange.max.isBefore(today)
-          ? dateRange.max.difference(startOfYear).inDays.toDouble()
-          : maxValue,
-    );
+    final minValue = filtersDateRange.min
+        .difference(defaultMin)
+        .inDays
+        .toDouble();
+    final maxValue = filtersDateRange.max
+        .difference(defaultMin)
+        .inDays
+        .toDouble();
+    logger.i('min: $defaultMin, max: $defaultMax, filters: $filtersDateRange');
+
+    values = RangeValues(minValue, maxValue);
     max = maxValue.toInt();
+    logger.i(
+      'fullMax: ${defaultMin.difference(defaultMax).inDays.toDouble()},\n minValue: $minValue,\n maxValue: $maxValue,\n defaultMin: $defaultMin,\n defaultMax: $defaultMax',
+    );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final rangeLabels = RangeLabels(
-      startOfYear
-          .add(Duration(days: values.start.ceil()))
-          .toString()
-          .split(' ')
-          .first,
-      startOfYear
-          .add(Duration(days: values.end.ceil()))
-          .toString()
-          .split(' ')
-          .first,
+      toDate(defaultMin.add(Duration(days: values.start.floor()))),
+      toDate(defaultMin.add(Duration(days: values.end.ceil()))),
     );
     final division = max;
 
+    logger.i('values: $values, labels: $rangeLabels');
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card.filled(
@@ -90,13 +99,13 @@ class _DateRangeFilterState extends State<DateRangeFilter> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              startOfYear.toString().split(' ').first,
+                              defaultMin.toString().split(' ').first,
 
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(color: Colors.grey[500]),
                             ),
                             Text(
-                              now.toString().split(' ').first,
+                              defaultMax.toString().split(' ').first,
 
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(color: Colors.grey[500]),
@@ -105,7 +114,10 @@ class _DateRangeFilterState extends State<DateRangeFilter> {
                         ),
                       ),
                       RangeSlider(
-                        max: max.toDouble(),
+                        max: defaultMax
+                            .difference(defaultMin)
+                            .inDays
+                            .toDouble(),
                         values: values,
                         divisions: division,
                         labels: rangeLabels,
@@ -113,22 +125,20 @@ class _DateRangeFilterState extends State<DateRangeFilter> {
                           searchBloc
                             ..add(
                               UpdateMinDate(
-                                startOfYear.add(
-                                  Duration(days: value.start.ceil()),
+                                defaultMin.add(
+                                  Duration(days: value.start.floor()),
                                 ),
                               ),
                             )
                             ..add(
                               UpdateMaxDate(
-                                startOfYear.add(
+                                defaultMin.add(
                                   Duration(days: value.end.ceil()),
                                 ),
                               ),
                             );
                           setState(() {
                             values = value;
-                            minController.text = value.start.ceil().toString();
-                            maxController.text = value.end.ceil().toString();
                           });
                         },
                       ),

@@ -88,3 +88,9 @@ class ApplyFilters extends SearchEvent {
 }
 
 class ClearFilters extends SearchEvent {}
+
+class FetchEntriesCategoriesList extends SearchEvent {}
+
+class FetchMaxAmount extends SearchEvent {}
+
+class FetchDateBoundries extends SearchEvent {}

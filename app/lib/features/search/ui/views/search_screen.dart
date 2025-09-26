@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mal/constants.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/ui/views/advanced_search.dart';
@@ -18,122 +19,119 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final _controller = TextEditingController();
-  var scrollController = ScrollController();
 
   @override
   void initState() {
-    context.read<SearchBloc>().stream.listen(logger.i);
-    final searchBloc = context.read<SearchBloc>();
-    scrollController.addListener(() async {
-      if (scrollController.position.maxScrollExtent ==
-          scrollController.offset) {
-        if (searchBloc.state.status == SearchStatus.loading) {
-          return;
-        }
-        final authState = context.read<AuthBloc>().state;
-        if (authState is AuthAuthenticated) {
-          searchBloc.add(LoadMore(userUid: authState.user.uid));
-        }
-      }
-    });
+    final bloc = context.read<SearchBloc>();
+    bloc.stream.listen(logger.i);
+    bloc
+      ..add(FetchEntriesCategoriesList())
+      ..add(FetchMaxAmount())
+      ..add(FetchDateBoundries());
     super.initState();
   }
 
   @override
   void dispose() {
-    // _blocSubscription.cancel();
-    scrollController.dispose();
     _controller.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey[200],
-      child: SafeArea(
-        child: SingleChildScrollView(
-          controller: scrollController,
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      showModalBottomSheet(
-                        useSafeArea: true,
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (ctx) => MultiBlocProvider(
-                          providers: [
-                            BlocProvider.value(
-                              value: context.read<CategoriesBloc>(),
-                            ),
-                            BlocProvider.value(
-                              value: context.read<SearchBloc>(),
-                            ),
-                            BlocProvider.value(
-                              value: context.read<CategoriesBloc>(),
-                            ),
-                          ],
-                          child: const AdvancedSearch(),
-                        ),
-                      );
-                    },
-                    icon: const Icon(Icons.filter_list, color: Colors.blue),
+      color: kBgColor,
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: BoxBorder.fromLTRB(bottom: BorderSide(color: kBgColor)),
+            ),
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton.filled(
+                  onPressed: showAdvancedModal,
+                  icon: const Icon(
+                    Icons.filter_list,
+                    color: Colors.white,
+                    size: 32,
                   ),
-                  Expanded(
-                    child: TextField(
-                      controller: _controller,
-                      onChanged: (value) async {
-                        if (value.trim().isEmpty) return;
-
-                        final searchBloc = context.read<SearchBloc>();
-                        final authState = context.read<AuthBloc>().state;
-                        if (authState is AuthAuthenticated) {
-                          if (searchBloc.state.simpleSearchActive) {
-                            searchBloc.add(
-                              SimpleSearch(
-                                term: value.trim(),
-                                userUid: authState.user.uid,
-                              ),
-                            );
-                          } else {
-                            searchBloc
-                              ..add(SetTerm(term: value.trim()))
-                              ..add(ApplyFilters(userUid: authState.user.uid));
-                          }
-                        }
-                      },
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        labelText: AppLocalizations.of(context)!.tabSearchLabel,
-                        hintText: AppLocalizations.of(context)!.searchHint,
-                      ),
-                      // autofocus: true,
+                ),
+                box8,
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    onChanged: searchOnChange,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: AppLocalizations.of(context)!.tabSearchLabel,
+                      hintText: AppLocalizations.of(context)!.searchHint,
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        context.read<SearchBloc>()
-                          ..add(ClearSearch())
-                          ..add(ClearFilters());
-                        _controller.clear();
-                      });
-                    },
-                    icon: const Icon(Icons.delete, color: Colors.blue),
+                ),
+                box8,
+                IconButton.filledTonal(
+                  onPressed: clearSearch,
+                  icon: Icon(
+                    Icons.delete,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 32,
                   ),
-                ],
-              ),
-              box24,
-              const SearchBody(),
-            ],
+                ),
+              ],
+            ),
           ),
+          const Expanded(
+            child: Padding(padding: EdgeInsets.all(8), child: SearchBody()),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void showAdvancedModal() {
+    showModalBottomSheet(
+      useSafeArea: true,
+      isScrollControlled: true,
+      context: context,
+      builder: (ctx) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: context.read<CategoriesBloc>()),
+          BlocProvider.value(value: context.read<SearchBloc>()),
+        ],
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.80,
+          child: const AdvancedSearch(),
         ),
       ),
     );
+  }
+
+  void searchOnChange(String value) async {
+    final searchBloc = context.read<SearchBloc>();
+    final authState = context.read<AuthBloc>().state;
+
+    if (authState is! AuthAuthenticated) return;
+
+    if (searchBloc.state.simpleSearchActive) {
+      searchBloc.add(
+        SimpleSearch(term: value.trim(), userUid: authState.user.uid),
+      );
+      return;
+    }
+    searchBloc
+      ..add(SetTerm(term: value.trim()))
+      ..add(ApplyFilters(userUid: authState.user.uid));
+  }
+
+  void clearSearch() {
+    context.read<SearchBloc>()
+      ..add(ClearSearch())
+      ..add(ClearFilters());
+
+    setState(_controller.clear);
   }
 }

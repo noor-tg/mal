@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 
@@ -30,7 +29,6 @@ class CategoriesFilter extends StatelessWidget {
               ),
               Builder(
                 builder: (context) {
-                  final categoriesState = context.watch<CategoriesBloc>().state;
                   final searchBloc = context.watch<SearchBloc>();
                   return Center(
                     child: Wrap(
@@ -39,24 +37,24 @@ class CategoriesFilter extends StatelessWidget {
                       alignment: WrapAlignment.center,
                       runAlignment: WrapAlignment.center,
                       children: [
-                        for (final category in categoriesState.categories.list)
+                        for (final category in searchBloc.state.categories)
                           OutlinedButton(
                             onPressed: () {
                               searchBloc.add(
-                                ToggleCategory(category: category.title),
+                                ToggleCategory(category: category),
                               );
                             },
                             style: OutlinedButton.styleFrom(
                               backgroundColor:
                                   searchBloc.state.filters.categories.contains(
-                                    category.title,
+                                    category,
                                   )
                                   ? Colors.green.withAlpha(30)
                                   : theme.colorScheme.primaryContainer
                                         .withAlpha(30),
                               foregroundColor:
                                   searchBloc.state.filters.categories.contains(
-                                    category.title,
+                                    category,
                                   )
                                   ? Colors.green
                                   : theme.colorScheme.primary,
@@ -64,7 +62,7 @@ class CategoriesFilter extends StatelessWidget {
                                 // Set the border color conditionally, just like your other properties
                                 color:
                                     searchBloc.state.filters.categories
-                                        .contains(category.title)
+                                        .contains(category)
                                     ? Colors.green
                                     : theme.colorScheme.primary,
 
@@ -75,9 +73,9 @@ class CategoriesFilter extends StatelessWidget {
                             child: Wrap(
                               spacing: 4,
                               children: [
-                                Text(category.title),
+                                Text(category),
                                 if (searchBloc.state.filters.categories
-                                    .contains(category.title))
+                                    .contains(category))
                                   const Icon(Icons.close_outlined),
                               ],
                             ),
