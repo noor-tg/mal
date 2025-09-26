@@ -4,6 +4,7 @@ import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/ui/widgets/entry_details.dart';
+import 'package:mal/utils.dart';
 
 class EntriesList extends StatelessWidget {
   final List<Entry> entries;
@@ -42,13 +43,26 @@ class EntriesList extends StatelessWidget {
               color: Colors.grey.shade600,
             ),
           ),
-          subtitle: Text(
-            entries[index].category,
-            style: theme.textTheme.bodyLarge?.copyWith(
-              color: Colors.grey.shade500,
-              fontWeight: FontWeight.bold,
-            ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                entries[index].category,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                toDate(DateTime.parse(entries[index].date)),
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
+          isThreeLine: true,
           trailing: Text(
             entries[index].prefixedAmount(l10n!.income),
             style: theme.textTheme.bodyLarge?.copyWith(
