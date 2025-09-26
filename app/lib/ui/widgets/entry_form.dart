@@ -91,6 +91,7 @@ class _EntryFormState extends State<EntryForm> {
         return Container(
           padding: const EdgeInsets.all(16),
           width: double.infinity,
+          color: Colors.white,
           child: Form(
             key: _formKey,
             child: SingleChildScrollView(

@@ -48,7 +48,7 @@ class _MalPieChartState extends State<MalPieChart> {
                 ),
                 borderData: FlBorderData(show: false),
                 sectionsSpace: 0,
-                centerSpaceRadius: 40,
+                centerSpaceRadius: 44,
                 sections: showingSections(),
               ),
             ),
@@ -91,7 +91,7 @@ class _MalPieChartState extends State<MalPieChart> {
     for (final item in widget.list) {
       final isTouched = item['title'] == touchedTitle;
       final fontSize = isTouched ? 25.0 : 18.0;
-      final radius = isTouched ? 60.0 : 60.0;
+      final radius = isTouched ? 68.0 : 60.0;
       const shadows = [Shadow(blurRadius: 8)];
       pieData.add(
         PieChartSectionData(
