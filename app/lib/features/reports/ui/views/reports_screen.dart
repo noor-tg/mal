@@ -11,7 +11,6 @@ import 'package:mal/shared/domain/side_effects.dart';
 import 'package:mal/ui/screens/mal_page_container.dart';
 import 'package:mal/ui/widgets/mal_title.dart';
 import 'package:mal/ui/widgets/entries_list.dart';
-import 'package:mal/utils.dart';
 
 class ReportsScreen extends StatefulWidget {
   const ReportsScreen({super.key});
@@ -51,7 +50,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          box8,
+          const SizedBox(height: 12),
           const SumsLoader(),
           const SizedBox(height: 16),
           MalTitle(text: l10n.currentMonth),

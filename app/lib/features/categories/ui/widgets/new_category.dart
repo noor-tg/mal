@@ -29,6 +29,7 @@ class _NewCategoryState extends State<NewCategory> {
     final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(16),
+      color: Colors.white,
       width: double.infinity,
       child: Form(
         key: _formKey,
