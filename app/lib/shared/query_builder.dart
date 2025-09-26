@@ -11,6 +11,9 @@ class QueryBuilder {
   int? _limit;
   int _offset = 0;
 
+  List<String>? _selected;
+  bool _distinct = false;
+
   // getters
   String get table => _table;
   String? get gsortBy => _sortBy;
@@ -18,6 +21,7 @@ class QueryBuilder {
   int get goffset => _offset;
   int? get glimit => _limit;
   List<Object?> get whereArgs => _whereArgs;
+  List<String>? get columns => _selected;
 
   QueryBuilder(String table) : _table = table;
 
@@ -31,6 +35,14 @@ class QueryBuilder {
               .trim();
       _whereArgs.add(value);
     }
+    return this;
+  }
+
+  QueryBuilder select(List<String> columns, [bool unique = false]) {
+    _selected = columns;
+
+    _distinct = unique;
+
     return this;
   }
 
@@ -89,6 +101,8 @@ class QueryBuilder {
     final db = await Db.use();
     final res = await db.query(
       _table,
+      distinct: _distinct,
+      columns: _selected,
       where: _filterQuery,
       whereArgs: _whereArgs,
       limit: _limit,
@@ -107,6 +121,7 @@ class QueryBuilder {
       whereArgs: _whereArgs,
       limit: 1,
       offset: _offset,
+      orderBy: _sortBy,
     );
 
     if (res.isEmpty) {
