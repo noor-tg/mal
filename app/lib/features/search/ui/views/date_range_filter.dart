@@ -33,17 +33,6 @@ class _DateRangeFilterState extends State<DateRangeFilter> {
     defaultMin = entriesDateRange.min;
     defaultMax = entriesDateRange.max;
 
-    // so I want to handle default state for min date as current year first day
-    // for example 2025-1-1
-    // and max date to current date 2025-9-25
-    // but then there is 2 possiblities
-    // 1. user change min and max
-    // 2. the default min and max fetched from the entries table
-    // --- here if there is no entries. set to default
-    // --- else set to entries min and max
-
-    // Convert dates to days since startOfYear
-
     final minValue = filtersDateRange.min
         .difference(defaultMin)
         .inDays
@@ -52,13 +41,9 @@ class _DateRangeFilterState extends State<DateRangeFilter> {
         .difference(defaultMin)
         .inDays
         .toDouble();
-    logger.i('min: $defaultMin, max: $defaultMax, filters: $filtersDateRange');
 
     values = RangeValues(minValue, maxValue);
     max = maxValue.toInt();
-    logger.i(
-      'fullMax: ${defaultMin.difference(defaultMax).inDays.toDouble()},\n minValue: $minValue,\n maxValue: $maxValue,\n defaultMin: $defaultMin,\n defaultMax: $defaultMax',
-    );
     super.initState();
   }
 
