@@ -12,12 +12,8 @@ class MalPage {
 
   final String title;
   final Widget? Function(Key? key) widget;
-  final MalPageAction? action;
+  final Widget? action;
 
   Icon? icon;
   ImageProvider? avatar;
-}
-
-abstract class MalPageAction {
-  void onPressed(BuildContext context);
 }

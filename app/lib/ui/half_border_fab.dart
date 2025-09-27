@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mal/ui/half_border_painter.dart';
 
 class HalfBorderFab extends StatelessWidget {
-  final VoidCallback onPressed;
   final Widget child;
 
-  const HalfBorderFab({
-    super.key,
-    required this.onPressed,
-    required this.child,
-  });
+  const HalfBorderFab({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +23,9 @@ class HalfBorderFab extends StatelessWidget {
           width: 70,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100),
-            color: Theme.of(context).colorScheme.primary,
+            // color: Theme.of(context).colorScheme.primaryContainer,
           ),
-          child: FloatingActionButton(
-            materialTapTargetSize: MaterialTapTargetSize.padded,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100), // keep it circular
-            ),
-            onPressed: onPressed,
-            foregroundColor: Colors.white,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            child: child,
-          ),
+          child: child,
         ),
       ],
     );

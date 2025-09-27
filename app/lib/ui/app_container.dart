@@ -30,7 +30,7 @@ class AppContainer extends StatefulWidget {
 
 class _AppContainerState extends State<AppContainer> {
   late PageController _pageController;
-  int tabIndex = 2;
+  int tabIndex = 1;
 
   List<MalPage> pages = [];
 
@@ -106,7 +106,7 @@ class _AppContainerState extends State<AppContainer> {
           style: TextStyle(color: theme.onPrimary),
         ),
         backgroundColor: theme.primary,
-        iconTheme: IconThemeData(color: theme.onPrimary),
+        iconTheme: IconThemeData(color: theme.primary.withAlpha(100)),
         actions: [
           if (tabIndex != 4)
             IconButton.filled(
@@ -135,10 +135,7 @@ class _AppContainerState extends State<AppContainer> {
         },
       ),
       floatingActionButton: HalfBorderFab(
-        child: pages[tabIndex].action as Widget? ?? AddEntryButton(l10n: l10n),
-        onPressed: () {
-          pages[tabIndex].action!.onPressed(context);
-        },
+        child: pages[tabIndex].action ?? AddEntryButton(l10n: l10n),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
