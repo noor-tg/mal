@@ -225,4 +225,35 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get edit => 'تعديل';
+
+  @override
+  String get loginNameErrorMessage => 'يجب إدخال 4 حروف على الاقل';
+
+  @override
+  String get pinErrorMessage => 'يجب إدخل رمز 4 أرقام';
+
+  @override
+  String get loginErrorMessage => 'يرجى إدخال بيانات صحيحة';
+
+  @override
+  String get loginMessageSelectUser => 'يجب إختيار مستخدم أولا';
+
+  @override
+  String get registerUserAlreadyExist => 'المستخدم موجود مسبقاً';
+
+  @override
+  String get registerSuccessLoginFailed => 'تم التسجيل ، يرجى تسجيل الدخول';
+
+  @override
+  String get registerFailed => 'فشل تسجيل المستخدم';
+
+  @override
+  String get bioButton => 'تسجيل دخول حيوي';
+
+  @override
+  String get bioLoginNotEnabled =>
+      'تسجيل الدخول الحيوي غير متوفر لهذا المستخدم';
+
+  @override
+  String get loginLastUserNotFound => 'المستخدم غير موجود';
 }

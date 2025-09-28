@@ -525,6 +525,66 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تعديل'**
   String get edit;
+
+  /// No description provided for @loginNameErrorMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'يجب إدخال 4 حروف على الاقل'**
+  String get loginNameErrorMessage;
+
+  /// No description provided for @pinErrorMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'يجب إدخل رمز 4 أرقام'**
+  String get pinErrorMessage;
+
+  /// No description provided for @loginErrorMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى إدخال بيانات صحيحة'**
+  String get loginErrorMessage;
+
+  /// No description provided for @loginMessageSelectUser.
+  ///
+  /// In ar, this message translates to:
+  /// **'يجب إختيار مستخدم أولا'**
+  String get loginMessageSelectUser;
+
+  /// No description provided for @registerUserAlreadyExist.
+  ///
+  /// In ar, this message translates to:
+  /// **'المستخدم موجود مسبقاً'**
+  String get registerUserAlreadyExist;
+
+  /// No description provided for @registerSuccessLoginFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم التسجيل ، يرجى تسجيل الدخول'**
+  String get registerSuccessLoginFailed;
+
+  /// No description provided for @registerFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'فشل تسجيل المستخدم'**
+  String get registerFailed;
+
+  /// No description provided for @bioButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل دخول حيوي'**
+  String get bioButton;
+
+  /// No description provided for @bioLoginNotEnabled.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول الحيوي غير متوفر لهذا المستخدم'**
+  String get bioLoginNotEnabled;
+
+  /// No description provided for @loginLastUserNotFound.
+  ///
+  /// In ar, this message translates to:
+  /// **'المستخدم غير موجود'**
+  String get loginLastUserNotFound;
 }
 
 class _AppLocalizationsDelegate

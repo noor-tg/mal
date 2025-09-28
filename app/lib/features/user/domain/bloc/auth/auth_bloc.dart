@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mal/features/user/data/services/biometric_service.dart';
 import 'package:mal/features/user/domain/repositories/user_repository.dart';
+import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/user.dart';
 import 'package:mal/utils.dart';
 import 'package:mal/utils/logger.dart';
@@ -18,6 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserRepository repo;
 
   AuthBloc({required this.repo}) : super(const AuthInitial()) {
+    on<AuthReset>(_onAuthReset);
     on<AuthCheckStatusRequested>(_onCheckStatusRequested);
     on<AuthRegisterAndLoginRequested>(_onRegisterAndLoginRequested);
     on<AuthLoginWithPinRequested>(_onLoginWithPinRequested);
@@ -33,72 +35,58 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthRegisterAndLoginRequested event,
     Emitter<AuthState> emit,
   ) async {
-    logger.i('loading');
     emit(const AuthLoading());
-    logger.i('loaded');
 
     try {
       final Map<String, String> errors = {};
 
       // Validate input
-      if (event.name.trim().isEmpty) {
-        errors['name'] = 'Name cannot be empty';
-      } else if (event.name.trim().length < 2) {
-        errors['name'] = 'Name must be at least 2 characters';
+      final name = event.name.trim();
+      if (name.length < 2) {
+        errors['name'] = event.l10n.loginNameErrorMessage;
       }
 
-      if (event.pin.isEmpty) {
-        errors['pin'] = 'Please enter a PIN';
-      } else if (event.pin.length < 4) {
-        errors['pin'] = 'PIN must be at least 4 digits';
+      final pin = event.pin;
+      if (pin.length < 4) {
+        errors['pin'] = event.l10n.pinErrorMessage;
       }
 
       if (errors.isNotEmpty) {
-        logger.i('not valid');
         emit(
           AuthError(
-            message: 'Please fix the errors below',
+            message: event.l10n.loginErrorMessage,
             fieldsErrors: errors,
           ),
         );
         return;
       }
 
-      logger.i('register to db');
       final success = await repo.register(
         name: event.name.trim(),
         pin: event.pin,
       );
-      logger.i('register completed');
 
       if (!success) {
-        logger.i('already exist');
-        emit(const AuthError(message: 'User already exists'));
+        emit(AuthError(message: event.l10n.registerUserAlreadyExist));
         return;
       }
 
-      logger.i('try login');
       final user = await repo.verifyPin(event.name, event.pin);
 
       if (user == null) {
-        logger.i('login failed');
-        emit(
-          const AuthError(message: 'Registration successful but login failed'),
-        );
+        emit(AuthError(message: event.l10n.registerSuccessLoginFailed));
         return;
       }
 
-      logger.i('store uid');
       await BiometricService.setLastAuthenticatedUser(user.uid);
 
-      logger.i('accept as logged in');
       emit(AuthAuthenticated(user: user, biometricEnabled: false));
     } catch (e, t) {
       logger
-        ..e('register failed')
+        ..e(event.l10n.registerFailed)
         ..e(e)
         ..t(t);
-      emit(AuthError(message: 'Registration failed: ${e.toString()}'));
+      emit(AuthError(message: event.l10n.registerFailed));
     }
   }
 
@@ -107,19 +95,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     try {
-      logger.i('auth check started');
       final lastUser = await BiometricService.getLastAuthenticatedUser();
       if (lastUser == null) {
-        logger.i('auth check user is null');
         emit(const AuthUnauthenticated());
         return;
       }
-      logger.i('auth check user is found');
       final user = await repo.getUser(lastUser);
       final biometricEnabled = await BiometricService.getBiometricPreference(
         lastUser,
       );
-      logger.i('auth check user is authenticated');
       emit(AuthAuthenticated(user: user, biometricEnabled: biometricEnabled));
     } catch (e, t) {
       logger
@@ -147,22 +131,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final Map<String, String> errors = {};
 
       // Validate input
-      if (event.name.trim().isEmpty) {
-        errors['name'] = 'Name cannot be empty';
-      } else if (event.name.trim().length < 2) {
-        errors['name'] = 'Name must be at least 2 characters';
+      final name = event.name.trim();
+      if (name.length < 4) {
+        errors['name'] = event.l10n.loginNameErrorMessage;
       }
 
-      if (event.pin.isEmpty) {
-        errors['pin'] = 'Please enter a PIN';
-      } else if (event.pin.length < 4) {
-        errors['pin'] = 'PIN must be at least 4 digits';
+      final pin = event.pin;
+      if (pin.length < 4) {
+        errors['pin'] = event.l10n.pinErrorMessage;
       }
 
       if (errors.isNotEmpty) {
         emit(
           AuthError(
-            message: 'Please fix the errors below',
+            message: event.l10n.loginErrorMessage,
             fieldsErrors: errors,
           ),
         );
@@ -172,7 +154,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final user = await repo.verifyPin(event.name, event.pin);
 
       if (user == null) {
-        emit(const AuthError(message: 'login failed'));
+        emit(AuthError(message: event.l10n.loginErrorMessage));
         return;
       }
 
@@ -183,10 +165,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     } catch (e, t) {
       logger
-        ..e('login failed')
+        ..e(event.l10n.loginErrorMessage)
         ..e(e)
         ..t(t);
-      emit(AuthError(message: 'Login failed: ${e.toString()}'));
+      emit(AuthError(message: event.l10n.loginErrorMessage));
     }
   }
 
@@ -391,5 +373,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final uid = uuid.v4();
     final name = '$uid$ext';
     return image.copy('${appDir.path}/$name');
+  }
+
+  FutureOr<void> _onAuthReset(AuthReset event, Emitter<AuthState> emit) {
+    emit(const AuthInitial());
   }
 }

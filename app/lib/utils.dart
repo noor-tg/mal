@@ -40,3 +40,17 @@ DateTime now() {
 String toDate(DateTime d) {
   return d.toString().substring(0, 10);
 }
+
+void errorSnakbar({required BuildContext context, required String message}) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Center(
+        child: Text(
+          message,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      backgroundColor: Colors.orange.shade800,
+    ),
+  );
+}

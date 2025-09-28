@@ -70,5 +70,15 @@
   "logout": "تسجيل خروج",
   "selectCorrectCategoryMessage": "يجب إختيار وسم",
   "entryDescriptionErrorMessage": "يجب أن يكون الوصف بين 2 حرف إلي 255",
-  "edit": "تعديل"
+  "edit": "تعديل",
+  "loginNameErrorMessage": "يجب إدخال 4 حروف على الاقل",
+  "pinErrorMessage": "يجب إدخل رمز 4 أرقام",
+  "loginErrorMessage": "يرجى إدخال بيانات صحيحة",
+  "loginMessageSelectUser": "يجب إختيار مستخدم أولا",
+  "registerUserAlreadyExist": "المستخدم موجود مسبقاً",
+  "registerSuccessLoginFailed": "تم التسجيل ، يرجى تسجيل الدخول",
+  "registerFailed": "فشل تسجيل المستخدم",
+  "bioButton": "تسجيل دخول حيوي",
+  "bioLoginNotEnabled": "تسجيل الدخول الحيوي غير متوفر لهذا المستخدم",
+  "loginLastUserNotFound": "المستخدم غير موجود"
 }

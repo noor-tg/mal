@@ -7,24 +7,36 @@ sealed class AuthEvent extends Equatable {
   List<Object> get props => [];
 }
 
+final class AuthReset extends AuthEvent {}
+
 final class AuthRegisterAndLoginRequested extends AuthEvent {
   final String name;
   final String pin;
+  final AppLocalizations l10n;
 
-  const AuthRegisterAndLoginRequested({required this.name, required this.pin});
+  const AuthRegisterAndLoginRequested({
+    required this.name,
+    required this.pin,
+    required this.l10n,
+  });
 
   @override
-  List<Object> get props => [name, pin];
+  List<Object> get props => [name, pin, l10n];
 }
 
 final class AuthLoginWithPinRequested extends AuthEvent {
   final String name;
   final String pin;
+  final AppLocalizations l10n;
 
-  const AuthLoginWithPinRequested({required this.name, required this.pin});
+  const AuthLoginWithPinRequested({
+    required this.name,
+    required this.pin,
+    required this.l10n,
+  });
 
   @override
-  List<Object> get props => [name, pin];
+  List<Object> get props => [name, pin, l10n];
 }
 
 final class AuthLoginWithBiometricRequested extends AuthEvent {

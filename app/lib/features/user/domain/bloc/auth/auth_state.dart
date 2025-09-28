@@ -38,16 +38,3 @@ class AuthError extends AuthState {
   @override
   List<Object?> get props => [message, fieldsErrors];
 }
-
-class AuthRegistrationSuccessWithLogin extends AuthState {
-  final User user;
-  final bool biometricEnabled;
-
-  const AuthRegistrationSuccessWithLogin({
-    required this.user,
-    required this.biometricEnabled,
-  });
-
-  @override
-  List<Object> get props => [user, biometricEnabled];
-}

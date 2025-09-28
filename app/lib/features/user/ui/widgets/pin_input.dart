@@ -137,20 +137,20 @@ class _PinInputState extends State<PinInput> {
     if (_focusNodes[index].hasFocus) {
       return widget.activeColor ?? Theme.of(context).colorScheme.primary;
     }
-    return widget.inactiveColor ?? Theme.of(context).colorScheme.outlineVariant;
+    return widget.inactiveColor ?? Colors.grey.shade600;
   }
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: List.generate(
         widget.pinLength,
         (index) => Container(
           width: widget.boxSize,
           height: widget.boxSize,
           decoration: BoxDecoration(
-            border: Border.all(color: _getBorderColor(index), width: 2.0),
+            border: Border.all(color: _getBorderColor(index)),
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: KeyboardListener(

@@ -6,7 +6,6 @@ import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/ui/widgets/pin_input.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
-import 'package:mal/utils/logger.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -17,7 +16,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-  final GlobalKey<State<PinInput>> _pinInputKey = GlobalKey();
+  final _pinInputKey = GlobalKey<State<PinInput>>();
   String _pinValue = '';
 
   String _nameValue = '';
@@ -160,7 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             const SizedBox(height: 16),
                             ElevatedButton(
-                              onPressed: _submitForm,
+                              onPressed: () => _submitForm(l10n),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Theme.of(
                                   context,
@@ -191,8 +190,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             SnackBar(content: Text(state.message)),
                           );
                         }
-                        if (state is AuthAuthenticated ||
-                            state is AuthRegistrationSuccessWithLogin) {
+                        if (state is AuthAuthenticated) {
                           context.go('/dashboard');
                         }
                       },
@@ -207,18 +205,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _submitForm() {
-    logger.i('before validation');
-    if (!_formKey.currentState!.validate()) {
-      logger.i('not valid');
-      return;
-    }
-    logger.i('save data');
+  void _submitForm(AppLocalizations l10n) {
     _formKey.currentState!.save();
 
-    logger.i('register submitted');
     context.read<AuthBloc>().add(
-      AuthRegisterAndLoginRequested(name: _nameValue, pin: _pinValue),
+      AuthRegisterAndLoginRequested(
+        name: _nameValue,
+        pin: _pinValue,
+        l10n: l10n,
+      ),
     );
   }
 
