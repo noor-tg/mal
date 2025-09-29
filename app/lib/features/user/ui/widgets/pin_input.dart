@@ -143,7 +143,7 @@ class _PinInputState extends State<PinInput> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: List.generate(
         widget.pinLength,
         (index) => Container(

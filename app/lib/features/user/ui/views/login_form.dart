@@ -26,6 +26,9 @@ class _LoginFormState extends State<LoginForm> {
     _fetchLastUser();
   }
 
+  late ColorScheme theme;
+  late AppLocalizations l10n;
+
   final GlobalKey<State<PinInput>> _pinInputKey = GlobalKey();
   final _nameController = TextEditingController();
   String _pinValue = '';
@@ -35,8 +38,8 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context).colorScheme;
+    l10n = AppLocalizations.of(context)!;
+    theme = Theme.of(context).colorScheme;
     return Card(
       color: Colors.white,
       margin: const EdgeInsets.all(20),
@@ -47,87 +50,19 @@ class _LoginFormState extends State<LoginForm> {
             builder: (BuildContext context, state) => Form(
               key: _formKey,
               child: Column(
-                // mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    l10n.userName,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  FieldLabel(text: l10n.userName),
                   box8,
-                  BlocBuilder<AuthBloc, AuthState>(
-                    builder: (context, state) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: TextFormField(
-                        controller: _nameController,
-                        decoration: InputDecoration(
-                          errorText: getFieldError(state, 'name'),
-                          border: const OutlineInputBorder(),
-                        ),
-                        autocorrect: false,
-                        onSaved: (value) {
-                          _nameController.text = value!;
-                        },
-                      ),
-                    ),
-                  ),
-
+                  _buildNameField(),
                   box24,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        l10n.password,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      box8,
-                      BlocBuilder<AuthBloc, AuthState>(
-                        builder: (context, state) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              PinInput(
-                                key: _pinInputKey,
-                                boxSize: 60.0,
-                                pinLength: 4,
-                                activeColor: theme.primary,
-                                errorColor: Colors.red,
-                                obscureText: true,
-                                onChanged: (pin) {
-                                  setState(() {
-                                    _pinValue = pin;
-                                  });
-                                },
-                                onCompleted: (_) {},
-                                autofocus: false,
-                              ),
-                              if (getFieldError(state, 'pin') != null) box8,
-                              if (getFieldError(state, 'pin') != null)
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 24,
-                                  ),
-                                  child: Text(
-                                    getFieldError(state, 'pin')!,
-                                    style: TextStyle(
-                                      color: Colors.red.shade800,
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          );
-                        },
-                      ),
-
+                      _buildPinField(),
                       box16,
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ElevatedButton(
                             onPressed: () {
@@ -141,64 +76,136 @@ class _LoginFormState extends State<LoginForm> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () => _submitForm(l10n),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: theme.primary,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Text(
-                        l10n.login,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
+                  _buildSubmitButton(),
                   if (_isBiometricAvailable) ...[
                     const SizedBox(height: 16),
-                    BlocBuilder<AuthBloc, AuthState>(
-                      builder: (context, state) {
-                        return OutlinedButton.icon(
-                          onPressed: state is AuthLoading
-                              ? null
-                              : () => _loginWithBiometric(l10n),
-                          icon: const Icon(Icons.fingerprint),
-                          label: Text(l10n.bioButton),
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: theme.primary,
-                            side: BorderSide(color: theme.primary),
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(48),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                    _buildBioButton(),
                   ],
                   TextButton(
-                    onPressed: () {
-                      logger.i('go to register');
-                      context.read<AuthBloc>().add(AuthReset());
-                      context.go('/register');
-                    },
+                    onPressed: goToRegister,
                     child: Text(l10n.notHaveAccount),
                   ),
                 ],
               ),
             ),
-            listener: (BuildContext context, AuthState state) {
-              if (state is AuthError) {
-                errorSnakbar(message: state.message, context: context);
-              }
-              if (state is AuthAuthenticated) {
-                context.go('/dashboard');
-              }
-            },
+            listener: listenToChanges,
           ),
         ),
       ),
     );
+  }
+
+  BlocBuilder<AuthBloc, AuthState> _buildNameField() {
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) => TextFormField(
+        controller: _nameController,
+        decoration: InputDecoration(
+          errorText: getFieldError(state, 'name'),
+          border: const OutlineInputBorder(),
+          suffixIcon: _nameController.text.trim().isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: _nameController.clear,
+                )
+              : null,
+        ),
+        autocorrect: false,
+        onChanged: (value) {
+          setState(() {
+            _nameController.text = value;
+          });
+        },
+        onSaved: (value) {
+          setState(() {
+            if (value != null) return;
+            _nameController.text = value!;
+          });
+        },
+      ),
+    );
+  }
+
+  BlocBuilder<AuthBloc, AuthState> _buildPinField() {
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FieldLabel(text: l10n.password),
+            box8,
+            PinInput(
+              key: _pinInputKey,
+              boxSize: 56,
+              pinLength: 4,
+              activeColor: theme.primary,
+              errorColor: Colors.red,
+              obscureText: true,
+              onChanged: (pin) {
+                setState(() {
+                  _pinValue = pin;
+                });
+              },
+              onCompleted: (_) {},
+              autofocus: false,
+            ),
+            if (getFieldError(state, 'pin') != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Text(
+                  getFieldError(state, 'pin')!,
+                  style: TextStyle(color: Colors.red.shade900, fontSize: 12),
+                ),
+              ),
+          ],
+        );
+      },
+    );
+  }
+
+  ElevatedButton _buildSubmitButton() {
+    return ElevatedButton(
+      onPressed: () => _submitForm(l10n),
+      style: ElevatedButton.styleFrom(backgroundColor: theme.primary),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Text(l10n.login, style: const TextStyle(color: Colors.white)),
+      ),
+    );
+  }
+
+  BlocBuilder<AuthBloc, AuthState> _buildBioButton() {
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        return OutlinedButton.icon(
+          onPressed: state is AuthLoading
+              ? null
+              : () => _loginWithBiometric(l10n),
+          icon: const Icon(Icons.fingerprint),
+          label: Text(l10n.bioButton),
+          style: OutlinedButton.styleFrom(
+            foregroundColor: theme.primary,
+            side: BorderSide(color: theme.primary),
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(48),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void listenToChanges(BuildContext context, AuthState state) {
+    switch (state) {
+      case AuthError():
+        errorSnakbar(message: state.message, context: context);
+        break;
+      case AuthAuthenticated():
+        context.go('/dashboard');
+        break;
+      default:
+        break;
+    }
   }
 
   Future<void> _loginWithBiometric(AppLocalizations l10n) async {
@@ -267,5 +274,24 @@ class _LoginFormState extends State<LoginForm> {
         message: AppLocalizations.of(context)!.loginLastUserNotFound,
       );
     }
+  }
+
+  void goToRegister() {
+    context.read<AuthBloc>().add(AuthReset());
+    context.go('/register');
+  }
+}
+
+class FieldLabel extends StatelessWidget {
+  const FieldLabel({super.key, required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+    );
   }
 }
