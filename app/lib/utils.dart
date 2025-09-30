@@ -55,3 +55,28 @@ void errorSnakbar({required BuildContext context, required String message}) {
     ),
   );
 }
+
+String formatDateWithEnglishNumbers(String date) {
+  final formatted = DateFormat.yMMMMEEEEd('ar').format(DateTime.parse(date));
+
+  // Map of Arabic-Indic digits to Western digits
+  const arabicToEnglish = {
+    '٠': '0',
+    '١': '1',
+    '٢': '2',
+    '٣': '3',
+    '٤': '4',
+    '٥': '5',
+    '٦': '6',
+    '٧': '7',
+    '٨': '8',
+    '٩': '9',
+  };
+
+  String result = formatted;
+  arabicToEnglish.forEach((arabic, english) {
+    result = result.replaceAll(arabic, english);
+  });
+
+  return result;
+}

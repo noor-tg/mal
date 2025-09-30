@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mal/features/user/data/repositories/sql_repository.dart';
 import 'package:mal/features/user/data/services/biometric_service.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
+import 'package:mal/features/user/ui/views/field_label.dart';
 import 'package:mal/features/user/ui/widgets/pin_input.dart';
 import 'package:mal/features/user/utils.dart';
 import 'package:mal/l10n/app_localizations.dart';
@@ -282,19 +283,5 @@ class _LoginFormState extends State<LoginForm> {
   void goToRegister() {
     context.read<AuthBloc>().add(AuthReset());
     context.go('/register');
-  }
-}
-
-class FieldLabel extends StatelessWidget {
-  const FieldLabel({super.key, required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-    );
   }
 }
