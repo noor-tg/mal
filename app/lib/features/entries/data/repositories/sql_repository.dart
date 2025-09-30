@@ -71,17 +71,13 @@ class SqlRepository extends EntriesRepository {
 
   @override
   Future<Entry> findOne(String uid) async {
-    final db = await Db.use();
-
-    final stored = await db.query(
+    final stored = await QueryBuilder(
       'entries',
-      where: 'uid = ?',
-      whereArgs: [uid],
-    );
+    ).where('uid', '=', uid).getOne();
 
-    if (stored.isEmpty) throw NotFound();
+    if (stored == null) throw NotFound();
 
-    final entry = Entry.fromMap(stored.first);
+    final entry = Entry.fromMap(stored);
 
     return entry;
   }

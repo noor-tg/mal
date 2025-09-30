@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import 'package:mal/shared/data/models/user.dart';
-import 'package:mal/utils.dart';
+import 'package:mal/shared/query_builder.dart';
 import 'package:mal/utils/logger.dart';
 
 abstract class UserRepository {
@@ -26,31 +26,19 @@ abstract class UserRepository {
 
   Future<User?> verifyPin(String name, String pin) async {
     try {
-      final db = await createOrOpenDB();
-      final users = await db.query(
-        'users',
-        where: 'name = ?',
-        whereArgs: [name],
-      );
+      final user = await QueryBuilder(
+        'entries',
+      ).where('name', '=', name).getOne();
 
-      logger
-        ..i(users)
-        ..i('printed users when verifyPin');
-      if (users.isEmpty) {
-        return null;
-      }
+      if (user == null) return null;
 
-      final user = users.first;
       final salt = user['salt'] as String;
       final storedHash = user['pin_hash'] as String;
       final inputHash = hashPin(pin, salt);
 
-      if (inputHash == storedHash) {
-        logger.i(user);
-        return User.fromMap(user);
-      }
+      if (inputHash != storedHash) return null;
 
-      return null;
+      return User.fromMap(user);
     } catch (e, trace) {
       logger
         ..e('Error verifying PIN: $e')

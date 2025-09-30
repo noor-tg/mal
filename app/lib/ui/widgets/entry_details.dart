@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/entry.dart';
+import 'package:mal/shared/query_builder.dart';
 import 'package:mal/ui/widgets/entry_form.dart';
 import 'package:mal/ui/widgets/mal_title.dart';
 import 'package:mal/utils.dart';
@@ -87,23 +87,11 @@ class _EntryDetailsState extends State<EntryDetails> {
                 ),
               );
               if (result == true) {
-                final db = await createOrOpenDB();
-                final result = await db.query(
+                final result = await QueryBuilder(
                   'entries',
-                  where: 'uid = ?',
-                  whereArgs: [entry.uid],
-                  limit: 1,
-                );
+                ).where('uid', '=', entry.uid).getOne();
                 setState(() {
-                  entry = Entry(
-                    uid: result.first['uid'] as String,
-                    description: result.first['description'] as String,
-                    amount: result.first['amount'] as int,
-                    category: result.first['category'] as String,
-                    type: result.first['type'] as String,
-                    date: result.first['date'] as String,
-                    userUid: result.first['user_uid'] as String,
-                  );
+                  entry = Entry.fromMap(result!);
                 });
               }
             },
@@ -180,11 +168,7 @@ class _EntryDetailsState extends State<EntryDetails> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        DateFormat.yMMMMEEEEd(
-                          'ar',
-                        ).format(DateTime.parse(entry.date)),
-                      ),
+                      Text(formatDateWithEnglishNumbers(entry.date)),
                       box16,
                       Text(relativeTime(entry.date)),
                     ],

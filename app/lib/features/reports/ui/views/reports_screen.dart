@@ -11,6 +11,7 @@ import 'package:mal/shared/domain/side_effects.dart';
 import 'package:mal/ui/screens/mal_page_container.dart';
 import 'package:mal/ui/widgets/mal_title.dart';
 import 'package:mal/ui/widgets/entries_list.dart';
+import 'package:mal/ui/widgets/no_data_centered.dart';
 
 class ReportsScreen extends StatefulWidget {
   const ReportsScreen({super.key});
@@ -69,9 +70,16 @@ class _ReportsScreenState extends State<ReportsScreen> {
           const SizedBox(height: 8),
           BlocBuilder<EntriesBloc, EntriesState>(
             builder: (BuildContext context, state) {
+              if (state.today.isEmpty) {
+                return const Card.filled(
+                  color: Colors.white,
+                  child: NoDataCentered(),
+                );
+              }
               return EntriesList(entries: state.today);
             },
           ),
+          const SizedBox(height: 16),
         ],
       ),
     );
