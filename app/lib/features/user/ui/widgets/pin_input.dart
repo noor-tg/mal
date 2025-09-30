@@ -151,7 +151,7 @@ class _PinInputState extends State<PinInput> {
           height: widget.boxSize,
           decoration: BoxDecoration(
             border: Border.all(color: _getBorderColor(index)),
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(4.0),
           ),
           child: KeyboardListener(
             focusNode: FocusNode(),

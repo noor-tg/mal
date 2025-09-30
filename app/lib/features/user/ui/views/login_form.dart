@@ -150,7 +150,10 @@ class _LoginFormState extends State<LoginForm> {
             ),
             if (getFieldError(state, 'pin') != null)
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 4,
+                  horizontal: 16,
+                ),
                 child: Text(
                   getFieldError(state, 'pin')!,
                   style: TextStyle(color: Colors.red.shade900, fontSize: 12),
