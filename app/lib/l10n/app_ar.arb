@@ -80,5 +80,7 @@
   "registerFailed": "فشل تسجيل المستخدم",
   "bioButton": "تسجيل دخول حيوي",
   "bioLoginNotEnabled": "تسجيل الدخول الحيوي غير متوفر لهذا المستخدم",
-  "loginLastUserNotFound": "المستخدم غير موجود"
+  "loginLastUserNotFound": "المستخدم غير موجود",
+  "entriesCount": "عدد المدخلات",
+  "categoriesCount": "عدد الوسوم"
 }

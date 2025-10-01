@@ -22,11 +22,16 @@ class AuthUnauthenticated extends AuthState {
 class AuthAuthenticated extends AuthState {
   final User user;
   final bool biometricEnabled;
+  final Statistics statistics;
 
-  const AuthAuthenticated({required this.user, required this.biometricEnabled});
+  const AuthAuthenticated({
+    required this.user,
+    required this.biometricEnabled,
+    required this.statistics,
+  });
 
   @override
-  List<Object> get props => [user, biometricEnabled];
+  List<Object> get props => [user, biometricEnabled, statistics];
 }
 
 class AuthError extends AuthState {

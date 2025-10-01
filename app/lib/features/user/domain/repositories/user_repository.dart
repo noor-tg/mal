@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:crypto/crypto.dart';
+import 'package:mal/features/user/domain/entities/statistics.dart';
 import 'package:mal/shared/data/models/user.dart';
 import 'package:mal/shared/query_builder.dart';
 import 'package:mal/utils/logger.dart';
@@ -52,4 +53,6 @@ abstract class UserRepository {
   Future<bool> toggleBiometric(String name, bool enabled);
 
   Future<User?> getUserByName(String name);
+
+  Future<Statistics> userStatistics(String uid);
 }

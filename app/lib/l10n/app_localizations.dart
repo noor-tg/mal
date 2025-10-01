@@ -585,6 +585,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'المستخدم غير موجود'**
   String get loginLastUserNotFound;
+
+  /// No description provided for @entriesCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'عدد المدخلات'**
+  String get entriesCount;
+
+  /// No description provided for @categoriesCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'عدد الوسوم'**
+  String get categoriesCount;
 }
 
 class _AppLocalizationsDelegate

@@ -256,4 +256,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loginLastUserNotFound => 'المستخدم غير موجود';
+
+  @override
+  String get entriesCount => 'عدد المدخلات';
+
+  @override
+  String get categoriesCount => 'عدد الوسوم';
 }

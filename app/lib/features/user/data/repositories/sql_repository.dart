@@ -1,4 +1,5 @@
 import 'package:mal/features/user/data/sources/sql_provider.dart';
+import 'package:mal/features/user/domain/entities/statistics.dart';
 import 'package:mal/features/user/domain/repositories/user_repository.dart';
 import 'package:mal/shared/data/models/user.dart';
 import 'package:mal/shared/query_builder.dart';
@@ -58,5 +59,18 @@ class SqlRepository extends UserRepository {
     }
 
     return User.fromMap(user);
+  }
+
+  @override
+  Future<Statistics> userStatistics(String uid) async {
+    final entries = await QueryBuilder(
+      'entries',
+    ).where('user_uid', '=', uid).count();
+
+    final categories = await QueryBuilder(
+      'categories',
+    ).where('user_uid', '=', uid).count();
+
+    return Statistics(entries: entries, categories: categories);
   }
 }

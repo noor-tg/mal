@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mal/features/user/data/services/biometric_service.dart';
+import 'package:mal/features/user/domain/entities/statistics.dart';
 import 'package:mal/features/user/domain/repositories/user_repository.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/user.dart';
@@ -78,9 +79,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return;
       }
 
+      final statistics = await repo.userStatistics(user.uid);
+
       await BiometricService.setLastAuthenticatedUser(user.uid);
 
-      emit(AuthAuthenticated(user: user, biometricEnabled: false));
+      emit(
+        AuthAuthenticated(
+          user: user,
+          biometricEnabled: false,
+          statistics: statistics,
+        ),
+      );
     } catch (e, t) {
       logger
         ..e(event.l10n.registerFailed)
@@ -104,7 +113,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final biometricEnabled = await BiometricService.getBiometricPreference(
         lastUser,
       );
-      emit(AuthAuthenticated(user: user, biometricEnabled: biometricEnabled));
+
+      final statistics = await repo.userStatistics(user.uid);
+
+      emit(
+        AuthAuthenticated(
+          user: user,
+          biometricEnabled: biometricEnabled,
+          statistics: statistics,
+        ),
+      );
     } catch (e, t) {
       logger
         ..e(e)
@@ -160,8 +178,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       await BiometricService.setLastAuthenticatedUser(user.uid);
 
+      final statistics = await repo.userStatistics(user.uid);
+
       emit(
-        AuthAuthenticated(user: user, biometricEnabled: user.biometricEnabled),
+        AuthAuthenticated(
+          user: user,
+          biometricEnabled: user.biometricEnabled,
+          statistics: statistics,
+        ),
       );
     } catch (e, t) {
       logger
@@ -205,10 +229,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // If currently authenticated, update state
       if (state is AuthAuthenticated) {
         final currentState = state as AuthAuthenticated;
+        final statistics = await repo.userStatistics(currentState.user.uid);
         emit(
           AuthAuthenticated(
             user: currentState.user,
             biometricEnabled: event.enabled,
+            statistics: statistics,
           ),
         );
       }
@@ -255,7 +281,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           if (user != null) {
             await BiometricService.setLastAuthenticatedUser(event.name);
             logger.i(user);
-            emit(AuthAuthenticated(user: user, biometricEnabled: true));
+            final statistics = await repo.userStatistics(user.uid);
+            emit(
+              AuthAuthenticated(
+                user: user,
+                biometricEnabled: true,
+                statistics: statistics,
+              ),
+            );
           } else {
             emit(const AuthError(message: 'User not found'));
           }
@@ -316,8 +349,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       user = await repo.getUser(event.uid);
 
+      final statistics = await repo.userStatistics(user.uid);
+
       emit(
-        AuthAuthenticated(user: user, biometricEnabled: user.biometricEnabled),
+        AuthAuthenticated(
+          user: user,
+          biometricEnabled: user.biometricEnabled,
+          statistics: statistics,
+        ),
       );
     }
   }
@@ -337,9 +376,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
 
       user = await repo.getUser(event.uid);
+      final statistics = await repo.userStatistics(user.uid);
 
       emit(
-        AuthAuthenticated(user: user, biometricEnabled: user.biometricEnabled),
+        AuthAuthenticated(
+          user: user,
+          biometricEnabled: user.biometricEnabled,
+          statistics: statistics,
+        ),
       );
     }
   }
@@ -360,9 +404,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
 
       final user = await repo.getUser(event.uid);
+      final statistics = await repo.userStatistics(user.uid);
 
       emit(
-        AuthAuthenticated(user: user, biometricEnabled: user.biometricEnabled),
+        AuthAuthenticated(
+          user: user,
+          biometricEnabled: user.biometricEnabled,
+          statistics: statistics,
+        ),
       );
     }
   }
