@@ -93,7 +93,7 @@ class _NewCategoryState extends State<NewCategory> {
     );
   }
 
-  void _submit(l10n) {
+  void _submit(AppLocalizations l10n) {
     setState(() {
       categoryTypeIsValid();
       if (_formKey.currentState!.validate() && typeIsValid) {

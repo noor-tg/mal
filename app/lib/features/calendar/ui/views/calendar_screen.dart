@@ -123,7 +123,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
-  void onFormatChanged(format) {
+  void onFormatChanged(dynamic format) {
     if (_calendarFormat == format) return;
     setState(() {
       _calendarFormat = format;

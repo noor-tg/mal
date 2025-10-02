@@ -22,7 +22,7 @@ class _UpdatePinModalState extends State<UpdatePinModal> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return BlocConsumer<AuthBloc, AuthState>(
-      listenWhen: (_, __) {
+      listenWhen: (_, _) {
         return true;
       },
       listener: (context, state) {

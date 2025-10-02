@@ -195,7 +195,7 @@ class _EntryFormState extends State<EntryForm> {
                               border: OutlineInputBorder(),
                             ),
                             isExpanded: true,
-                            value: _category,
+                            initialValue: _category,
                             validator: (value) {
                               if (value == null ||
                                   value == l10n.emptyCategoriesList) {

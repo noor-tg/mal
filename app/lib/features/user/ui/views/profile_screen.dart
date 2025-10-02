@@ -52,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     theme = Theme.of(context);
 
     return BlocBuilder<AuthBloc, AuthState>(
-      buildWhen: (_, __) => true,
+      buildWhen: (_, _) => true,
       builder: (context, state) {
         if (state is! AuthUnauthenticated) {
           context.go('/login');
@@ -92,6 +92,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   if (state is AuthAuthenticated) _buildInfoCard(state),
                   box16,
                   if (state is AuthAuthenticated) _buildStatistics(state),
+                  box16,
+                  if (state is AuthAuthenticated) _buildExporterButton(state),
                 ],
               ),
             ),
@@ -170,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       value: state.biometricEnabled,
                       onChanged: (enabled) =>
                           _toggleBiometric(enabled, state.user.name),
-                      activeColor: theme.colorScheme.primary,
+                      activeThumbColor: theme.colorScheme.primary,
                     )
                   : const Icon(Icons.block),
             ),

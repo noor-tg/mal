@@ -289,7 +289,7 @@ void advancedSearchByAmountRange() {
   });
 }
 
-advancedSearchByCategory() {
+void advancedSearchByCategory() {
   group('Advanced Search > By Categories >', () {
     late SearchRepository repo;
     late SearchBloc searchBloc;

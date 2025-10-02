@@ -25,7 +25,7 @@ class EmptyCategoriesDropdown extends StatelessWidget {
             },
             decoration: const InputDecoration(border: OutlineInputBorder()),
             isExpanded: true,
-            value: _category,
+            initialValue: _category,
             items: [
               DropdownMenuItem(
                 enabled: false,

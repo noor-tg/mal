@@ -5,7 +5,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 class GeneralSetup {
   static bool _isInited = false;
 
-  static init() async {
+  static Future<void> init() async {
     if (_isInited) return;
 
     await dotenv.load(fileName: '.env.test');

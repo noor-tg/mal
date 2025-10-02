@@ -30,41 +30,39 @@ class TypeFilter extends StatelessWidget {
               ),
               BlocBuilder<SearchBloc, SearchState>(
                 builder: (BuildContext context, state) {
-                  return ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      RadioListTile(
-                        title: Text(l10n.all),
-                        value: EntryType.all.name,
-                        groupValue: state.filters.type.name,
-                        onChanged: (String? value) {
-                          if (value == null) return;
-                          if (value.trim().isEmpty) return;
-                          context.read<SearchBloc>().add(ClearFilterByType());
-                        },
-                      ),
-                      RadioListTile(
-                        title: Text(l10n.expense),
-                        value: EntryType.expense.name,
-                        groupValue: state.filters.type.name,
-                        onChanged: (String? value) {
-                          if (value == null) return;
-                          if (value.trim().isEmpty) return;
-                          context.read<SearchBloc>().add(FilterByExpense());
-                        },
-                      ),
-                      RadioListTile(
-                        title: Text(l10n.income),
-                        value: EntryType.income.name,
-                        groupValue: state.filters.type.name,
-                        onChanged: (String? value) {
-                          if (value == null) return;
-                          if (value.trim().isEmpty) return;
-                          context.read<SearchBloc>().add(FilterByIncome());
-                        },
-                      ),
-                    ],
+                  return RadioGroup(
+                    onChanged: (String? value) {
+                      if (value == null || value.trim().isEmpty) return;
+
+                      if (value == EntryType.expense.name) {
+                        context.read<SearchBloc>().add(FilterByExpense());
+                      }
+                      if (value == EntryType.income.name) {
+                        context.read<SearchBloc>().add(FilterByIncome());
+                      }
+                      if (value == EntryType.all.name) {
+                        context.read<SearchBloc>().add(ClearFilterByType());
+                      }
+                    },
+                    groupValue: state.filters.type.name,
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        RadioListTile(
+                          title: Text(l10n.all),
+                          value: EntryType.all.name,
+                        ),
+                        RadioListTile(
+                          title: Text(l10n.expense),
+                          value: EntryType.expense.name,
+                        ),
+                        RadioListTile(
+                          title: Text(l10n.income),
+                          value: EntryType.income.name,
+                        ),
+                      ],
+                    ),
                   );
                 },
               ),

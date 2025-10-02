@@ -40,35 +40,28 @@ class _TypeFieldState extends State<TypeField> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  children: [
-                    RadioListTile(
-                      value: expenseType,
-                      groupValue: selectedType,
-                      onChanged: (value) {
-                        if (value == null) return;
-                        setState(() {
-                          selectedType = value;
-                        });
-                        widget.onPressed(value);
-                        state.didChange(value);
-                      },
-                      title: Text(l10n.expense),
-                    ),
-                    RadioListTile(
-                      value: incomeType,
-                      groupValue: selectedType,
-                      onChanged: (value) {
-                        if (value == null) return;
-                        setState(() {
-                          selectedType = value;
-                        });
-                        widget.onPressed(value);
-                        state.didChange(value);
-                      },
-                      title: Text(l10n.income),
-                    ),
-                  ],
+                RadioGroup(
+                  groupValue: selectedType,
+                  onChanged: (value) {
+                    if (value == null) return;
+                    setState(() {
+                      selectedType = value;
+                    });
+                    widget.onPressed(value);
+                    state.didChange(value);
+                  },
+                  child: Column(
+                    children: [
+                      RadioListTile(
+                        value: expenseType,
+                        title: Text(l10n.expense),
+                      ),
+                      RadioListTile(
+                        value: incomeType,
+                        title: Text(l10n.income),
+                      ),
+                    ],
+                  ),
                 ),
                 if (state.hasError)
                   Padding(
