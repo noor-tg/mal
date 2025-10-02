@@ -28,7 +28,7 @@ abstract class UserRepository {
   Future<User?> verifyPin(String name, String pin) async {
     try {
       final user = await QueryBuilder(
-        'entries',
+        'users',
       ).where('name', '=', name).getOne();
 
       if (user == null) return null;
