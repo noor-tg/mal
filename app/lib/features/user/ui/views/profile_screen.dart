@@ -53,12 +53,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     l10n = AppLocalizations.of(context)!;
     theme = Theme.of(context);
 
-    return BlocBuilder<AuthBloc, AuthState>(
+    return BlocConsumer<AuthBloc, AuthState>(
       buildWhen: (_, _) => true,
-      builder: (context, state) {
-        if (state is! AuthUnauthenticated) {
+      listener: (context, state) {
+        if (state is AuthUnauthenticated) {
           context.go('/login');
         }
+      },
+      builder: (context, state) {
         return Scaffold(
           body: Container(
             width: double.infinity,
@@ -271,7 +273,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   icon: const Icon(Icons.download, size: 24),
                   onPressed: () {
                     context.read<ExporterBloc>().add(
-                      ExportToCsv(userUid: state.user.uid),
+                      ExportToCsv(userUid: state.user.uid, l10n: l10n),
                     );
                   },
                   style: ElevatedButton.styleFrom(

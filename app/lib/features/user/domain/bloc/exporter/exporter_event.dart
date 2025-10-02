@@ -9,6 +9,9 @@ sealed class ExporterEvent extends Equatable {
 
 final class ExportToCsv extends ExporterEvent {
   final String userUid;
+  final AppLocalizations l10n;
 
-  const ExportToCsv({required this.userUid});
+  const ExportToCsv({required this.userUid, required this.l10n});
+  @override
+  List<Object> get props => [userUid, l10n];
 }

@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mal/features/user/data/services/csv_exporter.dart';
+import 'package:mal/features/user/data/services/exporter_service.dart';
+import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils/logger.dart';
 
 part 'exporter_event.dart';
@@ -19,7 +20,7 @@ class ExporterBloc extends Bloc<ExporterEvent, ExporterState> {
   ) async {
     try {
       emit(ExporterLoading());
-      await CsvExporter.exportTableToCsv(event.userUid);
+      await ExporterService.exportEntriesToTsv(event.userUid, event.l10n);
       emit(ExporterOperationSuccessful());
       logger.i('csv exported successfully');
     } catch (e, t) {
