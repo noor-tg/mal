@@ -18,6 +18,7 @@ import 'package:mal/features/reports/domain/bloc/totals/totals_bloc.dart';
 import 'package:mal/features/user/data/repositories/sql_repository.dart'
     as user;
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
+import 'package:mal/features/user/domain/bloc/exporter/exporter_bloc.dart';
 
 class BlocLoader extends StatelessWidget {
   final Widget child;
@@ -82,6 +83,7 @@ class BlocLoader extends StatelessWidget {
                 AuthBloc(repo: ctx.read<user.SqlRepository>())
                   ..add(const AuthCheckStatusRequested()),
           ),
+          BlocProvider(create: (ctx) => ExporterBloc()),
         ],
         child: child,
       ),

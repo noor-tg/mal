@@ -5,11 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mal/features/user/data/services/biometric_service.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
+import 'package:mal/features/user/domain/bloc/exporter/exporter_bloc.dart';
 import 'package:mal/features/user/ui/views/update_name_modal.dart';
 import 'package:mal/features/user/ui/views/update_pin_modal.dart';
 import 'package:mal/features/user/ui/widgets/user_image_picker.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
+import 'package:open_filex/open_filex.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -244,6 +246,86 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ),
+      ],
+    );
+  }
+
+  Widget _buildExporterButton(AuthAuthenticated state) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        BlocConsumer<ExporterBloc, ExporterState>(
+          builder: (context, exporterState) => exporterState is ExporterLoading
+              ? const Center(child: CircularProgressIndicator(value: 2))
+              : ElevatedButton.icon(
+                  label: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Text(
+                      l10n.exportToCsv,
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  icon: const Icon(Icons.download, size: 24),
+                  onPressed: () {
+                    context.read<ExporterBloc>().add(
+                      ExportToCsv(userUid: state.user.uid),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: theme.colorScheme.primary,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+          listener: (BuildContext context, ExporterState state) {
+            if (state is ExporterOperationSuccessful) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          l10n.exportCompleted,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        box24,
+                        OutlinedButton(
+                          onPressed: () async {
+                            if (!Platform.isAndroid) return;
+
+                            final downloadsDir = Directory(
+                              '/storage/emulated/0/Download',
+                            );
+
+                            if (!downloadsDir.existsSync()) return;
+
+                            await OpenFilex.open(downloadsDir.path);
+                          },
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            side: const BorderSide(
+                              color: Colors.white, // Border color
+                              width: 2.0, // Border width
+                            ),
+                          ),
+                          child: Text(
+                            l10n.openFile,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  backgroundColor: Colors.green[600],
+                ),
+              );
+            }
+          },
+        ),
+        box24,
       ],
     );
   }

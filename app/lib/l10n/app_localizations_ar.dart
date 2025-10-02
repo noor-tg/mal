@@ -262,4 +262,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get categoriesCount => 'عدد الوسوم';
+
+  @override
+  String get exportToCsv => 'تحميل البيانات';
+
+  @override
+  String get exportInProgress => 'جاري التحميل';
+
+  @override
+  String get exportCompleted => 'تم إستخراج البيانات بنجاح';
+
+  @override
+  String get openFile => 'فتح الملف';
 }

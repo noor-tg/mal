@@ -597,6 +597,30 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'عدد الوسوم'**
   String get categoriesCount;
+
+  /// No description provided for @exportToCsv.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحميل البيانات'**
+  String get exportToCsv;
+
+  /// No description provided for @exportInProgress.
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري التحميل'**
+  String get exportInProgress;
+
+  /// No description provided for @exportCompleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إستخراج البيانات بنجاح'**
+  String get exportCompleted;
+
+  /// No description provided for @openFile.
+  ///
+  /// In ar, this message translates to:
+  /// **'فتح الملف'**
+  String get openFile;
 }
 
 class _AppLocalizationsDelegate

@@ -82,5 +82,9 @@
   "bioLoginNotEnabled": "تسجيل الدخول الحيوي غير متوفر لهذا المستخدم",
   "loginLastUserNotFound": "المستخدم غير موجود",
   "entriesCount": "عدد المدخلات",
-  "categoriesCount": "عدد الوسوم"
+  "categoriesCount": "عدد الوسوم",
+  "exportToCsv": "تحميل البيانات",
+  "exportInProgress": "جاري التحميل",
+  "exportCompleted": "تم إستخراج البيانات بنجاح",
+  "openFile": "فتح الملف"
 }
