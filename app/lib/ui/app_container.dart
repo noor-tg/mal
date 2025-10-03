@@ -14,6 +14,7 @@ import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/ui/views/profile_screen.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/mal_page.dart';
+import 'package:mal/shared/domain/bloc/theme/theme_bloc.dart';
 import 'package:mal/ui/add_entry_button.dart';
 import 'package:mal/ui/bottom_button.dart';
 import 'package:mal/ui/half_border_fab.dart';
@@ -33,6 +34,8 @@ class _AppContainerState extends State<AppContainer> {
   int tabIndex = 4;
 
   List<MalPage> pages = [];
+  late AppLocalizations l10n;
+  late ThemeData theme;
 
   @override
   void initState() {
@@ -49,11 +52,19 @@ class _AppContainerState extends State<AppContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context).colorScheme;
     final authState = context.read<AuthBloc>().state;
+    l10n = AppLocalizations.of(context)!;
+    theme = Theme.of(context);
 
-    pages = [
+    pages = makePages(context, authState);
+
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) => _buildScaffold(context, state),
+    );
+  }
+
+  List<MalPage> makePages(BuildContext context, AuthState authState) {
+    return [
       MalPage(
         icon: const Icon(Icons.pie_chart, size: 24),
         title: l10n.reportsTitle,
@@ -66,7 +77,7 @@ class _AppContainerState extends State<AppContainer> {
           value: context.read<CategoriesBloc>(),
           child: CategoriesScreen(key: key),
         ),
-        action: NewCategoryButton(theme: theme),
+        action: NewCategoryButton(theme: theme.colorScheme),
       ),
       MalPage(
         icon: const Icon(Icons.search, size: 24),
@@ -97,17 +108,29 @@ class _AppContainerState extends State<AppContainer> {
         action: const LogoutButton(),
       ),
     ];
+  }
 
+  Scaffold _buildScaffold(BuildContext context, ThemeState state) {
     return Scaffold(
       resizeToAvoidBottomInset: true, // This is important
       appBar: AppBar(
         title: Text(
           pages[tabIndex].title,
-          style: TextStyle(color: theme.onPrimary),
+          style: TextStyle(color: theme.colorScheme.onPrimary),
         ),
-        backgroundColor: theme.primary,
-        iconTheme: IconThemeData(color: theme.primary.withAlpha(100)),
+        backgroundColor: theme.colorScheme.primary,
+        iconTheme: IconThemeData(
+          color: theme.colorScheme.primary.withAlpha(100),
+        ),
         actions: [
+          Switch(
+            value: state.themeMode == ThemeMode.light,
+            onChanged: (value) {
+              context.read<ThemeBloc>().add(
+                ChangeThemeEvent(value ? ThemeMode.light : ThemeMode.dark),
+              );
+            },
+          ),
           if (tabIndex != 4)
             IconButton.filled(
               icon: CircleAvatar(

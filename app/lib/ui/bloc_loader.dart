@@ -19,6 +19,7 @@ import 'package:mal/features/user/data/repositories/sql_repository.dart'
     as user;
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/domain/bloc/exporter/exporter_bloc.dart';
+import 'package:mal/shared/domain/bloc/theme/theme_bloc.dart';
 
 class BlocLoader extends StatelessWidget {
   final Widget child;
@@ -84,6 +85,7 @@ class BlocLoader extends StatelessWidget {
                   ..add(const AuthCheckStatusRequested()),
           ),
           BlocProvider(create: (ctx) => ExporterBloc()),
+          BlocProvider(create: (ctx) => ThemeBloc()),
         ],
         child: child,
       ),
