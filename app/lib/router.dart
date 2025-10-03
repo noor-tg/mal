@@ -8,25 +8,28 @@ import 'package:mal/features/user/ui/views/register_screen.dart';
 import 'package:mal/ui/app_container.dart';
 import 'package:mal/ui/splash_screen.dart';
 
+enum Routes { login, register, dashboard }
+
 GoRouter createAppRouter(BuildContext context) {
   return GoRouter(
     initialLocation: '/',
     redirect: (context, state) {
       final authState = context.read<AuthBloc>().state;
       final isSplashRoute = state.matchedLocation == '/';
-      final isLoginRoute = state.matchedLocation == '/login';
-      final isRegisterRoute = state.matchedLocation == '/register';
+      final isLoginRoute = state.matchedLocation == '/${Routes.login.name}';
+      final isRegisterRoute =
+          state.matchedLocation == '/${Routes.register.name}';
 
       // If authenticated and trying to access login/register/splash, redirect to dashboard
       if (authState is AuthAuthenticated &&
           (isRegisterRoute || isSplashRoute || isLoginRoute)) {
-        return '/dashboard';
+        return '/${Routes.dashboard.name}';
       }
 
       // If not authenticated and trying to access dashboard, redirect to login
       if (authState is AuthUnauthenticated &&
           (!isSplashRoute && !isLoginRoute && !isRegisterRoute)) {
-        return '/login';
+        return '/${Routes.login.name}';
       }
 
       return null; // No redirect needed

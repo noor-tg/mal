@@ -285,6 +285,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (state is ExporterOperationSuccessful) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
+                  behavior: SnackBarBehavior.floating,
                   content: Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

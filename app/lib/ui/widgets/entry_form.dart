@@ -5,6 +5,7 @@ import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/category.dart';
 import 'package:mal/shared/data/models/entry.dart';
+import 'package:mal/shared/popups.dart';
 import 'package:mal/ui/widgets/date_selector.dart';
 import 'package:mal/ui/widgets/dismess_modal_button.dart';
 import 'package:mal/ui/widgets/empty_categories_dropdown.dart';
@@ -288,15 +289,11 @@ class _EntryFormState extends State<EntryForm> {
           context.read<EntriesBloc>().add(EditEntry(entry));
         }
         Navigator.of(context).pop(widget.entry != null);
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(l10n.entrySavedSuccessfully)));
+        successPopup(message: l10n.entrySavedSuccessfully, context: context);
       }
     } catch (error) {
       logger.e(error);
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(error.toString())));
+      errorPopup(message: error.toString(), context: context);
     }
   }
 

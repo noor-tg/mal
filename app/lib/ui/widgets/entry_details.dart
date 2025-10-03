@@ -20,6 +20,8 @@ class EntryDetails extends StatefulWidget {
 
 class _EntryDetailsState extends State<EntryDetails> {
   late Entry entry;
+  late AppLocalizations l10n;
+
   @override
   void initState() {
     super.initState();
@@ -28,7 +30,7 @@ class _EntryDetailsState extends State<EntryDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -41,28 +43,7 @@ class _EntryDetailsState extends State<EntryDetails> {
             ),
             color: Colors.red,
             icon: const Icon(Icons.delete),
-            onPressed: () {
-              final entriesBloc = context.read<EntriesBloc>();
-
-              // ignore: cascade_invocations
-              entriesBloc.add(RemoveEntry(entry));
-              // ignore: use_build_context_synchronously
-              ScaffoldMessenger.of(context).clearSnackBars();
-              // ignore: use_build_context_synchronously
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(l10n.entryRemovedSuccessfully),
-                  duration: const Duration(seconds: 7),
-                  action: SnackBarAction(
-                    onPressed: () {
-                      entriesBloc.add(StoreEntry(entry));
-                    },
-                    label: l10n.reset,
-                  ),
-                ),
-              );
-              Navigator.of(context).pop();
-            },
+            onPressed: () => _onRemoveEntry(context),
           ),
           box8,
           IconButton.filled(
@@ -73,27 +54,7 @@ class _EntryDetailsState extends State<EntryDetails> {
             color: Colors.blue,
             icon: const Icon(Icons.edit),
             onPressed: () async {
-              final entriesBloc = context.read<EntriesBloc>();
-              final result = await showModalBottomSheet<bool>(
-                useSafeArea: true,
-                isScrollControlled: true,
-                context: context,
-                builder: (ctx) => BlocProvider.value(
-                  value: entriesBloc,
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.90,
-                    child: EntryForm(entry: entry),
-                  ),
-                ),
-              );
-              if (result == true) {
-                final result = await QueryBuilder(
-                  'entries',
-                ).where('uid', '=', entry.uid).getOne();
-                setState(() {
-                  entry = Entry.fromMap(result!);
-                });
-              }
+              _onEditEntry();
             },
           ),
           box16,
@@ -109,43 +70,7 @@ class _EntryDetailsState extends State<EntryDetails> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Card.filled(
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(48),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text(
-                          moneyFormat(entry.amount),
-                          style: Theme.of(context).textTheme.displayMedium
-                              ?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                        ),
-                        box16,
-                        Card.filled(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.primary.withAlpha(30),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              '# ${entry.category}',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              _buildMountCard(context),
               box16,
               MalTitle(text: l10n.title),
               box8,
@@ -160,18 +85,59 @@ class _EntryDetailsState extends State<EntryDetails> {
               box16,
               MalTitle(text: l10n.date),
               box8,
+              _buildDateCard(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Card _buildDateCard() {
+    return Card.filled(
+      color: Colors.white,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(formatDateWithEnglishNumbers(entry.date)),
+            box16,
+            Text(relativeTime(entry.date)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Card _buildMountCard(BuildContext context) {
+    return Card.filled(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(48),
+        child: Center(
+          child: Column(
+            children: [
+              Text(
+                moneyFormat(entry.amount),
+                style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              box16,
               Card.filled(
-                color: Colors.white,
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(formatDateWithEnglishNumbers(entry.date)),
-                      box16,
-                      Text(relativeTime(entry.date)),
-                    ],
+                color: Theme.of(context).colorScheme.primary.withAlpha(30),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    '# ${entry.category}',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -180,5 +146,48 @@ class _EntryDetailsState extends State<EntryDetails> {
         ),
       ),
     );
+  }
+
+  void _onRemoveEntry(BuildContext context) {
+    final entriesBloc = context.read<EntriesBloc>()..add(RemoveEntry(entry));
+
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        content: Text(l10n.entryRemovedSuccessfully),
+        duration: const Duration(seconds: 7),
+        action: SnackBarAction(
+          onPressed: () {
+            entriesBloc.add(StoreEntry(entry));
+          },
+          label: l10n.reset,
+        ),
+      ),
+    );
+    Navigator.of(context).pop();
+  }
+
+  void _onEditEntry() async {
+    final entriesBloc = context.read<EntriesBloc>();
+    final result = await showModalBottomSheet<bool>(
+      useSafeArea: true,
+      isScrollControlled: true,
+      context: context,
+      builder: (ctx) => BlocProvider.value(
+        value: entriesBloc,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.90,
+          child: EntryForm(entry: entry),
+        ),
+      ),
+    );
+    if (result != true) return;
+    final out = await QueryBuilder(
+      'entries',
+    ).where('uid', '=', entry.uid).getOne();
+    setState(() {
+      entry = Entry.fromMap(out!);
+    });
   }
 }

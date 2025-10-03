@@ -7,6 +7,7 @@ import 'package:mal/features/user/ui/views/field_label.dart';
 import 'package:mal/features/user/ui/widgets/pin_input.dart';
 import 'package:mal/features/user/utils.dart';
 import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/shared/popups.dart';
 import 'package:mal/utils.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -215,7 +216,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void listenToChanges(BuildContext context, AuthState state) {
     switch (state) {
       case AuthError():
-        errorSnakbar(message: state.message, context: context);
+        errorPopup(message: state.message, context: context);
         break;
       case AuthAuthenticated():
         context.go('/dashboard');

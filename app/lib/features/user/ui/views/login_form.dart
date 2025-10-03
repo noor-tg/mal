@@ -9,6 +9,7 @@ import 'package:mal/features/user/ui/widgets/pin_input.dart';
 import 'package:mal/features/user/utils.dart';
 import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/user.dart';
+import 'package:mal/shared/popups.dart';
 import 'package:mal/utils.dart';
 import 'package:mal/utils/logger.dart';
 
@@ -202,7 +203,7 @@ class _LoginFormState extends State<LoginForm> {
   void listenToChanges(BuildContext context, AuthState state) {
     switch (state) {
       case AuthError():
-        errorSnakbar(message: state.message, context: context);
+        errorPopup(message: state.message, context: context);
         break;
       case AuthAuthenticated():
         context.go('/dashboard');
@@ -219,7 +220,7 @@ class _LoginFormState extends State<LoginForm> {
         ? _nameController.text
         : null;
     if (name == null) {
-      errorSnakbar(context: context, message: l10n.loginMessageSelectUser);
+      errorPopup(context: context, message: l10n.loginMessageSelectUser);
       return;
     }
 
@@ -231,7 +232,7 @@ class _LoginFormState extends State<LoginForm> {
     if (!mounted) return;
 
     if (!biometricEnabled) {
-      errorSnakbar(context: context, message: l10n.bioLoginNotEnabled);
+      errorPopup(context: context, message: l10n.bioLoginNotEnabled);
       return;
     }
 
@@ -273,7 +274,7 @@ class _LoginFormState extends State<LoginForm> {
         ..e(e)
         ..t(t);
       if (!mounted) return;
-      errorSnakbar(
+      errorPopup(
         context: context,
         message: AppLocalizations.of(context)!.loginLastUserNotFound,
       );
