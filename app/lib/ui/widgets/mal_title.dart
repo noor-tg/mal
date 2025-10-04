@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mal/utils.dart';
 
 class MalTitle extends StatelessWidget {
   const MalTitle({super.key, required this.text});
@@ -9,9 +10,9 @@ class MalTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: Theme.of(
-        context,
-      ).textTheme.headlineMedium?.copyWith(color: Colors.grey.shade600),
+      style: context.texts.headlineMedium?.copyWith(
+        color: context.colors.onSurfaceVariant,
+      ),
     );
   }
 }

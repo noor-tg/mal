@@ -12,7 +12,6 @@ import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/features/search/ui/views/search_screen.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/ui/views/profile_screen.dart';
-import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/mal_page.dart';
 import 'package:mal/shared/domain/bloc/theme/theme_bloc.dart';
 import 'package:mal/ui/add_entry_button.dart';
@@ -30,17 +29,11 @@ class AppContainer extends StatefulWidget {
 }
 
 class _AppContainerState extends State<AppContainer> {
-  late PageController _pageController;
-  int tabIndex = 4;
-
   List<MalPage> pages = [];
-  late AppLocalizations l10n;
-  late ThemeData theme;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: tabIndex);
     final authState = context.read<AuthBloc>().state;
     if (authState is! AuthAuthenticated) return;
 
@@ -53,14 +46,10 @@ class _AppContainerState extends State<AppContainer> {
   @override
   Widget build(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
-    l10n = AppLocalizations.of(context)!;
-    theme = Theme.of(context);
 
     pages = makePages(context, authState);
 
-    return BlocBuilder<ThemeBloc, ThemeState>(
-      builder: (context, state) => _buildScaffold(context, state),
-    );
+    return BlocBuilder<ThemeBloc, ThemeState>(builder: _buildScaffold);
   }
 
   List<MalPage> makePages(BuildContext context, AuthState authState) {
@@ -77,7 +66,7 @@ class _AppContainerState extends State<AppContainer> {
           value: context.read<CategoriesBloc>(),
           child: CategoriesScreen(key: key),
         ),
-        action: NewCategoryButton(theme: theme.colorScheme),
+        action: NewCategoryButton(theme: colors),
       ),
       MalPage(
         icon: const Icon(Icons.search, size: 24),
@@ -115,13 +104,14 @@ class _AppContainerState extends State<AppContainer> {
       resizeToAvoidBottomInset: true, // This is important
       appBar: AppBar(
         title: Text(
-          pages[tabIndex].title,
-          style: TextStyle(color: theme.colorScheme.onPrimary),
+          pages[state.tabIndex].title,
+          style: theme.appBarTheme.titleTextStyle?.copyWith(
+            fontWeight: FontWeight.bold,
+            backgroundColor: colors.onPrimary,
+          ),
         ),
-        backgroundColor: theme.colorScheme.primary,
-        iconTheme: IconThemeData(
-          color: theme.colorScheme.primary.withAlpha(100),
-        ),
+        backgroundColor: colors.primaryContainer,
+        iconTheme: IconThemeData(color: colors.onPrimary.withAlpha(100)),
         actions: [
           Switch(
             value: state.themeMode == ThemeMode.light,
@@ -131,12 +121,12 @@ class _AppContainerState extends State<AppContainer> {
               );
             },
           ),
-          if (tabIndex != 4)
-            IconButton.filled(
+          if (state.tabIndex != 4)
+            IconButton(
               icon: CircleAvatar(
                 radius: 18,
                 backgroundImage: pages[4].avatar,
-                backgroundColor: Colors.white,
+                backgroundColor: colors.onPrimary,
               ),
               onPressed: () {
                 onTabPress(4);
@@ -145,60 +135,47 @@ class _AppContainerState extends State<AppContainer> {
           box16,
         ],
       ),
-      body: PageView.builder(
-        itemCount: pages.length,
-        physics: const NeverScrollableScrollPhysics(),
-        controller: _pageController,
-        onPageChanged: (index) => setState(() => tabIndex = index),
-        itemBuilder: (BuildContext context, int index) {
-          // use Unieque key to make full reload of widget on tab change
-          return pages[index].widget(
-            ValueKey(tabIndex == index ? UniqueKey() : null),
-          );
-        },
+      body: IndexedStack(
+        index: state.tabIndex,
+
+        children: pages
+            .map((page) => page.widget(ValueKey(page.title)) as Widget)
+            .toList(),
       ),
       floatingActionButton: HalfBorderFab(
-        child: pages[tabIndex].action ?? AddEntryButton(l10n: l10n),
+        child: pages[state.tabIndex].action ?? AddEntryButton(l10n: l10n),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         height: 88,
-        color: Colors.white,
+        color: colors.surfaceBright,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             BottomButton(
-              activeTab: tabIndex,
+              activeTab: state.tabIndex,
               pages: pages,
               index: 0,
-              onPressed: () {
-                onTabPress(0);
-              },
+              onPressed: () => onTabPress(0),
             ),
             BottomButton(
-              activeTab: tabIndex,
+              activeTab: state.tabIndex,
               pages: pages,
               index: 1,
-              onPressed: () {
-                onTabPress(1);
-              },
+              onPressed: () => onTabPress(1),
             ),
             const SizedBox(width: 48),
             BottomButton(
-              activeTab: tabIndex,
+              activeTab: state.tabIndex,
               pages: pages,
               index: 2,
-              onPressed: () {
-                onTabPress(2);
-              },
+              onPressed: () => onTabPress(2),
             ),
             BottomButton(
-              activeTab: tabIndex,
+              activeTab: state.tabIndex,
               pages: pages,
               index: 3,
-              onPressed: () {
-                onTabPress(3);
-              },
+              onPressed: () => onTabPress(3),
             ),
           ],
         ),
@@ -207,13 +184,6 @@ class _AppContainerState extends State<AppContainer> {
   }
 
   void onTabPress(int index) {
-    setState(() {
-      _pageController.animateToPage(
-        index,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-      tabIndex = index;
-    });
+    context.read<ThemeBloc>().add(ChangeTab(index));
   }
 }

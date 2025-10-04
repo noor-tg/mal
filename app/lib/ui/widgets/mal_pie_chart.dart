@@ -16,14 +16,13 @@ class _MalPieChartState extends State<MalPieChart> {
 
   @override
   Widget build(BuildContext context) {
-    final pieItemStyle = Theme.of(
-      context,
-    ).textTheme.titleMedium?.copyWith(color: Colors.grey[700]);
+    final pieItemStyle = texts.titleMedium?.copyWith(color: colors.onSurface);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24.0),
+      padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          box8,
           AspectRatio(
             aspectRatio: 2,
             child: PieChart(
@@ -57,7 +56,7 @@ class _MalPieChartState extends State<MalPieChart> {
           box8,
           for (final item in widget.list)
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: Row(
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -92,7 +91,7 @@ class _MalPieChartState extends State<MalPieChart> {
       final isTouched = item['title'] == touchedTitle;
       final fontSize = isTouched ? 25.0 : 18.0;
       final radius = isTouched ? 68.0 : 60.0;
-      const shadows = [Shadow(blurRadius: 8)];
+      final shadows = [Shadow(blurRadius: 8, color: colors.onSurface)];
       pieData.add(
         PieChartSectionData(
           color: item['color'],
@@ -102,7 +101,7 @@ class _MalPieChartState extends State<MalPieChart> {
           titleStyle: TextStyle(
             fontSize: fontSize,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: colors.surface,
             shadows: shadows,
           ),
         ),

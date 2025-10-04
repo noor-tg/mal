@@ -5,6 +5,7 @@ import 'package:mal/features/reports/domain/bloc/totals/totals_bloc.dart';
 import 'package:mal/features/reports/domain/entities/totals.dart';
 import 'package:mal/ui/widgets/sums_card.dart';
 import 'package:shimmer_effects_plus/shimmer_effects_plus.dart';
+import 'package:mal/utils.dart';
 
 class SumsLoader extends StatelessWidget {
   const SumsLoader({super.key});
@@ -13,11 +14,10 @@ class SumsLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TotalsBloc, TotalsState>(
       builder: (BuildContext context, state) {
-        final primary = Theme.of(context).colorScheme.primary;
         if (state.status == BlocStatus.loading) {
           return ShimmerEffectWidget.cover(
-            subColor: primary.withAlpha(255),
-            mainColor: primary.withAlpha(200),
+            subColor: context.colors.primary.withAlpha(255),
+            mainColor: context.colors.primary.withAlpha(200),
             period: const Duration(milliseconds: 1500),
             direction: ShimmerDirection.ttb,
             child: const SumsCard(

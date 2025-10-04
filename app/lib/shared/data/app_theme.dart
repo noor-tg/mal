@@ -8,6 +8,11 @@ class AppTheme {
     ),
     useMaterial3: true,
     textTheme: Typography.blackCupertino,
+    cardTheme: const CardThemeData(
+      color: Colors.white,
+      // surfaceTintColor: Colors.transparent,
+      elevation: 2,
+    ),
   );
 
   static final dark = ThemeData(
@@ -17,5 +22,10 @@ class AppTheme {
     ),
     useMaterial3: true,
     textTheme: Typography.whiteCupertino,
+    cardTheme: CardThemeData(
+      color: Colors.grey[300],
+      // surfaceTintColor: Colors.transparent,
+      elevation: 2,
+    ),
   );
 }

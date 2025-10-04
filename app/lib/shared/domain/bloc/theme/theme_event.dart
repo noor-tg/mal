@@ -13,3 +13,10 @@ class ChangeThemeEvent extends ThemeEvent {
   final ThemeMode themeMode;
   const ChangeThemeEvent(this.themeMode);
 }
+
+class LoadTab extends ThemeEvent {}
+
+class ChangeTab extends ThemeEvent {
+  final int index;
+  const ChangeTab(this.index);
+}

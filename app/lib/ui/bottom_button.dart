@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mal/mal_page.dart';
+import 'package:mal/utils.dart';
 
 class BottomButton extends StatelessWidget {
   const BottomButton({
@@ -20,8 +21,8 @@ class BottomButton extends StatelessWidget {
     return TextButton(
       style: TextButton.styleFrom(
         foregroundColor: activeTab == index
-            ? Theme.of(context).colorScheme.primary
-            : Colors.grey.shade600,
+            ? context.colors.primary
+            : context.colors.onSurface,
       ),
 
       onPressed: onPressed,

@@ -17,7 +17,7 @@ class CategoriesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.colors.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(8),
       ),
       child: ListView.builder(
@@ -32,15 +32,15 @@ class CategoriesList extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: Colors.red,
+                color: context.colors.error,
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.cancel, color: Colors.white),
+                  Icon(Icons.cancel, color: context.colors.onError),
                   box8,
                   Text(
                     AppLocalizations.of(context)!.remove,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: context.colors.onError),
                   ),
                 ],
               ),

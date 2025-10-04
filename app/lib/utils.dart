@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:mal/shared/db.dart';
 import 'package:uuid/uuid.dart';
 import 'package:sqflite/sqflite.dart' as sql;
+import 'package:mal/l10n/app_localizations.dart';
 
 const uuid = Uuid();
 final formatter = DateFormat.yMd();
@@ -65,4 +66,27 @@ String formatDateWithEnglishNumbers(String date) {
   });
 
   return result;
+}
+
+// theme for stateless
+extension ThemeExtension on BuildContext {
+  ThemeData get theme => Theme.of(this);
+  ColorScheme get colors => theme.colorScheme;
+  TextTheme get texts => theme.textTheme;
+}
+
+// l10n for stateless
+extension L10nExtension on BuildContext {
+  AppLocalizations get l10n => AppLocalizations.of(this)!;
+}
+
+// for stateful widgets
+extension ThemeStateExtension<T extends StatefulWidget> on State<T> {
+  // theme
+  ThemeData get theme => Theme.of(context);
+  ColorScheme get colors => theme.colorScheme;
+  TextTheme get texts => theme.textTheme;
+
+  // l10n
+  AppLocalizations get l10n => AppLocalizations.of(context)!;
 }

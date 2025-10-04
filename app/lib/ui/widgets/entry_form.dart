@@ -60,8 +60,6 @@ class _EntryFormState extends State<EntryForm> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
     return BlocBuilder<CategoriesBloc, CategoriesState>(
       builder: (BuildContext ctx, state) {
         List<Category> categoriesByType = [];
@@ -92,7 +90,7 @@ class _EntryFormState extends State<EntryForm> {
         return Container(
           padding: const EdgeInsets.all(16),
           width: double.infinity,
-          color: Colors.white,
+          color: colors.surface,
           child: Form(
             key: _formKey,
             child: SingleChildScrollView(
@@ -120,10 +118,7 @@ class _EntryFormState extends State<EntryForm> {
                   const SizedBox(height: 24),
                   Text(
                     l10n.categoryTitle,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                    style: TextStyle(fontSize: 18, color: colors.primary),
                   ),
                   box8,
                   TextFormField(
@@ -151,10 +146,7 @@ class _EntryFormState extends State<EntryForm> {
                   const SizedBox(height: 24),
                   Text(
                     l10n.amount,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                    style: TextStyle(fontSize: 18, color: colors.primary),
                   ),
                   box8,
                   TextFormField(
@@ -181,10 +173,7 @@ class _EntryFormState extends State<EntryForm> {
                   const SizedBox(height: 24),
                   Text(
                     l10n.category,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                    style: TextStyle(fontSize: 18, color: colors.primary),
                   ),
                   box8,
                   if (categoriesByType.isNotEmpty)
@@ -233,10 +222,7 @@ class _EntryFormState extends State<EntryForm> {
                   const SizedBox(height: 24),
                   Text(
                     l10n.date,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                    style: TextStyle(fontSize: 18, color: colors.primary),
                   ),
                   box8,
                   DateSelector(date: _date, selectDate: selectDate),

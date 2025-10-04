@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mal/constants.dart';
+import 'package:mal/utils.dart';
 
 class MalPageContainer extends StatelessWidget {
   const MalPageContainer({super.key, required this.child});
@@ -9,7 +9,8 @@ class MalPageContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: kBgColor),
+      height: double.infinity,
+      decoration: BoxDecoration(color: context.colors.surfaceContainer),
       padding: const EdgeInsets.only(left: 24, right: 24, top: 16),
       child: SingleChildScrollView(child: child),
     );

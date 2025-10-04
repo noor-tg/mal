@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mal/features/reports/domain/entities/totals.dart';
-import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
 
 class SumsCard extends StatelessWidget {
@@ -10,21 +9,18 @@ class SumsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
     return Column(
       children: [
         Row(
           children: [
             Expanded(
-              child: Card.filled(
-                color: Colors.white,
+              child: Card(
                 child: Column(
                   children: [
                     const SizedBox(height: 16),
                     Text(
-                      l10n!.reportsBalance,
-                      style: theme.textTheme.titleLarge?.copyWith(
+                      context.l10n.reportsBalance,
+                      style: context.texts.titleLarge?.copyWith(
                         color: Colors.blue[200],
                         fontWeight: FontWeight.bold,
                       ),
@@ -32,7 +28,7 @@ class SumsCard extends StatelessWidget {
                     const SizedBox(width: 16),
                     Text(
                       moneyFormat(totals.balance),
-                      style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                      style: context.texts.displaySmall?.copyWith(
                         color: Colors.lightBlue,
                         fontWeight: FontWeight.bold,
                       ),
@@ -48,23 +44,23 @@ class SumsCard extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: Card.filled(
-                color: Colors.white,
+              child: Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
                       Text(
-                        l10n.expenses,
-                        style: theme.textTheme.titleMedium?.copyWith(
+                        context.l10n.expenses,
+                        style: context.texts.titleMedium?.copyWith(
                           color: Colors.red[200],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         moneyFormat(totals.expenses),
-                        style: Theme.of(context).textTheme.headlineMedium
-                            ?.copyWith(color: Colors.red[700]),
+                        style: context.texts.headlineMedium?.copyWith(
+                          color: Colors.red[700],
+                        ),
                       ),
                     ],
                   ),
@@ -72,15 +68,14 @@ class SumsCard extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Card.filled(
-                color: Colors.white,
+              child: Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
                       Text(
-                        l10n.income,
-                        style: theme.textTheme.titleMedium?.copyWith(
+                        context.l10n.income,
+                        style: context.theme.textTheme.titleMedium?.copyWith(
                           color: Colors.green[400],
                           fontWeight: FontWeight.bold,
                         ),

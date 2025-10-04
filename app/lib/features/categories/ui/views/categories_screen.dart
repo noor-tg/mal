@@ -26,11 +26,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
-    final titleStyle = Theme.of(
-      context,
-    ).textTheme.titleLarge?.copyWith(color: Colors.grey.shade600);
+    final titleStyle = texts.titleLarge?.copyWith(color: colors.onSurface);
 
     return BlocBuilder<CategoriesBloc, CategoriesState>(
       buildWhen: (prev, current) => prev.categories != current.categories,
@@ -59,8 +55,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   Center buildCenter(AppLocalizations l10n) {
     return Center(
-      child: Card.filled(
-        color: Colors.white,
+      child: Card(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Text(l10n.emptyCategoriesList),

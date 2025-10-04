@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mal/ui/half_border_painter.dart';
+import 'package:mal/utils.dart';
 
 class HalfBorderFab extends StatelessWidget {
   final Widget child;
@@ -14,7 +15,7 @@ class HalfBorderFab extends StatelessWidget {
         CustomPaint(
           size: const Size(72, 72), // same size as FAB
           painter: HalfBorderPainter(
-            color: Colors.grey.shade200,
+            color: context.colors.surfaceContainerLow,
             strokeWidth: 16,
           ),
         ),

@@ -14,8 +14,7 @@ class PieChartLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card.filled(
-      color: Colors.white,
+    return Card(
       child: BlocBuilder<CategoriesReportBloc, CategoriesReportState>(
         builder: (context, state) {
           if (state.status == BlocStatus.loading) {
@@ -29,7 +28,7 @@ class PieChartLoader extends StatelessWidget {
             return Center(
               child: Text(
                 'Error loading data: ${state.errorMessage}',
-                style: const TextStyle(color: Colors.red, fontSize: 16),
+                style: const TextStyle(color: Colors.redAccent, fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             );
@@ -51,7 +50,7 @@ class PieChartLoader extends StatelessWidget {
           }
 
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+            padding: const EdgeInsets.all(24),
             child: Center(
               child: MalPieChart(list: data.map((row) => row.toMap()).toList()),
             ),
