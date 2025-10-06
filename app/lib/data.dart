@@ -21,6 +21,11 @@ final categories = [
   {'title': 'ملابس', 'type': expenseType},
   {'title': 'خدمات', 'type': expenseType},
   {'title': 'أخرى', 'type': expenseType},
+  {'title': 'مرتب', 'type': incomeType},
+  {'title': 'عمل حر', 'type': incomeType},
+  {'title': 'بيع منتج', 'type': incomeType},
+  {'title': 'تنفيذ خدمة', 'type': incomeType},
+  {'title': 'أخرى', 'type': incomeType},
 ];
 
 Future<void> generateData() async {
