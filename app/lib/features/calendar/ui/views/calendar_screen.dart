@@ -21,7 +21,7 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  calendar.CalendarFormat _calendarFormat = calendar.CalendarFormat.month;
+  calendar.CalendarFormat _calendarFormat = calendar.CalendarFormat.twoWeeks;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   late StreamSubscription<EntriesState> stream;

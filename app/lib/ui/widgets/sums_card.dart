@@ -10,87 +10,76 @@ class SumsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Card(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 16),
-                    Text(
-                      context.l10n.reportsBalance,
-                      style: context.texts.titleLarge?.copyWith(
-                        color: Colors.blue[200],
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Text(
-                      moneyFormat(totals.balance),
-                      style: context.texts.displaySmall?.copyWith(
-                        color: Colors.lightBlue,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                  ],
+        Card(
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+              Text(
+                context.l10n.reportsBalance,
+                style: context.texts.titleLarge?.copyWith(
+                  color: Colors.blue[200],
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-          ],
+              const SizedBox(width: 16),
+              Text(
+                moneyFormat(totals.balance),
+                style: context.texts.displaySmall?.copyWith(
+                  color: Colors.lightBlue,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
         const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Text(
-                        context.l10n.expenses,
-                        style: context.texts.titleMedium?.copyWith(
-                          color: Colors.red[200],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        moneyFormat(totals.expenses),
-                        style: context.texts.headlineMedium?.copyWith(
-                          color: Colors.red[700],
-                        ),
-                      ),
-                    ],
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Text(
+                  context.l10n.expenses,
+                  style: context.texts.titleLarge?.copyWith(
+                    color: Colors.red[200],
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-            ),
-            Expanded(
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Text(
-                        context.l10n.income,
-                        style: context.theme.textTheme.titleMedium?.copyWith(
-                          color: Colors.green[400],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        moneyFormat(totals.incomes),
-                        style: Theme.of(context).textTheme.headlineMedium
-                            ?.copyWith(color: Colors.green[700]),
-                      ),
-                    ],
+                Text(
+                  moneyFormat(totals.expenses),
+                  style: context.texts.displaySmall?.copyWith(
+                    color: Colors.red[700],
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Text(
+                  context.l10n.income,
+                  style: context.texts.titleLarge?.copyWith(
+                    color: Colors.green[400],
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  moneyFormat(totals.incomes),
+                  style: context.texts.displaySmall?.copyWith(
+                    color: Colors.green[700],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ],
     );

@@ -23,7 +23,7 @@ class CalendarCell extends StatelessWidget {
       margin: const EdgeInsets.all(4),
       width: double.infinity,
       height: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: context.colors.surfaceContainer,
@@ -42,9 +42,9 @@ class CalendarCell extends StatelessWidget {
           if (hasTransactions) ...[
             if (totals.incomes > 0)
               Text(
-                '+${approximate(totals.incomes.toInt())}',
+                approximate(totals.incomes.toInt()),
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 10,
                   height: 1.5,
                   color: Colors.green[700],
                   fontWeight: FontWeight.bold,
@@ -52,9 +52,9 @@ class CalendarCell extends StatelessWidget {
               ),
             if (totals.expenses > 0)
               Text(
-                '-${approximate(totals.expenses.toInt())}',
+                approximate(totals.expenses.toInt()),
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 10,
                   height: 1.5,
                   color: Colors.red[700],
                   fontWeight: FontWeight.bold,

@@ -71,7 +71,7 @@ class EntriesList extends StatelessWidget {
           thickness: 2,
           indent: 16,
           endIndent: 16,
-          color: Colors.grey[200],
+          color: context.colors.onSurfaceVariant.withAlpha(50),
         ),
       ),
     );
