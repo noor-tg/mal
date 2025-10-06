@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
-import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/ui/widgets/entry_details.dart';
 import 'package:mal/ui/widgets/no_data_centered.dart';
 import 'package:mal/utils.dart';
@@ -47,8 +46,8 @@ class _SearchBodyState extends State<SearchBody> {
     final shimmerList = ShimmerList(
       height: 80,
       radius: 8,
-      subColor: Colors.white,
-      mainColor: Colors.grey[300]!,
+      subColor: colors.surface,
+      mainColor: colors.surfaceDim,
       qtyLine: 1,
     );
     return BlocBuilder<SearchBloc, SearchState>(
@@ -79,8 +78,6 @@ class _SearchBodyState extends State<SearchBody> {
     required BuildContext context,
     required ShimmerList shimmerList,
   }) {
-    final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -88,15 +85,12 @@ class _SearchBodyState extends State<SearchBody> {
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
             '${l10n.searchTitleResults} : ${state.result.count}',
-            style: theme.textTheme.titleLarge?.copyWith(
-              color: Colors.grey.shade600,
-            ),
+            style: texts.titleLarge?.copyWith(color: colors.onSurface),
           ),
         ),
         box8,
         Expanded(
-          child: Card.filled(
-            color: Colors.white,
+          child: Card(
             child: SingleChildScrollView(
               controller: scrollController,
               child: Column(
@@ -121,9 +115,9 @@ class _SearchBodyState extends State<SearchBody> {
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           child: Text(
                             l10n.noMoreData,
-                            style: theme.textTheme.bodySmall?.copyWith(
+                            style: texts.bodySmall?.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: Colors.blueGrey,
+                              color: colors.onSurfaceVariant,
                             ),
                           ),
                         ),
@@ -139,8 +133,6 @@ class _SearchBodyState extends State<SearchBody> {
   }
 
   Widget? listItemBuilder(BuildContext context, int index, SearchState state) {
-    final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
     final entry = state.result.list[index];
     return ListTile(
       onTap: () {
@@ -150,24 +142,22 @@ class _SearchBodyState extends State<SearchBody> {
       },
       title: Text(
         '${index + 1} - ${entry.description.length > 25 ? entry.description.substring(0, 24) : entry.description}',
-        style: theme.textTheme.titleMedium?.copyWith(
-          color: Colors.grey.shade800,
-        ),
+        style: texts.titleMedium?.copyWith(color: colors.onSurface),
       ),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             entry.category,
-            style: theme.textTheme.bodyLarge?.copyWith(
-              color: Colors.grey.shade500,
+            style: texts.bodyLarge?.copyWith(
+              color: colors.secondary,
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
             toDate(DateTime.parse(entry.date)),
-            style: theme.textTheme.bodyLarge?.copyWith(
-              color: Colors.grey.shade500,
+            style: texts.bodyLarge?.copyWith(
+              color: colors.secondary,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -176,9 +166,7 @@ class _SearchBodyState extends State<SearchBody> {
       isThreeLine: true,
       trailing: Text(
         entry.prefixedAmount(l10n.income),
-        style: theme.textTheme.bodyLarge?.copyWith(
-          color: entry.color(l10n.income),
-        ),
+        style: texts.bodyLarge?.copyWith(color: entry.color(l10n.income)),
       ),
     );
   }

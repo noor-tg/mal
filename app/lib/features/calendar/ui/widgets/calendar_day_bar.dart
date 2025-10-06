@@ -22,7 +22,7 @@ class CalendarDayBar extends StatelessWidget {
         '${l10n.entries} ${selectedDay != null ? toDate(selectedDay!) : ""}';
     return Container(
       padding: const EdgeInsets.all(16),
-      color: Colors.grey[100],
+      color: context.colors.surfaceContainerLow,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

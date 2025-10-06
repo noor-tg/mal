@@ -3,11 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
-import 'package:mal/features/user/ui/views/field_label.dart';
 import 'package:mal/features/user/ui/widgets/pin_input.dart';
 import 'package:mal/features/user/utils.dart';
-import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/popups.dart';
+import 'package:mal/ui/widgets/field_label.dart';
 import 'package:mal/utils.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -23,29 +22,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _pinInputKey = GlobalKey<State<PinInput>>();
   String _pinValue = '';
 
-  late ColorScheme theme;
-  late AppLocalizations l10n;
-
   @override
   Widget build(BuildContext context) {
-    l10n = AppLocalizations.of(context)!;
-    theme = Theme.of(context).colorScheme;
-
     return Scaffold(
-      backgroundColor: theme.primaryContainer,
+      backgroundColor: colors.surfaceContainer,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
             children: [
               CircleAvatar(
                 radius: 88,
-                backgroundColor: Colors.white,
+                backgroundColor: colors.primaryContainer,
                 child: Text(
                   l10n.logo,
                   style: GoogleFonts.arefRuqaa(
                     fontSize: 80,
                     fontWeight: FontWeight.bold,
-                    color: theme.primary,
+                    color: colors.primary,
                   ),
                 ),
               ),
@@ -60,7 +53,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               Card(
-                color: Colors.white,
                 margin: const EdgeInsets.all(20),
                 child: SingleChildScrollView(
                   child: Padding(
@@ -110,12 +102,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _submitForm,
-              style: ElevatedButton.styleFrom(backgroundColor: theme.primary),
+              style: ElevatedButton.styleFrom(backgroundColor: colors.primary),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Text(
                   l10n.registerBtn,
-                  style: const TextStyle(color: Colors.white),
+                  style: TextStyle(
+                    color: colors.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -185,8 +180,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               key: _pinInputKey,
               boxSize: 56,
               pinLength: 4,
-              activeColor: theme.primary,
-              errorColor: Colors.red,
+              activeColor: colors.primary,
+              errorColor: colors.error,
               obscureText: true,
               onChanged: (pin) {
                 setState(() {
@@ -204,7 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 child: Text(
                   getFieldError(state, 'pin')!,
-                  style: TextStyle(color: Colors.red.shade900, fontSize: 12),
+                  style: TextStyle(color: colors.error, fontSize: 12),
                 ),
               ),
           ],

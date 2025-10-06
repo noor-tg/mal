@@ -15,11 +15,7 @@ class CategoriesList extends StatelessWidget {
   final void Function(String uid) onRemove;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: context.colors.surfaceContainerHigh,
-        borderRadius: BorderRadius.circular(8),
-      ),
+    return Card(
       child: ListView.builder(
         physics: const NeverScrollableScrollPhysics(), // Add this line
         shrinkWrap: true,

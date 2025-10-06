@@ -1,31 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
+  // general
+  static const elevation = 1;
+  static const seedColor = Colors.lightBlue;
+
+  // Bright
+  static final brightScheme = ColorScheme.fromSeed(seedColor: seedColor);
   static final light = ThemeData(
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.blue,
-      // brightness: Brightness.light,
-    ),
+    colorScheme: brightScheme,
     useMaterial3: true,
-    textTheme: Typography.blackCupertino,
-    cardTheme: const CardThemeData(
-      color: Colors.white,
-      // surfaceTintColor: Colors.transparent,
-      elevation: 2,
+    textTheme: GoogleFonts.cairoTextTheme(Typography.blackMountainView),
+    cardTheme: CardThemeData(
+      color: brightScheme.surfaceContainerLow,
+      elevation: elevation.toDouble(),
     ),
   );
 
+  // Dark
+  static final darkScheme = ColorScheme.fromSeed(
+    seedColor: seedColor,
+    brightness: Brightness.dark,
+  );
+
   static final dark = ThemeData(
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.blue,
-      brightness: Brightness.dark,
-    ),
+    colorScheme: darkScheme,
     useMaterial3: true,
-    textTheme: Typography.whiteCupertino,
+    textTheme: GoogleFonts.cairoTextTheme(Typography.whiteMountainView),
     cardTheme: CardThemeData(
-      color: Colors.grey[300],
-      // surfaceTintColor: Colors.transparent,
-      elevation: 2,
+      color: darkScheme.surfaceContainerHigh,
+      elevation: elevation.toDouble(),
     ),
   );
 }

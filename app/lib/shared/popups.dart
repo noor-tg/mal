@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 void errorPopup({required BuildContext context, required String message}) {
-  popup(text: message, color: Colors.orange.shade800, context: context);
+  popup(text: message, color: Colors.orange.shade900, context: context);
 }
 
 void successPopup({required BuildContext context, required String message}) {
-  popup(text: message, color: Colors.green.shade800, context: context);
+  popup(text: message, color: Colors.green.shade900, context: context);
 }
 
 void popup({
@@ -16,7 +16,13 @@ void popup({
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Center(
-        child: Text(text, style: const TextStyle(fontWeight: FontWeight.bold)),
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
       ),
       behavior: SnackBarBehavior.floating,
       backgroundColor: color,

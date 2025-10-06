@@ -72,17 +72,7 @@ class CalendarContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withAlpha(100),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
+      decoration: BoxDecoration(color: context.colors.surfaceBright),
       child: calendar.TableCalendar<DaySums>(
         locale: 'ar',
         availableCalendarFormats: availableCalendarFormats,
@@ -110,14 +100,14 @@ class CalendarContainer extends StatelessWidget {
         calendarBuilders: calendar.CalendarBuilders(
           // Custom builder to show income/expense amounts
           defaultBuilder: (context, day, focusedDay) {
-            return calendarCellBuilder(day, state, Colors.white);
-          },
-          selectedBuilder: (context, day, focusedDay) {
             return calendarCellBuilder(
               day,
               state,
-              Theme.of(context).colorScheme.primary,
+              context.colors.surfaceContainerHigh,
             );
+          },
+          selectedBuilder: (context, day, focusedDay) {
+            return calendarCellBuilder(day, state, context.colors.primary);
           },
           todayBuilder: (context, day, focusedDay) {
             return calendarCellBuilder(day, state, Colors.orange);

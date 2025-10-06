@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:mal/constants.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
-import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/category.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/shared/popups.dart';
 import 'package:mal/ui/widgets/date_selector.dart';
 import 'package:mal/ui/widgets/dismess_modal_button.dart';
 import 'package:mal/ui/widgets/empty_categories_dropdown.dart';
+import 'package:mal/ui/widgets/field_label.dart';
 import 'package:mal/ui/widgets/submit_button.dart';
 import 'package:mal/ui/widgets/type_field.dart';
 import 'package:mal/utils.dart';
@@ -62,185 +62,183 @@ class _EntryFormState extends State<EntryForm> {
   Widget build(BuildContext context) {
     return BlocBuilder<CategoriesBloc, CategoriesState>(
       builder: (BuildContext ctx, state) {
-        List<Category> categoriesByType = [];
-        if (_type == incomeType) {
-          categoriesByType = state.income;
-        }
-        if (_type == expenseType) {
-          categoriesByType = state.expenses;
-        }
-        if (categoriesByType.isNotEmpty && _category == '') {
-          _category = categoriesByType[0].title;
-        }
+        final categoriesByType = setupCategories(state);
+        return _buildForm(state, categoriesByType);
+      },
+    );
+  }
 
-        if (categoriesByType.isNotEmpty) {
-          final categoryExists = categoriesByType.any(
-            (cat) => cat.title == _category,
-          );
-          if (_category == '' || !categoryExists) {
-            _category = categoriesByType[0].title;
-          }
-        } else {
-          _category = ''; // Reset if no categories available
-        }
-        if (_category == '') {
-          _category = l10n.emptyCategoriesList;
-        }
+  List<Category> setupCategories(CategoriesState state) {
+    List<Category> categoriesByType = [];
+    if (_type == incomeType) {
+      categoriesByType = state.income;
+    }
+    if (_type == expenseType) {
+      categoriesByType = state.expenses;
+    }
+    if (categoriesByType.isNotEmpty && _category == '') {
+      _category = categoriesByType[0].title;
+    }
 
-        return Container(
-          padding: const EdgeInsets.all(16),
-          width: double.infinity,
-          color: colors.surface,
-          child: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    widget.entry != null ? l10n.editEntry : l10n.newEntry,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 28,
-                      color: Colors.grey[600],
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  const Divider(),
-                  const SizedBox(height: 8),
-                  TypeField(
-                    onPressed: (value) {
-                      _setType(value, state);
-                    },
-                    type: _type,
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    l10n.categoryTitle,
-                    style: TextStyle(fontSize: 18, color: colors.primary),
-                  ),
-                  box8,
-                  TextFormField(
-                    initialValue: _description,
-                    validator: (value) {
-                      if (value == null ||
-                          value.trim().length < 2 ||
-                          value.trim().length > 255) {
-                        return l10n.entryDescriptionErrorMessage;
-                      }
-                      return null;
-                    },
-                    maxLines: 2,
-                    keyboardType: TextInputType.multiline,
-                    onSaved: (value) {
-                      if (value == null) return;
-                      setState(() {
-                        _description = value;
-                      });
-                    },
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    l10n.amount,
-                    style: TextStyle(fontSize: 18, color: colors.primary),
-                  ),
-                  box8,
-                  TextFormField(
-                    initialValue: _amount?.toString(),
-                    validator: (value) {
-                      if (value == null ||
-                          int.tryParse(value) == null ||
-                          int.parse(value) < 1) {
-                        return l10n.amountErrorMessage;
-                      }
-                      return null;
-                    },
-                    keyboardType: TextInputType.number,
-                    onSaved: (value) {
-                      if (value == null) return;
-                      setState(() {
-                        _amount = int.parse(value);
-                      });
-                    },
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    l10n.category,
-                    style: TextStyle(fontSize: 18, color: colors.primary),
-                  ),
-                  box8,
-                  if (categoriesByType.isNotEmpty)
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DropdownButtonFormField(
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                            ),
-                            isExpanded: true,
-                            initialValue: _category,
-                            validator: (value) {
-                              if (value == null ||
-                                  value == l10n.emptyCategoriesList) {
-                                return l10n.selectCorrectCategoryMessage;
-                              }
-                              return null;
-                            },
-                            items: categoriesByType
-                                .map(
-                                  (category) => DropdownMenuItem(
-                                    key: ValueKey(category.uid),
-                                    value: category.title,
-                                    child: Text(
-                                      category.title,
-                                      style: const TextStyle(
-                                        color: Colors.black54,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (value) {
-                              if (value == null) return;
-                              setState(() {
-                                _category = value;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  if (categoriesByType.isEmpty)
-                    EmptyCategoriesDropdown(category: _category, l10n: l10n),
-                  const SizedBox(height: 24),
-                  Text(
-                    l10n.date,
-                    style: TextStyle(fontSize: 18, color: colors.primary),
-                  ),
-                  box8,
-                  DateSelector(date: _date, selectDate: selectDate),
-                  const SizedBox(height: 24),
-                  SubmitButton(
-                    onPressed: () {
-                      _submit(l10n);
-                    },
-                  ),
-                  box24,
-                  const DismessModalButton(),
-                ],
+    if (categoriesByType.isNotEmpty) {
+      final categoryExists = categoriesByType.any(
+        (cat) => cat.title == _category,
+      );
+      if (_category == '' || !categoryExists) {
+        _category = categoriesByType[0].title;
+      }
+    } else {
+      _category = ''; // Reset if no categories available
+    }
+    if (_category == '') {
+      _category = l10n.emptyCategoriesList;
+    }
+    return categoriesByType;
+  }
+
+  Widget _buildForm(CategoriesState state, List<Category> categoriesByType) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          color: colors.surfaceBright,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(
+              widget.entry != null ? l10n.editEntry : l10n.newEntry,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 28,
+                color: colors.onSurfaceVariant,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
-        );
-      },
+        ),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            width: double.infinity,
+            color: colors.surfaceContainer,
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: 8),
+                    TypeField(
+                      onPressed: (value) {
+                        _setType(value, state);
+                      },
+                      type: _type,
+                    ),
+                    const SizedBox(height: 24),
+                    FieldLabel(text: l10n.categoryTitle),
+                    box8,
+                    TextFormField(
+                      initialValue: _description,
+                      validator: validateDescription,
+                      maxLines: 2,
+                      keyboardType: TextInputType.multiline,
+                      onSaved: (value) {
+                        if (value == null) return;
+                        setState(() {
+                          _description = value;
+                        });
+                      },
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    FieldLabel(text: l10n.amount),
+                    box8,
+                    TextFormField(
+                      initialValue: _amount?.toString(),
+                      validator: validateAmount,
+                      keyboardType: TextInputType.number,
+                      onSaved: setAmount,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    FieldLabel(text: l10n.category),
+                    box8,
+                    if (categoriesByType.isNotEmpty)
+                      buildCategoriesDropdown(categoriesByType),
+                    if (categoriesByType.isEmpty)
+                      EmptyCategoriesDropdown(category: _category),
+                    const SizedBox(height: 24),
+                    FieldLabel(text: l10n.date),
+                    box8,
+                    DateSelector(date: _date, selectDate: selectDate),
+                    const SizedBox(height: 24),
+                    SubmitButton(onPressed: _submit),
+                    box24,
+                    const DismessModalButton(),
+                    box64,
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
+  }
+
+  Row buildCategoriesDropdown(List<Category> categoriesByType) {
+    return Row(
+      children: [
+        Expanded(
+          child: DropdownButtonFormField(
+            decoration: const InputDecoration(border: OutlineInputBorder()),
+            isExpanded: true,
+            initialValue: _category,
+            validator: (value) {
+              if (value == null || value == l10n.emptyCategoriesList) {
+                return l10n.selectCorrectCategoryMessage;
+              }
+              return null;
+            },
+            items: categoriesByType
+                .map(
+                  (category) => DropdownMenuItem(
+                    key: ValueKey(category.uid),
+                    value: category.title,
+                    child: Text(
+                      category.title,
+                      style: TextStyle(color: colors.onSurface),
+                    ),
+                  ),
+                )
+                .toList(),
+            onChanged: (value) {
+              if (value == null) return;
+              setState(() {
+                _category = value;
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  String? validateAmount(String? value) {
+    if (value == null || int.tryParse(value) == null || int.parse(value) < 1) {
+      return l10n.amountErrorMessage;
+    }
+    return null;
+  }
+
+  String? validateDescription(String? value) {
+    if (value == null || value.trim().length < 2 || value.trim().length > 255) {
+      return l10n.entryDescriptionErrorMessage;
+    }
+    return null;
   }
 
   Future<void> selectDate() async {
@@ -256,7 +254,7 @@ class _EntryFormState extends State<EntryForm> {
     });
   }
 
-  void _submit(AppLocalizations l10n) {
+  void _submit() {
     try {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
@@ -290,5 +288,12 @@ class _EntryFormState extends State<EntryForm> {
       _category = '';
     });
     state.didChange(value);
+  }
+
+  void setAmount(String? value) {
+    if (value == null) return;
+    setState(() {
+      _amount = int.parse(value);
+    });
   }
 }

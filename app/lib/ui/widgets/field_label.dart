@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mal/utils.dart';
 
 class FieldLabel extends StatelessWidget {
   const FieldLabel({super.key, required this.text});
@@ -9,7 +10,11 @@ class FieldLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w500,
+        color: context.colors.primary,
+      ),
     );
   }
 }

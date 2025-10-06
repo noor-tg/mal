@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mal/constants.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/ui/views/amount_range_filter.dart';
 import 'package:mal/features/search/ui/views/categories_filter.dart';
@@ -8,73 +7,60 @@ import 'package:mal/features/search/ui/views/date_range_filter.dart';
 import 'package:mal/features/search/ui/views/sorting.dart';
 import 'package:mal/features/search/ui/views/type_filter.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
-import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/utils.dart';
 
 class AdvancedSearch extends StatelessWidget {
   const AdvancedSearch({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: Container(
           padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.shade400,
-                blurStyle: BlurStyle.outer,
-                blurRadius: 8,
-              ),
-            ],
-          ),
+          decoration: BoxDecoration(color: context.colors.surfaceBright),
           child: BlocBuilder<SearchBloc, SearchState>(
             builder: (BuildContext ctx, state) => Row(
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.primary,
+                    backgroundColor: context.colors.primary,
                   ),
                   onPressed: () {
-                    final authState = context.read<AuthBloc>().state;
-                    if (authState is! AuthAuthenticated) return;
-                    context.read<SearchBloc>().add(
-                      ApplyFilters(userUid: authState.user.uid),
-                    );
-                    Navigator.pop(context);
+                    applySearch(context);
                   },
                   child: Text(
-                    l10n.search,
-                    style: theme.textTheme.bodyLarge?.copyWith(
+                    context.l10n.search,
+                    style: context.texts.bodyLarge?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: context.colors.onPrimary,
                     ),
                   ),
                 ),
                 Expanded(
                   child: Center(
                     child: Text(
-                      l10n.advancedSearch,
-                      style: theme.textTheme.headlineLarge?.copyWith(
+                      context.l10n.advancedSearch,
+                      style: context.texts.headlineLarge?.copyWith(
                         color: Colors.grey[500],
                       ),
                     ),
                   ),
                 ),
                 ElevatedButton(
+                  style: OutlinedButton.styleFrom(
+                    elevation: 0,
+                    backgroundColor: context.colors.secondaryContainer,
+                  ),
                   onPressed: () {
-                    context.read<SearchBloc>().add(ClearFilters());
-                    Navigator.pop(context);
+                    clearFilters(context);
                   },
                   child: Text(
-                    l10n.reset,
-                    style: theme.textTheme.bodyLarge?.copyWith(
+                    context.l10n.reset,
+                    style: context.texts.bodyLarge?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey[700],
+                      color: context.colors.primary,
                     ),
                   ),
                 ),
@@ -84,22 +70,34 @@ class AdvancedSearch extends StatelessWidget {
         ),
       ),
       body: Container(
-        color: kBgColor,
-        // padding: const EdgeInsets.all(8),
-        child: SingleChildScrollView(
+        padding: const EdgeInsets.all(2),
+        color: context.colors.surfaceContainer,
+        child: const SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              CategoriesFilter(l10n: l10n, theme: theme),
-              AmountRangeFilter(l10n: l10n, theme: theme),
-              DateRangeFilter(l10n: l10n, theme: theme),
-              TypeFilter(l10n: l10n, theme: theme),
-              Sorting(l10n: l10n, theme: theme),
-              const SizedBox(height: 16),
+              CategoriesFilter(),
+              AmountRangeFilter(),
+              DateRangeFilter(),
+              TypeFilter(),
+              Sorting(),
+              SizedBox(height: 16),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void clearFilters(BuildContext context) {
+    context.read<SearchBloc>().add(ClearFilters());
+    Navigator.pop(context);
+  }
+
+  void applySearch(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    if (authState is! AuthAuthenticated) return;
+    context.read<SearchBloc>().add(ApplyFilters(userUid: authState.user.uid));
+    Navigator.pop(context);
   }
 }

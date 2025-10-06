@@ -15,7 +15,7 @@ class HalfBorderFab extends StatelessWidget {
         CustomPaint(
           size: const Size(72, 72), // same size as FAB
           painter: HalfBorderPainter(
-            color: context.colors.surfaceContainerLow,
+            color: context.colors.surfaceBright,
             strokeWidth: 16,
           ),
         ),

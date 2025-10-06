@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mal/constants.dart';
 import 'package:mal/features/calendar/domain/repositories/day_sums.dart';
+import 'package:mal/utils.dart';
 
 class CalendarCell extends StatelessWidget {
   const CalendarCell({
@@ -25,7 +26,7 @@ class CalendarCell extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: Colors.white,
+        color: context.colors.surfaceContainer,
         border: Border.all(color: borderColor, width: 2),
       ),
       child: Column(
@@ -33,8 +34,8 @@ class CalendarCell extends StatelessWidget {
         children: [
           Text(
             date.day.toString(),
-            style: const TextStyle(
-              color: Colors.black,
+            style: TextStyle(
+              color: context.colors.onSurfaceVariant,
               fontWeight: FontWeight.bold,
             ),
           ),

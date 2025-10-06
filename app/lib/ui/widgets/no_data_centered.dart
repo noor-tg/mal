@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/utils.dart';
 
 class NoDataCentered extends StatelessWidget {
   const NoDataCentered({super.key});
@@ -10,8 +10,10 @@ class NoDataCentered extends StatelessWidget {
       padding: const EdgeInsets.all(24.0),
       child: Center(
         child: Text(
-          AppLocalizations.of(context)!.noDataFound,
-          style: const TextStyle(fontSize: 16),
+          context.l10n.noDataFound,
+          style: context.texts.bodyLarge?.copyWith(
+            color: context.colors.onSurfaceVariant,
+          ),
         ),
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/utils.dart';
 
 class SubmitButton extends StatelessWidget {
   final void Function() onPressed;
@@ -8,17 +8,16 @@ class SubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
+        backgroundColor: context.colors.primary,
+        foregroundColor: context.colors.onPrimary,
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Text(
-          l10n.save,
+          context.l10n.save,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),

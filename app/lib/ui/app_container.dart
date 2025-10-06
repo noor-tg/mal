@@ -34,13 +34,7 @@ class _AppContainerState extends State<AppContainer> {
   @override
   void initState() {
     super.initState();
-    final authState = context.read<AuthBloc>().state;
-    if (authState is! AuthAuthenticated) return;
-
-    context.read<CategoriesBloc>().add(
-      SeedCategoriedWhenEmpty(authState.user.uid),
-    );
-    context.read<CategoriesBloc>().add(AppInit(authState.user.uid));
+    _setupData();
   }
 
   @override
@@ -66,7 +60,7 @@ class _AppContainerState extends State<AppContainer> {
           value: context.read<CategoriesBloc>(),
           child: CategoriesScreen(key: key),
         ),
-        action: NewCategoryButton(theme: colors),
+        action: const NewCategoryButton(),
       ),
       MalPage(
         icon: const Icon(Icons.search, size: 24),
@@ -102,88 +96,110 @@ class _AppContainerState extends State<AppContainer> {
   Scaffold _buildScaffold(BuildContext context, ThemeState state) {
     return Scaffold(
       resizeToAvoidBottomInset: true, // This is important
-      appBar: AppBar(
-        title: Text(
-          pages[state.tabIndex].title,
-          style: theme.appBarTheme.titleTextStyle?.copyWith(
-            fontWeight: FontWeight.bold,
-            backgroundColor: colors.onPrimary,
-          ),
-        ),
-        backgroundColor: colors.primaryContainer,
-        iconTheme: IconThemeData(color: colors.onPrimary.withAlpha(100)),
-        actions: [
-          Switch(
-            value: state.themeMode == ThemeMode.light,
-            onChanged: (value) {
-              context.read<ThemeBloc>().add(
-                ChangeThemeEvent(value ? ThemeMode.light : ThemeMode.dark),
-              );
-            },
-          ),
-          if (state.tabIndex != 4)
-            IconButton(
-              icon: CircleAvatar(
-                radius: 18,
-                backgroundImage: pages[4].avatar,
-                backgroundColor: colors.onPrimary,
-              ),
-              onPressed: () {
-                onTabPress(4);
-              },
-            ),
-          box16,
-        ],
-      ),
-      body: IndexedStack(
-        index: state.tabIndex,
-
-        children: pages
-            .map((page) => page.widget(ValueKey(page.title)) as Widget)
-            .toList(),
-      ),
+      appBar: appBar(state, context),
+      body: indexedStack(state),
       floatingActionButton: HalfBorderFab(
-        child: pages[state.tabIndex].action ?? AddEntryButton(l10n: l10n),
+        child: pages[state.tabIndex].action ?? const AddEntryButton(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        height: 88,
-        color: colors.surfaceBright,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            BottomButton(
-              activeTab: state.tabIndex,
-              pages: pages,
-              index: 0,
-              onPressed: () => onTabPress(0),
-            ),
-            BottomButton(
-              activeTab: state.tabIndex,
-              pages: pages,
-              index: 1,
-              onPressed: () => onTabPress(1),
-            ),
-            const SizedBox(width: 48),
-            BottomButton(
-              activeTab: state.tabIndex,
-              pages: pages,
-              index: 2,
-              onPressed: () => onTabPress(2),
-            ),
-            BottomButton(
-              activeTab: state.tabIndex,
-              pages: pages,
-              index: 3,
-              onPressed: () => onTabPress(3),
-            ),
-          ],
+      bottomNavigationBar: bottomAppBar(state),
+    );
+  }
+
+  AppBar appBar(ThemeState state, BuildContext context) {
+    return AppBar(
+      title: Text(
+        pages[state.tabIndex].title,
+        style: theme.appBarTheme.titleTextStyle?.copyWith(
+          fontWeight: FontWeight.bold,
+          backgroundColor: colors.onSecondary,
         ),
+      ),
+      backgroundColor: colors.secondaryContainer,
+      iconTheme: IconThemeData(color: colors.onPrimary.withAlpha(100)),
+      actions: [
+        Switch(
+          value: state.themeMode == ThemeMode.light,
+          onChanged: (value) {
+            context.read<ThemeBloc>().add(
+              ChangeThemeEvent(value ? ThemeMode.light : ThemeMode.dark),
+            );
+          },
+        ),
+        if (state.tabIndex != 4)
+          IconButton(
+            icon: CircleAvatar(
+              radius: 18,
+              backgroundImage: pages[4].avatar,
+              backgroundColor: colors.onPrimary,
+            ),
+            onPressed: () {
+              onTabPress(4);
+            },
+          ),
+        box16,
+      ],
+    );
+  }
+
+  IndexedStack indexedStack(ThemeState state) {
+    return IndexedStack(
+      index: state.tabIndex,
+
+      children: pages
+          .map((page) => page.widget(ValueKey(uuid.v4())) as Widget)
+          .toList(),
+    );
+  }
+
+  BottomAppBar bottomAppBar(ThemeState state) {
+    return BottomAppBar(
+      height: 88,
+      color: colors.surfaceBright,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          BottomButton(
+            activeTab: state.tabIndex,
+            pages: pages,
+            index: 0,
+            onPressed: () => onTabPress(0),
+          ),
+          BottomButton(
+            activeTab: state.tabIndex,
+            pages: pages,
+            index: 1,
+            onPressed: () => onTabPress(1),
+          ),
+          const SizedBox(width: 48),
+          BottomButton(
+            activeTab: state.tabIndex,
+            pages: pages,
+            index: 2,
+            onPressed: () => onTabPress(2),
+          ),
+          BottomButton(
+            activeTab: state.tabIndex,
+            pages: pages,
+            index: 3,
+            onPressed: () => onTabPress(3),
+          ),
+        ],
       ),
     );
   }
 
   void onTabPress(int index) {
     context.read<ThemeBloc>().add(ChangeTab(index));
+  }
+
+  void _setupData() {
+    final authState = context.read<AuthBloc>().state;
+    if (authState is! AuthAuthenticated) return;
+
+    context.read<CategoriesBloc>().add(
+      SeedCategoriedWhenEmpty(authState.user.uid),
+    );
+    context.read<CategoriesBloc>().add(AppInit(authState.user.uid));
   }
 }

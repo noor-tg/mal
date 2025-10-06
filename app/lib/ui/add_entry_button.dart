@@ -3,21 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
-import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/utils.dart';
 import 'package:mal/ui/widgets/entry_form.dart';
 import 'package:mal/utils/logger.dart';
 
 class AddEntryButton extends StatelessWidget {
-  const AddEntryButton({super.key, required this.l10n});
-
-  final AppLocalizations l10n;
+  const AddEntryButton({super.key});
 
   @override
   Widget build(BuildContext context) {
     return IconButton.filledTonal(
-      tooltip: l10n.newEntry,
+      iconSize: 40,
+      tooltip: context.l10n.newEntry,
       color: Theme.of(context).colorScheme.primary,
-      icon: const Icon(Icons.create, size: 40),
+      icon: const Icon(Icons.create),
       onPressed: () async {
         try {
           final authState = context.read<AuthBloc>().state;

@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
-import 'package:mal/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/utils.dart';
 import 'package:mal/utils/logger.dart';
 
 class DateRangeFilter extends StatefulWidget {
-  const DateRangeFilter({super.key, required this.l10n, required this.theme});
-
-  final AppLocalizations l10n;
-  final ThemeData theme;
+  const DateRangeFilter({super.key});
 
   @override
   State<DateRangeFilter> createState() => _DateRangeFilterState();
@@ -56,164 +52,111 @@ class _DateRangeFilterState extends State<DateRangeFilter> {
     final division = max;
 
     logger.i('values: $values, labels: $rangeLabels');
+    if (division == 0) return const SizedBox(width: 0);
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Card.filled(
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 8,
-            children: [
-              Text(
-                widget.l10n.date,
-                style: widget.theme.textTheme.titleLarge?.copyWith(
-                  color: Colors.grey[600],
-                ),
+      child: _buildCard(context, division, rangeLabels),
+    );
+  }
+
+  Card _buildCard(BuildContext context, int division, RangeLabels rangeLabels) {
+    return Card(
+      color: context.colors.surfaceBright,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 8,
+          children: [
+            Text(
+              l10n.date,
+              style: texts.titleLarge?.copyWith(
+                color: context.colors.onSurface,
               ),
-              Builder(
-                builder: (ctx) {
-                  final searchBloc = ctx.watch<SearchBloc>();
-                  return Column(
-                    spacing: 8,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              defaultMin.toString().split(' ').first,
-
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(color: Colors.grey[500]),
-                            ),
-                            Text(
-                              defaultMax.toString().split(' ').first,
-
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(color: Colors.grey[500]),
-                            ),
-                          ],
-                        ),
-                      ),
-                      RangeSlider(
-                        max: defaultMax
-                            .difference(defaultMin)
-                            .inDays
-                            .toDouble(),
-                        values: values,
-                        divisions: division,
-                        labels: rangeLabels,
-                        onChanged: (RangeValues value) {
-                          searchBloc
-                            ..add(
-                              UpdateMinDate(
-                                defaultMin.add(
-                                  Duration(days: value.start.floor()),
-                                ),
-                              ),
-                            )
-                            ..add(
-                              UpdateMaxDate(
-                                defaultMin.add(
-                                  Duration(days: value.end.ceil()),
-                                ),
-                              ),
-                            );
-                          setState(() {
-                            values = value;
-                          });
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              searchBloc.state.filters.dateRange.min
-                                  .toString()
-                                  .split(' ')
-                                  .first,
-
-                              style: Theme.of(context).textTheme.titleLarge
-                                  ?.copyWith(color: Colors.grey[500]),
-                            ),
-                            Text(
-                              searchBloc.state.filters.dateRange.max
-                                  .toString()
-                                  .split(' ')
-                                  .first,
-
-                              style: Theme.of(context).textTheme.titleLarge
-                                  ?.copyWith(color: Colors.grey[500]),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   spacing: 16,
-                      //   children: [
-                      //     Expanded(
-                      //       child: TextField(
-                      //         controller: minController,
-                      //         decoration: const InputDecoration(
-                      //           labelText: 'الادنى',
-                      //           border: OutlineInputBorder(),
-                      //         ),
-                      //         keyboardType: TextInputType.number,
-                      //         onChanged: (value) {
-                      //           if (value.isEmpty) return;
-                      //           if (double.parse(value) > values.end) return;
-                      //           setState(() {
-                      //             searchBloc.add(
-                      //               UpdateMinAmount(int.parse(value)),
-                      //             );
-                      //             values = RangeValues(
-                      //               double.parse(value),
-                      //               values.end,
-                      //             );
-                      //           });
-                      //         },
-                      //       ),
-                      //     ),
-                      //     const Text('-'),
-                      //     Expanded(
-                      //       child: TextField(
-                      //         controller: maxController,
-                      //         decoration: const InputDecoration(
-                      //           labelText: 'الاعلى',
-                      //           border: OutlineInputBorder(),
-                      //         ),
-                      //         keyboardType: TextInputType.number,
-                      //         onChanged: (value) {
-                      //           if (value.isEmpty) return;
-                      //           if (double.parse(value) < values.start) return;
-                      //           setState(() {
-                      //             searchBloc.add(
-                      //               UpdateMaxAmount(int.parse(value)),
-                      //             );
-                      //             values = RangeValues(
-                      //               values.start,
-                      //               double.parse(value),
-                      //             );
-                      //           });
-                      //         },
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                    ],
-                  );
-                },
-              ),
-            ],
-          ),
+            ),
+            Builder(
+              builder: (ctx) {
+                final searchBloc = ctx.watch<SearchBloc>();
+                return Column(
+                  spacing: 8,
+                  children: [
+                    _buildMinMax(),
+                    _buildRangeSlider(division, rangeLabels, searchBloc),
+                    _buildFilterValues(searchBloc),
+                  ],
+                );
+              },
+            ),
+          ],
         ),
       ),
+    );
+  }
+
+  Padding _buildMinMax() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            defaultMin.toString().split(' ').first,
+
+            style: texts.titleMedium?.copyWith(color: colors.onSurface),
+          ),
+          Text(
+            defaultMax.toString().split(' ').first,
+
+            style: texts.titleMedium?.copyWith(color: colors.onSurface),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding _buildFilterValues(SearchBloc searchBloc) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            searchBloc.state.filters.dateRange.min.toString().split(' ').first,
+
+            style: texts.titleLarge?.copyWith(color: colors.onSurface),
+          ),
+          Text(
+            searchBloc.state.filters.dateRange.max.toString().split(' ').first,
+
+            style: texts.titleLarge?.copyWith(color: colors.onSurface),
+          ),
+        ],
+      ),
+    );
+  }
+
+  RangeSlider _buildRangeSlider(
+    int division,
+    RangeLabels rangeLabels,
+    SearchBloc searchBloc,
+  ) {
+    return RangeSlider(
+      max: defaultMax.difference(defaultMin).inDays.toDouble(),
+      values: values,
+      divisions: division,
+      labels: rangeLabels,
+      onChanged: (RangeValues value) {
+        searchBloc
+          ..add(
+            UpdateMinDate(defaultMin.add(Duration(days: value.start.floor()))),
+          )
+          ..add(
+            UpdateMaxDate(defaultMin.add(Duration(days: value.end.ceil()))),
+          );
+        setState(() {
+          values = value;
+        });
+      },
     );
   }
 }

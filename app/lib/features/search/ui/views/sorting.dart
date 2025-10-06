@@ -3,20 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/enums.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/domain/bloc/sorting.dart';
-import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/utils.dart';
 
 class Sorting extends StatelessWidget {
-  const Sorting({super.key, required this.l10n, required this.theme});
-
-  final AppLocalizations l10n;
-  final ThemeData theme;
+  const Sorting({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Card.filled(
-        color: Colors.white,
+      child: Card(
+        color: context.colors.surfaceBright,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -24,9 +21,9 @@ class Sorting extends StatelessWidget {
             spacing: 8,
             children: [
               Text(
-                l10n.order,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  color: Colors.grey[600],
+                context.l10n.order,
+                style: context.texts.titleLarge?.copyWith(
+                  color: context.colors.onSurface,
                 ),
               ),
               Builder(
@@ -41,26 +38,30 @@ class Sorting extends StatelessWidget {
                         alignment: WrapAlignment.center,
                         runAlignment: WrapAlignment.center,
                         children: [
-                          ...SortingField.values.map(
-                            (field) => OutlinedButton(
+                          ...SortingField.values.map((field) {
+                            final activeField =
+                                searchBloc.state.sorting.field == field;
+                            final activeBg = Colors.green.withAlpha(30);
+                            final defaultBg = context.colors.primaryContainer
+                                .withAlpha(30);
+                            const activeColor = Colors.green;
+                            final defaultColor = context.colors.primary;
+                            return OutlinedButton(
                               onPressed: () {
                                 searchBloc.add(SortBy(field: field));
                               },
                               style: OutlinedButton.styleFrom(
-                                backgroundColor:
-                                    searchBloc.state.sorting.field == field
-                                    ? Colors.green.withAlpha(30)
-                                    : theme.colorScheme.primaryContainer
-                                          .withAlpha(30),
-                                foregroundColor:
-                                    searchBloc.state.sorting.field == field
-                                    ? Colors.green
-                                    : theme.colorScheme.primary,
+                                backgroundColor: activeField
+                                    ? activeBg
+                                    : defaultBg,
+                                foregroundColor: activeField
+                                    ? activeColor
+                                    : defaultColor,
                                 side: BorderSide(
                                   // Set the border color conditionally, just like your other properties
-                                  color: searchBloc.state.sorting.field == field
-                                      ? Colors.green
-                                      : theme.colorScheme.primary,
+                                  color: activeField
+                                      ? activeColor
+                                      : defaultColor,
 
                                   // You can also change the border width
                                   width: 1.5,
@@ -70,15 +71,40 @@ class Sorting extends StatelessWidget {
                                 spacing: 4,
                                 children: [
                                   if (field == SortingField.date)
-                                    Text(l10n.date),
+                                    SortText(
+                                      text: context.l10n.date,
+                                      color: activeField
+                                          ? activeColor
+                                          : defaultColor,
+                                    ),
                                   if (field == SortingField.amount)
-                                    Text(l10n.amount),
+                                    SortText(
+                                      text: context.l10n.amount,
+                                      color: activeField
+                                          ? activeColor
+                                          : defaultColor,
+                                    ),
                                   if (field == SortingField.category)
-                                    Text(l10n.category),
+                                    SortText(
+                                      text: context.l10n.category,
+                                      color: activeField
+                                          ? activeColor
+                                          : defaultColor,
+                                    ),
                                   if (field == SortingField.description)
-                                    Text(l10n.description),
+                                    SortText(
+                                      text: context.l10n.description,
+                                      color: activeField
+                                          ? activeColor
+                                          : defaultColor,
+                                    ),
                                   if (field == SortingField.type)
-                                    Text(l10n.type),
+                                    SortText(
+                                      text: context.l10n.type,
+                                      color: activeField
+                                          ? activeColor
+                                          : defaultColor,
+                                    ),
                                   if (searchBloc.state.sorting.field == field)
                                     Transform.flip(
                                       flipY:
@@ -90,8 +116,8 @@ class Sorting extends StatelessWidget {
                                     ),
                                 ],
                               ),
-                            ),
-                          ),
+                            );
+                          }),
                         ],
                       ),
                     ),
@@ -101,6 +127,25 @@ class Sorting extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class SortText extends StatelessWidget {
+  final String text;
+
+  final Color? color;
+
+  const SortText({required this.text, super.key, this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: context.texts.labelLarge?.copyWith(
+        fontWeight: FontWeight.bold,
+        color: color,
       ),
     );
   }

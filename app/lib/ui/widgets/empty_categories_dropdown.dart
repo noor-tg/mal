@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/utils.dart';
 
 class EmptyCategoriesDropdown extends StatelessWidget {
-  const EmptyCategoriesDropdown({
-    super.key,
-    required String category,
-    required this.l10n,
-  }) : _category = category;
+  const EmptyCategoriesDropdown({super.key, required String category})
+    : _category = category;
 
   final String _category;
-  final AppLocalizations l10n;
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +14,8 @@ class EmptyCategoriesDropdown extends StatelessWidget {
         Expanded(
           child: DropdownButtonFormField(
             validator: (value) {
-              if (value == null || value == l10n.emptyCategoriesList) {
-                return l10n.selectCorrectCategoryMessage;
+              if (value == null || value == context.l10n.emptyCategoriesList) {
+                return context.l10n.selectCorrectCategoryMessage;
               }
               return null;
             },
@@ -29,10 +25,10 @@ class EmptyCategoriesDropdown extends StatelessWidget {
             items: [
               DropdownMenuItem(
                 enabled: false,
-                value: l10n.emptyCategoriesList,
+                value: context.l10n.emptyCategoriesList,
                 child: Text(
-                  l10n.emptyCategoriesList,
-                  style: const TextStyle(color: Colors.black54),
+                  context.l10n.emptyCategoriesList,
+                  style: TextStyle(color: context.colors.onSurface),
                 ),
               ),
             ],

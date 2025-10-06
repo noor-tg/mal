@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mal/constants.dart';
 import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/ui/widgets/field_label.dart';
 
 class TypeField extends StatefulWidget {
   const TypeField({super.key, required this.onPressed, required this.type});
@@ -21,13 +22,7 @@ class _TypeFieldState extends State<TypeField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          l10n.categoryType,
-          style: TextStyle(
-            fontSize: 18,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ),
+        FieldLabel(text: l10n.categoryType),
         FormField<String>(
           initialValue: selectedType,
           validator: (value) {

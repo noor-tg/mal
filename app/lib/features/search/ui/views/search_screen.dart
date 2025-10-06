@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mal/constants.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/ui/views/advanced_search.dart';
 import 'package:mal/features/search/ui/views/search_body.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
-import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mal/utils/logger.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -22,9 +19,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
-    final bloc = context.read<SearchBloc>();
-    bloc.stream.listen(logger.i);
-    bloc
+    context.read<SearchBloc>()
       ..add(FetchEntriesCategoriesList())
       ..add(FetchMaxAmount())
       ..add(FetchDateBoundries());
@@ -40,23 +35,20 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: kBgColor,
+      color: colors.surfaceContainer,
       child: Column(
         children: [
           Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: BoxBorder.fromLTRB(bottom: BorderSide(color: kBgColor)),
-            ),
+            decoration: BoxDecoration(color: colors.surfaceContainerHigh),
             padding: const EdgeInsets.all(16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton.filled(
                   onPressed: showAdvancedModal,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.filter_list,
-                    color: Colors.white,
+                    color: colors.onPrimary,
                     size: 32,
                   ),
                 ),
@@ -67,8 +59,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     onChanged: searchOnChange,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText: AppLocalizations.of(context)!.tabSearchLabel,
-                      hintText: AppLocalizations.of(context)!.searchHint,
+                      labelText: l10n.tabSearchLabel,
+                      hintText: l10n.searchHint,
                     ),
                   ),
                 ),
@@ -77,7 +69,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   onPressed: clearSearch,
                   icon: Icon(
                     Icons.delete,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: colors.onSecondaryContainer,
                     size: 32,
                   ),
                 ),

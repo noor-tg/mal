@@ -15,7 +15,7 @@ class HalfBorderPainter extends CustomPainter {
 
     final Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);
     const startAngle = 0.0; // 0 rad = right side
-    const sweepAngle = 3.14159; // π rad = 180° half-circle
+    const sweepAngle = 3.14159 * 2; // π rad = 180° half-circle
 
     // Draw only the bottom half arc
     canvas.drawArc(rect, startAngle, sweepAngle, false, paint);

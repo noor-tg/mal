@@ -4,12 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:mal/features/user/data/repositories/sql_repository.dart';
 import 'package:mal/features/user/data/services/biometric_service.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
-import 'package:mal/features/user/ui/views/field_label.dart';
 import 'package:mal/features/user/ui/widgets/pin_input.dart';
 import 'package:mal/features/user/utils.dart';
-import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/user.dart';
 import 'package:mal/shared/popups.dart';
+import 'package:mal/ui/widgets/field_label.dart';
 import 'package:mal/utils.dart';
 import 'package:mal/utils/logger.dart';
 
@@ -28,9 +27,6 @@ class _LoginFormState extends State<LoginForm> {
     _fetchLastUser();
   }
 
-  late ColorScheme theme;
-  late AppLocalizations l10n;
-
   final GlobalKey<State<PinInput>> _pinInputKey = GlobalKey();
   final _nameController = TextEditingController();
   String _pinValue = '';
@@ -40,10 +36,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    l10n = AppLocalizations.of(context)!;
-    theme = Theme.of(context).colorScheme;
     return Card(
-      color: Colors.white,
       margin: const EdgeInsets.all(20),
       child: SingleChildScrollView(
         child: Padding(
@@ -139,8 +132,8 @@ class _LoginFormState extends State<LoginForm> {
               key: _pinInputKey,
               boxSize: 56,
               pinLength: 4,
-              activeColor: theme.primary,
-              errorColor: Colors.red,
+              activeColor: colors.primary,
+              errorColor: colors.error,
               obscureText: true,
               onChanged: (pin) {
                 setState(() {
@@ -158,7 +151,7 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 child: Text(
                   getFieldError(state, 'pin')!,
-                  style: TextStyle(color: Colors.red.shade900, fontSize: 12),
+                  style: TextStyle(color: colors.error, fontSize: 12),
                 ),
               ),
           ],
@@ -169,11 +162,17 @@ class _LoginFormState extends State<LoginForm> {
 
   ElevatedButton _buildSubmitButton() {
     return ElevatedButton(
-      onPressed: () => _submitForm(l10n),
-      style: ElevatedButton.styleFrom(backgroundColor: theme.primary),
+      onPressed: _submitForm,
+      style: ElevatedButton.styleFrom(backgroundColor: colors.primary),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Text(l10n.login, style: const TextStyle(color: Colors.white)),
+        child: Text(
+          l10n.login,
+          style: TextStyle(
+            color: colors.onPrimary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
@@ -182,14 +181,12 @@ class _LoginFormState extends State<LoginForm> {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         return OutlinedButton.icon(
-          onPressed: state is AuthLoading
-              ? null
-              : () => _loginWithBiometric(l10n),
+          onPressed: state is AuthLoading ? null : _loginWithBiometric,
           icon: const Icon(Icons.fingerprint),
           label: Text(l10n.bioButton),
           style: OutlinedButton.styleFrom(
-            foregroundColor: theme.primary,
-            side: BorderSide(color: theme.primary),
+            foregroundColor: colors.primary,
+            side: BorderSide(color: colors.primary),
             padding: const EdgeInsets.symmetric(vertical: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(48),
@@ -213,7 +210,7 @@ class _LoginFormState extends State<LoginForm> {
     }
   }
 
-  Future<void> _loginWithBiometric(AppLocalizations l10n) async {
+  Future<void> _loginWithBiometric() async {
     final String? name = _selectedUser != null
         ? _selectedUser?.name
         : _nameController.text.trim().length >= 4
@@ -239,7 +236,7 @@ class _LoginFormState extends State<LoginForm> {
     context.read<AuthBloc>().add(AuthLoginWithBiometricRequested(name: name));
   }
 
-  void _submitForm(AppLocalizations l10n) {
+  void _submitForm() {
     _formKey.currentState!.save();
 
     context.read<AuthBloc>().add(
@@ -259,14 +256,12 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _fetchLastUser() async {
-    final name = await BiometricService.getLastAuthenticatedUser();
-    if (name == null) return;
-
-    final repo = SqlRepository();
-
     try {
-      logger.i(name);
-      final user = await repo.getUserByName(name);
+      final uid = await BiometricService.getLastAuthenticatedUser();
+      if (uid == null) return;
+      final repo = SqlRepository();
+
+      final user = await repo.getUser(uid);
       _selectedUser = user;
       _nameController.text = _selectedUser!.name;
     } catch (e, t) {
@@ -274,10 +269,7 @@ class _LoginFormState extends State<LoginForm> {
         ..e(e)
         ..t(t);
       if (!mounted) return;
-      errorPopup(
-        context: context,
-        message: AppLocalizations.of(context)!.loginLastUserNotFound,
-      );
+      errorPopup(context: context, message: context.l10n.loginLastUserNotFound);
     }
   }
 

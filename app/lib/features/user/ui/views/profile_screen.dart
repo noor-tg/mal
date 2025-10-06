@@ -9,7 +9,6 @@ import 'package:mal/features/user/domain/bloc/exporter/exporter_bloc.dart';
 import 'package:mal/features/user/ui/views/update_name_modal.dart';
 import 'package:mal/features/user/ui/views/update_pin_modal.dart';
 import 'package:mal/features/user/ui/widgets/user_image_picker.dart';
-import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
 import 'package:open_filex/open_filex.dart';
 
@@ -46,13 +45,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  late AppLocalizations l10n;
-  late ThemeData theme;
   @override
   Widget build(BuildContext context) {
-    l10n = AppLocalizations.of(context)!;
-    theme = Theme.of(context);
-
     return BlocConsumer<AuthBloc, AuthState>(
       buildWhen: (_, _) => true,
       listener: (context, state) {
@@ -65,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           body: Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: BoxDecoration(color: Colors.grey.withAlpha(50)),
+            decoration: BoxDecoration(color: context.colors.surfaceContainer),
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: SingleChildScrollView(
               child: Column(
@@ -89,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Text(
                     l10n.personalInfo,
                     style: theme.textTheme.headlineLarge?.copyWith(
-                      color: Colors.grey[600],
+                      color: colors.onSurface.withAlpha(150),
                     ),
                   ),
                   box8,
@@ -109,15 +103,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildInfoCard(AuthAuthenticated state) {
     final subStyle = theme.textTheme.titleLarge?.copyWith(
-      color: Colors.grey[700],
+      color: colors.onSurface,
     );
     final titleStyle = theme.textTheme.bodyMedium?.copyWith(
       fontWeight: FontWeight.bold,
-      color: Colors.grey[600],
+      color: colors.onSurface.withAlpha(150),
     );
 
-    return Card.filled(
-      color: Colors.white,
+    return Card(
       child: ListView(
         padding: EdgeInsets.zero,
         shrinkWrap: true,
@@ -202,17 +195,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildStatistics(AuthAuthenticated state) {
-    final titleStyle = theme.textTheme.titleMedium?.copyWith(
+    final titleStyle = texts.titleMedium?.copyWith(
       fontWeight: FontWeight.bold,
-      color: Colors.grey.shade700,
+      color: colors.onSurface,
     );
-    final countStyle = theme.textTheme.displayLarge?.copyWith(
-      color: Colors.grey,
+    final countStyle = texts.displayLarge?.copyWith(
+      color: colors.onSurface.withAlpha(150),
     );
     return Column(
       children: [
-        Card.filled(
-          color: Colors.white,
+        Card(
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
@@ -230,8 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         box16,
-        Card.filled(
-          color: Colors.white,
+        Card(
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
@@ -264,9 +255,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: const EdgeInsets.all(24),
                     child: Text(
                       l10n.exportToCsv,
-                      style: theme.textTheme.bodyLarge?.copyWith(
+                      style: texts.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: colors.onPrimary,
                       ),
                     ),
                   ),
@@ -277,8 +268,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.primary,
-                    foregroundColor: Colors.white,
+                    backgroundColor: colors.primary,
+                    foregroundColor: colors.onPrimary,
                   ),
                 ),
           listener: (BuildContext context, ExporterState state) {

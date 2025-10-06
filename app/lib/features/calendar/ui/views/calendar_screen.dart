@@ -11,6 +11,7 @@ import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:table_calendar/table_calendar.dart' as calendar;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mal/utils.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -84,7 +85,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<CalendarBloc, CalendarState>(
       builder: (BuildContext ctx, CalendarState state) => Container(
-        decoration: BoxDecoration(color: Colors.grey.withAlpha(50)),
+        decoration: BoxDecoration(color: context.colors.surfaceContainer),
         child: Column(
           children: [
             CalendarContainer(

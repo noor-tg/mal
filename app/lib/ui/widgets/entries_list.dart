@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
-import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/ui/widgets/entry_details.dart';
 import 'package:mal/utils.dart';
@@ -13,10 +12,7 @@ class EntriesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context);
-    return Card.filled(
-      color: Colors.white,
+    return Card(
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -39,8 +35,8 @@ class EntriesList extends StatelessWidget {
             entries[index].description.length > 25
                 ? entries[index].description.substring(0, 26)
                 : entries[index].description,
-            style: theme.textTheme.titleMedium?.copyWith(
-              color: Colors.grey.shade600,
+            style: context.texts.titleMedium?.copyWith(
+              color: context.colors.onSurface,
             ),
           ),
           subtitle: Column(
@@ -48,15 +44,15 @@ class EntriesList extends StatelessWidget {
             children: [
               Text(
                 entries[index].category,
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  color: Colors.grey.shade500,
+                style: context.texts.bodyLarge?.copyWith(
+                  color: context.colors.onSurfaceVariant,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
                 toDate(DateTime.parse(entries[index].date)),
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  color: Colors.grey.shade500,
+                style: context.texts.bodyLarge?.copyWith(
+                  color: context.colors.onSurface,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -64,9 +60,9 @@ class EntriesList extends StatelessWidget {
           ),
           isThreeLine: true,
           trailing: Text(
-            entries[index].prefixedAmount(l10n!.income),
-            style: theme.textTheme.bodyLarge?.copyWith(
-              color: entries[index].color(l10n.income),
+            entries[index].prefixedAmount(context.l10n.income),
+            style: context.texts.bodyLarge?.copyWith(
+              color: entries[index].color(context.l10n.income),
             ),
           ),
         ),

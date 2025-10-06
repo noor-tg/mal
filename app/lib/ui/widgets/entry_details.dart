@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
-import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/shared/query_builder.dart';
 import 'package:mal/ui/widgets/entry_form.dart';
@@ -20,7 +19,6 @@ class EntryDetails extends StatefulWidget {
 
 class _EntryDetailsState extends State<EntryDetails> {
   late Entry entry;
-  late AppLocalizations l10n;
 
   @override
   void initState() {
@@ -30,8 +28,6 @@ class _EntryDetailsState extends State<EntryDetails> {
 
   @override
   Widget build(BuildContext context) {
-    l10n = AppLocalizations.of(context)!;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(entry.type),
@@ -64,7 +60,7 @@ class _EntryDetailsState extends State<EntryDetails> {
         width: double.infinity,
         height: double.infinity,
 
-        color: Colors.grey.shade200,
+        color: colors.surfaceContainer,
         padding: const EdgeInsets.all(24),
         child: SingleChildScrollView(
           child: Column(
@@ -74,8 +70,7 @@ class _EntryDetailsState extends State<EntryDetails> {
               box16,
               MalTitle(text: l10n.title),
               box8,
-              Card.filled(
-                color: Colors.white,
+              Card(
                 child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(24),
@@ -94,8 +89,7 @@ class _EntryDetailsState extends State<EntryDetails> {
   }
 
   Card _buildDateCard() {
-    return Card.filled(
-      color: Colors.white,
+    return Card(
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(24.0),
@@ -112,8 +106,7 @@ class _EntryDetailsState extends State<EntryDetails> {
   }
 
   Card _buildMountCard(BuildContext context) {
-    return Card.filled(
-      color: Colors.white,
+    return Card(
       child: Padding(
         padding: const EdgeInsets.all(48),
         child: Center(
@@ -121,21 +114,20 @@ class _EntryDetailsState extends State<EntryDetails> {
             children: [
               Text(
                 moneyFormat(entry.amount),
-                style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                style: texts.displayMedium?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor,
                 ),
               ),
               box16,
-              Card.filled(
-                color: Theme.of(context).colorScheme.primary.withAlpha(30),
+              Card(
+                color: colors.secondaryContainer,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     '# ${entry.category}',
                     style: TextStyle(
                       fontSize: 18,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: colors.secondary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

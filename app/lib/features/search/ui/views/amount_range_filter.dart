@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
-import 'package:mal/l10n/app_localizations.dart';
+import 'package:mal/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AmountRangeFilter extends StatefulWidget {
-  const AmountRangeFilter({super.key, required this.l10n, required this.theme});
-
-  final AppLocalizations l10n;
-  final ThemeData theme;
+  const AmountRangeFilter({super.key});
 
   @override
   State<AmountRangeFilter> createState() => _AmountRangeFilterState();
@@ -48,8 +45,8 @@ class _AmountRangeFilterState extends State<AmountRangeFilter> {
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Card.filled(
-        color: Colors.white,
+      child: Card(
+        color: context.colors.surfaceBright,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -57,9 +54,9 @@ class _AmountRangeFilterState extends State<AmountRangeFilter> {
             spacing: 8,
             children: [
               Text(
-                widget.l10n.amount,
-                style: widget.theme.textTheme.titleLarge?.copyWith(
-                  color: Colors.grey[600],
+                l10n.amount,
+                style: texts.titleLarge?.copyWith(
+                  color: context.colors.onSurface,
                 ),
               ),
               Builder(
@@ -75,13 +72,15 @@ class _AmountRangeFilterState extends State<AmountRangeFilter> {
                           children: [
                             Text(
                               '0',
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(color: Colors.grey[500]),
+                              style: context.texts.titleMedium?.copyWith(
+                                color: context.colors.onSurfaceVariant,
+                              ),
                             ),
                             Text(
-                              max.toString(),
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(color: Colors.grey[500]),
+                              moneyFormat(max),
+                              style: context.texts.titleMedium?.copyWith(
+                                color: context.colors.onSurfaceVariant,
+                              ),
                             ),
                           ],
                         ),

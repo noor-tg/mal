@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mal/features/user/ui/views/login_form.dart';
-import 'package:mal/l10n/app_localizations.dart';
 import 'package:mal/utils.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -9,31 +8,29 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: theme.primaryContainer,
+      backgroundColor: context.colors.surfaceContainer,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
             children: [
               CircleAvatar(
                 radius: 88,
-                backgroundColor: Colors.white,
+                backgroundColor: context.colors.primaryContainer,
                 child: Text(
-                  l10n.logo,
+                  context.l10n.logo,
                   style: GoogleFonts.arefRuqaa(
                     fontSize: 80,
                     fontWeight: FontWeight.bold,
-                    color: theme.primary,
+                    color: context.colors.primary,
                   ),
                 ),
               ),
               box16,
               Center(
                 child: Text(
-                  l10n.login,
-                  style: const TextStyle(
+                  context.l10n.login,
+                  style: context.texts.bodyLarge?.copyWith(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
