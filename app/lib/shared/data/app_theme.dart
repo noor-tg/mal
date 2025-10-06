@@ -11,7 +11,11 @@ class AppTheme {
   static final light = ThemeData(
     colorScheme: brightScheme,
     useMaterial3: true,
-    textTheme: GoogleFonts.cairoTextTheme(Typography.blackMountainView),
+    textTheme: GoogleFonts.cairoTextTheme().apply(
+      bodyColor: brightScheme.onSurface,
+      displayColor: brightScheme.onSurface,
+    ),
+    fontFamily: GoogleFonts.cairo().fontFamily,
     cardTheme: CardThemeData(
       color: brightScheme.surfaceContainerLow,
       elevation: elevation.toDouble(),
@@ -27,7 +31,11 @@ class AppTheme {
   static final dark = ThemeData(
     colorScheme: darkScheme,
     useMaterial3: true,
-    textTheme: GoogleFonts.cairoTextTheme(Typography.whiteMountainView),
+    textTheme: GoogleFonts.cairoTextTheme().apply(
+      bodyColor: darkScheme.onSurface,
+      displayColor: darkScheme.onSurface,
+    ),
+    fontFamily: GoogleFonts.cairo().fontFamily,
     cardTheme: CardThemeData(
       color: darkScheme.surfaceContainerHigh,
       elevation: elevation.toDouble(),
