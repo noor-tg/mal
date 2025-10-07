@@ -35,9 +35,9 @@ class _EntryDetailsState extends State<EntryDetails> {
           IconButton.filled(
             tooltip: l10n.remove,
             style: IconButton.styleFrom(
-              backgroundColor: Colors.red.withAlpha(30),
+              backgroundColor: context.red.withAlpha(30),
             ),
-            color: Colors.red,
+            color: context.red,
             icon: const Icon(Icons.delete),
             onPressed: () => _onRemoveEntry(context),
           ),

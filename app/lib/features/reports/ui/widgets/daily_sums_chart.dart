@@ -4,6 +4,7 @@ import 'package:mal/enums.dart';
 import 'package:mal/features/reports/domain/bloc/daily_sums/daily_sums_bloc.dart';
 import 'package:mal/ui/widgets/line_container.dart';
 import 'package:mal/ui/widgets/no_data_centered.dart';
+import 'package:mal/utils.dart';
 
 class DailySumsChart extends StatelessWidget {
   const DailySumsChart({super.key});
@@ -20,7 +21,7 @@ class DailySumsChart extends StatelessWidget {
           return Center(
             child: Text(
               'Error loading data: ${state.errorMessage.toString()}',
-              style: const TextStyle(color: Colors.red, fontSize: 16),
+              style: TextStyle(color: context.red, fontSize: 16),
               textAlign: TextAlign.center,
             ),
           );

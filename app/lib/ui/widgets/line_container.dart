@@ -59,7 +59,7 @@ class LineContainer extends StatelessWidget {
                     TextSpan(
                       text: '\n${moneyFormat(first.y.toInt())}',
                       style: TextStyle(
-                        color: Colors.green[200],
+                        color: context.green,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -68,7 +68,7 @@ class LineContainer extends StatelessWidget {
                 // iterate throw other spots
                 final spots = touchedSpots.map((LineBarSpot touchedSpot) {
                   final textStyle = TextStyle(
-                    color: Colors.red[200],
+                    color: context.red,
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                   );
@@ -93,7 +93,7 @@ class LineContainer extends StatelessWidget {
             LineChartBarData(
               preventCurveOverShooting: true,
               isCurved: true,
-              color: Colors.greenAccent,
+              color: context.green,
               spots: [
                 for (final entry in first.reversed.toList().asMap().entries)
                   FlSpot(entry.key.toDouble() + 1, entry.value.toDouble()),
@@ -102,7 +102,7 @@ class LineContainer extends StatelessWidget {
             LineChartBarData(
               isCurved: true,
               preventCurveOverShooting: true,
-              color: Colors.redAccent,
+              color: context.red,
               spots: [
                 for (final entry in second.reversed.toList().asMap().entries)
                   FlSpot(entry.key.toDouble() + 1, entry.value.toDouble()),

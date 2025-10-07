@@ -46,7 +46,7 @@ class CategoriesFilter extends StatelessWidget {
                                   searchBloc.state.filters.categories.contains(
                                     category,
                                   )
-                                  ? Colors.green.withAlpha(30)
+                                  ? context.green.withAlpha(30)
                                   : context.colors.primaryContainer.withAlpha(
                                       30,
                                     ),
@@ -54,14 +54,14 @@ class CategoriesFilter extends StatelessWidget {
                                   searchBloc.state.filters.categories.contains(
                                     category,
                                   )
-                                  ? Colors.green
+                                  ? context.green
                                   : context.colors.primary,
                               side: BorderSide(
                                 // Set the border color conditionally, just like your other properties
                                 color:
                                     searchBloc.state.filters.categories
                                         .contains(category)
-                                    ? Colors.green
+                                    ? context.green
                                     : context.colors.primary,
 
                                 // You can also change the border width

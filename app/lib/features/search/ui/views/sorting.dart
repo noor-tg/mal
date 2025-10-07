@@ -41,10 +41,10 @@ class Sorting extends StatelessWidget {
                           ...SortingField.values.map((field) {
                             final activeField =
                                 searchBloc.state.sorting.field == field;
-                            final activeBg = Colors.green.withAlpha(30);
+                            final activeBg = context.green.withAlpha(30);
                             final defaultBg = context.colors.primaryContainer
                                 .withAlpha(30);
-                            const activeColor = Colors.green;
+                            final activeColor = context.green;
                             final defaultColor = context.colors.primary;
                             return OutlinedButton(
                               onPressed: () {

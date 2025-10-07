@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mal/utils.dart';
 
 void errorPopup({required BuildContext context, required String message}) {
-  popup(text: message, color: Colors.orange.shade900, context: context);
+  popup(text: message, color: context.orange, context: context);
 }
 
 void successPopup({required BuildContext context, required String message}) {
-  popup(text: message, color: Colors.green.shade900, context: context);
+  popup(text: message, color: context.green, context: context);
 }
 
 void popup({

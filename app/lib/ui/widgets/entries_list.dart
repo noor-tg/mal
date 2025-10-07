@@ -62,7 +62,7 @@ class EntriesList extends StatelessWidget {
           trailing: Text(
             entries[index].prefixedAmount(context.l10n.income),
             style: context.texts.bodyLarge?.copyWith(
-              color: entries[index].color(context.l10n.income),
+              color: amountColor(entries[index].type, context),
             ),
           ),
         ),

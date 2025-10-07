@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mal/utils.dart';
 
 class PinInput extends StatefulWidget {
   final Function(String) onCompleted;
@@ -132,7 +133,7 @@ class _PinInputState extends State<PinInput> {
 
   Color _getBorderColor(int index) {
     if (_hasError) {
-      return widget.errorColor ?? Colors.red;
+      return widget.errorColor ?? context.red;
     }
     if (_focusNodes[index].hasFocus) {
       return widget.activeColor ?? Theme.of(context).colorScheme.primary;

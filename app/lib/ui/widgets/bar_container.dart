@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:mal/utils.dart';
 
 class BarContainer extends StatelessWidget {
   const BarContainer({super.key});
@@ -26,11 +27,11 @@ class BarContainer extends StatelessWidget {
                 barRods: [
                   BarChartRodData(
                     borderDashArray: [1, 2],
-                    color: Colors.greenAccent,
+                    color: context.green,
                     toY: random.nextInt(100).toDouble(),
                   ),
                   BarChartRodData(
-                    color: Colors.redAccent,
+                    color: context.red,
                     toY: random.nextInt(100).toDouble(),
                   ),
                 ],

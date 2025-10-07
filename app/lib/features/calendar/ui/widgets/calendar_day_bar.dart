@@ -35,7 +35,7 @@ class CalendarDayBar extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
-              color: net(state) > 0 ? Colors.green[700] : Colors.red[700],
+              color: net(state) > 0 ? context.green : context.red,
             ),
           ),
         ],

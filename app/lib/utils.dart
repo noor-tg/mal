@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mal/constants.dart';
 import 'package:mal/shared/db.dart';
 import 'package:uuid/uuid.dart';
 import 'package:sqflite/sqflite.dart' as sql;
@@ -74,6 +75,18 @@ extension ThemeExtension on BuildContext {
   ThemeData get theme => Theme.of(this);
   ColorScheme get colors => theme.colorScheme;
   TextTheme get texts => theme.textTheme;
+
+  Color get green => theme.brightness == Brightness.light
+      ? Colors.greenAccent.shade700
+      : Colors.greenAccent.shade200;
+
+  Color get red => theme.brightness == Brightness.light
+      ? Colors.redAccent.shade700
+      : Colors.redAccent.shade200;
+
+  Color get orange => theme.brightness == Brightness.light
+      ? Colors.orangeAccent.shade700
+      : Colors.orangeAccent.shade200;
 }
 
 // l10n for stateless
@@ -90,4 +103,20 @@ extension ThemeStateExtension<T extends StatefulWidget> on State<T> {
 
   // l10n
   AppLocalizations get l10n => AppLocalizations.of(context)!;
+
+  Color get green => theme.brightness == Brightness.light
+      ? Colors.greenAccent.shade700
+      : Colors.greenAccent.shade200;
+
+  Color get red => theme.brightness == Brightness.light
+      ? Colors.redAccent.shade700
+      : Colors.redAccent.shade200;
+
+  Color get orange => theme.brightness == Brightness.light
+      ? Colors.orangeAccent.shade700
+      : Colors.orangeAccent.shade200;
+}
+
+Color amountColor(String type, BuildContext context) {
+  return type == incomeType ? context.green : context.red;
 }

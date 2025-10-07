@@ -6,6 +6,7 @@ import 'package:mal/features/reports/domain/bloc/categories_report/categories_re
 import 'package:mal/features/reports/domain/entities/category_report.dart';
 import 'package:mal/ui/widgets/mal_pie_chart.dart';
 import 'package:mal/ui/widgets/no_data_centered.dart';
+import 'package:mal/utils.dart';
 
 class PieChartLoader extends StatelessWidget {
   final String type;
@@ -28,7 +29,7 @@ class PieChartLoader extends StatelessWidget {
             return Center(
               child: Text(
                 'Error loading data: ${state.errorMessage}',
-                style: const TextStyle(color: Colors.redAccent, fontSize: 16),
+                style: TextStyle(color: context.red, fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             );

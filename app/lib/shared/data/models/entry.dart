@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:mal/utils.dart';
 
 class Entry extends Equatable {
@@ -24,9 +23,6 @@ class Entry extends Equatable {
 
   String prefixedAmount(String incomeL10n) =>
       '${moneyFormat(amount).toString()} ${type == incomeL10n ? "+" : "-"}';
-
-  Color color(String incomeL10n) =>
-      type == incomeL10n ? Colors.green : Colors.red;
 
   @override
   List<Object?> get props => [uid, description, date, amount, category, type];

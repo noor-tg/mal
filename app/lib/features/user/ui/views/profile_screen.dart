@@ -128,10 +128,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   _nameController.text = state.user.name;
                   showModalBottomSheet(
                     context: context,
-                    builder: (BuildContext context) => UpdateNameModal(
-                      nameController: _nameController,
-                      l10n: l10n,
-                    ),
+                    builder: (BuildContext context) =>
+                        UpdateNameModal(nameController: _nameController),
                   );
                 },
               ),
@@ -148,8 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onPressed: () {
                   showModalBottomSheet(
                     context: context,
-                    builder: (BuildContext context) =>
-                        UpdatePinModal(l10n: l10n),
+                    builder: (BuildContext context) => const UpdatePinModal(),
                   );
                 },
               ),
@@ -313,7 +310,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                   ),
-                  backgroundColor: Colors.green[600],
+                  backgroundColor: context.green,
                 ),
               );
             }

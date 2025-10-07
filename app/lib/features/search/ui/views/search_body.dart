@@ -166,7 +166,9 @@ class _SearchBodyState extends State<SearchBody> {
       isThreeLine: true,
       trailing: Text(
         entry.prefixedAmount(l10n.income),
-        style: texts.bodyLarge?.copyWith(color: entry.color(l10n.income)),
+        style: texts.bodyLarge?.copyWith(
+          color: amountColor(entry.type, context),
+        ),
       ),
     );
   }

@@ -19,7 +19,7 @@ class SumsCard extends StatelessWidget {
               Text(
                 context.l10n.reportsBalance,
                 style: context.texts.titleLarge?.copyWith(
-                  color: Colors.blue[200],
+                  color: context.colors.primary.withAlpha(200),
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -27,7 +27,7 @@ class SumsCard extends StatelessWidget {
               Text(
                 moneyFormat(totals.balance),
                 style: context.texts.displaySmall?.copyWith(
-                  color: Colors.lightBlue,
+                  color: context.colors.primary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -44,14 +44,14 @@ class SumsCard extends StatelessWidget {
                 Text(
                   context.l10n.expenses,
                   style: context.texts.titleLarge?.copyWith(
-                    color: Colors.red[200],
+                    color: context.red.withAlpha(200),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   moneyFormat(totals.expenses),
                   style: context.texts.displaySmall?.copyWith(
-                    color: Colors.red[700],
+                    color: context.red,
                   ),
                 ),
               ],
@@ -67,14 +67,14 @@ class SumsCard extends StatelessWidget {
                 Text(
                   context.l10n.income,
                   style: context.texts.titleLarge?.copyWith(
-                    color: Colors.green[400],
+                    color: context.green.withAlpha(200),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   moneyFormat(totals.incomes),
                   style: context.texts.displaySmall?.copyWith(
-                    color: Colors.green[700],
+                    color: context.green,
                   ),
                 ),
               ],

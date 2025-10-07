@@ -46,7 +46,7 @@ class CalendarCell extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 10,
                   height: 1.5,
-                  color: Colors.green[700],
+                  color: context.green,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -56,7 +56,7 @@ class CalendarCell extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 10,
                   height: 1.5,
-                  color: Colors.red[700],
+                  color: context.red,
                   fontWeight: FontWeight.bold,
                 ),
               ),
