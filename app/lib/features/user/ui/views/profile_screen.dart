@@ -28,6 +28,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     _checkBiometricAvailability();
+    final authBloc = context.read<AuthBloc>();
+    if (authBloc.state is AuthAuthenticated) {
+      final authed = authBloc.state as AuthAuthenticated;
+      authBloc.add(AuthRefreshData(authed.user.uid));
+    }
   }
 
   Future<void> _checkBiometricAvailability() async {

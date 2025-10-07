@@ -69,6 +69,11 @@ final class AuthCheckStatusRequested extends AuthEvent {
   const AuthCheckStatusRequested();
 }
 
+final class AuthRefreshData extends AuthEvent {
+  final String uid;
+  const AuthRefreshData(this.uid);
+}
+
 final class UpdateName extends AuthEvent {
   final String name;
   final String uid;

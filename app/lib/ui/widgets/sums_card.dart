@@ -42,16 +42,16 @@ class SumsCard extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  context.l10n.expenses,
+                  context.l10n.income,
                   style: context.texts.titleLarge?.copyWith(
-                    color: context.red.withAlpha(200),
+                    color: context.green.withAlpha(200),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  moneyFormat(totals.expenses),
+                  moneyFormat(totals.incomes),
                   style: context.texts.displaySmall?.copyWith(
-                    color: context.red,
+                    color: context.green,
                   ),
                 ),
               ],
@@ -65,16 +65,16 @@ class SumsCard extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  context.l10n.income,
+                  context.l10n.expenses,
                   style: context.texts.titleLarge?.copyWith(
-                    color: context.green.withAlpha(200),
+                    color: context.red.withAlpha(200),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  moneyFormat(totals.incomes),
+                  moneyFormat(totals.expenses),
                   style: context.texts.displaySmall?.copyWith(
-                    color: context.green,
+                    color: context.red,
                   ),
                 ),
               ],

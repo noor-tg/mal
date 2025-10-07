@@ -120,11 +120,12 @@ class _EntryDetailsState extends State<EntryDetails> {
               ),
               box16,
               Card(
+                elevation: 0,
                 color: colors.secondaryContainer,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    '# ${entry.category}',
+                    entry.category,
                     style: TextStyle(
                       fontSize: 18,
                       color: colors.secondary,

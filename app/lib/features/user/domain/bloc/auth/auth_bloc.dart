@@ -30,6 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<UpdateName>(_onUpdateName);
     on<UpdatePin>(_onUpdatePin);
     on<UpdateAvatar>(_onUpdateAvatar);
+    on<AuthRefreshData>(_onAuthRefreshData);
   }
 
   FutureOr<void> _onRegisterAndLoginRequested(
@@ -426,5 +427,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> _onAuthReset(AuthReset event, Emitter<AuthState> emit) {
     emit(const AuthInitial());
+  }
+
+  FutureOr<void> _onAuthRefreshData(
+    AuthRefreshData event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      final user = await repo.getUser(event.uid);
+      final statistics = await repo.userStatistics(user.uid);
+      emit(
+        AuthAuthenticated(
+          user: user,
+          biometricEnabled: user.biometricEnabled,
+          statistics: statistics,
+        ),
+      );
+    } catch (e, t) {
+      logger
+        ..e(e)
+        ..t(t);
+    }
   }
 }

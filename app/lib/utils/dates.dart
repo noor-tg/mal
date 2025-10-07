@@ -35,7 +35,7 @@ String relativeTime(String date) {
   final diffInMinutes = now().difference(dateTime).inMinutes;
   final diffInSeconds = now().difference(dateTime).inSeconds;
 
-  if (now().difference(dateTime).inDays > 365) {
+  if (diffInDays > 364) {
     return 'منذ ${(diffInDays / 364).floor()} سنة';
   }
 
@@ -63,5 +63,5 @@ String relativeTime(String date) {
     return 'منذ $diffInSeconds ثواني';
   }
 
-  return dateTime.toIso8601String();
+  return dateTime.toIso8601String().substring(0, 10);
 }

@@ -52,8 +52,7 @@ class _MalPieChartState extends State<MalPieChart> {
               ),
             ),
           ),
-          box32,
-          box8,
+          box64,
           for (final item in widget.list)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
