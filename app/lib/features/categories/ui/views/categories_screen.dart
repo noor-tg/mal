@@ -41,6 +41,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             Text(l10n.income, style: titleStyle),
             box8,
             buildList(state.income, l10n),
+            box64,
           ],
         ),
       ),

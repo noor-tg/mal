@@ -79,6 +79,7 @@ class _SearchScreenState extends State<SearchScreen> {
           const Expanded(
             child: Padding(padding: EdgeInsets.all(8), child: SearchBody()),
           ),
+          box64,
         ],
       ),
     );

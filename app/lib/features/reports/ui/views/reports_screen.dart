@@ -74,7 +74,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
               return EntriesList(entries: state.today);
             },
           ),
-          box16,
+          box64,
         ],
       ),
     );

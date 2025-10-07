@@ -621,6 +621,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'فتح الملف'**
   String get openFile;
+
+  /// No description provided for @million.
+  ///
+  /// In ar, this message translates to:
+  /// **'مـ'**
+  String get million;
+
+  /// No description provided for @thousand.
+  ///
+  /// In ar, this message translates to:
+  /// **'أ'**
+  String get thousand;
 }
 
 class _AppLocalizationsDelegate

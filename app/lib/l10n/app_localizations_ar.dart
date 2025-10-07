@@ -274,4 +274,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get openFile => 'فتح الملف';
+
+  @override
+  String get million => 'مـ';
+
+  @override
+  String get thousand => 'أ';
 }

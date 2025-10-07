@@ -17,7 +17,35 @@ class LineContainer extends StatelessWidget {
           gridData: const FlGridData(show: false),
           titlesData: FlTitlesData(
             topTitles: const AxisTitles(),
+
             leftTitles: const AxisTitles(),
+            rightTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 50, // Adjust based on your number size
+                getTitlesWidget: (value, meta) {
+                  // Customize your formatting here
+                  String text;
+                  if (value >= 1000000) {
+                    text =
+                        '${(value / 1000000).toStringAsFixed(0)} ${context.l10n.million}';
+                  } else if (value >= 1000) {
+                    text =
+                        '${(value / 1000).toStringAsFixed(0)} ${context.l10n.thousand}';
+                  } else {
+                    text = value.toInt().toString();
+                  }
+
+                  return Text(
+                    text,
+                    style: context.texts.bodyLarge?.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                },
+              ),
+            ),
             bottomTitles: AxisTitles(
               axisNameSize: 6,
               sideTitles: SideTitles(
@@ -26,7 +54,8 @@ class LineContainer extends StatelessWidget {
                   meta: meta,
                   child: Text(
                     style: const TextStyle(fontSize: 10.0),
-                    (getCurrentMonthDays().length - value.toInt()).toString(),
+                    (getCurrentMonthDays().length - value.toInt() + 1)
+                        .toString(),
                   ),
                 ),
               ),

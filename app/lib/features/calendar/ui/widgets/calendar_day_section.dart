@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mal/features/calendar/domain/bloc/calendar_bloc.dart';
 import 'package:mal/ui/widgets/entries_list.dart';
+import 'package:mal/utils.dart';
 
 class CalendarDaySection extends StatelessWidget {
   final CalendarState state;
@@ -13,7 +14,12 @@ class CalendarDaySection extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         child: SingleChildScrollView(
-          child: EntriesList(entries: state.selectedDayData),
+          child: Column(
+            children: [
+              EntriesList(entries: state.selectedDayData),
+              box64,
+            ],
+          ),
         ),
       ),
     );

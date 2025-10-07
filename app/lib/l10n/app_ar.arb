@@ -86,5 +86,7 @@
   "exportToCsv": "تحميل البيانات",
   "exportInProgress": "جاري التحميل",
   "exportCompleted": "تم إستخراج البيانات بنجاح",
-  "openFile": "فتح الملف"
+  "openFile": "فتح الملف",
+  "million": "مـ",
+  "thousand": "أ"
 }
