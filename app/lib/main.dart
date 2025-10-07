@@ -22,6 +22,7 @@ Future<Widget> initMalApp() async {
   // await generateData();
   // final prefs = await SharedPreferences.getInstance();
   // logger.i(prefs.getKeys());
+  // await prefs.remove('seen_onboarding');
   // await prefs.remove('last_auth_user');
   return const MalApp();
 }

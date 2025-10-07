@@ -6,30 +6,49 @@ import 'package:mal/features/user/ui/views/login_screen.dart';
 import 'package:mal/features/user/ui/views/profile_screen.dart';
 import 'package:mal/features/user/ui/views/register_screen.dart';
 import 'package:mal/ui/app_container.dart';
+import 'package:mal/ui/onboarding_screen.dart';
 import 'package:mal/ui/splash_screen.dart';
+import 'package:mal/utils/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-enum Routes { login, register, dashboard }
+enum Routes { login, register, dashboard, onboarding }
 
 GoRouter createAppRouter(BuildContext context) {
   return GoRouter(
     initialLocation: '/',
-    redirect: (context, state) {
+    redirect: (context, state) async {
       final authState = context.read<AuthBloc>().state;
       final isSplashRoute = state.matchedLocation == '/';
       final isLoginRoute = state.matchedLocation == '/${Routes.login.name}';
+      final isOnboardingRoute =
+          state.matchedLocation == '/${Routes.onboarding.name}';
       final isRegisterRoute =
           state.matchedLocation == '/${Routes.register.name}';
 
       // If authenticated and trying to access login/register/splash, redirect to dashboard
-      if (authState is AuthAuthenticated &&
-          (isRegisterRoute || isSplashRoute || isLoginRoute)) {
+      if (authState is AuthAuthenticated && (isRegisterRoute || isLoginRoute)) {
         return '/${Routes.dashboard.name}';
       }
 
       // If not authenticated and trying to access dashboard, redirect to login
       if (authState is AuthUnauthenticated &&
-          (!isSplashRoute && !isLoginRoute && !isRegisterRoute)) {
+          (!isLoginRoute &&
+              !isRegisterRoute &&
+              !isOnboardingRoute &&
+              !isSplashRoute)) {
         return '/${Routes.login.name}';
+      }
+
+      if (isSplashRoute && await checkOnboarding() == false) {
+        return '/onboarding';
+      }
+      if (isSplashRoute && await checkOnboarding() == true) {
+        if (authState is AuthAuthenticated) {
+          return '/${Routes.dashboard.name}';
+        }
+        if (authState is AuthUnauthenticated) {
+          return '/login';
+        }
       }
 
       return null; // No redirect needed
@@ -39,6 +58,11 @@ GoRouter createAppRouter(BuildContext context) {
         path: '/',
         name: 'splash',
         builder: (context, state) => const SplashScreen(),
+      ),
+      GoRoute(
+        path: '/onboarding',
+        name: 'onboarding',
+        builder: (context, state) => const OnboardingScreen(),
       ),
       GoRoute(
         path: '/login',
@@ -62,4 +86,13 @@ GoRouter createAppRouter(BuildContext context) {
       ),
     ],
   );
+}
+
+Future<bool> checkOnboarding() async {
+  logger.i('check on boarding');
+  final prefs = await SharedPreferences.getInstance();
+  final seen = prefs.getBool('seen_onboarding') ?? false;
+
+  logger.i(seen);
+  return seen;
 }
