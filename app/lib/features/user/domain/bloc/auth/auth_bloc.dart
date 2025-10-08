@@ -151,7 +151,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       // Validate input
       final name = event.name.trim();
-      if (name.length < 4) {
+      if (name.length < 2) {
         errors['name'] = event.l10n.loginNameErrorMessage;
       }
 

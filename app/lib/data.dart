@@ -48,16 +48,16 @@ Future<void> generateEntries(Database db, String userUid) async {
 
 Entry fakeEntry({String? userUid}) {
   final random = Random();
+  final category = categories[Random().nextInt(categories.length - 1)];
   return Entry(
     userUid: userUid ?? uuid.v4(),
     description: faker.lorem.sentence(),
     amount: Random().nextInt(1000),
-    category:
-        categories[Random().nextInt(categories.length - 1)]['title'] as String,
-    type: types[Random().nextInt(types.length)],
+    category: category['title'] as String,
+    type: category['type'] as String,
     date: DateTime(
       2025,
-      [9, 8, 7, 6, 5][Random().nextInt(5)],
+      [10, 9, 8, 7, 6, 5][Random().nextInt(6)],
       random.nextInt(30),
       random.nextInt(24),
       random.nextInt(60),
@@ -67,8 +67,9 @@ Entry fakeEntry({String? userUid}) {
 }
 
 Map<String, String> fakeUser() {
+  final names = ['محمد', 'احمد', 'ابوبكر', 'عمر', 'عثمان', 'علي'];
   return {
-    'name': faker.internet.userName(),
+    'name': names[Random().nextInt(names.length - 1)],
     'pin': '1234',
     'salt': faker.internet.macAddress(),
   };

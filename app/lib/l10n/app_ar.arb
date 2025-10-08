@@ -71,7 +71,7 @@
   "selectCorrectCategoryMessage": "يجب إختيار وسم",
   "entryDescriptionErrorMessage": "يجب أن يكون الوصف بين 2 حرف إلي 255",
   "edit": "تعديل",
-  "loginNameErrorMessage": "يجب إدخال 4 حروف على الاقل",
+  "loginNameErrorMessage": "يجب إدخال 2 حروف على الاقل",
   "pinErrorMessage": "يجب إدخل رمز 4 أرقام",
   "loginErrorMessage": "يرجى إدخال بيانات صحيحة",
   "loginMessageSelectUser": "يجب إختيار مستخدم أولا",
@@ -88,5 +88,7 @@
   "exportCompleted": "تم إستخراج البيانات بنجاح",
   "openFile": "فتح الملف",
   "million": "مـ",
-  "thousand": "أ"
+  "thousand": "أ",
+  "skip": "تخطي",
+  "start": "ابدأ"
 }

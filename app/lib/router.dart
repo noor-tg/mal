@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mal/enums.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/ui/views/login_screen.dart';
 import 'package:mal/features/user/ui/views/profile_screen.dart';
@@ -8,7 +9,6 @@ import 'package:mal/features/user/ui/views/register_screen.dart';
 import 'package:mal/ui/app_container.dart';
 import 'package:mal/ui/onboarding_screen.dart';
 import 'package:mal/ui/splash_screen.dart';
-import 'package:mal/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum Routes { login, register, dashboard, onboarding }
@@ -89,10 +89,7 @@ GoRouter createAppRouter(BuildContext context) {
 }
 
 Future<bool> checkOnboarding() async {
-  logger.i('check on boarding');
   final prefs = await SharedPreferences.getInstance();
-  final seen = prefs.getBool('seen_onboarding') ?? false;
-
-  logger.i(seen);
+  final seen = prefs.getBool(PrefsKeys.seen_onboarding.name) ?? false;
   return seen;
 }

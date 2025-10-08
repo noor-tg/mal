@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 // ignore: depend_on_referenced_packages
 import 'package:local_auth_android/local_auth_android.dart';
+import 'package:mal/enums.dart';
 import 'package:mal/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -157,7 +158,7 @@ class BiometricService {
   static Future<void> setLastAuthenticatedUser(String uid) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('last_auth_user', uid);
+      await prefs.setString(PrefsKeys.last_auth_user.name, uid);
     } catch (e) {
       logger.e('Error setting last authenticated user: $e');
     }
@@ -167,8 +168,7 @@ class BiometricService {
   static Future<String?> getLastAuthenticatedUser() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      // TODO: get user info from db
-      return prefs.getString('last_auth_user');
+      return prefs.getString(PrefsKeys.last_auth_user.name);
     } catch (e) {
       logger.e('Error getting last authenticated user: $e');
       return null;

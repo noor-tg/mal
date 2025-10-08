@@ -529,7 +529,7 @@ abstract class AppLocalizations {
   /// No description provided for @loginNameErrorMessage.
   ///
   /// In ar, this message translates to:
-  /// **'يجب إدخال 4 حروف على الاقل'**
+  /// **'يجب إدخال 2 حروف على الاقل'**
   String get loginNameErrorMessage;
 
   /// No description provided for @pinErrorMessage.
@@ -633,6 +633,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'أ'**
   String get thousand;
+
+  /// No description provided for @skip.
+  ///
+  /// In ar, this message translates to:
+  /// **'تخطي'**
+  String get skip;
+
+  /// No description provided for @start.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ'**
+  String get start;
 }
 
 class _AppLocalizationsDelegate

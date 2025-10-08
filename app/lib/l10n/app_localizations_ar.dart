@@ -227,7 +227,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get edit => 'تعديل';
 
   @override
-  String get loginNameErrorMessage => 'يجب إدخال 4 حروف على الاقل';
+  String get loginNameErrorMessage => 'يجب إدخال 2 حروف على الاقل';
 
   @override
   String get pinErrorMessage => 'يجب إدخل رمز 4 أرقام';
@@ -280,4 +280,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get thousand => 'أ';
+
+  @override
+  String get skip => 'تخطي';
+
+  @override
+  String get start => 'ابدأ';
 }
