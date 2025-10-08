@@ -286,4 +286,23 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get start => 'ابدأ';
+
+  @override
+  String get help => 'مساعدة';
+
+  @override
+  String get previous => 'السابق';
+
+  @override
+  String get next => 'التالي';
+
+  @override
+  String get showCaseDescriptionNewEntry =>
+      'تسجيل مدخل جديد ، يمكنك إضافة رصيدك الحالي أولا';
+
+  @override
+  String get showCaseDescriptionThemeSwitcher => 'تغيير السملة نهاري / ليلي';
+
+  @override
+  String get showCaseDescriptionUserProfile => 'ملف المستخدم';
 }

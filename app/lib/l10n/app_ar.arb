@@ -90,5 +90,11 @@
   "million": "مـ",
   "thousand": "أ",
   "skip": "تخطي",
-  "start": "ابدأ"
+  "start": "ابدأ",
+  "help": "مساعدة",
+  "previous": "السابق",
+  "next": "التالي",
+  "showCaseDescriptionNewEntry": "تسجيل مدخل جديد ، يمكنك إضافة رصيدك الحالي أولا",
+  "showCaseDescriptionThemeSwitcher": "تغيير السملة نهاري / ليلي",
+  "showCaseDescriptionUserProfile": "ملف المستخدم"
 }

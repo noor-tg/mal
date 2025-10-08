@@ -645,6 +645,42 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'ابدأ'**
   String get start;
+
+  /// No description provided for @help.
+  ///
+  /// In ar, this message translates to:
+  /// **'مساعدة'**
+  String get help;
+
+  /// No description provided for @previous.
+  ///
+  /// In ar, this message translates to:
+  /// **'السابق'**
+  String get previous;
+
+  /// No description provided for @next.
+  ///
+  /// In ar, this message translates to:
+  /// **'التالي'**
+  String get next;
+
+  /// No description provided for @showCaseDescriptionNewEntry.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل مدخل جديد ، يمكنك إضافة رصيدك الحالي أولا'**
+  String get showCaseDescriptionNewEntry;
+
+  /// No description provided for @showCaseDescriptionThemeSwitcher.
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيير السملة نهاري / ليلي'**
+  String get showCaseDescriptionThemeSwitcher;
+
+  /// No description provided for @showCaseDescriptionUserProfile.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملف المستخدم'**
+  String get showCaseDescriptionUserProfile;
 }
 
 class _AppLocalizationsDelegate

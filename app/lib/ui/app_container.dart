@@ -19,7 +19,9 @@ import 'package:mal/ui/bottom_button.dart';
 import 'package:mal/ui/half_border_fab.dart';
 import 'package:mal/ui/logout_button.dart';
 import 'package:mal/ui/new_category_button.dart';
+import 'package:mal/ui/tour_guide_container.dart';
 import 'package:mal/utils.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class AppContainer extends StatefulWidget {
   const AppContainer({super.key});
@@ -30,6 +32,10 @@ class AppContainer extends StatefulWidget {
 
 class _AppContainerState extends State<AppContainer> {
   List<MalPage> pages = [];
+
+  final _one = GlobalKey();
+  final _two = GlobalKey();
+  final _three = GlobalKey();
 
   @override
   void initState() {
@@ -42,8 +48,9 @@ class _AppContainerState extends State<AppContainer> {
     final authState = context.read<AuthBloc>().state;
 
     pages = makePages(context, authState);
-
-    return BlocBuilder<ThemeBloc, ThemeState>(builder: _buildScaffold);
+    return _buildShowCaseContainer(
+      BlocBuilder<ThemeBloc, ThemeState>(builder: _buildScaffold),
+    );
   }
 
   List<MalPage> makePages(BuildContext context, AuthState authState) {
@@ -99,7 +106,13 @@ class _AppContainerState extends State<AppContainer> {
       appBar: appBar(state, context),
       body: indexedStack(state),
       floatingActionButton: HalfBorderFab(
-        child: pages[state.tabIndex].action ?? const AddEntryButton(),
+        child:
+            pages[state.tabIndex].action ??
+            Showcase(
+              key: _three,
+              description: l10n.showCaseDescriptionNewEntry,
+              child: const AddEntryButton(),
+            ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: bottomAppBar(state),
@@ -118,24 +131,45 @@ class _AppContainerState extends State<AppContainer> {
       backgroundColor: colors.secondaryContainer,
       iconTheme: IconThemeData(color: colors.onPrimary.withAlpha(100)),
       actions: [
-        Switch(
-          value: state.themeMode == ThemeMode.light,
-          onChanged: (value) {
-            context.read<ThemeBloc>().add(
-              ChangeThemeEvent(value ? ThemeMode.light : ThemeMode.dark),
-            );
+        IconButton(
+          icon: Transform.flip(
+            flipX: true,
+            child: Icon(
+              Icons.help_outline,
+              color: colors.onSecondaryContainer.withAlpha(150),
+            ),
+          ),
+          onPressed: () {
+            ShowCaseWidget.of(context).startShowCase([_one, _two, _three]);
           },
+          tooltip: l10n.help,
+        ),
+        Showcase(
+          key: _one,
+          description: l10n.showCaseDescriptionThemeSwitcher,
+          child: Switch(
+            value: state.themeMode == ThemeMode.light,
+            onChanged: (value) {
+              context.read<ThemeBloc>().add(
+                ChangeThemeEvent(value ? ThemeMode.light : ThemeMode.dark),
+              );
+            },
+          ),
         ),
         if (state.tabIndex != 4)
-          IconButton(
-            icon: CircleAvatar(
-              radius: 18,
-              backgroundImage: pages[4].avatar,
-              backgroundColor: colors.onPrimary,
+          Showcase(
+            key: _two,
+            description: l10n.showCaseDescriptionUserProfile,
+            child: IconButton(
+              icon: CircleAvatar(
+                radius: 18,
+                backgroundImage: pages[4].avatar,
+                backgroundColor: colors.onPrimary,
+              ),
+              onPressed: () {
+                onTabPress(4);
+              },
             ),
-            onPressed: () {
-              onTabPress(4);
-            },
           ),
         box16,
       ],
@@ -201,5 +235,13 @@ class _AppContainerState extends State<AppContainer> {
       SeedCategoriedWhenEmpty(authState.user.uid),
     );
     context.read<CategoriesBloc>().add(AppInit(authState.user.uid));
+  }
+
+  Widget _buildShowCaseContainer(Widget child) {
+    return TourGuideContainer(
+      firstShowCaseKey: _one,
+      lastShowCaseKey: _three,
+      child: child,
+    );
   }
 }

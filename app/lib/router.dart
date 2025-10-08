@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mal/enums.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/ui/views/login_screen.dart';
 import 'package:mal/features/user/ui/views/profile_screen.dart';
@@ -9,87 +8,68 @@ import 'package:mal/features/user/ui/views/register_screen.dart';
 import 'package:mal/ui/app_container.dart';
 import 'package:mal/ui/onboarding_screen.dart';
 import 'package:mal/ui/splash_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-enum Routes { login, register, dashboard, onboarding }
+enum Routes { login, register, dashboard, onboarding, splash, profile }
 
-GoRouter createAppRouter(BuildContext context) {
+GoRouter createAppRouter(BuildContext context, bool seenOnBoarding) {
   return GoRouter(
-    initialLocation: '/',
-    redirect: (context, state) async {
+    initialLocation: '/${Routes.splash.name}',
+    redirect: (context, state) {
+      if (!seenOnBoarding) return '/${Routes.onboarding.name}';
+
       final authState = context.read<AuthBloc>().state;
-      final isSplashRoute = state.matchedLocation == '/';
+      final isSplashRoute = state.matchedLocation == '/${Routes.splash.name}';
       final isLoginRoute = state.matchedLocation == '/${Routes.login.name}';
-      final isOnboardingRoute =
-          state.matchedLocation == '/${Routes.onboarding.name}';
       final isRegisterRoute =
           state.matchedLocation == '/${Routes.register.name}';
 
       // If authenticated and trying to access login/register/splash, redirect to dashboard
-      if (authState is AuthAuthenticated && (isRegisterRoute || isLoginRoute)) {
+      final isPublic = isRegisterRoute || isLoginRoute || isSplashRoute;
+
+      if (authState is AuthAuthenticated && isPublic) {
         return '/${Routes.dashboard.name}';
       }
 
+      final notPublic = !isLoginRoute && !isRegisterRoute && !isSplashRoute;
+
       // If not authenticated and trying to access dashboard, redirect to login
-      if (authState is AuthUnauthenticated &&
-          (!isLoginRoute &&
-              !isRegisterRoute &&
-              !isOnboardingRoute &&
-              !isSplashRoute)) {
+      if (authState is AuthUnauthenticated && notPublic) {
         return '/${Routes.login.name}';
       }
 
-      if (isSplashRoute && await checkOnboarding() == false) {
-        return '/onboarding';
-      }
-      if (isSplashRoute && await checkOnboarding() == true) {
-        if (authState is AuthAuthenticated) {
-          return '/${Routes.dashboard.name}';
-        }
-        if (authState is AuthUnauthenticated) {
-          return '/login';
-        }
-      }
-
-      return null; // No redirect needed
+      return null;
     },
     routes: [
       GoRoute(
-        path: '/',
-        name: 'splash',
+        path: '/${Routes.splash.name}',
+        name: Routes.splash.name,
         builder: (context, state) => const SplashScreen(),
       ),
       GoRoute(
-        path: '/onboarding',
-        name: 'onboarding',
+        path: '/${Routes.onboarding.name}',
+        name: Routes.onboarding.name,
         builder: (context, state) => const OnboardingScreen(),
       ),
       GoRoute(
-        path: '/login',
-        name: 'login',
+        path: '/${Routes.login.name}',
+        name: Routes.login.name,
         builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
-        path: '/register',
-        name: 'register',
+        path: '/${Routes.register.name}',
+        name: Routes.register.name,
         builder: (context, state) => const RegisterScreen(),
       ),
       GoRoute(
-        path: '/dashboard',
-        name: 'dashboard',
+        path: '/${Routes.dashboard.name}',
+        name: Routes.dashboard.name,
         builder: (context, state) => const AppContainer(),
       ),
       GoRoute(
-        path: '/profile',
-        name: 'profile',
+        path: '/${Routes.profile.name}',
+        name: Routes.profile.name,
         builder: (context, state) => const ProfileScreen(),
       ),
     ],
   );
-}
-
-Future<bool> checkOnboarding() async {
-  final prefs = await SharedPreferences.getInstance();
-  final seen = prefs.getBool(PrefsKeys.seen_onboarding.name) ?? false;
-  return seen;
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mal/enums.dart';
 import 'package:mal/ui/mal_app.dart';
 // ignore: unused_import
 import 'package:mal/data.dart';
@@ -18,11 +19,14 @@ void main() async {
 Future<Widget> initMalApp() async {
   await initializeDateFormatting();
   await dotenv.load();
+  final prefs = await SharedPreferences.getInstance();
+  final seenOnBoarding = prefs.getBool(PrefsKeys.seen_onboarding.name) ?? false;
+
   // await Db.deleteOldDatabase();
   // await generateData();
   // final prefs = await SharedPreferences.getInstance();
   // logger.i(prefs.getKeys());
   // await prefs.remove('seen_onboarding');
   // await prefs.remove('last_auth_user');
-  return const MalApp();
+  return MalApp(seenOnBoard: seenOnBoarding);
 }
