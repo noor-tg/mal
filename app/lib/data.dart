@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:faker/faker.dart';
 import 'package:mal/constants.dart';
 import 'package:mal/features/user/data/repositories/sql_repository.dart'
     as user;
+import 'package:mal/l10n/app_localizations_ar.dart';
 import 'package:mal/shared/data/models/category.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/shared/data/models/user.dart';
@@ -12,9 +12,6 @@ import 'package:mal/utils.dart';
 import 'package:mal/utils/logger.dart';
 // ignore: depend_on_referenced_packages
 import 'package:sqflite_common/sqlite_api.dart';
-
-final random = RandomGenerator(seed: 63833423);
-final faker = Faker.withGenerator(random);
 
 final categories = [
   {'title': 'طعام', 'type': expenseType},
@@ -46,12 +43,18 @@ Future<void> generateEntries(Database db, String userUid) async {
   }
 }
 
+String sentence() {
+  final lorem = AppLocalizationsAr().lorem_ipsum;
+  final randomStart = Random().nextInt(lorem.length - 21);
+  return lorem.substring(randomStart, randomStart + Random().nextInt(20));
+}
+
 Entry fakeEntry({String? userUid}) {
   final random = Random();
   final category = categories[Random().nextInt(categories.length - 1)];
   return Entry(
     userUid: userUid ?? uuid.v4(),
-    description: faker.lorem.sentence(),
+    description: sentence(),
     amount: Random().nextInt(1000),
     category: category['title'] as String,
     type: category['type'] as String,
@@ -71,7 +74,7 @@ Map<String, String> fakeUser() {
   return {
     'name': names[Random().nextInt(names.length - 1)],
     'pin': '1234',
-    'salt': faker.internet.macAddress(),
+    'salt': '12234135324234324234',
   };
 }
 
@@ -99,7 +102,7 @@ Future<void> generateCategories(Database db, String userUid) async {
 Category fakeCategory({String? userUid}) {
   return Category(
     userUid: userUid ?? uuid.v4(),
-    title: faker.lorem.sentence(),
+    title: sentence(),
     type: types[Random().nextInt(types.length)],
   );
 }
