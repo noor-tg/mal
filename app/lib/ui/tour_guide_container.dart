@@ -19,6 +19,7 @@ class TourGuideContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShowCaseWidget(
+      enableAutoScroll: true,
       hideFloatingActionWidgetForShowcase: [firstShowCaseKey],
       globalFloatingActionWidget: (showcaseContext) => FloatingActionWidget(
         left: 16,

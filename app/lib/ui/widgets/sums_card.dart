@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/features/reports/domain/entities/totals.dart';
+import 'package:mal/features/tour/domain/showcase_cubit.dart';
 import 'package:mal/utils.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class SumsCard extends StatelessWidget {
   const SumsCard({super.key, required this.totals});
@@ -9,30 +12,35 @@ class SumsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final showcaseState = context.watch<ShowcaseCubit>().state;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Card(
-          child: Column(
-            children: [
-              const SizedBox(height: 16),
-              Text(
-                context.l10n.reportsBalance,
-                style: context.texts.titleLarge?.copyWith(
-                  color: context.colors.primary.withAlpha(200),
-                  fontWeight: FontWeight.bold,
+        Showcase(
+          key: showcaseState.keys.balanceCard,
+          description: 'itest',
+          child: Card(
+            child: Column(
+              children: [
+                const SizedBox(height: 16),
+                Text(
+                  context.l10n.reportsBalance,
+                  style: context.texts.titleLarge?.copyWith(
+                    color: context.colors.primary.withAlpha(200),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              Text(
-                moneyFormat(totals.balance),
-                style: context.texts.displaySmall?.copyWith(
-                  color: context.colors.primary,
-                  fontWeight: FontWeight.bold,
+                const SizedBox(width: 16),
+                Text(
+                  moneyFormat(totals.balance),
+                  style: context.texts.displaySmall?.copyWith(
+                    color: context.colors.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-            ],
+                const SizedBox(height: 16),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 16),

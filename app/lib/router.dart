@@ -15,7 +15,7 @@ GoRouter createAppRouter(BuildContext context, bool seenOnBoarding) {
   return GoRouter(
     initialLocation: '/${Routes.splash.name}',
     redirect: (context, state) {
-      if (!seenOnBoarding) return '/${Routes.onboarding.name}';
+      // if (!seenOnBoarding) return '/${Routes.onboarding.name}';
 
       final authState = context.read<AuthBloc>().state;
       final isSplashRoute = state.matchedLocation == '/${Routes.splash.name}';

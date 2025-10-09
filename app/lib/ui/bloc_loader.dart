@@ -15,6 +15,7 @@ import 'package:mal/features/reports/data/repositories/sql_repository.dart'
 import 'package:mal/features/reports/domain/bloc/categories_report/categories_report_bloc.dart';
 import 'package:mal/features/reports/domain/bloc/daily_sums/daily_sums_bloc.dart';
 import 'package:mal/features/reports/domain/bloc/totals/totals_bloc.dart';
+import 'package:mal/features/tour/domain/showcase_cubit.dart';
 import 'package:mal/features/user/data/repositories/sql_repository.dart'
     as user;
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
@@ -55,6 +56,7 @@ class BlocLoader extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (_) => ShowcaseCubit()),
           BlocProvider<CategoriesBloc>(
             create: (ctx) =>
                 CategoriesBloc(repo: ctx.read<CategoriesRepository>()),
@@ -79,13 +81,13 @@ class BlocLoader extends StatelessWidget {
             create: (ctx) =>
                 CalendarBloc(repo: ctx.read<calendar.SqlRepository>()),
           ),
+          BlocProvider(create: (ctx) => ExporterBloc()),
+          BlocProvider(create: (ctx) => ThemeBloc()),
           BlocProvider(
             create: (ctx) =>
                 AuthBloc(repo: ctx.read<user.SqlRepository>())
                   ..add(const AuthCheckStatusRequested()),
           ),
-          BlocProvider(create: (ctx) => ExporterBloc()),
-          BlocProvider(create: (ctx) => ThemeBloc()),
         ],
         child: child,
       ),

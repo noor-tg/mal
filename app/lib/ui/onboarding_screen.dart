@@ -5,6 +5,7 @@ import 'package:mal/enums.dart';
 import 'package:mal/router.dart';
 import 'package:mal/shared/data/onboarding.dart';
 import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -13,9 +14,11 @@ class OnboardingScreen extends StatelessWidget {
   Future<void> _onDone(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(PrefsKeys.seen_onboarding.name, true);
+    logger.i('done or skip clicked');
 
     if (!context.mounted) return;
 
+    logger.i('after check mounted');
     context.go('/${Routes.login.name}');
   }
 

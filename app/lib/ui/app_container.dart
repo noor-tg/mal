@@ -10,6 +10,8 @@ import 'package:mal/features/search/data/repositores/sql_respository.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/features/search/ui/views/search_screen.dart';
+import 'package:mal/features/tour/data/showcase_keys_data.dart';
+import 'package:mal/features/tour/domain/showcase_cubit.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/ui/views/profile_screen.dart';
 import 'package:mal/mal_page.dart';
@@ -21,6 +23,7 @@ import 'package:mal/ui/logout_button.dart';
 import 'package:mal/ui/new_category_button.dart';
 import 'package:mal/ui/tour_guide_container.dart';
 import 'package:mal/utils.dart';
+import 'package:mal/utils/logger.dart';
 import 'package:showcaseview/showcaseview.dart';
 
 class AppContainer extends StatefulWidget {
@@ -33,27 +36,32 @@ class AppContainer extends StatefulWidget {
 class _AppContainerState extends State<AppContainer> {
   List<MalPage> pages = [];
 
-  final _one = GlobalKey();
-  final _two = GlobalKey();
-  final _three = GlobalKey();
-
   @override
   void initState() {
-    super.initState();
     _setupData();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
 
-    pages = makePages(context, authState);
-    return _buildShowCaseContainer(
-      BlocBuilder<ThemeBloc, ThemeState>(builder: _buildScaffold),
+    pages = makePages(authState);
+
+    final showcaseState = context.watch<ShowcaseCubit>().state;
+    final themeState = context.watch<ThemeBloc>().state;
+
+    return TourGuideContainer(
+      firstShowCaseKey: showcaseState.wrapperKeys.first,
+      lastShowCaseKey: showcaseState.wrapperKeys.last,
+      // NOTICE: the builder is needed to provide context for the showcase runner
+      child: Builder(
+        builder: (ctx) => _buildScaffold(ctx, themeState, showcaseState),
+      ),
     );
   }
 
-  List<MalPage> makePages(BuildContext context, AuthState authState) {
+  List<MalPage> makePages(AuthState authState) {
     return [
       MalPage(
         icon: const Icon(Icons.pie_chart, size: 24),
@@ -100,26 +108,31 @@ class _AppContainerState extends State<AppContainer> {
     ];
   }
 
-  Scaffold _buildScaffold(BuildContext context, ThemeState state) {
+  Scaffold _buildScaffold(
+    BuildContext context,
+    ThemeState themeState,
+    ShowcaseState showcaseState,
+  ) {
+    final keys = showcaseState.keys;
     return Scaffold(
       resizeToAvoidBottomInset: true, // This is important
-      appBar: appBar(state, context),
-      body: indexedStack(state),
+      appBar: appBar(themeState, context, keys),
+      body: indexedStack(themeState),
       floatingActionButton: HalfBorderFab(
         child:
-            pages[state.tabIndex].action ??
+            pages[themeState.tabIndex].action ??
             Showcase(
-              key: _three,
+              key: keys.newEntryBtn,
               description: l10n.showCaseDescriptionNewEntry,
               child: const AddEntryButton(),
             ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomAppBar(state),
+      bottomNavigationBar: bottomAppBar(themeState, keys),
     );
   }
 
-  AppBar appBar(ThemeState state, BuildContext context) {
+  AppBar appBar(ThemeState state, BuildContext context, ShowcaseKeysData keys) {
     return AppBar(
       title: Text(
         pages[state.tabIndex].title,
@@ -140,12 +153,12 @@ class _AppContainerState extends State<AppContainer> {
             ),
           ),
           onPressed: () {
-            ShowCaseWidget.of(context).startShowCase([_one, _two, _three]);
+            showCaseActivate(state.tabIndex, context);
           },
           tooltip: l10n.help,
         ),
         Showcase(
-          key: _one,
+          key: keys.themeSwitcher,
           description: l10n.showCaseDescriptionThemeSwitcher,
           child: Switch(
             value: state.themeMode == ThemeMode.light,
@@ -158,7 +171,7 @@ class _AppContainerState extends State<AppContainer> {
         ),
         if (state.tabIndex != 4)
           Showcase(
-            key: _two,
+            key: keys.profileBtn,
             description: l10n.showCaseDescriptionUserProfile,
             child: IconButton(
               icon: CircleAvatar(
@@ -186,7 +199,7 @@ class _AppContainerState extends State<AppContainer> {
     );
   }
 
-  BottomAppBar bottomAppBar(ThemeState state) {
+  BottomAppBar bottomAppBar(ThemeState state, ShowcaseKeysData keys) {
     return BottomAppBar(
       height: 88,
       color: colors.surfaceBright,
@@ -237,11 +250,9 @@ class _AppContainerState extends State<AppContainer> {
     context.read<CategoriesBloc>().add(AppInit(authState.user.uid));
   }
 
-  Widget _buildShowCaseContainer(Widget child) {
-    return TourGuideContainer(
-      firstShowCaseKey: _one,
-      lastShowCaseKey: _three,
-      child: child,
-    );
+  void showCaseActivate(int tabIndex, BuildContext context) {
+    context.read<ShowcaseCubit>().activateShowcaseForTab(tabIndex);
+    final activeKeys = context.read<ShowcaseCubit>().state.activeKeys;
+    ShowCaseWidget.of(context).startShowCase(activeKeys);
   }
 }

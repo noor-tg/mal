@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:mal/enums.dart';
+import 'package:mal/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mal/ui/mal_app.dart';
 // ignore: unused_import
@@ -20,6 +21,9 @@ Future<Widget> initMalApp() async {
   await dotenv.load();
   final prefs = await SharedPreferences.getInstance();
   final seenOnBoarding = prefs.getBool(PrefsKeys.seen_onboarding.name) ?? false;
+  logger
+    ..i('seen boarding')
+    ..i(seenOnBoarding);
 
   // await Db.deleteOldDatabase();
   // await generateData();
