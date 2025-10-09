@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:mal/enums.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mal/ui/mal_app.dart';
 // ignore: unused_import
 import 'package:mal/data.dart';
 // ignore: unused_import
 import 'package:mal/utils.dart';
-// ignore: unused_import
-import 'package:shared_preferences/shared_preferences.dart';
 // ignore: unused_import
 import 'package:mal/shared/db.dart';
 

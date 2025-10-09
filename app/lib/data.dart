@@ -45,8 +45,15 @@ Future<void> generateEntries(Database db, String userUid) async {
 
 String sentence() {
   final lorem = AppLocalizationsAr().lorem_ipsum;
-  final randomStart = Random().nextInt(lorem.length - 21);
-  return lorem.substring(randomStart, randomStart + Random().nextInt(20));
+  final list = lorem.split(' ').where((word) => word != '.').toList();
+  String item() => list[Random().nextInt(list.length)];
+  String result = '';
+  final int rand = Random().nextInt(10);
+  final int max = rand > 3 ? rand : 3;
+  for (int i = 0; i < max; i++) {
+    result += ' ${item()}';
+  }
+  return result.trim();
 }
 
 Entry fakeEntry({String? userUid}) {

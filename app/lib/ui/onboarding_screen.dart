@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:mal/enums.dart';
+import 'package:mal/router.dart';
 import 'package:mal/shared/data/onboarding.dart';
 import 'package:mal/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,9 +14,9 @@ class OnboardingScreen extends StatelessWidget {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(PrefsKeys.seen_onboarding.name, true);
 
-    if (context.mounted) {
-      context.go('/login');
-    }
+    if (!context.mounted) return;
+
+    context.go('/${Routes.login.name}');
   }
 
   List<PageViewModel> pages(BuildContext context) {
