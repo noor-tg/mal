@@ -6,9 +6,6 @@ import 'package:mal/features/calendar/ui/views/calendar_screen.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/categories/ui/views/categories_screen.dart';
 import 'package:mal/features/reports/ui/views/reports_screen.dart';
-import 'package:mal/features/search/data/repositores/sql_respository.dart';
-import 'package:mal/features/search/domain/bloc/search_bloc.dart';
-import 'package:mal/features/search/domain/repositories/search_repository.dart';
 import 'package:mal/features/search/ui/views/search_screen.dart';
 import 'package:mal/features/tour/data/showcase_keys_data.dart';
 import 'package:mal/features/tour/domain/showcase_cubit.dart';
@@ -23,7 +20,6 @@ import 'package:mal/ui/logout_button.dart';
 import 'package:mal/ui/new_category_button.dart';
 import 'package:mal/ui/tour_guide_container.dart';
 import 'package:mal/utils.dart';
-import 'package:mal/utils/logger.dart';
 import 'package:showcaseview/showcaseview.dart';
 
 class AppContainer extends StatefulWidget {
@@ -80,15 +76,7 @@ class _AppContainerState extends State<AppContainer> {
       MalPage(
         icon: const Icon(Icons.search, size: 24),
         title: l10n.tabSearchLabel,
-        widget: (key) => RepositoryProvider<SearchRepository>(
-          key: key,
-          create: (_) => SqlRespository(),
-          child: BlocProvider(
-            create: (ctx) =>
-                SearchBloc(searchRepo: ctx.read<SearchRepository>()),
-            child: const SearchScreen(),
-          ),
-        ),
+        widget: (key) => SearchScreen(key: key),
       ),
       MalPage(
         icon: const Icon(Icons.calendar_month, size: 24),
@@ -253,6 +241,7 @@ class _AppContainerState extends State<AppContainer> {
   void showCaseActivate(int tabIndex, BuildContext context) {
     context.read<ShowcaseCubit>().activateShowcaseForTab(tabIndex);
     final activeKeys = context.read<ShowcaseCubit>().state.activeKeys;
+    // ignore: deprecated_member_use
     ShowCaseWidget.of(context).startShowCase(activeKeys);
   }
 }

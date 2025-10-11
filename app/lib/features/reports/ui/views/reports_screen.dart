@@ -67,7 +67,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
           box4,
           Showcase(
             key: showcaseState.keys.pieReport,
-            description: '',
+            description: l10n.showCaseDescriptionPieReport,
             child: PieChartLoader(type: l10n.expense),
           ),
           box16,
@@ -80,7 +80,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
           Showcase(
             tooltipPosition: TooltipPosition.top,
             key: showcaseState.keys.todayCard,
-            description: '',
+            description: l10n.showCaseDescriptionTodayCard,
             child: BlocBuilder<EntriesBloc, EntriesState>(
               builder: (BuildContext context, state) {
                 if (state.today.isEmpty) {

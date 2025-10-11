@@ -99,5 +99,7 @@
   "showCaseDescriptionThemeSwitcher": "تغيير السملة نهاري / ليلي",
   "showCaseDescriptionUserProfile": "ملف المستخدم",
   "showCaseDescriptionBalanceCard": "الرصيد الحالي : فرق الدخل من المنصرفات",
-  "showCaseDescriptionMonthReport": "تقرير مجاميع المنصرفات و الدخل اليومي لهذا الشهر حتى اليوم"
+  "showCaseDescriptionMonthReport": "تقرير مجاميع المنصرفات و الدخل اليومي لهذا الشهر حتى اليوم",
+  "showCaseDescriptionPieReport": "يمثل كل لون نسبة من القيمة الكلية ، والقائمة تحتوي على القيم الفعلية",
+  "showCaseDescriptionTodayCard": "مدخلات اليوم / إن أردت قائمة المدخلات السابقة راجع واجهة البحث ، إضغط على عنصر القائمة لعرض تفاصيل أكثر"
 }

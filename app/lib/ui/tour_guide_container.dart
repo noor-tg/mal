@@ -18,6 +18,7 @@ class TourGuideContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return ShowCaseWidget(
       enableAutoScroll: true,
       hideFloatingActionWidgetForShowcase: [firstShowCaseKey],
@@ -27,6 +28,7 @@ class TourGuideContainer extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
+            // ignore: deprecated_member_use
             onPressed: ShowCaseWidget.of(showcaseContext).dismiss,
             style: ElevatedButton.styleFrom(
               backgroundColor: context.colors.errorContainer,
@@ -59,7 +61,10 @@ class TourGuideContainer extends StatelessWidget {
       blurValue: 1,
       autoPlayDelay: const Duration(seconds: 3),
       builder: (context) => child,
-      globalTooltipActionConfig: const TooltipActionConfig(actionGap: 20),
+      globalTooltipActionConfig: const TooltipActionConfig(
+        actionGap: 40,
+        gapBetweenContentAndAction: 40,
+      ),
       globalTooltipActions: [
         // Here we don't need previous action for the first showcase widget
         // so we hide this action for the first showcase widget

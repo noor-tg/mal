@@ -317,4 +317,12 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get showCaseDescriptionMonthReport =>
       'تقرير مجاميع المنصرفات و الدخل اليومي لهذا الشهر حتى اليوم';
+
+  @override
+  String get showCaseDescriptionPieReport =>
+      'يمثل كل لون نسبة من القيمة الكلية ، والقائمة تحتوي على القيم الفعلية';
+
+  @override
+  String get showCaseDescriptionTodayCard =>
+      'مدخلات اليوم / إن أردت قائمة المدخلات السابقة راجع واجهة البحث';
 }

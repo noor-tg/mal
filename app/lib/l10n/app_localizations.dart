@@ -699,6 +699,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تقرير مجاميع المنصرفات و الدخل اليومي لهذا الشهر حتى اليوم'**
   String get showCaseDescriptionMonthReport;
+
+  /// No description provided for @showCaseDescriptionPieReport.
+  ///
+  /// In ar, this message translates to:
+  /// **'يمثل كل لون نسبة من القيمة الكلية ، والقائمة تحتوي على القيم الفعلية'**
+  String get showCaseDescriptionPieReport;
+
+  /// No description provided for @showCaseDescriptionTodayCard.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدخلات اليوم / إن أردت قائمة المدخلات السابقة راجع واجهة البحث'**
+  String get showCaseDescriptionTodayCard;
 }
 
 class _AppLocalizationsDelegate
