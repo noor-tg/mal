@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mal/features/tour/domain/showcase_cubit.dart';
 import 'package:mal/features/user/data/services/biometric_service.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/domain/bloc/exporter/exporter_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:mal/features/user/ui/views/update_pin_modal.dart';
 import 'package:mal/features/user/ui/widgets/user_image_picker.dart';
 import 'package:mal/utils.dart';
 import 'package:open_filex/open_filex.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -52,6 +54,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final showcaseState = context.watch<ShowcaseCubit>().state;
+
     return BlocConsumer<AuthBloc, AuthState>(
       buildWhen: (_, _) => true,
       listener: (context, state) {
@@ -71,18 +75,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   const SizedBox(height: 48),
                   if (state is AuthAuthenticated)
-                    UserImagePicker(
-                      existingImage: state.user.avatar == null
-                          ? null
-                          : File(state.user.avatar!),
-                      onPickImage: (File pickedImage) {
-                        context.read<AuthBloc>().add(
-                          UpdateAvatar(
-                            avatar: pickedImage,
-                            uid: state.user.uid,
-                          ),
-                        );
-                      },
+                    Showcase(
+                      key: showcaseState.keys.avatarInfo,
+                      description: l10n.showCaseDescriptionAvatar,
+                      child: UserImagePicker(
+                        existingImage: state.user.avatar == null
+                            ? null
+                            : File(state.user.avatar!),
+                        onPickImage: (File pickedImage) {
+                          context.read<AuthBloc>().add(
+                            UpdateAvatar(
+                              avatar: pickedImage,
+                              uid: state.user.uid,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   const SizedBox(height: 32),
                   Text(
@@ -92,11 +100,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   box8,
-                  if (state is AuthAuthenticated) _buildInfoCard(state),
+                  if (state is AuthAuthenticated)
+                    _buildInfoCard(state, showcaseState),
                   box16,
                   if (state is AuthAuthenticated) _buildStatistics(state),
                   box16,
-                  if (state is AuthAuthenticated) _buildExporterButton(state),
+                  if (state is AuthAuthenticated)
+                    _buildExporterButton(state, showcaseState),
                 ],
               ),
             ),
@@ -106,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildInfoCard(AuthAuthenticated state) {
+  Widget _buildInfoCard(AuthAuthenticated state, ShowcaseState showcaseState) {
     final subStyle = theme.textTheme.titleLarge?.copyWith(
       color: colors.onSurface,
     );
@@ -127,16 +137,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
             subtitle: Text(state.user.name, style: subStyle),
             trailing: SizedBox(
               width: 60,
-              child: IconButton(
-                icon: const Icon(Icons.create),
-                onPressed: () {
-                  _nameController.text = state.user.name;
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) =>
-                        UpdateNameModal(nameController: _nameController),
-                  );
-                },
+              child: Showcase(
+                key: showcaseState.keys.editName,
+                description: l10n.showCaseDescriptionEditName,
+                child: IconButton(
+                  icon: const Icon(Icons.create),
+                  onPressed: () {
+                    _nameController.text = state.user.name;
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          UpdateNameModal(nameController: _nameController),
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -146,14 +160,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
             subtitle: Text('* * * *', style: subStyle),
             trailing: SizedBox(
               width: 60,
-              child: IconButton(
-                icon: const Icon(Icons.create),
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) => const UpdatePinModal(),
-                  );
-                },
+              child: Showcase(
+                key: showcaseState.keys.editPin,
+                description: l10n.showCaseDescriptionEditPin,
+                child: IconButton(
+                  icon: const Icon(Icons.create),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) => const UpdatePinModal(),
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -167,11 +185,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             trailing: SizedBox(
               width: 60,
               child: _isBiometricAvailable
-                  ? Switch(
-                      value: state.biometricEnabled,
-                      onChanged: (enabled) =>
-                          _toggleBiometric(enabled, state.user.name),
-                      activeThumbColor: theme.colorScheme.primary,
+                  ? Showcase(
+                      key: showcaseState.keys.bioToggle,
+                      description: l10n.showCaseDescriptionBioToggle,
+                      child: Switch(
+                        value: state.biometricEnabled,
+                        onChanged: (enabled) =>
+                            _toggleBiometric(enabled, state.user.name),
+                        activeThumbColor: theme.colorScheme.primary,
+                      ),
                     )
                   : const Icon(Icons.block),
             ),
@@ -245,33 +267,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildExporterButton(AuthAuthenticated state) {
+  Widget _buildExporterButton(
+    AuthAuthenticated state,
+    ShowcaseState showcaseState,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         BlocConsumer<ExporterBloc, ExporterState>(
           builder: (context, exporterState) => exporterState is ExporterLoading
               ? const Center(child: CircularProgressIndicator(value: 2))
-              : ElevatedButton.icon(
-                  label: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Text(
-                      l10n.exportToCsv,
-                      style: texts.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: colors.onPrimary,
+              : Showcase(
+                  key: showcaseState.keys.downlaodData,
+                  description: l10n.showCaseDescriptionDownloadData,
+                  child: ElevatedButton.icon(
+                    label: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Text(
+                        l10n.exportToCsv,
+                        style: texts.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: colors.onPrimary,
+                        ),
                       ),
                     ),
-                  ),
-                  icon: const Icon(Icons.download, size: 24),
-                  onPressed: () {
-                    context.read<ExporterBloc>().add(
-                      ExportToCsv(userUid: state.user.uid, l10n: l10n),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: colors.primary,
-                    foregroundColor: colors.onPrimary,
+                    icon: const Icon(Icons.download, size: 24),
+                    onPressed: () {
+                      context.read<ExporterBloc>().add(
+                        ExportToCsv(userUid: state.user.uid, l10n: l10n),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colors.primary,
+                      foregroundColor: colors.onPrimary,
+                    ),
                   ),
                 ),
           listener: (BuildContext context, ExporterState state) {

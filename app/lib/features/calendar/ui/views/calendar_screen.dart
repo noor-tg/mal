@@ -8,7 +8,9 @@ import 'package:mal/features/calendar/ui/widgets/calendar_container.dart';
 import 'package:mal/features/calendar/ui/widgets/calendar_day_bar.dart';
 import 'package:mal/features/calendar/ui/widgets/calendar_day_section.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
+import 'package:mal/features/tour/domain/showcase_cubit.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:table_calendar/table_calendar.dart' as calendar;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/utils.dart';
@@ -83,25 +85,43 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final showcaseState = context.watch<ShowcaseCubit>().state;
+
     return BlocBuilder<CalendarBloc, CalendarState>(
       builder: (BuildContext ctx, CalendarState state) => Container(
         decoration: BoxDecoration(color: context.colors.surfaceContainer),
         child: Column(
           children: [
-            CalendarContainer(
-              focusedDay: _focusedDay,
-              calendarFormat: _calendarFormat,
-              eventLoader: (day) => _getTransactionsForDay(day, state),
-              selectedDay: _selectedDay,
-              onDaySelected: onDaySelected,
-              onFormatChanged: onFormatChanged,
-              onPageChanged: onPageChanged,
-              state: state,
-              calendarCellBuilder: calendarCellBuilder,
+            Showcase(
+              key: showcaseState.keys.calendarInfo,
+              description: l10n.showCaseDescriptionCalendarInfo,
+              child: CalendarContainer(
+                focusedDay: _focusedDay,
+                calendarFormat: _calendarFormat,
+                eventLoader: (day) => _getTransactionsForDay(day, state),
+                selectedDay: _selectedDay,
+                onDaySelected: onDaySelected,
+                onFormatChanged: onFormatChanged,
+                onPageChanged: onPageChanged,
+                state: state,
+                calendarCellBuilder: calendarCellBuilder,
+              ),
             ),
-            CalendarDayBar(state: state, net: net, selectedDay: _selectedDay),
+            Showcase(
+              key: showcaseState.keys.dayHeader,
+              description: l10n.showCaseDescriptionDayHeader,
+              child: CalendarDayBar(
+                state: state,
+                net: net,
+                selectedDay: _selectedDay,
+              ),
+            ),
             if (state.selectedDayData.isNotEmpty)
-              CalendarDaySection(state: state),
+              Showcase(
+                key: showcaseState.keys.dayList,
+                description: l10n.showCaseDescriptionDayList,
+                child: CalendarDaySection(state: state),
+              ),
           ],
         ),
       ),

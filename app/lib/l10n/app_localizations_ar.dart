@@ -324,5 +324,60 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get showCaseDescriptionTodayCard =>
-      'مدخلات اليوم / إن أردت قائمة المدخلات السابقة راجع واجهة البحث';
+      'مدخلات اليوم / إن أردت قائمة المدخلات السابقة راجع واجهة البحث ، إضغط على عنصر القائمة لعرض تفاصيل أكثر';
+
+  @override
+  String get showCaseDescriptionNewCategory =>
+      'تسجيل وسوم جديدة سيسهل عليك تصنيف بياناتك بسهولة لتحليل مصادر الدخل و مراكز المنصرفات';
+
+  @override
+  String get showCaseDescriptionCategoryList =>
+      'هنا تجد قائمة الوسوم المسجلة ، مصنفة على حسب النوع، تستخدم هذه القائمة بشكل أساسي عن تسجيل أو تعديل مدخل، يمكنك. يمكنك سحب وسم للجانب لإخفاءه من قائمة الوسوم في إستمارة تسجيل مدخل';
+
+  @override
+  String get showCaseDescriptionClearBtn => 'لبدأ البحث من البداية';
+
+  @override
+  String get showCaseDescriptionFilterBtn =>
+      'لإيجاد نتائج أكثر دقة يمكن إستخدام ادوات التصفية بضغط هذا الزر';
+
+  @override
+  String get showCaseDescriptionSearchField => 'للبحث بالوصف أو الوسم أو النوع';
+
+  @override
+  String get showCaseDescriptionSearchResults =>
+      'كل نتائج البحث وعدد النتائج الكلي هنا ، يمكنك فتح تفاصيل أي مدخل عبر الضغط على العنصر المعين';
+
+  @override
+  String get showCaseDescriptionCalendarInfo =>
+      'يمكن التبديل بين الشهور عبر الاسهم ، الضغط على زر \'أسبوع\' لتغيير عدد العناصر في التقويم ، الارقام بالاخضر مجموع دخل اليوم ، و الارقام بالاحمر منصرفات اليوم ، يمكنك الضغط على أي يوم لرؤية تفاصيله بالاسفل';
+
+  @override
+  String get showCaseDescriptionDayHeader =>
+      'تاريخ اليوم المختار من التقويم ، ورصيد اليوم ، إن كان بالاخضر فيعني الدخل اكثر من المنصرف';
+
+  @override
+  String get showCaseDescriptionDayList =>
+      'قائمة مدخلات اليوم ، يمكن سحبها للأسفل لعرض عناصر أكثر';
+
+  @override
+  String get showCaseDescriptionAvatar =>
+      'عرض صورة المستخدم في التطبيق أو تعديلها من المعرض أو الكاميرا';
+
+  @override
+  String get showCaseDescriptionEditName => 'تعديل إسم المستخدم';
+
+  @override
+  String get showCaseDescriptionEditPin => 'تعديل رمز الدخول';
+
+  @override
+  String get showCaseDescriptionBioToggle =>
+      'تفعيل أو إيقاف الدخول الحيوي للتطبيق بالبصمة أو الوجه';
+
+  @override
+  String get showCaseDescriptionDownloadData =>
+      'تحميل بيانات المدخلات محلياً ، يمكنك بعدها عرض البيانات من أي برنامج يدعم excel';
+
+  @override
+  String get showCaseDescriptionLogoutBtn => 'تسجيل خروج';
 }

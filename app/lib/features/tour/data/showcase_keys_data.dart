@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 
-enum SCKeys { themeSwitcher, profileBtn, newEntryBtn }
+enum SCKeys {
+  themeSwitcher,
+  profileBtn,
+  newEntryBtn,
+  newCategoryBtn,
+  searchField,
+  filterBtn,
+  clearBtn,
+}
 
 class ShowcaseKeysData {
   // Global Showcase Keys
@@ -15,13 +23,28 @@ class ShowcaseKeysData {
   final todayCard = GlobalKey();
 
   // Categories Screen Keys
-  // final GlobalKey sckCategoryList = GlobalKey();
+  final categoriesList = GlobalKey();
+  final newCategoryBtn = GlobalKey(debugLabel: SCKeys.newCategoryBtn.name);
 
   // Search Screen Keys
   // final GlobalKey sckSearchBar = GlobalKey();
+  final searchResults = GlobalKey();
+  final clearBtn = GlobalKey(debugLabel: SCKeys.clearBtn.name);
+  final filterBtn = GlobalKey(debugLabel: SCKeys.filterBtn.name);
+  final searchField = GlobalKey(debugLabel: SCKeys.searchField.name);
 
   // Calendar Screen Keys
-  // final GlobalKey sckCalendarView = GlobalKey();
+  final calendarInfo = GlobalKey();
+  final dayHeader = GlobalKey();
+  final dayList = GlobalKey();
+
+  // Profile Screen Keys
+  final avatarInfo = GlobalKey();
+  final editName = GlobalKey();
+  final editPin = GlobalKey();
+  final bioToggle = GlobalKey();
+  final downlaodData = GlobalKey();
+  final logoutBtn = GlobalKey();
 
   /// Get showcase keys for a specific tab
   List<GlobalKey> getKeysForTab(int tabIndex) {
@@ -37,15 +60,22 @@ class ShowcaseKeysData {
           newEntryBtn,
         ];
       case 1: // Categories
-        return [themeSwitcher, profileBtn, newEntryBtn];
+        return [categoriesList, newCategoryBtn];
       case 2: // Search
-        return [themeSwitcher, profileBtn, newEntryBtn];
+        return [filterBtn, searchField, clearBtn, searchResults];
       case 3: // Calendar
-        return [themeSwitcher, profileBtn, newEntryBtn];
+        return [calendarInfo, dayHeader, dayList];
       case 4: // Profile
-        return [themeSwitcher, profileBtn, newEntryBtn];
+        return [
+          avatarInfo,
+          editName,
+          editPin,
+          bioToggle,
+          downlaodData,
+          logoutBtn,
+        ];
       default:
-        return [];
+        return [themeSwitcher, profileBtn, newEntryBtn];
     }
   }
 }

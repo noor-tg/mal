@@ -101,5 +101,20 @@
   "showCaseDescriptionBalanceCard": "الرصيد الحالي : فرق الدخل من المنصرفات",
   "showCaseDescriptionMonthReport": "تقرير مجاميع المنصرفات و الدخل اليومي لهذا الشهر حتى اليوم",
   "showCaseDescriptionPieReport": "يمثل كل لون نسبة من القيمة الكلية ، والقائمة تحتوي على القيم الفعلية",
-  "showCaseDescriptionTodayCard": "مدخلات اليوم / إن أردت قائمة المدخلات السابقة راجع واجهة البحث ، إضغط على عنصر القائمة لعرض تفاصيل أكثر"
+  "showCaseDescriptionTodayCard": "مدخلات اليوم / إن أردت قائمة المدخلات السابقة راجع واجهة البحث ، إضغط على عنصر القائمة لعرض تفاصيل أكثر",
+  "showCaseDescriptionNewCategory": "تسجيل وسوم جديدة سيسهل عليك تصنيف بياناتك بسهولة لتحليل مصادر الدخل و مراكز المنصرفات",
+  "showCaseDescriptionCategoryList": "هنا تجد قائمة الوسوم المسجلة ، مصنفة على حسب النوع، تستخدم هذه القائمة بشكل أساسي عن تسجيل أو تعديل مدخل، يمكنك. يمكنك سحب وسم للجانب لإخفاءه من قائمة الوسوم في إستمارة تسجيل مدخل",
+  "showCaseDescriptionClearBtn": "لبدأ البحث من البداية",
+  "showCaseDescriptionFilterBtn": "لإيجاد نتائج أكثر دقة يمكن إستخدام ادوات التصفية بضغط هذا الزر",
+  "showCaseDescriptionSearchField": "للبحث بالوصف أو الوسم أو النوع",
+  "showCaseDescriptionSearchResults": "كل نتائج البحث وعدد النتائج الكلي هنا ، يمكنك فتح تفاصيل أي مدخل عبر الضغط على العنصر المعين",
+  "showCaseDescriptionCalendarInfo": "يمكن التبديل بين الشهور عبر الاسهم ، الضغط على زر 'أسبوع' لتغيير عدد العناصر في التقويم ، الارقام بالاخضر مجموع دخل اليوم ، و الارقام بالاحمر منصرفات اليوم ، يمكنك الضغط على أي يوم لرؤية تفاصيله بالاسفل",
+  "showCaseDescriptionDayHeader": "تاريخ اليوم المختار من التقويم ، ورصيد اليوم ، إن كان بالاخضر فيعني الدخل اكثر من المنصرف",
+  "showCaseDescriptionDayList": "قائمة مدخلات اليوم ، يمكن سحبها للأسفل لعرض عناصر أكثر",
+  "showCaseDescriptionAvatar": "عرض صورة المستخدم في التطبيق أو تعديلها من المعرض أو الكاميرا",
+  "showCaseDescriptionEditName": "تعديل إسم المستخدم",
+  "showCaseDescriptionEditPin": "تعديل رمز الدخول",
+  "showCaseDescriptionBioToggle": "تفعيل أو إيقاف الدخول الحيوي للتطبيق بالبصمة أو الوجه",
+  "showCaseDescriptionDownloadData": "تحميل بيانات المدخلات محلياً ، يمكنك بعدها عرض البيانات من أي برنامج يدعم excel",
+  "showCaseDescriptionLogoutBtn": "تسجيل خروج"
 }

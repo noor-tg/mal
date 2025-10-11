@@ -41,11 +41,10 @@ class _AppContainerState extends State<AppContainer> {
   @override
   Widget build(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
-
-    pages = makePages(authState);
-
     final showcaseState = context.watch<ShowcaseCubit>().state;
     final themeState = context.watch<ThemeBloc>().state;
+
+    pages = makePages(authState, showcaseState);
 
     return TourGuideContainer(
       firstShowCaseKey: showcaseState.wrapperKeys.first,
@@ -57,7 +56,7 @@ class _AppContainerState extends State<AppContainer> {
     );
   }
 
-  List<MalPage> makePages(AuthState authState) {
+  List<MalPage> makePages(AuthState authState, ShowcaseState showcaseState) {
     return [
       MalPage(
         icon: const Icon(Icons.pie_chart, size: 24),
@@ -71,7 +70,11 @@ class _AppContainerState extends State<AppContainer> {
           value: context.read<CategoriesBloc>(),
           child: CategoriesScreen(key: key),
         ),
-        action: const NewCategoryButton(),
+        action: Showcase(
+          key: showcaseState.keys.newCategoryBtn,
+          description: l10n.showCaseDescriptionNewCategory,
+          child: const NewCategoryButton(),
+        ),
       ),
       MalPage(
         icon: const Icon(Icons.search, size: 24),
@@ -91,7 +94,11 @@ class _AppContainerState extends State<AppContainer> {
             ? authState.user.name
             : l10n.profileLabel,
         widget: (key) => ProfileScreen(key: key),
-        action: const LogoutButton(),
+        action: Showcase(
+          key: showcaseState.keys.logoutBtn,
+          description: l10n.showCaseDescriptionLogoutBtn,
+          child: const LogoutButton(),
+        ),
       ),
     ];
   }

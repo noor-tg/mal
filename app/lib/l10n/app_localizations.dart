@@ -709,8 +709,98 @@ abstract class AppLocalizations {
   /// No description provided for @showCaseDescriptionTodayCard.
   ///
   /// In ar, this message translates to:
-  /// **'مدخلات اليوم / إن أردت قائمة المدخلات السابقة راجع واجهة البحث'**
+  /// **'مدخلات اليوم / إن أردت قائمة المدخلات السابقة راجع واجهة البحث ، إضغط على عنصر القائمة لعرض تفاصيل أكثر'**
   String get showCaseDescriptionTodayCard;
+
+  /// No description provided for @showCaseDescriptionNewCategory.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل وسوم جديدة سيسهل عليك تصنيف بياناتك بسهولة لتحليل مصادر الدخل و مراكز المنصرفات'**
+  String get showCaseDescriptionNewCategory;
+
+  /// No description provided for @showCaseDescriptionCategoryList.
+  ///
+  /// In ar, this message translates to:
+  /// **'هنا تجد قائمة الوسوم المسجلة ، مصنفة على حسب النوع، تستخدم هذه القائمة بشكل أساسي عن تسجيل أو تعديل مدخل، يمكنك. يمكنك سحب وسم للجانب لإخفاءه من قائمة الوسوم في إستمارة تسجيل مدخل'**
+  String get showCaseDescriptionCategoryList;
+
+  /// No description provided for @showCaseDescriptionClearBtn.
+  ///
+  /// In ar, this message translates to:
+  /// **'لبدأ البحث من البداية'**
+  String get showCaseDescriptionClearBtn;
+
+  /// No description provided for @showCaseDescriptionFilterBtn.
+  ///
+  /// In ar, this message translates to:
+  /// **'لإيجاد نتائج أكثر دقة يمكن إستخدام ادوات التصفية بضغط هذا الزر'**
+  String get showCaseDescriptionFilterBtn;
+
+  /// No description provided for @showCaseDescriptionSearchField.
+  ///
+  /// In ar, this message translates to:
+  /// **'للبحث بالوصف أو الوسم أو النوع'**
+  String get showCaseDescriptionSearchField;
+
+  /// No description provided for @showCaseDescriptionSearchResults.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل نتائج البحث وعدد النتائج الكلي هنا ، يمكنك فتح تفاصيل أي مدخل عبر الضغط على العنصر المعين'**
+  String get showCaseDescriptionSearchResults;
+
+  /// No description provided for @showCaseDescriptionCalendarInfo.
+  ///
+  /// In ar, this message translates to:
+  /// **'يمكن التبديل بين الشهور عبر الاسهم ، الضغط على زر \'أسبوع\' لتغيير عدد العناصر في التقويم ، الارقام بالاخضر مجموع دخل اليوم ، و الارقام بالاحمر منصرفات اليوم ، يمكنك الضغط على أي يوم لرؤية تفاصيله بالاسفل'**
+  String get showCaseDescriptionCalendarInfo;
+
+  /// No description provided for @showCaseDescriptionDayHeader.
+  ///
+  /// In ar, this message translates to:
+  /// **'تاريخ اليوم المختار من التقويم ، ورصيد اليوم ، إن كان بالاخضر فيعني الدخل اكثر من المنصرف'**
+  String get showCaseDescriptionDayHeader;
+
+  /// No description provided for @showCaseDescriptionDayList.
+  ///
+  /// In ar, this message translates to:
+  /// **'قائمة مدخلات اليوم ، يمكن سحبها للأسفل لعرض عناصر أكثر'**
+  String get showCaseDescriptionDayList;
+
+  /// No description provided for @showCaseDescriptionAvatar.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض صورة المستخدم في التطبيق أو تعديلها من المعرض أو الكاميرا'**
+  String get showCaseDescriptionAvatar;
+
+  /// No description provided for @showCaseDescriptionEditName.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل إسم المستخدم'**
+  String get showCaseDescriptionEditName;
+
+  /// No description provided for @showCaseDescriptionEditPin.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل رمز الدخول'**
+  String get showCaseDescriptionEditPin;
+
+  /// No description provided for @showCaseDescriptionBioToggle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تفعيل أو إيقاف الدخول الحيوي للتطبيق بالبصمة أو الوجه'**
+  String get showCaseDescriptionBioToggle;
+
+  /// No description provided for @showCaseDescriptionDownloadData.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحميل بيانات المدخلات محلياً ، يمكنك بعدها عرض البيانات من أي برنامج يدعم excel'**
+  String get showCaseDescriptionDownloadData;
+
+  /// No description provided for @showCaseDescriptionLogoutBtn.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل خروج'**
+  String get showCaseDescriptionLogoutBtn;
 }
 
 class _AppLocalizationsDelegate

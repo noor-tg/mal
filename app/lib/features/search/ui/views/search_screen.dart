@@ -3,9 +3,11 @@ import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/search/ui/views/advanced_search.dart';
 import 'package:mal/features/search/ui/views/search_body.dart';
+import 'package:mal/features/tour/domain/showcase_cubit.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -34,6 +36,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final showcaseState = context.watch<ShowcaseCubit>().state;
+
     return Container(
       color: colors.surfaceContainer,
       child: Column(
@@ -44,40 +48,59 @@ class _SearchScreenState extends State<SearchScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton.filled(
-                  onPressed: showAdvancedModal,
-                  icon: Icon(
-                    Icons.filter_list,
-                    color: colors.onPrimary,
-                    size: 32,
-                  ),
-                ),
-                box8,
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    onChanged: searchOnChange,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: l10n.tabSearchLabel,
-                      hintText: l10n.searchHint,
+                Showcase(
+                  key: showcaseState.keys.filterBtn,
+                  description: l10n.showCaseDescriptionFilterBtn,
+                  child: IconButton.filled(
+                    onPressed: showAdvancedModal,
+                    icon: Icon(
+                      Icons.filter_list,
+                      color: colors.onPrimary,
+                      size: 32,
                     ),
                   ),
                 ),
                 box8,
-                IconButton.filledTonal(
-                  onPressed: clearSearch,
-                  icon: Icon(
-                    Icons.delete,
-                    color: colors.onSecondaryContainer,
-                    size: 32,
+                Expanded(
+                  child: Showcase(
+                    key: showcaseState.keys.searchField,
+                    description: l10n.showCaseDescriptionSearchField,
+                    child: TextField(
+                      controller: _controller,
+                      onChanged: searchOnChange,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: l10n.tabSearchLabel,
+                        hintText: l10n.searchHint,
+                      ),
+                    ),
+                  ),
+                ),
+                box8,
+                Showcase(
+                  key: showcaseState.keys.clearBtn,
+                  description: l10n.showCaseDescriptionClearBtn,
+                  child: IconButton.filledTonal(
+                    onPressed: clearSearch,
+                    icon: Icon(
+                      Icons.delete,
+                      color: colors.onSecondaryContainer,
+                      size: 32,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          const Expanded(
-            child: Padding(padding: EdgeInsets.all(8), child: SearchBody()),
+          Expanded(
+            child: Showcase(
+              key: showcaseState.keys.searchResults,
+              description: l10n.showCaseDescriptionSearchResults,
+              child: const Padding(
+                padding: EdgeInsets.all(8),
+                child: SearchBody(),
+              ),
+            ),
           ),
           box64,
         ],
