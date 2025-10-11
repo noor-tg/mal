@@ -59,7 +59,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
           box8,
           Showcase(
             key: showcaseState.keys.monthReport,
-            description: '',
+            description: context.l10n.showCaseDescriptionMonthReport,
             child: const Card(child: DailySumsChart()),
           ),
           box16,

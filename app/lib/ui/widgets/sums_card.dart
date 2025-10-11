@@ -13,28 +13,32 @@ class SumsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final showcaseState = context.watch<ShowcaseCubit>().state;
+    final l10n = context.l10n;
+    final texts = context.texts;
+    final colors = context.colors;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Showcase(
           key: showcaseState.keys.balanceCard,
-          description: 'itest',
+          description: l10n.showCaseDescriptionBalanceCard,
           child: Card(
             child: Column(
               children: [
                 const SizedBox(height: 16),
                 Text(
-                  context.l10n.reportsBalance,
-                  style: context.texts.titleLarge?.copyWith(
-                    color: context.colors.primary.withAlpha(200),
+                  l10n.reportsBalance,
+                  style: texts.titleLarge?.copyWith(
+                    color: colors.primary.withAlpha(200),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(width: 16),
                 Text(
                   moneyFormat(totals.balance),
-                  style: context.texts.displaySmall?.copyWith(
-                    color: context.colors.primary,
+                  style: texts.displaySmall?.copyWith(
+                    color: colors.primary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
