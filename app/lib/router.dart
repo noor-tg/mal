@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mal/features/onboarding/domain/onboarding_cubit.dart';
+import 'package:mal/features/onboarding/ui/onboarding_screen.dart';
 import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
 import 'package:mal/features/user/ui/views/login_screen.dart';
 import 'package:mal/features/user/ui/views/profile_screen.dart';
 import 'package:mal/features/user/ui/views/register_screen.dart';
 import 'package:mal/ui/app_container.dart';
-import 'package:mal/ui/onboarding_screen.dart';
 import 'package:mal/ui/splash_screen.dart';
 
 enum Routes { login, register, dashboard, onboarding, splash, profile }
 
-GoRouter createAppRouter(BuildContext context, bool seenOnBoarding) {
+GoRouter createAppRouter(BuildContext context) {
   return GoRouter(
     initialLocation: '/${Routes.splash.name}',
     redirect: (context, state) {
-      // if (!seenOnBoarding) return '/${Routes.onboarding.name}';
+      final onboardingState = context.read<OnboardingCubit>().state;
+      if (!onboardingState.onboardingSeen) return '/${Routes.onboarding.name}';
 
       final authState = context.read<AuthBloc>().state;
       final isSplashRoute = state.matchedLocation == '/${Routes.splash.name}';

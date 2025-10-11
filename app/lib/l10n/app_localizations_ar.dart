@@ -103,7 +103,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noDataFound => 'لا يوجد بيانات';
 
   @override
-  String get description => 'وصف';
+  String get description => 'الوصف';
 
   @override
   String get date => 'التاريخ';

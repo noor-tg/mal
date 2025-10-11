@@ -10,6 +10,7 @@ import 'package:mal/features/categories/domain/repositories/categories_repositor
 import 'package:mal/features/entries/data/repositories/sql_repository.dart'
     as entries;
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
+import 'package:mal/features/onboarding/domain/onboarding_cubit.dart';
 import 'package:mal/features/reports/data/repositories/sql_repository.dart'
     as reports;
 import 'package:mal/features/reports/domain/bloc/categories_report/categories_report_bloc.dart';
@@ -92,6 +93,9 @@ class BlocLoader extends StatelessWidget {
           BlocProvider(
             create: (ctx) =>
                 SearchBloc(searchRepo: ctx.read<search.SqlRespository>()),
+          ),
+          BlocProvider(
+            create: (ctx) => OnboardingCubit()..loadOnboardingStatus(),
           ),
           BlocProvider(
             create: (ctx) =>

@@ -283,7 +283,7 @@ abstract class AppLocalizations {
   /// No description provided for @description.
   ///
   /// In ar, this message translates to:
-  /// **'وصف'**
+  /// **'الوصف'**
   String get description;
 
   /// No description provided for @date.

@@ -7,9 +7,7 @@ import 'package:mal/shared/domain/bloc/theme/theme_bloc.dart';
 import 'package:mal/ui/bloc_loader.dart';
 
 class MalApp extends StatelessWidget {
-  const MalApp({super.key, required this.seenOnBoard});
-
-  final bool seenOnBoard;
+  const MalApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +25,7 @@ class MalApp extends StatelessWidget {
               child: child!,
             );
           },
-          routerConfig: createAppRouter(context, seenOnBoard),
+          routerConfig: createAppRouter(context),
         ),
       ),
     );
