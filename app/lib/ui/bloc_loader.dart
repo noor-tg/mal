@@ -15,6 +15,9 @@ import 'package:mal/features/reports/data/repositories/sql_repository.dart'
 import 'package:mal/features/reports/domain/bloc/categories_report/categories_report_bloc.dart';
 import 'package:mal/features/reports/domain/bloc/daily_sums/daily_sums_bloc.dart';
 import 'package:mal/features/reports/domain/bloc/totals/totals_bloc.dart';
+import 'package:mal/features/search/data/repositores/sql_respository.dart'
+    as search;
+import 'package:mal/features/search/domain/bloc/search_bloc.dart';
 import 'package:mal/features/tour/domain/showcase_cubit.dart';
 import 'package:mal/features/user/data/repositories/sql_repository.dart'
     as user;
@@ -53,6 +56,9 @@ class BlocLoader extends StatelessWidget {
             return user.SqlRepository();
           },
         ),
+        RepositoryProvider<search.SqlRespository>(
+          create: (_) => search.SqlRespository(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -83,6 +89,10 @@ class BlocLoader extends StatelessWidget {
           ),
           BlocProvider(create: (ctx) => ExporterBloc()),
           BlocProvider(create: (ctx) => ThemeBloc()),
+          BlocProvider(
+            create: (ctx) =>
+                SearchBloc(searchRepo: ctx.read<search.SqlRespository>()),
+          ),
           BlocProvider(
             create: (ctx) =>
                 AuthBloc(repo: ctx.read<user.SqlRepository>())
