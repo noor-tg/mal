@@ -134,7 +134,7 @@ class _EntryFormState extends State<EntryForm> {
                       type: _type,
                     ),
                     const SizedBox(height: 24),
-                    FieldLabel(text: l10n.categoryTitle),
+                    FieldLabel(text: l10n.description),
                     box8,
                     TextFormField(
                       initialValue: _description,

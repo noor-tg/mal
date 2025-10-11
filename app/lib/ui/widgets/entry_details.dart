@@ -68,7 +68,7 @@ class _EntryDetailsState extends State<EntryDetails> {
             children: [
               _buildMountCard(context),
               box16,
-              MalTitle(text: l10n.title),
+              MalTitle(text: l10n.description),
               box8,
               Card(
                 child: Container(
