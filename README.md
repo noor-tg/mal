@@ -19,82 +19,82 @@
 - السمة النهارية هي الاساس وسيتم إضافة السمة الليلية لاحقاً
 
 ## ما تم إنجازه (نسخة ١)
-1. [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;مدخلات
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تسجيل
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تفاصيل مدخل
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تعديل مدخل
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حذف مدخل
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;بحث بسيط و متقدم (ترتيب)
-2. [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;واجهة التقويم (حسابات المدخلات باليوم)
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تفاصيل يوم في التقويم (تصفية مدخلات باليوم)
-3. [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تصنيفات (إعادة بناء بال bloc لتأكيد إكتمال الخاصية)
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تسجيل
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;قائمة
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حذف
-4. [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تقارير
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;رصيد (دخل - منصرفات)
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;مجموع منصرفات
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;مجموع دخل
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;رسم بياني لمجاميع الشهر باليوم (دخل ، منصرف يومي)
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;رسم بياني لمدخلات الشهر بالتصنيف كفطيرة
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;رسم بياني لمنصرفات الشهر بالتصنيف كفطيرة
-	- [x]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;قائمة مدخلات اليوم
-5. [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;سمات 
+1. [x] مدخلات
+	- [x] تسجيل
+	- [x] تفاصيل مدخل
+	- [x] تعديل مدخل
+	- [x] حذف مدخل
+	- [x] بحث بسيط و متقدم (ترتيب)
+2. [x] واجهة التقويم (حسابات المدخلات باليوم)
+	- [x] تفاصيل يوم في التقويم (تصفية مدخلات باليوم)
+3. [x] تصنيفات (إعادة بناء بال bloc لتأكيد إكتمال الخاصية)
+	- [x] تسجيل
+	- [x] قائمة
+	- [x] حذف
+4. [x] تقارير
+	- [x] رصيد (دخل - منصرفات)
+	- [x] مجموع منصرفات
+	- [x] مجموع دخل
+	- [x] رسم بياني لمجاميع الشهر باليوم (دخل ، منصرف يومي)
+	- [x] رسم بياني لمدخلات الشهر بالتصنيف كفطيرة
+	- [x] رسم بياني لمنصرفات الشهر بالتصنيف كفطيرة
+	- [x] قائمة مدخلات اليوم
+5. [ ] سمات 
       _أخر شي في النسخة الاولية_
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;نهاري
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ليلي
-6. [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;إستخراج بيانات
-7. [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حساب مستخدم
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تعديل البيانات الاساسية
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تسجيل دخول
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تسجيل خروج
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تسجيل مستخدم جديد
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;نسيت كلمة المرور (بصمة أو رمز الهاتف لتسجيل الدخول للحساب وتغيير كلمة المرور)
-8. [-]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;الميزانية
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;إضافة ميزانية
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حذف ميزانية 
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تعديل ميزانية
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;قائمة الميزانيات
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تفاصيل ميزانية
-9. [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حساب الارباح و الخسائر
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;لكل سنة
+	- [ ] نهاري
+	- [ ] ليلي
+6. [ ] إستخراج بيانات
+7. [ ] حساب مستخدم
+	- [ ] تعديل البيانات الاساسية
+	- [ ] تسجيل دخول
+	- [ ] تسجيل خروج
+	- [ ] تسجيل مستخدم جديد
+	- [ ] نسيت كلمة المرور (بصمة أو رمز الهاتف لتسجيل الدخول للحساب وتغيير كلمة المرور)
+8. [-] الميزانية
+	- [ ] إضافة ميزانية
+	- [ ] حذف ميزانية 
+	- [ ] تعديل ميزانية
+	- [ ] قائمة الميزانيات
+	- [ ] تفاصيل ميزانية
+9. [ ] حساب الارباح و الخسائر
+	- [ ] لكل سنة
 
 ## ما تم إنجازه (نسخة ٢)
-1. [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;مزامنة المدخلات
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تسجيل
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تعديل
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حذف
-2. [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;مزامنة التصنيفات
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تسجيل
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حذف
-3. [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;مزامنة المستخدم
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تسجيل
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حذف
-4. [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;مزامنة الميزانية
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تسجيل
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تعديل
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حذف
-5. [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;الشركة
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;إضافة
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تعديل
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حذف
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;قائمة
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تفاصيل
-		- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;معلومات أساسية
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ربط مدخلات مع شركة (إختياري)
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ربط ميزانية مع شركة (إختياري)
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;إدارة أعضاء مع شركة
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تفاصيل
-		- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;إضافة
-		- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حذف
-		- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;قائمة
-		- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;مدخلات (بحث أساسي و متقدم)
-		- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ميزانيات
-		- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;رصيد
-		- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;مجموع دخل
-		- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;مجموع منصرف
-		- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;رسم بياني أعمدة عن الارباح والخسائر اليومية
-	- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;مزامنة
-		- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;إضافة
-		- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تعديل
-		- [ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حذف
+1. [ ] مزامنة المدخلات
+	- [ ] تسجيل
+	- [ ] تعديل
+	- [ ] حذف
+2. [ ] مزامنة التصنيفات
+	- [ ] تسجيل
+	- [ ] حذف
+3. [ ] مزامنة المستخدم
+	- [ ] تسجيل
+	- [ ] حذف
+4. [ ] مزامنة الميزانية
+	- [ ] تسجيل
+	- [ ] تعديل
+	- [ ] حذف
+5. [ ] الشركة
+	- [ ] إضافة
+	- [ ] تعديل
+	- [ ] حذف
+	- [ ] قائمة
+	- [ ] تفاصيل
+		- [ ] معلومات أساسية
+	- [ ] ربط مدخلات مع شركة (إختياري)
+	- [ ] ربط ميزانية مع شركة (إختياري)
+	- [ ] إدارة أعضاء مع شركة
+	- [ ] تفاصيل
+		- [ ] إضافة
+		- [ ] حذف
+		- [ ] قائمة
+		- [ ] مدخلات (بحث أساسي و متقدم)
+		- [ ] ميزانيات
+		- [ ] رصيد
+		- [ ] مجموع دخل
+		- [ ] مجموع منصرف
+		- [ ] رسم بياني أعمدة عن الارباح والخسائر اليومية
+	- [ ] مزامنة
+		- [ ] إضافة
+		- [ ] تعديل
+		- [ ] حذف
