@@ -1,36 +1,8 @@
 {
 	"nodes":[
+		{"id":"c6d6869cc81438b6","type":"group","x":3280,"y":1140,"width":2200,"height":1940,"label":"ما بعد 1.2.30"},
+		{"id":"a2a29e1a29c5b26a","type":"group","x":5880,"y":1140,"width":1360,"height":1580,"label":"غير مهمة"},
 		{"id":"250d0368dd66fb19","type":"group","x":-1040,"y":-360,"width":2220,"height":1840,"label":"دورة البحث البسيط و المتقدم"},
-		{
-			"id":"0bc631014bcae34c",
-			"type":"text",
-			"text":"النطاق",
-			"styleAttributes":{"textAlign":"center"},
-			"x":3920,
-			"y":20,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"89eaf905608ce3c3",
-			"type":"text",
-			"text":"عنصر إدخال السعر الاقل",
-			"styleAttributes":{"textAlign":"center"},
-			"x":3600,
-			"y":20,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"6ab90ef92aa8a94c",
-			"type":"text",
-			"text":"عنصر إدخال السعر الاعلى",
-			"styleAttributes":{"textAlign":"center"},
-			"x":3300,
-			"y":20,
-			"width":260,
-			"height":60
-		},
 		{
 			"id":"59c4d60597acce79",
 			"type":"text",
@@ -40,38 +12,6 @@
 			"y":20,
 			"width":260,
 			"height":60
-		},
-		{
-			"id":"4c5130d50c192481",
-			"type":"text",
-			"text":"عنصر بحث نطاق السعر",
-			"styleAttributes":{"textAlign":"center"},
-			"x":3430,
-			"y":-160,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"f52dd1d10332679c",
-			"type":"text",
-			"text":"بناء الواجهة",
-			"styleAttributes":{"textAlign":"center"},
-			"x":520,
-			"y":-220,
-			"width":260,
-			"height":60,
-			"color":"4"
-		},
-		{
-			"id":"e00bb59b6d10390e",
-			"type":"text",
-			"text":"بناء الواجهة",
-			"styleAttributes":{"textAlign":"center"},
-			"x":500,
-			"y":-25,
-			"width":260,
-			"height":60,
-			"color":"4"
 		},
 		{
 			"id":"86e45e705cfaef5f",
@@ -96,89 +36,12 @@
 			"color":"4"
 		},
 		{
-			"id":"52ef7d3748d3d705",
-			"type":"text",
-			"text":"بناء الواجهة",
-			"styleAttributes":{"textAlign":"center"},
-			"x":520,
-			"y":640,
-			"width":260,
-			"height":60,
-			"color":"4"
-		},
-		{
-			"id":"10bd1f27094b6b2e",
-			"type":"text",
-			"text":"بحث في قائمة تصفية الوسوم:\n- موجود أحذفه\n- غير موجود أضفه",
-			"styleAttributes":{"textAlign":"center"},
-			"x":140,
-			"y":-60,
-			"width":260,
-			"height":130,
-			"color":"4"
-		},
-		{
-			"id":"e0d8ac808a83c5dc",
-			"type":"text",
-			"text":"- حدث ترتيب بالسعر (إفتراضي من الاقل للأكثر)\n- حدث تغيير بالتاريخ (إفتراضا من الاحدث)\n- حدث تغيير بعنوان الوسم (أبجدي)\n- حدث تغيير بالوصف أبجد\n- حدث عكس الترتيب الحالي\n- بشكل إفتراضي الترتيب بالتاريخ من الاحدث للاقدم",
-			"styleAttributes":{"textAlign":"center"},
-			"x":140,
-			"y":540,
-			"width":260,
-			"height":300,
-			"color":"4"
-		},
-		{
-			"id":"ed82b3b262253425",
-			"type":"text",
-			"text":"- أقل قيمة إفتراضيا صفر\n- أكثر قيمة إفتراضياً أعلى قيمة في جدول المدخلات\n- حدث تغيير أقل سعر\n- حدث تغيير أعلى سعر",
-			"styleAttributes":{"textAlign":"center"},
-			"x":140,
-			"y":100,
-			"width":260,
-			"height":180,
-			"color":"4"
-		},
-		{
-			"id":"9573b9dd21916efc",
-			"type":"text",
-			"text":"- أقل قيمة أول تاريخ في جدول المدخلات\n- أعلى قيمة تاريخ اليوم\n- حدث تغيير أقدم تاريخ\n- حدث تغيير أحدث تاريخ",
-			"styleAttributes":{"textAlign":"center"},
-			"x":140,
-			"y":320,
-			"width":260,
-			"height":180,
-			"color":"4"
-		},
-		{
 			"id":"77081bf4d5aa6a42",
 			"type":"text",
 			"text":"تغيير نطاق بين تاريخين إنشاء",
 			"styleAttributes":{"textAlign":"center"},
 			"x":-240,
 			"y":250,
-			"width":260,
-			"height":60,
-			"color":"6"
-		},
-		{
-			"id":"ce7c2e40aabfa958",
-			"type":"text",
-			"text":"- القيمة الافتراضية للنوع الكل (لا يوجد تصفية)\n- تصفية بالدخل\n- تصفية بالمنصرف",
-			"styleAttributes":{"textAlign":"center"},
-			"x":140,
-			"y":-280,
-			"width":260,
-			"height":180,
-			"color":"4"
-		},
-		{
-			"id":"4735be52aed763a5",
-			"type":"text",
-			"text":"تغيير نطاق سعر بين قيمتين",
-			"styleAttributes":{"textAlign":"center"},
-			"x":-240,
-			"y":70,
 			"width":260,
 			"height":60,
 			"color":"6"
@@ -192,6 +55,103 @@
 			"y":440,
 			"width":260,
 			"height":200,
+			"color":"6"
+		},
+		{
+			"id":"ed82b3b262253425",
+			"type":"text",
+			"text":"- أقل قيمة إفتراضيا صفر\n- أكثر قيمة إفتراضياً أعلى قيمة في جدول المدخلات\n- حدث تغيير أقل سعر\n- حدث تغيير أعلى سعر",
+			"styleAttributes":{"textAlign":"center"},
+			"x":140,
+			"y":100,
+			"width":260,
+			"height":180,
+			"color":"4"
+		},
+		{
+			"id":"4c5130d50c192481",
+			"type":"text",
+			"text":"عنصر بحث نطاق السعر",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3430,
+			"y":-160,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"6ab90ef92aa8a94c",
+			"type":"text",
+			"text":"عنصر إدخال السعر الاعلى",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3300,
+			"y":20,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"4735be52aed763a5",
+			"type":"text",
+			"text":"تغيير نطاق سعر بين قيمتين",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-240,
+			"y":70,
+			"width":260,
+			"height":60,
+			"color":"6"
+		},
+		{
+			"id":"e00bb59b6d10390e",
+			"type":"text",
+			"text":"بناء الواجهة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":500,
+			"y":-25,
+			"width":260,
+			"height":60,
+			"color":"4"
+		},
+		{
+			"id":"ce7c2e40aabfa958",
+			"type":"text",
+			"text":"- القيمة الافتراضية للنوع الكل (لا يوجد تصفية)\n- تصفية بالدخل\n- تصفية بالمنصرف",
+			"styleAttributes":{"textAlign":"center"},
+			"x":140,
+			"y":-280,
+			"width":260,
+			"height":180,
+			"color":"4"
+		},
+		{
+			"id":"a9d7bbd20adb9471",
+			"type":"text",
+			"text":"تغيير حالة وسم (تفعيل \\ إلغاء)",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-240,
+			"y":-60,
+			"width":260,
+			"height":60,
+			"color":"6"
+		},
+		{
+			"id":"52ef7d3748d3d705",
+			"type":"text",
+			"text":"بناء الواجهة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":520,
+			"y":640,
+			"width":260,
+			"height":60,
+			"color":"4"
+		},
+		{
+			"id":"0cfc37d99baca8dc",
+			"type":"text",
+			"text":"تغيير الانواع (كل، دخل ، منصرف)",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-240,
+			"y":-160,
+			"width":260,
+			"height":60,
 			"color":"6"
 		},
 		{
@@ -217,35 +177,25 @@
 			"color":"4"
 		},
 		{
-			"id":"95502fab9673eb6a",
+			"id":"10bd1f27094b6b2e",
 			"type":"text",
-			"text":"وصف فقط",
+			"text":"بحث في قائمة تصفية الوسوم:\n- موجود أحذفه\n- غير موجود أضفه",
 			"styleAttributes":{"textAlign":"center"},
-			"x":-600,
-			"y":-280,
+			"x":140,
+			"y":-60,
 			"width":260,
-			"height":60
+			"height":130,
+			"color":"4"
 		},
 		{
-			"id":"e0727ea13a27faf3",
+			"id":"9573b9dd21916efc",
 			"type":"text",
-			"text":"بحث متقدم",
+			"text":"- أقل قيمة أول تاريخ في جدول المدخلات\n- أعلى قيمة تاريخ اليوم\n- حدث تغيير أقدم تاريخ\n- حدث تغيير أحدث تاريخ",
 			"styleAttributes":{"textAlign":"center"},
-			"x":-600,
-			"y":100,
+			"x":140,
+			"y":320,
 			"width":260,
-			"height":60,
-			"color":"3"
-		},
-		{
-			"id":"8e36e0c12ceb4e8a",
-			"type":"text",
-			"text":"بناء جملة التصفية لقاعدة من الحقول الموجودة ",
-			"styleAttributes":{"textAlign":"center"},
-			"x":-600,
-			"y":710,
-			"width":260,
-			"height":60,
+			"height":180,
 			"color":"4"
 		},
 		{
@@ -260,26 +210,15 @@
 			"color":"4"
 		},
 		{
-			"id":"a9d7bbd20adb9471",
+			"id":"8e36e0c12ceb4e8a",
 			"type":"text",
-			"text":"تغيير حالة وسم (تفعيل \\ إلغاء)",
+			"text":"بناء جملة التصفية لقاعدة من الحقول الموجودة ",
 			"styleAttributes":{"textAlign":"center"},
-			"x":-240,
-			"y":-60,
+			"x":-600,
+			"y":710,
 			"width":260,
 			"height":60,
-			"color":"6"
-		},
-		{
-			"id":"0cfc37d99baca8dc",
-			"type":"text",
-			"text":"تغيير الانواع (كل، دخل ، منصرف)",
-			"styleAttributes":{"textAlign":"center"},
-			"x":-240,
-			"y":-160,
-			"width":260,
-			"height":60,
-			"color":"6"
+			"color":"4"
 		},
 		{
 			"id":"63e38ff1991986e7",
@@ -291,6 +230,17 @@
 			"width":260,
 			"height":60,
 			"color":"4"
+		},
+		{
+			"id":"e0727ea13a27faf3",
+			"type":"text",
+			"text":"بحث متقدم",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-600,
+			"y":100,
+			"width":260,
+			"height":60,
+			"color":"3"
 		},
 		{
 			"id":"87d80291b13ea95f",
@@ -312,6 +262,343 @@
 			"y":290,
 			"width":260,
 			"height":60
+		},
+		{
+			"id":"95502fab9673eb6a",
+			"type":"text",
+			"text":"وصف فقط",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-600,
+			"y":-280,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"e0d8ac808a83c5dc",
+			"type":"text",
+			"text":"- حدث ترتيب بالسعر (إفتراضي من الاقل للأكثر)\n- حدث تغيير بالتاريخ (إفتراضا من الاحدث)\n- حدث تغيير بعنوان الوسم (أبجدي)\n- حدث تغيير بالوصف أبجد\n- حدث عكس الترتيب الحالي\n- بشكل إفتراضي الترتيب بالتاريخ من الاحدث للاقدم",
+			"styleAttributes":{"textAlign":"center"},
+			"x":140,
+			"y":540,
+			"width":260,
+			"height":300,
+			"color":"4"
+		},
+		{
+			"id":"f52dd1d10332679c",
+			"type":"text",
+			"text":"بناء الواجهة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":520,
+			"y":-220,
+			"width":260,
+			"height":60,
+			"color":"4"
+		},
+		{
+			"id":"0bc631014bcae34c",
+			"type":"text",
+			"text":"النطاق",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3920,
+			"y":20,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"89eaf905608ce3c3",
+			"type":"text",
+			"text":"عنصر إدخال السعر الاقل",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3600,
+			"y":20,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"e26e22f1b5dcb955",
+			"type":"text",
+			"text":"إزالة خاصية حذف وسم",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3460,
+			"y":2010,
+			"width":260,
+			"height":60,
+			"color":"1"
+		},
+		{
+			"id":"882c558a15a3291f",
+			"type":"text",
+			"text":"ضبط نظام إختيار اللون للوسوم",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4510,
+			"y":1930,
+			"width":260,
+			"height":60,
+			"color":"1"
+		},
+		{
+			"id":"179a65c31abe2320",
+			"type":"text",
+			"text":"عند تسجيل مدخل بتاريخ محدد يتم تسجيل بداية اليوم في التاريخ المحدد",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4670,
+			"y":2160,
+			"width":260,
+			"height":120,
+			"color":"1"
+		},
+		{
+			"id":"c14523bafecf7eeb",
+			"type":"text",
+			"text":"عند تسجيل مدخل بدون تاريخ يتم تسجيل الوقت الحالي وليس بداية اليوم",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4990,
+			"y":1980,
+			"width":260,
+			"height":120,
+			"color":"1"
+		},
+		{
+			"id":"c0f841304b3bffaa",
+			"type":"text",
+			"text":"جعل الوصف إختياري في المدخلات و الوسم أساسي\n- تغيير ترتيب البيانات في القوائم أيضاً",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4310,
+			"y":2100,
+			"width":260,
+			"height":180,
+			"color":"2"
+		},
+		{
+			"id":"75f4b1eb536ed49a",
+			"type":"text",
+			"text":"إستخدام \"إنشاء حساب\" بدل \"حساب جديد\"",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4410,
+			"y":2380,
+			"width":260,
+			"height":100,
+			"color":"3"
+		},
+		{
+			"id":"1b504ffdc446af6d",
+			"type":"text",
+			"text":"تغيير لون خط عناوين الدخول و التسجيل",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3900,
+			"y":2130,
+			"width":260,
+			"height":60,
+			"color":"3"
+		},
+		{
+			"id":"95a267c88103faea",
+			"type":"text",
+			"text":"[[نصائح من مراجعة العاقول للكود]]",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3980,
+			"y":2480,
+			"width":260,
+			"height":200
+		},
+		{
+			"id":"3ea97045f2809e0a",
+			"type":"text",
+			"text":"إظهار عداد تنازلي عند حذف مدخل في شريط التلميح",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3960,
+			"y":1900,
+			"width":260,
+			"height":120,
+			"color":"2"
+		},
+		{
+			"id":"66b9f96524b14561",
+			"type":"text",
+			"text":"زر تغيير الصفحة بين الدخول و التسجيل يجب وضع خلفية شفافة لتوضيح أنه زر",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4980,
+			"y":2280,
+			"width":260,
+			"height":120,
+			"color":"3"
+		},
+		{
+			"id":"19e2f8de5e0c137c",
+			"type":"text",
+			"text":"إضافة ألية عرض مخصص للتقارير\n- أسبوع\n- شهر\n- سنة\n- الكل",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4860,
+			"y":1640,
+			"width":260,
+			"height":230,
+			"color":"2"
+		},
+		{
+			"id":"0ea851c64165000a",
+			"type":"text",
+			"text":"قوائم الوسوم سيتم جلبها من جدول المدخلات",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3460,
+			"y":1785,
+			"width":260,
+			"height":80,
+			"color":"1"
+		},
+		{
+			"id":"1ae1610d3515110d",
+			"type":"text",
+			"text":"تبسيط البحث المتقدم (تقسيم نافذة البحث المتقدم لعدة نوافذ أبسط)",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4240,
+			"y":1725,
+			"width":260,
+			"height":100,
+			"color":"3"
+		},
+		{
+			"id":"85d2aa4ab925cdec",
+			"type":"text",
+			"text":"إعداد لإخفاء و إظهار زر المساعدة أعلى كل شاشة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4480,
+			"y":1590,
+			"width":260,
+			"height":100,
+			"color":"3"
+		},
+		{
+			"id":"8987297642dd672a",
+			"type":"text",
+			"text":"تحويل ألية إدخال الوسوم إلي حقل عادي مع إكمال تلقائي بدل قائمة منسدلة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3770,
+			"y":1615,
+			"width":260,
+			"height":140,
+			"color":"1"
+		},
+		{
+			"id":"fe289388045f8351",
+			"type":"text",
+			"text":"إصلاح نافذة التلميح في تقرير الشهري",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4800,
+			"y":1480,
+			"width":260,
+			"height":60,
+			"color":"1"
+		},
+		{
+			"id":"80d80cf1748fda41",
+			"type":"text",
+			"text":"في البحث تغيير نص الحالة الاولية بواجهة فارغة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6010,
+			"y":1920,
+			"width":260,
+			"height":80,
+			"color":"5"
+		},
+		{
+			"id":"40baa05cfbe73498",
+			"type":"text",
+			"text":"مزامنة بيانات التطبيق مع  google drive",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6060,
+			"y":1640,
+			"width":260,
+			"height":80,
+			"color":"4"
+		},
+		{
+			"id":"1d4e4e124e15beda",
+			"type":"text",
+			"text":"إضافة تأثيرات لكل عملية جلب بيانات مع ضبط إعداد لإخفائها",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6320,
+			"y":1380,
+			"width":260,
+			"height":140,
+			"color":"5"
+		},
+		{
+			"id":"c70aa1d05b01a861",
+			"type":"text",
+			"text":"فتح ألية المساعدة الاساسية عند فتح التطبيق أول مره ، وتوضح:\n- زر المساعدة\n- الثيم\n- التبويبات\n- طلب تسجيل الرصيد الحالي عند تحديد زر إضافة مدخل\n",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6270,
+			"y":2270,
+			"width":260,
+			"height":320,
+			"color":"4"
+		},
+		{
+			"id":"5da8a97b09f5d8a3",
+			"type":"text",
+			"text":"عند الضغط على مجموع الدخل يفتح صفحة البحث مع قائمة دخل",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6400,
+			"y":2000,
+			"width":260,
+			"height":100,
+			"color":"4"
+		},
+		{
+			"id":"f61dae12c02b78d1",
+			"type":"text",
+			"text":"تصدير صورة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6420,
+			"y":1240,
+			"width":260,
+			"height":60,
+			"color":"6"
+		},
+		{
+			"id":"1ab975112d0b2c2e",
+			"type":"text",
+			"text":"تخصيص التصدير بمدة (اسبوع ، شهر ، ربع سنة ، سنة ، الكل)",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6630,
+			"y":1650,
+			"width":260,
+			"height":60,
+			"color":"4"
+		},
+		{
+			"id":"dff9c9860a614c67",
+			"type":"text",
+			"text":"عند الضغط على مجموع المنصرفات يفتح صفحة البحث مع قائمة المنصرفات",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6580,
+			"y":1830,
+			"width":260,
+			"height":120,
+			"color":"4"
+		},
+		{
+			"id":"2198658fb3ffd6da",
+			"type":"text",
+			"text":"تصدير pdf",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6750,
+			"y":1320,
+			"width":260,
+			"height":60,
+			"color":"6"
+		},
+		{
+			"id":"d5a893c5bd2620e9",
+			"type":"text",
+			"text":"زر تبديل الثيم لأيقونة شمس أو قمر\nأو مفتاح شمس وقمر عند كل حالة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6760,
+			"y":2250,
+			"width":260,
+			"height":160,
+			"color":"4"
 		}
 	],
 	"edges":[
@@ -564,6 +851,51 @@
 			"fromSide":"bottom",
 			"toNode":"59c4d60597acce79",
 			"toSide":"top"
+		},
+		{
+			"id":"d44504d7829af778",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"8987297642dd672a",
+			"fromSide":"bottom",
+			"toNode":"0ea851c64165000a",
+			"toSide":"right"
+		},
+		{
+			"id":"54bb3fe7df18d889",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"fe289388045f8351",
+			"fromSide":"bottom",
+			"toNode":"19e2f8de5e0c137c",
+			"toSide":"top"
+		},
+		{
+			"id":"206857e3f3132456",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"5da8a97b09f5d8a3",
+			"fromSide":"top",
+			"toNode":"dff9c9860a614c67",
+			"toSide":"bottom"
+		},
+		{
+			"id":"dd02e4cf6c01cfa1",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"179a65c31abe2320",
+			"fromSide":"top",
+			"toNode":"c14523bafecf7eeb",
+			"toSide":"bottom"
+		},
+		{
+			"id":"2d7c6a570a9fb148",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"a2a29e1a29c5b26a",
+			"fromSide":"left",
+			"toNode":"c6d6869cc81438b6",
+			"toSide":"right"
 		}
 	],
 	"metadata":{
