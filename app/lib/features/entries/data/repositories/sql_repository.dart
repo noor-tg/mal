@@ -1,3 +1,4 @@
+import 'package:mal/enums.dart';
 import 'package:mal/features/entries/domain/repositories/entries_repository.dart';
 import 'package:mal/not_found.dart';
 import 'package:mal/result.dart';
@@ -113,6 +114,7 @@ class SqlRepository extends EntriesRepository {
       final data = await listQb
           .where('user_uid', '=', userUid)
           .whereLike('date', DateTime.now().toIso8601String().substring(0, 10))
+          .sortBy('date', SortingDirection.desc)
           .getAll();
       final list = List.generate(
         data.length,

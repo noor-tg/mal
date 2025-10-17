@@ -45,6 +45,7 @@ class _EntryFormState extends State<EntryForm> {
 
   @override
   void initState() {
+    super.initState();
     if (widget.entry == null && widget.userUid == null) {
       throw Exception('form should either have entry user uid or auth uid');
     }
@@ -55,7 +56,6 @@ class _EntryFormState extends State<EntryForm> {
       _category = widget.entry!.category;
       _date = DateTime.parse(widget.entry!.date);
     }
-    super.initState();
   }
 
   @override
@@ -250,31 +250,34 @@ class _EntryFormState extends State<EntryForm> {
       lastDate: now,
     );
     setState(() {
+      if (selectedDate?.difference(now).inDays == 0) {
+        _date = now;
+        return;
+      }
       _date = selectedDate;
     });
   }
 
   void _submit() {
     try {
-      if (_formKey.currentState!.validate()) {
-        _formKey.currentState!.save();
-        final entry = Entry(
-          uid: widget.entry?.uid,
-          userUid: widget.entry?.userUid ?? widget.userUid ?? '',
-          description: _description,
-          type: _type,
-          amount: _amount!,
-          category: _category,
-          date: _date?.toIso8601String(),
-        );
-        if (widget.entry == null) {
-          context.read<EntriesBloc>().add(StoreEntry(entry));
-        } else {
-          context.read<EntriesBloc>().add(EditEntry(entry));
-        }
-        Navigator.of(context).pop(widget.entry != null);
-        successPopup(message: l10n.entrySavedSuccessfully, context: context);
+      if (!_formKey.currentState!.validate()) return;
+      _formKey.currentState!.save();
+      final entry = Entry(
+        uid: widget.entry?.uid,
+        userUid: widget.entry?.userUid ?? widget.userUid ?? '',
+        description: _description,
+        type: _type,
+        amount: _amount!,
+        category: _category,
+        date: _date?.toIso8601String(),
+      );
+      if (widget.entry == null) {
+        context.read<EntriesBloc>().add(StoreEntry(entry));
+      } else {
+        context.read<EntriesBloc>().add(EditEntry(entry));
       }
+      Navigator.of(context).pop(widget.entry != null);
+      successPopup(message: l10n.entrySavedSuccessfully, context: context);
     } catch (error) {
       logger.e(error);
       errorPopup(message: error.toString(), context: context);
