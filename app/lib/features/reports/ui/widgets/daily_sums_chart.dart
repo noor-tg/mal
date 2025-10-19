@@ -5,6 +5,7 @@ import 'package:mal/features/reports/domain/bloc/daily_sums/daily_sums_bloc.dart
 import 'package:mal/ui/widgets/line_container.dart';
 import 'package:mal/ui/widgets/no_data_centered.dart';
 import 'package:mal/utils.dart';
+import 'package:shimmer_effects_plus/shimmer_effects_plus.dart';
 
 class DailySumsChart extends StatelessWidget {
   const DailySumsChart({super.key});
@@ -14,7 +15,15 @@ class DailySumsChart extends StatelessWidget {
     return BlocBuilder<DailySumsBloc, DailySumsState>(
       builder: (context, state) {
         if (state.status == BlocStatus.loading) {
-          return const Center(child: CircularProgressIndicator());
+          return ShimmerEffectWidget.cover(
+            subColor: context.colors.primary.withAlpha(255),
+            mainColor: context.colors.primary.withAlpha(200),
+            period: const Duration(milliseconds: 1500),
+            direction: ShimmerDirection.ttb,
+            child: const Card(
+              child: SizedBox(width: double.infinity, height: 250),
+            ),
+          );
         }
 
         if (state.status == BlocStatus.failure) {

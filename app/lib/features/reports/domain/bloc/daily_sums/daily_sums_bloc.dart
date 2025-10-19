@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:mal/enums.dart';
 import 'package:mal/features/reports/domain/entities/sums.dart';
 import 'package:mal/features/reports/domain/repositories/reports_repository.dart';
+import 'package:mal/utils.dart';
 import 'package:mal/utils/logger.dart';
 
 part 'daily_sums_event.dart';
@@ -27,6 +28,7 @@ class DailySumsBloc extends Bloc<DailySumsEvent, DailySumsState> {
         list: const Sums(incomes: [], expenses: []),
       ),
     );
+    await sleep(2);
     try {
       final dailySums = await repo.dailySums(event.userUid);
 

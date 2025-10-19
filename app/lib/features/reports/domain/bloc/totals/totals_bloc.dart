@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:mal/enums.dart';
 import 'package:mal/features/reports/domain/entities/totals.dart';
 import 'package:mal/features/reports/domain/repositories/reports_repository.dart';
+import 'package:mal/utils.dart';
 import 'package:mal/utils/logger.dart';
 
 part 'totals_event.dart';
@@ -22,6 +23,7 @@ class TotalsBloc extends Bloc<TotalsEvent, TotalsState> {
     Emitter<TotalsState> emit,
   ) async {
     emit(state.copyWith(status: BlocStatus.loading));
+    await sleep(2);
     try {
       final totals = await repo.totals(event.userUid);
 

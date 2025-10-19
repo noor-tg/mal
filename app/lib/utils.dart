@@ -120,3 +120,7 @@ extension ThemeStateExtension<T extends StatefulWidget> on State<T> {
 Color amountColor(String type, BuildContext context) {
   return type == incomeType ? context.green : context.red;
 }
+
+Future<void> sleep(int seconds) async {
+  await Future.delayed(Duration(seconds: seconds));
+}
