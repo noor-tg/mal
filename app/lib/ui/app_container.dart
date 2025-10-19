@@ -18,6 +18,7 @@ import 'package:mal/ui/bottom_button.dart';
 import 'package:mal/ui/half_border_fab.dart';
 import 'package:mal/ui/logout_button.dart';
 import 'package:mal/ui/new_category_button.dart';
+import 'package:mal/ui/theme_switcher_btn.dart';
 import 'package:mal/ui/tour_guide_container.dart';
 import 'package:mal/utils.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -152,17 +153,9 @@ class _AppContainerState extends State<AppContainer> {
           },
           tooltip: l10n.help,
         ),
-        Showcase(
-          key: keys.themeSwitcher,
-          description: l10n.showCaseDescriptionThemeSwitcher,
-          child: Switch(
-            value: state.themeMode == ThemeMode.light,
-            onChanged: (value) {
-              context.read<ThemeBloc>().add(
-                ChangeThemeEvent(value ? ThemeMode.light : ThemeMode.dark),
-              );
-            },
-          ),
+        ThemeSwitcherBtn(
+          activeMode: state.themeMode,
+          showCaseKey: keys.themeSwitcher,
         ),
         if (state.tabIndex != 4)
           Showcase(
