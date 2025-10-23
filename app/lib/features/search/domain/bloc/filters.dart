@@ -42,7 +42,7 @@ class Filters extends Equatable {
     return Filters(
       categories: categories,
       amountRange: amountRange,
-      dateRange: Range<DateTime>(min: DateTime(now.year), max: todayEnd(now)),
+      dateRange: Range(min: DateTime(now.year), max: todayEnd(now)),
       type: type,
     );
   }

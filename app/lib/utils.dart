@@ -35,6 +35,9 @@ const box8 = SizedBox(height: 8, width: 8);
 const box16 = SizedBox(height: 16, width: 16);
 const box24 = SizedBox(height: 24, width: 24);
 const box32 = SizedBox(height: 32, width: 32);
+const box40 = SizedBox(height: 40, width: 40);
+const box48 = SizedBox(height: 48, width: 48);
+const box56 = SizedBox(height: 56, width: 56);
 const box64 = SizedBox(height: 64, width: 64);
 
 DateTime now() {
@@ -123,4 +126,14 @@ Color amountColor(String type, BuildContext context) {
 
 Future<void> sleep(int seconds) async {
   await Future.delayed(Duration(seconds: seconds));
+}
+
+String approximate(int amount) {
+  if (amount >= 1000000) {
+    return '${(amount / 1000000).floor().truncate()} مـ';
+  }
+  if (amount >= 10000) {
+    return '${(amount / 1000).floor().toInt()} أ';
+  }
+  return '$amount';
 }

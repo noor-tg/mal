@@ -17,51 +17,100 @@ class _DateRangeFilterState extends State<DateRangeFilter> {
 
   late DateTime defaultMin;
   late DateTime defaultMax;
+  late int division;
+  late RangeLabels rangeLabels;
 
   @override
   void initState() {
+    super.initState();
+    defaultMin = DateTime.now();
+    defaultMax = DateTime.now();
+    max = 0;
+    division = 0;
+    values = const RangeValues(0, 0);
+    rangeLabels = const RangeLabels('', '');
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Prepare data after widget is fully built and has access to context
+    _prepareSliderData();
+  }
+
+  void _prepareSliderData() {
     // entries date range
     final searchState = context.read<SearchBloc>().state;
 
+    // get entries range from db
     final entriesDateRange = searchState.dateRange;
+
+    // get default filters range
     final filtersDateRange = searchState.filters.dateRange;
 
+    // set min default to entries min
     defaultMin = entriesDateRange.min;
+    // set max default to entries max
     defaultMax = entriesDateRange.max;
 
-    final minValue = filtersDateRange.min
+    // calc filters min diff from entries min in days
+    double minValue = filtersDateRange.min
         .difference(defaultMin)
         .inDays
         .toDouble();
-    final maxValue = filtersDateRange.max
+    // calc filters max diff from entries min in days
+    double maxValue = filtersDateRange.max
         .difference(defaultMin)
         .inDays
         .toDouble();
 
+    // Calculate total range in days
+    final totalDays = defaultMax.difference(defaultMin).inDays;
+
+    // If there's no date range (e.g., no entries in DB), return early
+    if (totalDays <= 0) {
+      max = 0;
+      division = 0;
+      values = const RangeValues(0, 0);
+      rangeLabels = const RangeLabels('', '');
+      logger.w('No valid date range available');
+      return;
+    }
+
+    minValue = minValue.clamp(0.0, totalDays.toDouble());
+    maxValue = maxValue.clamp(0.0, totalDays.toDouble());
+
+    // Ensure min is not greater than max
+    if (minValue > maxValue) {
+      maxValue = minValue;
+    }
+
+    // store range values data
+    // to use in slider :: which show error when user reset search form (in simple or advance). why !!!!!
     values = RangeValues(minValue, maxValue);
-    max = maxValue.toInt();
-    super.initState();
+    // set max (which is used in slider and for divisions counts)
+
+    max = totalDays;
+    division = totalDays;
+
+    // set labels info based on default min diff in days
+    rangeLabels = RangeLabels(
+      toDate(defaultMin.add(Duration(days: values.start.floor()))),
+      toDate(defaultMin.add(Duration(days: values.end.ceil()))),
+    );
+
+    logger.i('values: $values, labels: $rangeLabels, division: $division');
   }
 
   @override
   Widget build(BuildContext context) {
-    final rangeLabels = RangeLabels(
-      toDate(defaultMin.add(Duration(days: values.start.floor()))),
-      toDate(defaultMin.add(Duration(days: values.end.ceil()))),
-    );
-    final division = max;
-
-    logger.i('values: $values, labels: $rangeLabels');
-    if (division == 0) return const SizedBox(width: 0);
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: _buildCard(context, division, rangeLabels),
-    );
+    if (division == 0) return const SizedBox.shrink();
+    return Padding(padding: const EdgeInsets.all(8.0), child: _buildCard());
   }
 
-  Card _buildCard(BuildContext context, int division, RangeLabels rangeLabels) {
+  Card _buildCard() {
     return Card(
-      color: context.colors.surfaceBright,
+      color: colors.surfaceBright,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -70,22 +119,25 @@ class _DateRangeFilterState extends State<DateRangeFilter> {
           children: [
             Text(
               l10n.date,
-              style: texts.titleLarge?.copyWith(
-                color: context.colors.onSurface,
-              ),
+              style: texts.titleLarge?.copyWith(color: colors.onSurface),
             ),
-            Builder(
-              builder: (ctx) {
-                final searchBloc = ctx.watch<SearchBloc>();
-                return Column(
-                  spacing: 8,
-                  children: [
-                    _buildMinMax(),
-                    _buildRangeSlider(division, rangeLabels, searchBloc),
-                    _buildFilterValues(searchBloc),
-                  ],
-                );
+            BlocListener<SearchBloc, SearchState>(
+              listener: (BuildContext context, state) {
+                setState(_prepareSliderData);
               },
+              child: Builder(
+                builder: (ctx) {
+                  final searchBloc = ctx.watch<SearchBloc>();
+                  return Column(
+                    spacing: 8,
+                    children: [
+                      _buildMinMax(),
+                      _buildRangeSlider(searchBloc),
+                      _buildFilterValues(searchBloc),
+                    ],
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -135,28 +187,28 @@ class _DateRangeFilterState extends State<DateRangeFilter> {
     );
   }
 
-  RangeSlider _buildRangeSlider(
-    int division,
-    RangeLabels rangeLabels,
-    SearchBloc searchBloc,
-  ) {
+  RangeSlider _buildRangeSlider(SearchBloc searchBloc) {
+    final maxSliderValue = defaultMax.difference(defaultMin).inDays.toDouble();
+
     return RangeSlider(
-      max: defaultMax.difference(defaultMin).inDays.toDouble(),
+      max: maxSliderValue,
       values: values,
       divisions: division,
       labels: rangeLabels,
-      onChanged: (RangeValues value) {
-        searchBloc
-          ..add(
-            UpdateMinDate(defaultMin.add(Duration(days: value.start.floor()))),
-          )
-          ..add(
-            UpdateMaxDate(defaultMin.add(Duration(days: value.end.ceil()))),
-          );
-        setState(() {
-          values = value;
-        });
-      },
+      onChanged: (RangeValues value) => updateRange(searchBloc, value),
     );
+  }
+
+  void updateRange(SearchBloc searchBloc, RangeValues value) {
+    final calcMin = defaultMin.add(Duration(days: value.start.floor()));
+    final calcMax = defaultMin.add(Duration(days: value.end.ceil()));
+
+    searchBloc
+      ..add(UpdateMinDate(calcMin))
+      ..add(UpdateMaxDate(calcMax));
+
+    setState(() {
+      values = value;
+    });
   }
 }

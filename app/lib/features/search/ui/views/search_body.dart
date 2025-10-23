@@ -15,29 +15,19 @@ class SearchBody extends StatefulWidget {
 }
 
 class _SearchBodyState extends State<SearchBody> {
-  var scrollController = ScrollController();
+  var scroller = ScrollController();
+
+  bool isLoadingMore = false;
 
   @override
   void initState() {
-    final searchBloc = context.read<SearchBloc>();
-    scrollController.addListener(() async {
-      if (scrollController.position.maxScrollExtent ==
-          scrollController.offset) {
-        final authState = context.read<AuthBloc>().state;
-
-        if (authState is! AuthAuthenticated) return;
-
-        if (searchBloc.state.status == SearchStatus.loading) return;
-
-        searchBloc.add(LoadMore(userUid: authState.user.uid));
-      }
-    });
+    scroller.addListener(_onScroll);
     super.initState();
   }
 
   @override
   void dispose() {
-    scrollController.dispose();
+    scroller.dispose();
     super.dispose();
   }
 
@@ -92,7 +82,7 @@ class _SearchBodyState extends State<SearchBody> {
         Expanded(
           child: Card(
             child: SingleChildScrollView(
-              controller: scrollController,
+              controller: scroller,
               child: Column(
                 children: [
                   ListView.builder(
@@ -171,5 +161,27 @@ class _SearchBodyState extends State<SearchBody> {
         ),
       ),
     );
+  }
+
+  void _onScroll() {
+    if (scroller.position.maxScrollExtent < scroller.offset) return;
+    if (isLoadingMore) return;
+
+    final searchBloc = context.read<SearchBloc>();
+    if (searchBloc.state.status == SearchStatus.loading) return;
+    if (searchBloc.state.noMoreData) return;
+
+    setState(() {
+      isLoadingMore = true;
+    });
+    final authState = context.read<AuthBloc>().state;
+    searchBloc.add(
+      LoadMore(userUid: (authState as AuthAuthenticated).user.uid),
+    );
+    Future.delayed(const Duration(milliseconds: 2000), () {
+      setState(() {
+        isLoadingMore = false;
+      });
+    });
   }
 }

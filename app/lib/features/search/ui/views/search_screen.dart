@@ -102,7 +102,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
           ),
-          box64,
+          box40,
         ],
       ),
     );

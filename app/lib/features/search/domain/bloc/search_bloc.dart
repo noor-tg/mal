@@ -330,10 +330,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     emit(
       state.copyWith(
         status: SearchStatus.initial,
-        filters: Filters.empty(),
         sorting: const Sorting(),
         result: const Result(list: [], count: 0),
         offset: 0,
+        filters: state.filters.copyWith(
+          categories: [],
+          amountRange: Range(min: 0, max: state.maxAmount),
+          dateRange: state.dateRange, // Use actual DB boundaries!
+          type: EntryType.all,
+        ),
       ),
     );
   }
