@@ -245,92 +245,26 @@
 			"height":60
 		},
 		{
-			"id":"f61dae12c02b78d1",
+			"id":"35487f1ad7055e29",
 			"type":"text",
-			"text":"تصدير صورة",
+			"text":"بناء الواجهة",
 			"styleAttributes":{"textAlign":"center"},
-			"x":6260,
-			"y":1240,
-			"width":260,
-			"height":60,
-			"color":"6"
-		},
-		{
-			"id":"dff9c9860a614c67",
-			"type":"text",
-			"text":"عند الضغط على مجموع المنصرفات يفتح صفحة البحث مع قائمة المنصرفات",
-			"styleAttributes":{"textAlign":"center"},
-			"x":6420,
-			"y":1830,
-			"width":260,
-			"height":120,
-			"color":"4"
-		},
-		{
-			"id":"1ab975112d0b2c2e",
-			"type":"text",
-			"text":"تخصيص التصدير بمدة (اسبوع ، شهر ، ربع سنة ، سنة ، الكل)",
-			"styleAttributes":{"textAlign":"center"},
-			"x":6470,
-			"y":1650,
+			"x":520,
+			"y":410,
 			"width":260,
 			"height":60,
 			"color":"4"
 		},
 		{
-			"id":"1d4e4e124e15beda",
+			"id":"86e45e705cfaef5f",
 			"type":"text",
-			"text":"إضافة تأثيرات لكل عملية جلب بيانات مع ضبط إعداد لإخفائها",
+			"text":"بناء الواجهة",
 			"styleAttributes":{"textAlign":"center"},
-			"x":6160,
-			"y":1380,
-			"width":260,
-			"height":140,
-			"color":"5"
-		},
-		{
-			"id":"5da8a97b09f5d8a3",
-			"type":"text",
-			"text":"عند الضغط على مجموع الدخل يفتح صفحة البحث مع قائمة دخل",
-			"styleAttributes":{"textAlign":"center"},
-			"x":6240,
-			"y":2000,
-			"width":260,
-			"height":100,
-			"color":"4"
-		},
-		{
-			"id":"40baa05cfbe73498",
-			"type":"text",
-			"text":"مزامنة بيانات التطبيق مع  google drive",
-			"styleAttributes":{"textAlign":"center"},
-			"x":5900,
-			"y":1640,
-			"width":260,
-			"height":80,
-			"color":"4"
-		},
-		{
-			"id":"d5a893c5bd2620e9",
-			"type":"text",
-			"text":"زر تبديل الثيم لأيقونة شمس أو قمر\nأو مفتاح شمس وقمر عند كل حالة",
-			"styleAttributes":{"textAlign":"center"},
-			"x":6680,
-			"y":2060,
-			"width":260,
-			"height":160,
-			"color":"4"
-		},
-		{
-			"id":"fe289388045f8351",
-			"type":"text",
-			"text":"إصلاح نافذة التلميح في تقرير الشهري",
-			"styleAttributes":{"textAlign":"center"},
-			"x":4800,
-			"y":1320,
+			"x":500,
+			"y":160,
 			"width":260,
 			"height":60,
-			"color":"1"
+			"color":"4"
 		},
 		{
 			"id":"19e2f8de5e0c137c",
@@ -341,17 +275,6 @@
 			"y":1480,
 			"width":260,
 			"height":230,
-			"color":"2"
-		},
-		{
-			"id":"c0f841304b3bffaa",
-			"type":"text",
-			"text":"جعل الوصف إختياري في المدخلات و الوسم أساسي\n- تغيير ترتيب البيانات في القوائم أيضاً\n- الوسم لا يتبع لنوع معين عند البحث\n- عند عرض الوسوم يتم الجمع على أساس الوسم + نوع المدخل للتبسيط على المستخدم\n- يجب أن يكون للوسم حرف واحد على الاقل",
-			"styleAttributes":{"textAlign":"center"},
-			"x":4310,
-			"y":1940,
-			"width":260,
-			"height":380,
 			"color":"2"
 		},
 		{
@@ -366,26 +289,48 @@
 			"color":"3"
 		},
 		{
-			"id":"66b9f96524b14561",
+			"id":"85d2aa4ab925cdec",
 			"type":"text",
-			"text":"زر تغيير الصفحة بين الدخول و التسجيل يجب وضع خلفية شفافة لتوضيح أنه زر",
+			"text":"إعداد لإخفاء و إظهار زر المساعدة أعلى كل شاشة",
 			"styleAttributes":{"textAlign":"center"},
-			"x":4980,
-			"y":2120,
+			"x":4480,
+			"y":1430,
 			"width":260,
-			"height":120,
+			"height":100,
 			"color":"3"
 		},
 		{
-			"id":"2198658fb3ffd6da",
+			"id":"8987297642dd672a",
 			"type":"text",
-			"text":"تصدير pdf",
+			"text":"تحويل ألية إدخال الوسوم إلي حقل عادي مع إكمال تلقائي بدل قائمة منسدلة",
 			"styleAttributes":{"textAlign":"center"},
-			"x":6590,
-			"y":1320,
+			"x":3770,
+			"y":1455,
+			"width":260,
+			"height":140,
+			"color":"1"
+		},
+		{
+			"id":"0ea851c64165000a",
+			"type":"text",
+			"text":"قوائم الوسوم سيتم جلبها من جدول المدخلات",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3460,
+			"y":1625,
+			"width":260,
+			"height":80,
+			"color":"1"
+		},
+		{
+			"id":"e26e22f1b5dcb955",
+			"type":"text",
+			"text":"إزالة خاصية حذف وسم",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3460,
+			"y":1850,
 			"width":260,
 			"height":60,
-			"color":"6"
+			"color":"1"
 		},
 		{
 			"id":"80d80cf1748fda41",
@@ -410,103 +355,166 @@
 			"color":"4"
 		},
 		{
-			"id":"35487f1ad7055e29",
+			"id":"40baa05cfbe73498",
 			"type":"text",
-			"text":"بناء الواجهة",
+			"text":"مزامنة بيانات التطبيق مع  google drive",
 			"styleAttributes":{"textAlign":"center"},
-			"x":520,
-			"y":410,
+			"x":5900,
+			"y":1640,
+			"width":260,
+			"height":80,
+			"color":"4"
+		},
+		{
+			"id":"1d4e4e124e15beda",
+			"type":"text",
+			"text":"إضافة تأثيرات لكل عملية جلب بيانات مع ضبط إعداد لإخفائها",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6160,
+			"y":1380,
+			"width":260,
+			"height":140,
+			"color":"5"
+		},
+		{
+			"id":"f61dae12c02b78d1",
+			"type":"text",
+			"text":"تصدير صورة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6260,
+			"y":1240,
+			"width":260,
+			"height":60,
+			"color":"6"
+		},
+		{
+			"id":"5da8a97b09f5d8a3",
+			"type":"text",
+			"text":"عند الضغط على مجموع الدخل يفتح صفحة البحث مع قائمة دخل",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6240,
+			"y":2000,
+			"width":260,
+			"height":100,
+			"color":"4"
+		},
+		{
+			"id":"c14523bafecf7eeb",
+			"type":"text",
+			"text":"عند تسجيل مدخل بدون تاريخ يتم تسجيل الوقت الحالي وليس بداية اليوم",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3700,
+			"y":2960,
+			"width":260,
+			"height":120
+		},
+		{
+			"id":"1c220265f2369b3d",
+			"type":"text",
+			"text":"ترتيب مدخلات اليوم من الاحدث للأقدم",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4100,
+			"y":2960,
+			"width":260,
+			"height":110
+		},
+		{
+			"id":"179a65c31abe2320",
+			"type":"text",
+			"text":"عند تسجيل مدخل بتاريخ محدد يتم تسجيل بداية اليوم في التاريخ المحدد و إن تم تحديد نفس اليوم يتم تسجيل الوقت الحالي وليس بداية اليوم",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3380,
+			"y":3140,
+			"width":260,
+			"height":170
+		},
+		{
+			"id":"dff9c9860a614c67",
+			"type":"text",
+			"text":"عند الضغط على مجموع المنصرفات يفتح صفحة البحث مع قائمة المنصرفات",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6420,
+			"y":1830,
+			"width":260,
+			"height":120,
+			"color":"4"
+		},
+		{
+			"id":"1ab975112d0b2c2e",
+			"type":"text",
+			"text":"تخصيص التصدير بمدة (اسبوع ، شهر ، ربع سنة ، سنة ، الكل)",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6470,
+			"y":1650,
 			"width":260,
 			"height":60,
 			"color":"4"
 		},
 		{
-			"id":"8987297642dd672a",
+			"id":"2198658fb3ffd6da",
 			"type":"text",
-			"text":"تحويل ألية إدخال الوسوم إلي حقل عادي مع إكمال تلقائي بدل قائمة منسدلة",
+			"text":"تصدير pdf",
 			"styleAttributes":{"textAlign":"center"},
-			"x":3770,
-			"y":1455,
-			"width":260,
-			"height":140,
-			"color":"1"
-		},
-		{
-			"id":"75f4b1eb536ed49a",
-			"type":"text",
-			"text":"إستخدام \"إنشاء حساب\" بدل \"حساب جديد\"",
-			"styleAttributes":{"textAlign":"center"},
-			"x":3770,
-			"y":2120,
-			"width":260,
-			"height":100,
-			"color":"3"
-		},
-		{
-			"id":"0ea851c64165000a",
-			"type":"text",
-			"text":"قوائم الوسوم سيتم جلبها من جدول المدخلات",
-			"styleAttributes":{"textAlign":"center"},
-			"x":3460,
-			"y":1625,
-			"width":260,
-			"height":80,
-			"color":"1"
-		},
-		{
-			"id":"3ea97045f2809e0a",
-			"type":"text",
-			"text":"إظهار عداد تنازلي عند حذف مدخل في شريط التلميح",
-			"styleAttributes":{"textAlign":"center"},
-			"x":3960,
-			"y":1740,
-			"width":260,
-			"height":120,
-			"color":"2"
-		},
-		{
-			"id":"882c558a15a3291f",
-			"type":"text",
-			"text":"ضبط نظام إختيار اللون للوسوم",
-			"styleAttributes":{"textAlign":"center"},
-			"x":4510,
-			"y":1770,
+			"x":6590,
+			"y":1320,
 			"width":260,
 			"height":60,
-			"color":"1"
+			"color":"6"
 		},
 		{
-			"id":"e26e22f1b5dcb955",
+			"id":"d5a893c5bd2620e9",
 			"type":"text",
-			"text":"إزالة خاصية حذف وسم",
+			"text":"زر تبديل الثيم لأيقونة شمس أو قمر\nأو مفتاح شمس وقمر عند كل حالة",
 			"styleAttributes":{"textAlign":"center"},
-			"x":3460,
-			"y":1850,
+			"x":6680,
+			"y":2060,
 			"width":260,
-			"height":60,
-			"color":"1"
+			"height":160,
+			"color":"4"
 		},
 		{
 			"id":"1b504ffdc446af6d",
 			"type":"text",
 			"text":"تغيير لون خط عناوين الدخول و التسجيل",
 			"styleAttributes":{"textAlign":"center"},
-			"x":3900,
-			"y":1970,
+			"x":6330,
+			"y":2320,
 			"width":260,
 			"height":60,
-			"color":"3"
+			"color":"6"
 		},
 		{
-			"id":"86e45e705cfaef5f",
+			"id":"75f4b1eb536ed49a",
 			"type":"text",
-			"text":"بناء الواجهة",
+			"text":"إستخدام \"إنشاء حساب\" بدل \"حساب جديد\"",
 			"styleAttributes":{"textAlign":"center"},
-			"x":500,
-			"y":160,
+			"x":6200,
+			"y":2470,
 			"width":260,
-			"height":60,
-			"color":"4"
+			"height":100,
+			"color":"6"
+		},
+		{
+			"id":"66b9f96524b14561",
+			"type":"text",
+			"text":"زر تغيير الصفحة بين الدخول و التسجيل يجب وضع خلفية شفافة لتوضيح أنه زر",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6720,
+			"y":2400,
+			"width":260,
+			"height":120,
+			"color":"6"
+		},
+		{
+			"id":"9caec475a162c51d",
+			"type":"text",
+			"text":"دراسة تجربة المستخدم و قابلية الاستخدام",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4140,
+			"y":1280,
+			"width":260,
+			"height":100,
+			"color":"1"
 		},
 		{
 			"id":"59c4d60597acce79",
@@ -515,16 +523,6 @@
 			"styleAttributes":{"textAlign":"center"},
 			"x":2980,
 			"y":20,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"4c5130d50c192481",
-			"type":"text",
-			"text":"عنصر بحث نطاق السعر",
-			"styleAttributes":{"textAlign":"center"},
-			"x":3430,
-			"y":-160,
 			"width":260,
 			"height":60
 		},
@@ -559,55 +557,68 @@
 			"height":60
 		},
 		{
-			"id":"85d2aa4ab925cdec",
+			"id":"4c5130d50c192481",
 			"type":"text",
-			"text":"إعداد لإخفاء و إظهار زر المساعدة أعلى كل شاشة",
+			"text":"عنصر بحث نطاق السعر",
 			"styleAttributes":{"textAlign":"center"},
-			"x":4480,
-			"y":1430,
+			"x":3430,
+			"y":-160,
 			"width":260,
-			"height":100,
-			"color":"3"
+			"height":60
+		},
+		{
+			"id":"c0f841304b3bffaa",
+			"type":"text",
+			"text":"جعل الوصف إختياري في المدخلات و الوسم أساسي\n- تغيير ترتيب البيانات في القوائم أيضاً\n- الوسم لا يتبع لنوع معين عند البحث\n- عند عرض الوسوم يتم الجمع على أساس الوسم + نوع المدخل للتبسيط على المستخدم\n- يجب أن يكون للوسم حرف واحد على الاقل",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4680,
+			"y":1800,
+			"width":260,
+			"height":380,
+			"color":"2"
 		},
 		{
 			"id":"95a267c88103faea",
 			"type":"text",
 			"text":"[[نصائح من مراجعة العاقول للكود]]",
 			"styleAttributes":{"textAlign":"center"},
-			"x":3980,
-			"y":2320,
+			"x":3790,
+			"y":2270,
 			"width":260,
 			"height":200
 		},
 		{
-			"id":"c14523bafecf7eeb",
+			"id":"882c558a15a3291f",
 			"type":"text",
-			"text":"عند تسجيل مدخل بدون تاريخ يتم تسجيل الوقت الحالي وليس بداية اليوم",
+			"text":"ضبط نظام إختيار اللون للوسوم",
 			"styleAttributes":{"textAlign":"center"},
-			"x":3700,
-			"y":2960,
+			"x":4160,
+			"y":2310,
 			"width":260,
-			"height":120
+			"height":60,
+			"color":"1"
 		},
 		{
-			"id":"179a65c31abe2320",
+			"id":"fe289388045f8351",
 			"type":"text",
-			"text":"عند تسجيل مدخل بتاريخ محدد يتم تسجيل بداية اليوم في التاريخ المحدد و إن تم تحديد نفس اليوم يتم تسجيل الوقت الحالي وليس بداية اليوم",
+			"text":"إصلاح نافذة التلميح في تقرير الشهري",
 			"styleAttributes":{"textAlign":"center"},
-			"x":3380,
-			"y":3140,
+			"x":4110,
+			"y":2120,
 			"width":260,
-			"height":170
+			"height":60,
+			"color":"1"
 		},
 		{
-			"id":"1c220265f2369b3d",
+			"id":"3ea97045f2809e0a",
 			"type":"text",
-			"text":"ترتيب مدخلات اليوم من الاحدث للأقدم",
+			"text":"إظهار عداد تنازلي عند حذف مدخل في شريط التلميح",
 			"styleAttributes":{"textAlign":"center"},
-			"x":4100,
-			"y":2960,
+			"x":3850,
+			"y":1950,
 			"width":260,
-			"height":110
+			"height":120,
+			"color":"2"
 		}
 	],
 	"edges":[
@@ -871,15 +882,6 @@
 			"toSide":"right"
 		},
 		{
-			"id":"54bb3fe7df18d889",
-			"styleAttributes":{},
-			"toFloating":false,
-			"fromNode":"fe289388045f8351",
-			"fromSide":"bottom",
-			"toNode":"19e2f8de5e0c137c",
-			"toSide":"top"
-		},
-		{
 			"id":"206857e3f3132456",
 			"styleAttributes":{},
 			"toFloating":false,
@@ -907,13 +909,49 @@
 			"toSide":"bottom"
 		},
 		{
-			"id":"bb1299e2fc8fa017",
+			"id":"79e8f39f7ffc68d9",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"1ae1610d3515110d",
+			"fromSide":"top",
+			"toNode":"9caec475a162c51d",
+			"toSide":"bottom"
+		},
+		{
+			"id":"28400a371a3c2913",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"19e2f8de5e0c137c",
+			"fromSide":"left",
+			"toNode":"9caec475a162c51d",
+			"toSide":"bottom"
+		},
+		{
+			"id":"22b21686027d7713",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"8987297642dd672a",
+			"fromSide":"top",
+			"toNode":"9caec475a162c51d",
+			"toSide":"bottom"
+		},
+		{
+			"id":"73bdc656a042c19f",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"c0f841304b3bffaa",
+			"fromSide":"top",
+			"toNode":"9caec475a162c51d",
+			"toSide":"bottom"
+		},
+		{
+			"id":"9992410d131919cf",
 			"styleAttributes":{},
 			"toFloating":false,
 			"fromNode":"e26e22f1b5dcb955",
-			"fromSide":"right",
-			"toNode":"3ea97045f2809e0a",
-			"toSide":"left"
+			"fromSide":"top",
+			"toNode":"0ea851c64165000a",
+			"toSide":"bottom"
 		}
 	],
 	"metadata":{
