@@ -59,9 +59,9 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     try {
       await repo.store(event.category);
 
-      emit(state.copyWith(status: BlocStatus.success));
+      final result = await repo.find(userUid: event.userUid);
 
-      add(AppInit(event.category.userUid));
+      emit(state.copyWith(categories: result, status: BlocStatus.success));
     } catch (err, trace) {
       logger
         ..e(err)
@@ -83,11 +83,9 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     try {
       await repo.remove(event.uid);
 
-      emit(state.copyWith(status: BlocStatus.success));
+      final result = await repo.find(userUid: event.userUid);
 
-      logger.i('app init before');
-      add(AppInit(event.userUid));
-      logger.i('app init after');
+      emit(state.copyWith(categories: result, status: BlocStatus.success));
     } catch (err, trace) {
       logger
         ..e(err)

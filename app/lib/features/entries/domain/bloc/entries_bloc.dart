@@ -23,17 +23,13 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
     StoreEntry event,
     Emitter<EntriesState> emit,
   ) async {
-    emit(
-      state.copyWith(status: EntriesStatus.loading, currentEntry: event.entry),
-    );
+    emit(state.copyWith(status: EntriesStatus.loading));
     try {
-      await repo.store(state.currentEntry!);
+      await repo.store(event.entry);
       emit(
         state.copyWith(
           operationType: OperationType.create,
           status: EntriesStatus.success,
-          // ignore: avoid_redundant_argument_values
-          currentEntry: null,
         ),
       );
     } catch (err, trace) {
@@ -83,8 +79,6 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
         state.copyWith(
           operationType: OperationType.update,
           status: EntriesStatus.success,
-          // ignore: avoid_redundant_argument_values
-          currentEntry: null,
         ),
       );
     } catch (err, trace) {
@@ -111,8 +105,6 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
         state.copyWith(
           operationType: OperationType.remove,
           status: EntriesStatus.success,
-          // ignore: avoid_redundant_argument_values
-          currentEntry: null,
         ),
       );
     } catch (err, trace) {

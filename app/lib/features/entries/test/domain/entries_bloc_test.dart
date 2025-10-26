@@ -118,7 +118,7 @@ void addNewEntryTest() {
     },
     act: (bloc) => bloc.add(StoreEntry(entry)),
     expect: () => [
-      EntriesState(status: EntriesStatus.loading, currentEntry: entry),
+      const EntriesState(status: EntriesStatus.loading),
       const EntriesState(status: EntriesStatus.success),
     ],
     verify: (bloc) {
@@ -179,7 +179,7 @@ void addNewEntryForTodayTest() {
     },
     act: (bloc) => bloc.add(StoreEntry(entry)),
     expect: () => [
-      EntriesState(status: EntriesStatus.loading, currentEntry: entry),
+      const EntriesState(status: EntriesStatus.loading),
       const EntriesState(status: EntriesStatus.success),
       const EntriesState(status: EntriesStatus.loading),
       EntriesState(status: EntriesStatus.success, today: [entry]),
