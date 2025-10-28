@@ -181,10 +181,7 @@ class _EntryFormState extends State<EntryForm> {
               );
             },
             itemBuilder: (context, category) {
-              return ListTile(
-                title: Text(category.title),
-                subtitle: Text(category.type),
-              );
+              return ListTile(title: Text(category.title));
             },
             onSelected: (category) {
               setState(() {
