@@ -339,17 +339,6 @@
 			"color":"3"
 		},
 		{
-			"id":"85d2aa4ab925cdec",
-			"type":"text",
-			"text":"إعداد لإخفاء و إظهار زر المساعدة أعلى كل شاشة",
-			"styleAttributes":{"textAlign":"center"},
-			"x":4480,
-			"y":1430,
-			"width":260,
-			"height":100,
-			"color":"3"
-		},
-		{
 			"id":"c0f841304b3bffaa",
 			"type":"text",
 			"text":"جعل الوصف إختياري في المدخلات و الوسم أساسي\n- تغيير ترتيب البيانات في القوائم أيضاً\n- الوسم لا يتبع لنوع معين عند البحث\n- عند عرض الوسوم يتم الجمع على أساس الوسم + نوع المدخل للتبسيط على المستخدم\n- يجب أن يكون للوسم حرف واحد على الاقل",
@@ -370,16 +359,6 @@
 			"width":260,
 			"height":60,
 			"color":"1"
-		},
-		{
-			"id":"95a267c88103faea",
-			"type":"text",
-			"text":"[[نصائح من مراجعة العاقول للكود]]",
-			"styleAttributes":{"textAlign":"center"},
-			"x":3790,
-			"y":2270,
-			"width":260,
-			"height":200
 		},
 		{
 			"id":"fe289388045f8351",
@@ -414,6 +393,36 @@
 			"height":60
 		},
 		{
+			"id":"aca538dfb2d93a72",
+			"type":"text",
+			"text":"دعم اللغة الانجليزية",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4200,
+			"y":1840,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"1b2a89ecafced721",
+			"type":"text",
+			"text":"**إضافة قائمة جانبية**\n- تحويل اللغة\n- تحويل السمة\n- ملف المستخدم\n- البيانات التطبيق (إستيراد ، تصدير)\n- سياسة الخصوصية\n- عن المطور",
+			"styleAttributes":{"textAlign":"right"},
+			"x":4990,
+			"y":2150,
+			"width":260,
+			"height":280
+		},
+		{
+			"id":"95a267c88103faea",
+			"type":"text",
+			"text":"[[نصائح من مراجعة العاقول للكود]]",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3790,
+			"y":2270,
+			"width":260,
+			"height":200
+		},
+		{
 			"id":"8987297642dd672a",
 			"type":"text",
 			"text":"تحويل ألية إدخال الوسوم إلي حقل عادي مع إكمال تلقائي بدل قائمة منسدلة",
@@ -423,6 +432,27 @@
 			"width":260,
 			"height":140,
 			"color":"1"
+		},
+		{
+			"id":"85d2aa4ab925cdec",
+			"type":"text",
+			"text":"إعداد لإخفاء و إظهار زر المساعدة أعلى كل شاشة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4480,
+			"y":1430,
+			"width":260,
+			"height":100,
+			"color":"3"
+		},
+		{
+			"id":"6978075daec781c6",
+			"type":"text",
+			"text":"عمل رسومات بيانية كجزء من نتائج عملية البحث",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4620,
+			"y":2460,
+			"width":260,
+			"height":60
 		},
 		{
 			"id":"0ea851c64165000a",
@@ -458,34 +488,37 @@
 			"color":"1"
 		},
 		{
-			"id":"aca538dfb2d93a72",
+			"id":"c70aa1d05b01a861",
 			"type":"text",
-			"text":"دعم اللغة الانجليزية",
+			"text":"فتح ألية المساعدة الاساسية عند فتح التطبيق أول مره ، وتوضح:\n- زر المساعدة\n- الثيم\n- التبويبات\n- طلب تسجيل الرصيد الحالي عند تحديد زر إضافة مدخل\n",
 			"styleAttributes":{"textAlign":"center"},
-			"x":4200,
-			"y":1840,
+			"x":5850,
+			"y":2160,
 			"width":260,
-			"height":60
+			"height":320,
+			"color":"4"
 		},
 		{
-			"id":"6978075daec781c6",
+			"id":"80d80cf1748fda41",
 			"type":"text",
-			"text":"عمل رسومات بيانية كجزء من نتائج عملية البحث",
+			"text":"في البحث تغيير نص الحالة الاولية بواجهة فارغة",
 			"styleAttributes":{"textAlign":"center"},
-			"x":4620,
-			"y":2460,
+			"x":5850,
+			"y":1920,
 			"width":260,
-			"height":60
+			"height":80,
+			"color":"5"
 		},
 		{
-			"id":"1b2a89ecafced721",
+			"id":"40baa05cfbe73498",
 			"type":"text",
-			"text":"**إضافة قائمة جانبية**\n- تحويل اللغة\n- تحويل السمة\n- ملف المستخدم\n- البيانات التطبيق (إستيراد ، تصدير)\n- سياسة الخصوصية\n- عن المطور",
-			"styleAttributes":{"textAlign":"right"},
-			"x":4990,
-			"y":2150,
+			"text":"مزامنة بيانات التطبيق مع  google drive",
+			"styleAttributes":{"textAlign":"center"},
+			"x":5900,
+			"y":1640,
 			"width":260,
-			"height":280
+			"height":80,
+			"color":"4"
 		},
 		{
 			"id":"c14523bafecf7eeb",
@@ -508,27 +541,6 @@
 			"height":110
 		},
 		{
-			"id":"179a65c31abe2320",
-			"type":"text",
-			"text":"عند تسجيل مدخل بتاريخ محدد يتم تسجيل بداية اليوم في التاريخ المحدد و إن تم تحديد نفس اليوم يتم تسجيل الوقت الحالي وليس بداية اليوم",
-			"styleAttributes":{"textAlign":"center"},
-			"x":3380,
-			"y":3140,
-			"width":260,
-			"height":170
-		},
-		{
-			"id":"c70aa1d05b01a861",
-			"type":"text",
-			"text":"فتح ألية المساعدة الاساسية عند فتح التطبيق أول مره ، وتوضح:\n- زر المساعدة\n- الثيم\n- التبويبات\n- طلب تسجيل الرصيد الحالي عند تحديد زر إضافة مدخل\n",
-			"styleAttributes":{"textAlign":"center"},
-			"x":5850,
-			"y":2160,
-			"width":260,
-			"height":320,
-			"color":"4"
-		},
-		{
 			"id":"75f4b1eb536ed49a",
 			"type":"text",
 			"text":"إستخدام \"إنشاء حساب\" بدل \"حساب جديد\"",
@@ -540,26 +552,15 @@
 			"color":"6"
 		},
 		{
-			"id":"1b504ffdc446af6d",
+			"id":"1d4e4e124e15beda",
 			"type":"text",
-			"text":"تغيير لون خط عناوين الدخول و التسجيل",
+			"text":"إضافة تأثيرات لكل عملية جلب بيانات مع ضبط إعداد لإخفائها",
 			"styleAttributes":{"textAlign":"center"},
-			"x":6330,
-			"y":2320,
+			"x":6160,
+			"y":1380,
 			"width":260,
-			"height":60,
-			"color":"6"
-		},
-		{
-			"id":"66b9f96524b14561",
-			"type":"text",
-			"text":"زر تغيير الصفحة بين الدخول و التسجيل يجب وضع خلفية شفافة لتوضيح أنه زر",
-			"styleAttributes":{"textAlign":"center"},
-			"x":6720,
-			"y":2400,
-			"width":260,
-			"height":120,
-			"color":"6"
+			"height":140,
+			"color":"5"
 		},
 		{
 			"id":"5da8a97b09f5d8a3",
@@ -573,15 +574,107 @@
 			"color":"4"
 		},
 		{
-			"id":"80d80cf1748fda41",
+			"id":"f61dae12c02b78d1",
 			"type":"text",
-			"text":"في البحث تغيير نص الحالة الاولية بواجهة فارغة",
+			"text":"تصدير صورة",
 			"styleAttributes":{"textAlign":"center"},
-			"x":5850,
-			"y":1920,
+			"x":6260,
+			"y":1240,
 			"width":260,
-			"height":80,
-			"color":"5"
+			"height":60,
+			"color":"6"
+		},
+		{
+			"id":"179a65c31abe2320",
+			"type":"text",
+			"text":"عند تسجيل مدخل بتاريخ محدد يتم تسجيل بداية اليوم في التاريخ المحدد و إن تم تحديد نفس اليوم يتم تسجيل الوقت الحالي وليس بداية اليوم",
+			"styleAttributes":{"textAlign":"center"},
+			"x":3380,
+			"y":3140,
+			"width":260,
+			"height":170
+		},
+		{
+			"id":"70edbde58b945a1c",
+			"type":"text",
+			"text":"زر تبديل الثيم لأيقونة شمس أو قمر\nأو مفتاح شمس وقمر عند كل حالة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4100,
+			"y":3200,
+			"width":260,
+			"height":160
+		},
+		{
+			"id":"1b504ffdc446af6d",
+			"type":"text",
+			"text":"تغيير لون خط عناوين الدخول و التسجيل",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6330,
+			"y":2320,
+			"width":260,
+			"height":60,
+			"color":"6"
+		},
+		{
+			"id":"8792155dce1c2d90",
+			"type":"text",
+			"text":"ضبط نظام الوسوم الجديد",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4380,
+			"y":4220,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"ca6a9ef3bbbb87b8",
+			"type":"text",
+			"text":"رفع نسخة جديدة وتعديل الدراسة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4840,
+			"y":4260,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"a2a8b888db952d0e",
+			"type":"text",
+			"text":"عمل الدراسة على 3 مستخدمين",
+			"styleAttributes":{"textAlign":"center"},
+			"x":5220,
+			"y":4280,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"637d7276fa12d428",
+			"type":"text",
+			"text":"#### تنفيذ إصلاحات من:\n- ملاحظاتي في دراسة تجربة المستخدم\n- نصائح العاقول المهمة",
+			"styleAttributes":{"textAlign":"right"},
+			"x":5760,
+			"y":4280,
+			"width":260,
+			"height":160
+		},
+		{
+			"id":"0e4666b100a1b844",
+			"type":"text",
+			"text":"عمل تعديلات النسخة 2 من:\n- تقارير إضافية\n- صفحة الخصوصية\n- صفحة المطور\n- اللغة الانجليزية\n- صفحة بيانات\n\t- تصدير pdf",
+			"styleAttributes":{"textAlign":"center"},
+			"x":5800,
+			"y":4560,
+			"width":260,
+			"height":280
+		},
+		{
+			"id":"66b9f96524b14561",
+			"type":"text",
+			"text":"زر تغيير الصفحة بين الدخول و التسجيل يجب وضع خلفية شفافة لتوضيح أنه زر",
+			"styleAttributes":{"textAlign":"center"},
+			"x":6720,
+			"y":2400,
+			"width":260,
+			"height":120,
+			"color":"6"
 		},
 		{
 			"id":"dff9c9860a614c67",
@@ -592,17 +685,6 @@
 			"y":1830,
 			"width":260,
 			"height":120,
-			"color":"4"
-		},
-		{
-			"id":"40baa05cfbe73498",
-			"type":"text",
-			"text":"مزامنة بيانات التطبيق مع  google drive",
-			"styleAttributes":{"textAlign":"center"},
-			"x":5900,
-			"y":1640,
-			"width":260,
-			"height":80,
 			"color":"4"
 		},
 		{
@@ -617,17 +699,6 @@
 			"color":"4"
 		},
 		{
-			"id":"1d4e4e124e15beda",
-			"type":"text",
-			"text":"إضافة تأثيرات لكل عملية جلب بيانات مع ضبط إعداد لإخفائها",
-			"styleAttributes":{"textAlign":"center"},
-			"x":6160,
-			"y":1380,
-			"width":260,
-			"height":140,
-			"color":"5"
-		},
-		{
 			"id":"2198658fb3ffd6da",
 			"type":"text",
 			"text":"تصدير pdf",
@@ -639,25 +710,14 @@
 			"color":"6"
 		},
 		{
-			"id":"f61dae12c02b78d1",
+			"id":"fdbdd8459eb5ac9b",
 			"type":"text",
-			"text":"تصدير صورة",
+			"text":"قد يتم إزالة نظام المستخدم في هذه النسخة",
 			"styleAttributes":{"textAlign":"center"},
-			"x":6260,
-			"y":1240,
+			"x":5440,
+			"y":4580,
 			"width":260,
-			"height":60,
-			"color":"6"
-		},
-		{
-			"id":"70edbde58b945a1c",
-			"type":"text",
-			"text":"زر تبديل الثيم لأيقونة شمس أو قمر\nأو مفتاح شمس وقمر عند كل حالة",
-			"styleAttributes":{"textAlign":"center"},
-			"x":4100,
-			"y":3200,
-			"width":260,
-			"height":160
+			"height":60
 		}
 	],
 	"edges":[
@@ -1000,6 +1060,51 @@
 			"fromSide":"top",
 			"toNode":"aca538dfb2d93a72",
 			"toSide":"bottom"
+		},
+		{
+			"id":"798f0bf5ef61028c",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"8792155dce1c2d90",
+			"fromSide":"right",
+			"toNode":"ca6a9ef3bbbb87b8",
+			"toSide":"left"
+		},
+		{
+			"id":"85109edc5a2874ee",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"ca6a9ef3bbbb87b8",
+			"fromSide":"right",
+			"toNode":"a2a8b888db952d0e",
+			"toSide":"left"
+		},
+		{
+			"id":"84399de190d8c156",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"a2a8b888db952d0e",
+			"fromSide":"right",
+			"toNode":"637d7276fa12d428",
+			"toSide":"left"
+		},
+		{
+			"id":"632bf0c53917cc4f",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"637d7276fa12d428",
+			"fromSide":"bottom",
+			"toNode":"0e4666b100a1b844",
+			"toSide":"top"
+		},
+		{
+			"id":"8fa39b67e37e25a7",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"637d7276fa12d428",
+			"fromSide":"bottom",
+			"toNode":"fdbdd8459eb5ac9b",
+			"toSide":"top"
 		}
 	],
 	"metadata":{
