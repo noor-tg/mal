@@ -623,7 +623,8 @@
 			"x":4380,
 			"y":4220,
 			"width":260,
-			"height":60
+			"height":60,
+			"color":"4"
 		},
 		{
 			"id":"ca6a9ef3bbbb87b8",

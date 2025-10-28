@@ -9,4 +9,5 @@ abstract class EntriesRepository {
   Future<bool> remove(String uid);
   Future<Result<Entry>> find({List<Where>? where});
   Future<Result<Entry>> today(String userUid);
+  Future<Result<Entry>> byCategory(String userUid, String category);
 }

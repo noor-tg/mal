@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
+import 'package:mal/features/user/domain/bloc/auth/auth_bloc.dart';
+import 'package:mal/shared/data/models/category.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/shared/query_builder.dart';
+import 'package:mal/ui/widgets/category_details.dart';
 import 'package:mal/ui/widgets/entry_form.dart';
 import 'package:mal/ui/widgets/mal_title.dart';
 import 'package:mal/utils.dart';
@@ -123,13 +126,18 @@ class _EntryDetailsState extends State<EntryDetails> {
                 elevation: 0,
                 color: colors.secondaryContainer,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    entry.category,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: colors.secondary,
-                      fontWeight: FontWeight.bold,
+                  padding: const EdgeInsets.all(4.0),
+                  child: TextButton(
+                    onPressed: () {
+                      goToCategory(context, entry.category);
+                    },
+                    child: Text(
+                      entry.category,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: colors.secondary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -182,5 +190,26 @@ class _EntryDetailsState extends State<EntryDetails> {
     setState(() {
       entry = Entry.fromMap(out!);
     });
+  }
+
+  void goToCategory(BuildContext context, String category) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) {
+          final entriesBloc = context.read<EntriesBloc>();
+          return BlocProvider.value(
+            value: entriesBloc,
+            child: CategoryDetails(
+              category: Category(
+                title: category,
+                userUid: (context.read<AuthBloc>().state as AuthAuthenticated)
+                    .user
+                    .uid,
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }

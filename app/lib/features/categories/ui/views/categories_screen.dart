@@ -21,9 +21,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   void initState() {
     super.initState();
-    final authState = context.read<AuthBloc>().state;
-    if (authState is! AuthAuthenticated) return;
-    context.read<CategoriesBloc>().add(AppInit(authState.user.uid));
+    context.read<CategoriesBloc>().add(
+      AppInit((context.read<AuthBloc>().state as AuthAuthenticated).user.uid),
+    );
   }
 
   @override
@@ -56,9 +56,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   Widget buildList(List<Category> list, AppLocalizations l10n) {
-    return list.isEmpty
-        ? buildCenter(l10n)
-        : CategoriesList(categories: list, onRemove: removeCategory);
+    return list.isEmpty ? buildCenter(l10n) : CategoriesList(categories: list);
   }
 
   Center buildCenter(AppLocalizations l10n) {
@@ -70,12 +68,5 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         ),
       ),
     );
-  }
-
-  void removeCategory(String uid) {
-    final authState = context.read<AuthBloc>().state;
-
-    if (authState is! AuthAuthenticated) return;
-    context.read<CategoriesBloc>().add(RemoveCategory(uid, authState.user.uid));
   }
 }

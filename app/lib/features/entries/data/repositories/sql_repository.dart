@@ -133,4 +133,33 @@ class SqlRepository extends EntriesRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<Result<Entry>> byCategory(String userUid, String category) async {
+    try {
+      final listQb = QueryBuilder('entries');
+      final countQb = QueryBuilder('entries');
+
+      final data = await listQb
+          .where('user_uid', '=', userUid)
+          .where('category', '=', category)
+          .sortBy('date', SortingDirection.desc)
+          .getAll();
+      final list = List.generate(
+        data.length,
+        (index) => Entry.fromMap(data[index]),
+      );
+      final count = await countQb
+          .where('user_uid', '=', userUid)
+          .where('category', '=', category)
+          .count();
+
+      return Result(list: list, count: count);
+    } catch (err, trace) {
+      logger
+        ..e(err)
+        ..t(trace);
+      rethrow;
+    }
+  }
 }

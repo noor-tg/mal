@@ -7,8 +7,12 @@ import 'package:mal/utils.dart';
 
 class EntriesList extends StatelessWidget {
   final List<Entry> entries;
-
-  const EntriesList({super.key, required this.entries});
+  final bool showCategory;
+  const EntriesList({
+    super.key,
+    required this.entries,
+    this.showCategory = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +38,19 @@ class EntriesList extends StatelessWidget {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                box4,
-                Text(
-                  entries[index].category,
-                  style: context.texts.bodyLarge?.copyWith(
-                    color: context.colors.onSurfaceVariant.withAlpha(150),
-                    fontWeight: FontWeight.bold,
+                if (showCategory)
+                  Column(
+                    children: [
+                      box4,
+                      Text(
+                        entries[index].category,
+                        style: context.texts.bodyLarge?.copyWith(
+                          color: context.colors.onSurfaceVariant.withAlpha(150),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
                 box4,
                 Text(
                   toDate(DateTime.parse(entries[index].date)),

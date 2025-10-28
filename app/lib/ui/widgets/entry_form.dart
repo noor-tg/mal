@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mal/constants.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:mal/features/categories/domain/bloc/categories_bloc.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/shared/data/models/category.dart';
@@ -7,7 +7,6 @@ import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/shared/popups.dart';
 import 'package:mal/ui/widgets/date_selector.dart';
 import 'package:mal/ui/widgets/dismess_modal_button.dart';
-import 'package:mal/ui/widgets/empty_categories_dropdown.dart';
 import 'package:mal/ui/widgets/field_label.dart';
 import 'package:mal/ui/widgets/submit_button.dart';
 import 'package:mal/ui/widgets/type_field.dart';
@@ -36,8 +35,8 @@ class _EntryFormState extends State<EntryForm> {
   String _description = '';
   int? _amount;
   String _type = '';
-  String _category = '';
   DateTime? _date;
+  final _categoryController = TextEditingController();
 
   bool typeIsValid = true;
 
@@ -53,7 +52,7 @@ class _EntryFormState extends State<EntryForm> {
       _description = widget.entry!.description;
       _amount = widget.entry!.amount;
       _type = widget.entry!.type;
-      _category = widget.entry!.category;
+      _categoryController.text = widget.entry!.category;
       _date = DateTime.parse(widget.entry!.date);
     }
   }
@@ -62,41 +61,13 @@ class _EntryFormState extends State<EntryForm> {
   Widget build(BuildContext context) {
     return BlocBuilder<CategoriesBloc, CategoriesState>(
       builder: (BuildContext ctx, state) {
-        final categoriesByType = setupCategories(state);
-        return _buildForm(state, categoriesByType);
+        final categories = context.watch<CategoriesBloc>().state.categories;
+        return _buildForm(state, categories.list);
       },
     );
   }
 
-  List<Category> setupCategories(CategoriesState state) {
-    List<Category> categoriesByType = [];
-    if (_type == incomeType) {
-      categoriesByType = state.income;
-    }
-    if (_type == expenseType) {
-      categoriesByType = state.expenses;
-    }
-    if (categoriesByType.isNotEmpty && _category == '') {
-      _category = categoriesByType[0].title;
-    }
-
-    if (categoriesByType.isNotEmpty) {
-      final categoryExists = categoriesByType.any(
-        (cat) => cat.title == _category,
-      );
-      if (_category == '' || !categoryExists) {
-        _category = categoriesByType[0].title;
-      }
-    } else {
-      _category = ''; // Reset if no categories available
-    }
-    if (_category == '') {
-      _category = l10n.emptyCategoriesList;
-    }
-    return categoriesByType;
-  }
-
-  Widget _buildForm(CategoriesState state, List<Category> categoriesByType) {
+  Widget _buildForm(CategoriesState state, List<Category> categories) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -166,10 +137,7 @@ class _EntryFormState extends State<EntryForm> {
                     const SizedBox(height: 24),
                     FieldLabel(text: l10n.category),
                     box8,
-                    if (categoriesByType.isNotEmpty)
-                      buildCategoriesDropdown(categoriesByType),
-                    if (categoriesByType.isEmpty)
-                      EmptyCategoriesDropdown(category: _category),
+                    buildCategoriesDropdown(categories),
                     const SizedBox(height: 24),
                     FieldLabel(text: l10n.date),
                     box8,
@@ -178,6 +146,9 @@ class _EntryFormState extends State<EntryForm> {
                     SubmitButton(onPressed: _submit),
                     box24,
                     const DismessModalButton(),
+                    box64,
+                    box64,
+                    box64,
                     box64,
                   ],
                 ),
@@ -189,39 +160,67 @@ class _EntryFormState extends State<EntryForm> {
     );
   }
 
-  Row buildCategoriesDropdown(List<Category> categoriesByType) {
+  Row buildCategoriesDropdown(List<Category> categories) {
     return Row(
       children: [
         Expanded(
-          child: DropdownButtonFormField(
-            decoration: const InputDecoration(border: OutlineInputBorder()),
-            isExpanded: true,
-            initialValue: _category,
-            validator: (value) {
-              if (value == null || value == l10n.emptyCategoriesList) {
-                return l10n.selectCorrectCategoryMessage;
-              }
-              return null;
+          child: TypeAheadField<Category>(
+            hideOnEmpty: true,
+            controller: _categoryController,
+            suggestionsCallback: (search) async {
+              if (search.trim().isEmpty) return null;
+              return categories
+                  .where((row) => row.title.contains(search))
+                  .toList();
             },
-            items: categoriesByType
-                .map(
-                  (category) => DropdownMenuItem(
-                    key: ValueKey(category.uid),
-                    value: category.title,
-                    child: Text(
-                      category.title,
-                      style: TextStyle(color: colors.onSurface),
-                    ),
-                  ),
-                )
-                .toList(),
-            onChanged: (value) {
-              if (value == null) return;
+            builder: (context, controller, focusNode) {
+              return TextField(
+                controller: controller,
+                focusNode: focusNode,
+                decoration: const InputDecoration(border: OutlineInputBorder()),
+              );
+            },
+            itemBuilder: (context, category) {
+              return ListTile(
+                title: Text(category.title),
+                subtitle: Text(category.type),
+              );
+            },
+            onSelected: (category) {
               setState(() {
-                _category = value;
+                _categoryController.text = category.title;
               });
             },
           ),
+          //   child: DropdownButtonFormField(
+          //     decoration: const InputDecoration(border: OutlineInputBorder()),
+          //     isExpanded: true,
+          //     initialValue: _category,
+          //     validator: (value) {
+          //       if (value == null || value == l10n.emptyCategoriesList) {
+          //         return l10n.selectCorrectCategoryMessage;
+          //       }
+          //       return null;
+          //     },
+          //     items: categoriesByType
+          //         .map(
+          //           (category) => DropdownMenuItem(
+          //             key: ValueKey(category.uid),
+          //             value: category.title,
+          //             child: Text(
+          //               category.title,
+          //               style: TextStyle(color: colors.onSurface),
+          //             ),
+          //           ),
+          //         )
+          //         .toList(),
+          //     onChanged: (value) {
+          //       if (value == null) return;
+          //       setState(() {
+          //         _category = value;
+          //       });
+          //     },
+          //   ),
         ),
       ],
     );
@@ -268,7 +267,7 @@ class _EntryFormState extends State<EntryForm> {
         description: _description,
         type: _type,
         amount: _amount!,
-        category: _category,
+        category: _categoryController.text,
         date: _date?.toIso8601String(),
       );
       if (widget.entry == null) {
@@ -288,7 +287,7 @@ class _EntryFormState extends State<EntryForm> {
     if (value == null) return;
     setState(() {
       _type = value;
-      _category = '';
+      // _categoryController.text = '';
     });
     state.didChange(value);
   }

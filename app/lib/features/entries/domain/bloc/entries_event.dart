@@ -30,3 +30,10 @@ final class LoadTodayEntries extends EntriesEvent {
 
   const LoadTodayEntries(this.userUid);
 }
+
+final class LoadCategoryEntries extends EntriesEvent {
+  final String userUid;
+  final String category;
+
+  const LoadCategoryEntries(this.userUid, this.category);
+}

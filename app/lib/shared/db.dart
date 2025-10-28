@@ -20,7 +20,6 @@ class Db {
       onCreate: (db, version) async {
         final batch = db.batch();
 
-        _categoriesMigrateUp(batch);
         _entriesMigrateUp(batch);
         _usersMigrateUp(batch);
 
@@ -41,17 +40,6 @@ class Db {
         category text,
         date TEXT DEFAULT (datetime('now')),
         amount int
-      );
-  ''');
-  }
-
-  static void _categoriesMigrateUp(sql.Batch batch) {
-    batch.execute('''
-      CREATE TABLE categories(
-        uid text primary key,
-        user_uid text,
-        title text,
-        type text
       );
   ''');
   }

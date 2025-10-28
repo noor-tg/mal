@@ -107,11 +107,7 @@ Future<void> generateCategories(Database db, String userUid) async {
 }
 
 Category fakeCategory({String? userUid}) {
-  return Category(
-    userUid: userUid ?? uuid.v4(),
-    title: sentence(),
-    type: types[Random().nextInt(types.length)],
-  );
+  return Category(userUid: userUid ?? uuid.v4(), title: sentence());
 }
 
 Future<void> clearCategories() async {

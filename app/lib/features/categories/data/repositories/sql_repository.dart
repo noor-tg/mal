@@ -17,43 +17,17 @@ class SqlRepository extends CategoriesRepository {
       userUid: userUid,
     );
 
-    final count = await sqlProvider.queryCount(
-      whereList: whereList,
-      userUid: userUid,
+    final count = list.length;
+
+    final data = List.generate(
+      list.length,
+      (i) => Category.fromMap({
+        'title': list[i]['category'] as String,
+        'type': list[i]['type'] as String,
+        'user_uid': list[i]['user_uid'] as String,
+      }),
     );
 
-    final data = List.generate(list.length, (i) => Category.fromMap(list[i]));
-
     return Result(list: data, count: count);
-  }
-
-  @override
-  Future<Category> store(Category category) async {
-    try {
-      final result = await find(
-        whereList: [
-          Where(field: 'title', oprand: '=', value: category.title),
-          Where(field: 'type', oprand: '=', value: category.type),
-        ],
-        userUid: category.userUid,
-      );
-
-      if (result.list.isEmpty) {
-        await sqlProvider.store(category.toMap());
-      }
-
-      return category;
-    } catch (err) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<void> remove(String uid) async {
-    try {
-      await sqlProvider.remove(uid);
-    } catch (err) {
-      rethrow;
-    }
   }
 }

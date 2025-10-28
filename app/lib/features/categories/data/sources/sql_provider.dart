@@ -10,26 +10,30 @@ class SqlProvider {
     List<Where> whereList = const [],
     required String userUid,
   }) async {
-    final qb = QueryBuilder('categories').where('user_uid', '=', userUid);
+    final qb = QueryBuilder('entries').where('user_uid', '=', userUid);
 
     for (final where in whereList) {
       qb.where(where.field, where.oprand, where.value);
     }
 
-    return qb.sortBy('title', SortingDirection.asc).getAll();
+    return qb.sortBy('category', SortingDirection.asc).select([
+      'category',
+      'type',
+      'user_uid',
+    ], true).getAll();
   }
 
   Future<int> queryCount({
     List<Where> whereList = const [],
     required String userUid,
   }) async {
-    final qb = QueryBuilder('categories').where('user_uid', '=', userUid);
+    final qb = QueryBuilder('entries').where('user_uid', '=', userUid);
 
     for (final where in whereList) {
       qb.where(where.field, where.oprand, where.value);
     }
 
-    return qb.count();
+    return qb.select(['category', 'type', 'user_uid'], true).count();
   }
 
   Future<void> store(Map<String, Object?> data) async {

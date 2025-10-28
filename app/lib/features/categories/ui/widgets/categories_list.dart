@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mal/l10n/app_localizations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/shared/data/models/category.dart';
-import 'package:mal/utils.dart';
+import 'package:mal/ui/widgets/category_details.dart';
 
 class CategoriesList extends StatelessWidget {
   final List<Category> categories;
 
-  const CategoriesList({
-    super.key,
-    required this.categories,
-    required this.onRemove,
-  });
+  const CategoriesList({super.key, required this.categories});
 
-  final void Function(String uid) onRemove;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -20,34 +16,24 @@ class CategoriesList extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(), // Add this line
         shrinkWrap: true,
         itemCount: categories.length,
-        itemBuilder: (BuildContext context, int index) {
-          final category = categories[index];
-          return Dismissible(
-            background: Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: context.colors.error,
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.cancel, color: context.colors.onError),
-                  box8,
-                  Text(
-                    AppLocalizations.of(context)!.remove,
-                    style: TextStyle(color: context.colors.onError),
-                  ),
-                ],
-              ),
-            ),
-            onDismissed: (direction) {
-              onRemove(category.uid);
-            },
-            // Only allows right-to-left dismissal
-            direction: DismissDirection.startToEnd,
-            key: ValueKey(category.uid),
-            child: ListTile(title: Text(category.title)),
+        itemBuilder: (BuildContext context, int index) => ListTile(
+          title: Text(categories[index].title),
+          onTap: () {
+            goToDetails(context, categories[index]);
+          },
+        ),
+      ),
+    );
+  }
+
+  void goToDetails(BuildContext context, Category category) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) {
+          final entriesBloc = context.read<EntriesBloc>();
+          return BlocProvider.value(
+            value: entriesBloc,
+            child: CategoryDetails(category: category),
           );
         },
       ),

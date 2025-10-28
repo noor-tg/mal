@@ -12,17 +12,3 @@ sealed class CategoriesEvent extends Equatable {
 class AppInit extends CategoriesEvent {
   const AppInit(super.userUid);
 }
-
-class SeedCategoriedWhenEmpty extends CategoriesEvent {
-  const SeedCategoriedWhenEmpty(super.userUid);
-}
-
-class StoreCategory extends CategoriesEvent {
-  final Category category;
-  StoreCategory(this.category) : super(category.userUid);
-}
-
-class RemoveCategory extends CategoriesEvent {
-  final String uid;
-  const RemoveCategory(this.uid, super.userUid);
-}

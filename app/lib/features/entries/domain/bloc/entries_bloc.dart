@@ -17,6 +17,7 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
     on<EditEntry>(_onEditEntry);
     on<RemoveEntry>(_onRemoveEntry);
     on<LoadTodayEntries>(_onLoadToday);
+    on<LoadCategoryEntries>(_onLoadCategoryEntries);
   }
 
   Future<void> _onStoreEntry(
@@ -104,6 +105,34 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
       emit(
         state.copyWith(
           operationType: OperationType.remove,
+          status: EntriesStatus.success,
+        ),
+      );
+    } catch (err, trace) {
+      logger
+        ..e(err)
+        ..t(trace);
+      emit(
+        state.copyWith(
+          status: EntriesStatus.failure,
+          errorMessage: err.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onLoadCategoryEntries(
+    LoadCategoryEntries event,
+    Emitter<EntriesState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(status: EntriesStatus.loading));
+
+      final result = await repo.byCategory(event.userUid, event.category);
+
+      emit(
+        state.copyWith(
+          currentCategory: result.list,
           status: EntriesStatus.success,
         ),
       );

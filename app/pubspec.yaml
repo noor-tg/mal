@@ -64,6 +64,7 @@ dependencies:
   open_filex: ^4.7.0
   introduction_screen: ^4.0.0
   showcaseview: ^5.0.0
+  flutter_typeahead: ^5.2.0
 
 dev_dependencies:
   flutter_test:

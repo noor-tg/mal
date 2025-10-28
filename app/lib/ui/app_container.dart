@@ -17,7 +17,6 @@ import 'package:mal/ui/add_entry_button.dart';
 import 'package:mal/ui/bottom_button.dart';
 import 'package:mal/ui/half_border_fab.dart';
 import 'package:mal/ui/logout_button.dart';
-import 'package:mal/ui/new_category_button.dart';
 import 'package:mal/ui/theme_switcher_btn.dart';
 import 'package:mal/ui/tour_guide_container.dart';
 import 'package:mal/utils.dart';
@@ -70,11 +69,6 @@ class _AppContainerState extends State<AppContainer> {
         widget: (key) => BlocProvider.value(
           value: context.read<CategoriesBloc>(),
           child: CategoriesScreen(key: key),
-        ),
-        action: Showcase(
-          key: showcaseState.keys.newCategoryBtn,
-          description: l10n.showCaseDescriptionNewCategory,
-          child: const NewCategoryButton(),
         ),
       ),
       MalPage(
@@ -232,9 +226,6 @@ class _AppContainerState extends State<AppContainer> {
     final authState = context.read<AuthBloc>().state;
     if (authState is! AuthAuthenticated) return;
 
-    context.read<CategoriesBloc>().add(
-      SeedCategoriedWhenEmpty(authState.user.uid),
-    );
     context.read<CategoriesBloc>().add(AppInit(authState.user.uid));
   }
 

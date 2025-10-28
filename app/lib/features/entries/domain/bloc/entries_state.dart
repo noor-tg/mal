@@ -9,20 +9,29 @@ class EntriesState extends Equatable {
     this.operationType,
     this.status = EntriesStatus.initial,
     this.today = const [],
+    this.currentCategory = const [],
     this.errorMessage,
   });
 
   final EntriesStatus status;
   final List<Entry> today;
+  final List<Entry> currentCategory;
   final String? errorMessage;
   final OperationType? operationType;
 
   @override
-  List<Object?> get props => [status, errorMessage, today, operationType];
+  List<Object?> get props => [
+    status,
+    errorMessage,
+    today,
+    operationType,
+    currentCategory,
+  ];
 
   EntriesState copyWith({
     EntriesStatus? status,
     List<Entry>? today,
+    List<Entry>? currentCategory,
     String? errorMessage,
     OperationType? operationType,
   }) {
@@ -31,6 +40,7 @@ class EntriesState extends Equatable {
       operationType: operationType,
       errorMessage: errorMessage ?? this.errorMessage,
       today: today ?? this.today,
+      currentCategory: currentCategory ?? this.currentCategory,
     );
   }
 }
