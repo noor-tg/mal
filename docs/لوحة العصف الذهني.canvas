@@ -616,57 +616,6 @@
 			"color":"6"
 		},
 		{
-			"id":"8792155dce1c2d90",
-			"type":"text",
-			"text":"ضبط نظام الوسوم الجديد",
-			"styleAttributes":{"textAlign":"center"},
-			"x":4380,
-			"y":4220,
-			"width":260,
-			"height":60,
-			"color":"4"
-		},
-		{
-			"id":"ca6a9ef3bbbb87b8",
-			"type":"text",
-			"text":"رفع نسخة جديدة وتعديل الدراسة",
-			"styleAttributes":{"textAlign":"center"},
-			"x":4840,
-			"y":4260,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"a2a8b888db952d0e",
-			"type":"text",
-			"text":"عمل الدراسة على 3 مستخدمين",
-			"styleAttributes":{"textAlign":"center"},
-			"x":5220,
-			"y":4280,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"637d7276fa12d428",
-			"type":"text",
-			"text":"#### تنفيذ إصلاحات من:\n- ملاحظاتي في دراسة تجربة المستخدم\n- نصائح العاقول المهمة",
-			"styleAttributes":{"textAlign":"right"},
-			"x":5760,
-			"y":4280,
-			"width":260,
-			"height":160
-		},
-		{
-			"id":"0e4666b100a1b844",
-			"type":"text",
-			"text":"عمل تعديلات النسخة 2 من:\n- تقارير إضافية\n- صفحة الخصوصية\n- صفحة المطور\n- اللغة الانجليزية\n- صفحة بيانات\n\t- تصدير pdf",
-			"styleAttributes":{"textAlign":"center"},
-			"x":5800,
-			"y":4560,
-			"width":260,
-			"height":280
-		},
-		{
 			"id":"66b9f96524b14561",
 			"type":"text",
 			"text":"زر تغيير الصفحة بين الدخول و التسجيل يجب وضع خلفية شفافة لتوضيح أنه زر",
@@ -709,6 +658,58 @@
 			"width":260,
 			"height":60,
 			"color":"6"
+		},
+		{
+			"id":"8792155dce1c2d90",
+			"type":"text",
+			"text":"ضبط نظام الوسوم الجديد",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4380,
+			"y":4220,
+			"width":260,
+			"height":60,
+			"color":"4"
+		},
+		{
+			"id":"ca6a9ef3bbbb87b8",
+			"type":"text",
+			"text":"رفع نسخة جديدة وتعديل الدراسة",
+			"styleAttributes":{"textAlign":"center"},
+			"x":4840,
+			"y":4260,
+			"width":260,
+			"height":60,
+			"color":"4"
+		},
+		{
+			"id":"a2a8b888db952d0e",
+			"type":"text",
+			"text":"عمل الدراسة على 3 مستخدمين",
+			"styleAttributes":{"textAlign":"center"},
+			"x":5220,
+			"y":4280,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"637d7276fa12d428",
+			"type":"text",
+			"text":"#### تنفيذ إصلاحات من:\n- ملاحظاتي في دراسة تجربة المستخدم\n- نصائح العاقول المهمة",
+			"styleAttributes":{"textAlign":"right"},
+			"x":5760,
+			"y":4280,
+			"width":260,
+			"height":160
+		},
+		{
+			"id":"0e4666b100a1b844",
+			"type":"text",
+			"text":"عمل تعديلات النسخة 2 من:\n- تقارير إضافية\n- صفحة الخصوصية\n- صفحة المطور\n- اللغة الانجليزية\n- صفحة بيانات\n\t- تصدير pdf",
+			"styleAttributes":{"textAlign":"center"},
+			"x":5800,
+			"y":4560,
+			"width":260,
+			"height":280
 		},
 		{
 			"id":"fdbdd8459eb5ac9b",
