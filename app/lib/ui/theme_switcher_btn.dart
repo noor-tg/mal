@@ -25,7 +25,7 @@ class ThemeSwitcherBtn extends StatelessWidget {
             activeMode == ThemeMode.light
                 ? Icons.nightlight_round_rounded
                 : Icons.sunny,
-            color: context.colors.onSurface,
+            color: context.colors.onSurfaceVariant.withAlpha(200),
           ),
           onPressed: () {
             context.read<ThemeBloc>().add(

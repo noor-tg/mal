@@ -22,9 +22,8 @@ class BottomButton extends StatelessWidget {
       style: TextButton.styleFrom(
         foregroundColor: activeTab == index
             ? context.colors.primary
-            : context.colors.onSurface,
+            : context.colors.onSurfaceVariant,
       ),
-
       onPressed: onPressed,
       child: SizedBox.square(
         child: Column(
