@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mal/features/entries/domain/bloc/entries_bloc.dart';
 import 'package:mal/shared/data/models/category.dart';
 import 'package:mal/ui/widgets/category_details.dart';
+import 'package:mal/utils.dart';
 
 class CategoriesList extends StatelessWidget {
   final List<Category> categories;
@@ -17,6 +18,10 @@ class CategoriesList extends StatelessWidget {
         shrinkWrap: true,
         itemCount: categories.length,
         itemBuilder: (BuildContext context, int index) => ListTile(
+          trailing: Icon(
+            Icons.arrow_right,
+            color: context.colors.onSurface.withAlpha(100),
+          ),
           title: Text(categories[index].title),
           onTap: () {
             goToDetails(context, categories[index]);

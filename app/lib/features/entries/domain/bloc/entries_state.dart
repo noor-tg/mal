@@ -9,13 +9,13 @@ class EntriesState extends Equatable {
     this.operationType,
     this.status = EntriesStatus.initial,
     this.today = const [],
-    this.currentCategory = const [],
+    this.currentCategory = const Result(list: [], count: 0),
     this.errorMessage,
   });
 
   final EntriesStatus status;
   final List<Entry> today;
-  final List<Entry> currentCategory;
+  final Result<Entry> currentCategory;
   final String? errorMessage;
   final OperationType? operationType;
 
@@ -31,7 +31,7 @@ class EntriesState extends Equatable {
   EntriesState copyWith({
     EntriesStatus? status,
     List<Entry>? today,
-    List<Entry>? currentCategory,
+    Result<Entry>? currentCategory,
     String? errorMessage,
     OperationType? operationType,
   }) {

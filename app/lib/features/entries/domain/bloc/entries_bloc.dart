@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mal/features/entries/domain/repositories/entries_repository.dart';
+import 'package:mal/result.dart';
 import 'package:mal/shared/data/models/entry.dart';
 import 'package:mal/utils/logger.dart';
 
@@ -131,10 +132,7 @@ class EntriesBloc extends Bloc<EntriesEvent, EntriesState> {
       final result = await repo.byCategory(event.userUid, event.category);
 
       emit(
-        state.copyWith(
-          currentCategory: result.list,
-          status: EntriesStatus.success,
-        ),
+        state.copyWith(currentCategory: result, status: EntriesStatus.success),
       );
     } catch (err, trace) {
       logger

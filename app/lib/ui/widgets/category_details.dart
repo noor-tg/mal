@@ -33,30 +33,40 @@ class _CategoryDetailsState extends State<CategoryDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(category.title)),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-
-        color: colors.surfaceContainer,
-        padding: const EdgeInsets.all(24),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return BlocBuilder<EntriesBloc, EntriesState>(
+      builder: (ctx, state) => Scaffold(
+        appBar: AppBar(
+          title: Row(
+            spacing: 12,
             children: [
-              BlocBuilder<EntriesBloc, EntriesState>(
-                builder: (BuildContext context, state) {
-                  if (state.currentCategory.isEmpty) {
-                    return const Card(child: NoDataCentered());
-                  }
-                  return EntriesList(
-                    entries: state.currentCategory,
-                    showCategory: false,
-                  );
-                },
+              Text(category.title),
+              Text(
+                state.currentCategory.count.toString(),
+                style: TextStyle(
+                  color: colors.onSecondaryContainer.withAlpha(150),
+                ),
               ),
             ],
+          ),
+        ),
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: colors.surfaceContainer,
+          padding: const EdgeInsets.all(24),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (state.currentCategory.list.isEmpty)
+                  const Card(child: NoDataCentered()),
+                if (state.currentCategory.list.isNotEmpty)
+                  EntriesList(
+                    entries: state.currentCategory.list,
+                    showCategory: false,
+                  ),
+              ],
+            ),
           ),
         ),
       ),
